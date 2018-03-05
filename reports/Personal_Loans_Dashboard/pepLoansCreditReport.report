@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.pepCreatedDateTime__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.genesis__Loan_Amount__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Application_Status_History__c$genesis__Application__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>genesis__Application_Status_History__c$Current_Status__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>PL Credit Rating TTD</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>pepPLDashboardSource__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>genesis__Application_Status_History__c$genesis__Application__c.pepCreatedDateTime__c</dateColumn>
+        <interval>INTERVAL_YESTERDAY</interval>
+    </timeFrameFilter>
+</Report>

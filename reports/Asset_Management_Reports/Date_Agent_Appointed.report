@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Recovery__c.ScCollection_Agent_Appointed__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Recovery__c.ScCollection_Date_Appointed__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>FK_$collect__Loan_Account__c.collect__Source_System__c</column>
+            <operator>equals</operator>
+            <value>paf</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Date Agent Appointed</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$ScCollection_Recovery__c@ScCollection_Recovery__c.ScCollection_Contract__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>ScCollection_Recovery__c.ScCollection_Date_Appointed__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>ScCollection_Recovery__c.ScCollection_Date_Appointed__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

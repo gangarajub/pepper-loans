@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>Edit</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <description>Mortgage State Manager</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>Mortgage State Manager</name>
+    <opportunityAccessLevel>Read</opportunityAccessLevel>
+    <parentRole>Head_of_B2B</parentRole>
+</Role>

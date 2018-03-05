@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Email_Notification_to_Pre_Qualify_Team</fullName>
+        <description>Email Notification to Pre-Qualify Team</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>All/Email_template_for_Lead_Assignment</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>CRM_Update_Property_Value</fullName>
+        <field>CRM_Property_Value__c</field>
+        <formula>CRM_Purchase_Price__c</formula>
+        <name>Update Property Value</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Ownership_Change</fullName>
+        <field>OwnerId</field>
+        <lookupValue>Pre_Qualify_Team</lookupValue>
+        <lookupValueType>Queue</lookupValueType>
+        <name>Ownership Change</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <rules>
+        <fullName>CRM Follow Up Task for Lending Specialist</fullName>
+        <actions>
+            <name>New_Lead_Assigned</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(ISCHANGED(OwnerId), RecordType.DeveloperName = &apos;Direct_Sales&apos;)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRM Update Property Value</fullName>
+        <actions>
+            <name>CRM_Update_Property_Value</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Lead.CreatedDate</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.CRM_Purchase_Price__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRM Workflow rule to assig to PreQual Team</fullName>
+        <actions>
+            <name>Ownership_Change</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Lead.CreatedDate</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.CRM_Automatic__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.CRM_Test_Lead__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>CRM Workflow rule to send email notification on lead assignment</fullName>
+        <actions>
+            <name>Email_Notification_to_Pre_Qualify_Team</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Ownership_Change</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Lead.CreatedDate</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.CRM_Automatic__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.CRM_Test_Lead__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <tasks>
+        <fullName>New_Lead_Assigned</fullName>
+        <assignedToType>owner</assignedToType>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Open</status>
+        <subject>New Lead Assigned</subject>
+    </tasks>
+</Workflow>

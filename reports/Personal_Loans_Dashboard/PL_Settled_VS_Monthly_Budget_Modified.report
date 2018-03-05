@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <acrossGroupingContext>GRAND_SUMMARY</acrossGroupingContext>
+        <calculatedFormula>Monthly_Budget__c.Amount__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA2</developerName>
+        <downGroupingContext>Monthly_Budget__c$Month__c</downGroupingContext>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Monthly Budget</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>genesis__Applications__c.genesis__Loan_Amount__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA4</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Value of Applications</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <acrossGroupingContext>GRAND_SUMMARY</acrossGroupingContext>
+        <calculatedFormula>IF(genesis__Applications__c.genesis__Loan_Amount__c:SUM-Monthly_Budget__c.Amount__c:SUM &gt; 0, + genesis__Applications__c.genesis__Loan_Amount__c:SUM-Monthly_Budget__c.Amount__c:SUM, genesis__Applications__c.genesis__Loan_Amount__c:SUM-Monthly_Budget__c.Amount__c:SUM)</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA5</developerName>
+        <downGroupingContext>Monthly_Budget__c$Month__c</downGroupingContext>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Difference</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <columns>
+        <field>Monthly_Budget__c.Applications__r$Name</field>
+    </columns>
+    <columns>
+        <field>Monthly_Budget__c.Applications__r$genesis__Loan_Amount__c</field>
+    </columns>
+    <columns>
+        <field>Monthly_Budget__c.Applications__r$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Monthly_Budget__c.Applications__r$pepSettled_Date__c</field>
+    </columns>
+    <description>This report shows all the application settled within the current and previous</description>
+    <filter>
+        <criteriaItems>
+            <column>Monthly_Budget__c.Applications__r$Monthly_Budget__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Monthly_Budget__c.Applications__r$Channel__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Monthly_Budget__c.Applications__r$genesis__CL_Product__c.clcommon__Product_Name__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Monthly_Budget__c$Month__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Monthly_Budget__c.Applications__r$genesis__Credit_Rating__c.Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>PL Settled VS Monthly Budget - Modified</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Monthly_Budget_with_Application__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Monthly_Budget__c.Applications__r$pepSettled_Date__c</dateColumn>
+        <interval>INTERVAL_LASTTHISMONTH</interval>
+    </timeFrameFilter>
+</Report>

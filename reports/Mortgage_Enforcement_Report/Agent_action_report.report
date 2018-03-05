@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Interaction_Log__c$ScCollection_Contract_Name__c</field>
+    </columns>
+    <columns>
+        <field>collect__Interaction_Log__c$collect__Action__c.Name</field>
+    </columns>
+    <columns>
+        <field>collect__Interaction_Log__c$collect__Action__c.ScCollection_Considered_Contact__c</field>
+    </columns>
+    <description>Enforcement Agent action report</description>
+    <filter>
+        <criteriaItems>
+            <column>collect__Interaction_Log__c$Owner</column>
+            <operator>equals</operator>
+            <value>Ritu Graham,Kylie Sanderson,Barry Talbot,Matthew Lane,Khurram Abbas</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Interaction_Log__c$collect__Action__c.ScCollection_Head_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Interaction_Log__c$Owner</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Enforcement Agent action report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ScCollection_Interaction_Logs__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Interaction_Log__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
+    </timeFrameFilter>
+</Report>

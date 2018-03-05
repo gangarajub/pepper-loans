@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>collect__Interaction_Log__c.collect__Collector__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Loan_Account__c.ScCollection_Bucket__c</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Loan_Account__c.ScCollection_Current_Principal__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Loan_Account__c.ScCollection_Arrears__c</field>
+    </columns>
+    <columns>
+        <field>collect__Interaction_Log__c.ScCollection_Action_Performed__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>CUST_CREATED_NAME</column>
+            <operator>equals</operator>
+            <value>sarah bittner,sabina piljek,nick roussos,hannah grigoriadis,paul dryden,demi williams</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Interaction_Log__c.ScCollection_Action_Performed__c</column>
+            <operator>equals</operator>
+            <value>INBOUND - PAID - Customer made Payment,INBOUND - PTP Arrangement,INBOUND - PTP - One-off,OUTBOUND - PAID - Customer made Payment,OUTBOUND - PTP Arrangement,OUTBOUND PTP - One-off</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CUST_CREATED_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Late Stage PTP Report Today</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Interaction_Log__c@collect__Interaction_Log__c.collect__Dev_Contract__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
+    </timeFrameFilter>
+</Report>

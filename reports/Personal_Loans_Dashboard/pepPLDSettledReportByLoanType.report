@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.CL_Contract__c.loan__Loan_Balance__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>genesis__Application_Status_History__c$genesis__Application__c.CL_Contract__c.loan__Loan_Status__c</column>
+            <operator>equals</operator>
+            <value>Active - Bad Standing,Active - Good Standing</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.genesis__CL_Product__c.clcommon__Product_Name__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Settled Report By Loan Type</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>pepPLDashboardSource__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>genesis__Application_Status_History__c$genesis__Application__c.genesis__Expected_Start_Date__c</dateColumn>
+        <interval>INTERVAL_CURY</interval>
+    </timeFrameFilter>
+</Report>

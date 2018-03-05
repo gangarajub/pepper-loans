@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Promise_To_Pay__c$collect__Dev_Contract__c</field>
+    </columns>
+    <columns>
+        <field>collect__Promise_To_Pay__c$collect__Account__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>collect__Promise_To_Pay__c$collect__Promise_To_Pay_Amount__c</field>
+    </columns>
+    <columns>
+        <field>collect__Promise_To_Pay__c$collect__Promise_To_Pay_Date__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Promise_To_Pay__c$collect__Dev_Contract__c.ScCollection_Source_System_Name__c</column>
+            <operator>equals</operator>
+            <value>Mortgage</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Promise_To_Pay__c$CreatedBy</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Mortgage: PTP Taken - Month</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Promises_To_Pay__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Promise_To_Pay__c$collect__Promise_Made_On__c</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
+    </timeFrameFilter>
+</Report>

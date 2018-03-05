@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Bucket__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.ScCollection_Bucket__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.ScCollection_Source_System_Name__c</column>
+            <operator>equals</operator>
+            <value>PAF</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>All Contracts - PAF</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Loan_Account__c@collect__Loan_Account__c.collect__Source_System__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>FK_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

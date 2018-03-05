@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>SCV Customer Merges</description>
+    <label>Merge Duplicates</label>
+    <mobileReady>false</mobileReady>
+    <motif>Custom69: Guitar</motif>
+    <page>SCV_AccountMerge</page>
+</CustomTab>

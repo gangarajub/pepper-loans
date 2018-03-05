@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>IF(ISNULL(PREVGROUPVAL(RowCount, BucketField_98498427)),
+RowCount,
+IF(ISNULL(PREVGROUPVAL(RowCount, BucketField_98498427,2)),
+RowCount + PREVGROUPVAL(RowCount, BucketField_98498427),
+IF(ISNULL(PREVGROUPVAL(RowCount, BucketField_98498427,3)),
+RowCount + PREVGROUPVAL(RowCount, BucketField_98498427) + PREVGROUPVAL(RowCount, BucketField_98498427,2),
+RowCount + PREVGROUPVAL(RowCount, BucketField_98498427) + PREVGROUPVAL(RowCount, BucketField_98498427,2) + PREVGROUPVAL(RowCount, BucketField_98498427,3)
+)
+))</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <downGroupingContext>BucketField_98498427</downGroupingContext>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Logins Created</masterLabel>
+        <scale>0</scale>
+    </aggregates>
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_98498427</developerName>
+        <masterLabel>Login Created Range</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>clcommon__Party__c$pafss_Login_Created_Bucket_Field__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>0</to>
+            </sourceValues>
+            <value>TODAY</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>0</from>
+                <to>7</to>
+            </sourceValues>
+            <value>LAST 7 DAYS</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>7</from>
+                <to>30</to>
+            </sourceValues>
+            <value>LAST 30 DAYS</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+            </sourceValues>
+            <value>THIS YEAR</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>clcommon__Party__c$Name</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$clcommon__Account__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$ScCollection_Customer_Email__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$collect__CL_Contract__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$pafss_Contract_Type__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$clcommon__Account__c.pafss_Portal_User_Created_Date_Time__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>clcommon__Party__c$clcommon__Account__c.pafss_Portal_User_Created_Date_Time__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>clcommon__Party__c$pafss_Encrypted_Id__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_98498427</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>PAF SS New Logins Created</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Parties__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>clcommon__Party__c$clcommon__Account__c.pafss_Portal_User_Created_Date_Time__c</dateColumn>
+        <interval>INTERVAL_CURY</interval>
+    </timeFrameFilter>
+</Report>

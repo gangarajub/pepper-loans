@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Commission_Amortisation__c$CL_Contract__c</field>
+    </columns>
+    <columns>
+        <field>Commission_Amortisation__c$Opening_Balance__c</field>
+    </columns>
+    <columns>
+        <field>Commission_Amortisation__c$Commissions_Paid_On_New_Loan__c</field>
+    </columns>
+    <columns>
+        <field>Commission_Amortisation__c$Expense_Amount_ve__c</field>
+    </columns>
+    <columns>
+        <field>Commission_Amortisation__c$Closing_Balance__c</field>
+    </columns>
+    <columns>
+        <field>Commission_Amortisation__c$Report_Date__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>Monthly Commission Amortisation Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Commission_Amortisation__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Commission_Amortisation__c$Report_Date__c</dateColumn>
+        <interval>INTERVAL_LASTMONTH</interval>
+    </timeFrameFilter>
+</Report>

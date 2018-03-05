@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>clcommon__Party__c$Name</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$ScCollection_Contract_Source_System__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$collect__CL_Contract__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$pafss_New_User_Email_Sent_DateTime__c</field>
+    </columns>
+    <columns>
+        <field>clcommon__Party__c$pafss_Existing_User_Email_Sent_DateTime__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>PAF Self Service Email Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Parties__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>clcommon__Party__c$LastModifiedDate</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
+    </timeFrameFilter>
+</Report>

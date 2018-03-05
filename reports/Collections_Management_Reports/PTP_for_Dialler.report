@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Promise_To_Pay__c$ScCollection_Contract_Name__c</field>
+    </columns>
+    <columns>
+        <field>collect__Promise_To_Pay__c$collect__Dev_Contract__c.collect__Collection_Status__c.ScCollection_Promise_to_Pay__c</field>
+    </columns>
+    <columns>
+        <field>collect__Promise_To_Pay__c$collect__Dev_Contract__c.ScCollection_Bucket__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Promise_To_Pay__c$collect__Dev_Contract__c.ScCollection_Source_System_Name__c</column>
+            <operator>equals</operator>
+            <value>MORTGAGE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Promise_To_Pay__c$ScCollection_Promise_To_Pay_Date__c</column>
+            <operator>greaterThan</operator>
+            <value>8/18/2017</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Promise_To_Pay__c$collect__Dev_Contract__c.collect__Collection_Status__c.ScCollection_Promise_to_Pay__c</column>
+            <operator>equals</operator>
+            <value>PTP,Broken Promise</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>PTP for Dialler</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Promises_To_Pay__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Promise_To_Pay__c$collect__Promise_To_Pay_Date__c</dateColumn>
+        <endDate>2018-03-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2017-06-26</startDate>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Pepper_Settlement_Data__c.SettlementDate__c</field>
+    </columns>
+    <columns>
+        <field>Pepper_Settlement_Data__c.Channel__c</field>
+    </columns>
+    <columns>
+        <field>Pepper_Settlement_Data__c.ApplicationID__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Pepper_Settlement_Data__c.Amount__c</field>
+    </columns>
+    <description>This report shows all applications that have been approved in principle.  The data come from DW into SF overnight so information on this report is 1 business day old and shows dollar values</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Pepper_Settlement_Data__c.ProductClassName__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>AU Mortgage Settlement - $ Value Daily</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Pepper_Settlement_Data__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Pepper_Settlement_Data__c.SettlementDate__c</dateColumn>
+        <interval>INTERVAL_YESTERDAY</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_92532584</developerName>
+        <masterLabel>Channel Bucket</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>CRM_Application__c$CRM_Channel__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>PAF - Auto Broker</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>WL - Leisure Loans Australia</sourceValue>
+            </sourceValues>
+            <value>PAF - Auto Broker</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>PAF - Comm Broker</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - College Capital</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - Consolidated Finance Group</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - Platform Group</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - Iden</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - Credit One</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - Stratton</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - WL - QPF</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>WL - National Fleet</sourceValue>
+            </sourceValues>
+            <value>PAF - Comm Broker</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>PAF - WL - Suzuki</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - Dealer Channel</sourceValue>
+            </sourceValues>
+            <value>PAF - Dealer Channel</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>PAF - Mortagage Broker</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>WL - AFG</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>WL - Boston Capital</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - Direct Channel</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - Staff Channel</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF - Mortgage Broker</sourceValue>
+            </sourceValues>
+            <value>PAF - Mortgage Broker</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CRM_Application__c$CRM_Primary_Introducer_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Secondary_Introducer_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Primary_Introducer__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Channel__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Contract_Status__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Application_ID__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$Name</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Days_In_Arrears_Instalment__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Net_Amount_Financed_Amount__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Broker__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Submission_Date__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>CRM_Application__c$CRM_Primary_Introducer__c</column>
+            <operator>equals</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CRM_Application__c$CRM_Days_In_Arrears_Instalment__c</column>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CRM_Application__c$CRM_Settlement_Date__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_92532584</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Channel Arrears Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>PAF_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CRM_Application__c$CRM_Settlement_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_1770217</developerName>
+        <masterLabel>ENFORCEMENT &amp; REMARKETING</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>ADMIN</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>AGENT REQUESTED</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ENFORCEMENT QUEUE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>FIELD CALL</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>FIELD CALL UPGRADES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>REMARKETING (ESCALATIONS)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>REMARKETING (NIL BALANCE)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>REMARKETING QUEUE</sourceValue>
+            </sourceValues>
+            <value>ENFORCEMENT &amp; REMARKETING</value>
+        </values>
+    </buckets>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Balance_Amount__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Assigned_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Review_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Arrears_Amount__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Untouched_Since__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c.ScCollection_Next_Installment_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Untouched_Since_Duration__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c.collect__Collection_Status__c.ScCollection_Hardship__c</field>
+    </columns>
+    <filter>
+        <booleanFilter>1 AND 2 AND (3 OR 4 OR 5 OR 6 OR 7)</booleanFilter>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Contract__c.collect__Status__c</column>
+            <operator>equals</operator>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Source_System__c</column>
+            <operator>equals</operator>
+            <value>PAF</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>contains</operator>
+            <value>REMARKETING</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>contains</operator>
+            <value>ENFORCEMENT</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>contains</operator>
+            <value>FIELD</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>contains</operator>
+            <value>ADMIN</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>contains</operator>
+            <value>AGENT</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_1770217</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Bucket__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>PAF DB_Remarketing by Bucket</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ScCollection_Contracts_Assignment_with_Review_Date__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>ScCollection_Contract_Allocation__c$ScCollection_Review_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

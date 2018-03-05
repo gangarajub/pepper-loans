@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.PL_Broker_Accreditations__r$Aggregator__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.PL_Broker_Accreditations__r$Aggregator_Changed__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.PL_Broker_Accreditations__r$First_Name__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.PL_Broker_Accreditations__r$Last_Name__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.PL_Broker_Accreditations__r$Email__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.PL_Broker_Accreditations__r$Opt_In__c</field>
+    </columns>
+    <description>List of brokers who have requested we update their aggregator during personal loans self-accreditation</description>
+    <filter>
+        <criteriaItems>
+            <column>Account.Contacts.PL_Broker_Accreditations__r$Aggregator_Changed__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>PL Broker Aggregator Updates</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>PL_Broker_Self_Accreditation_Details__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Account$CRM_Mtg_Accreditation_Date_Time__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

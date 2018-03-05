@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CRM_Mtg_BDM_Target__c.CRM_Mtg_Month__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Mtg_BDM_Target__c.CRM_Mtg_Year__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>CRM_Mtg_BDM_Target__c.CRM_Mtg_Current_Quarter_Settlements__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>CRM_Mtg_BDM_Target__c.CRM_Mtg_Last_Quarter_Applications__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>CRM_Mtg_BDM_Target__c.CRM_Mtg_Default_Record__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <name>BDM Conversion Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$CRM_Mtg_BDM_Target__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CRM_Mtg_BDM_Target__c.CRM_Mtg_Target_Date__c</dateColumn>
+        <interval>INTERVAL_CURPREVQ</interval>
+    </timeFrameFilter>
+</Report>

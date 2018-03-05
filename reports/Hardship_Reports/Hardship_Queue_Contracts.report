@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Queue__c.collect__Queue_Contracts__r$collect__Contract_Name__c</field>
+    </columns>
+    <columns>
+        <field>collect__Queue__c.collect__Queue_Contracts__r$CreatedDate</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Queue__c$Name</column>
+            <operator>equals</operator>
+            <value>HARDSHIP MORTGAGE</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Queue__c$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Queue__c.collect__Queue_Contracts__r$collect__User__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Hardship Queue Contracts</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Queues_with_Queue_Contracts__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Queue__c.collect__Queue_Contracts__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
+    </timeFrameFilter>
+</Report>

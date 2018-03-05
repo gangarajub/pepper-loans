@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
+    <cacheControl>Private</cacheControl>
+    <contentType>application/json</contentType>
+    <description>Layout Changes to the Application tab to include Notes tab and change ApplicationNotes page name to Assessment notes.</description>
+</StaticResource>

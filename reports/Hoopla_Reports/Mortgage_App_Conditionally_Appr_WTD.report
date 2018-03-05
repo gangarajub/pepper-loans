@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Pepper_Data__c.Application_Date__c</field>
+    </columns>
+    <columns>
+        <field>Pepper_Data__c.ApplicationID__c</field>
+    </columns>
+    <columns>
+        <field>Pepper_Data__c.Status__c</field>
+    </columns>
+    <columns>
+        <field>Pepper_Data__c.Status_Detail__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Pepper_Data__c.Status__c</column>
+            <operator>equals</operator>
+            <value>Approved in Principle</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Pepper_Data__c.Status_Detail__c</column>
+            <operator>equals</operator>
+            <value>Conditionally Approved,Conditionally Approved Awaiting Outstanding Conditions</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Pepper_Data__c.Channel__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Mortgage App Conditionally Appr WTD</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Pepper_Data__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Pepper_Data__c.Application_Date__c</dateColumn>
+        <interval>INTERVAL_THISWEEK</interval>
+    </timeFrameFilter>
+</Report>

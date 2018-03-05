@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Loan_Account__c$Name</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.Mortgage_Applications1__r$Name</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c$ScCollection_Originator_ID__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c$ScCollection_Settled_Date__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>Mortgage Apps settlements</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contracts_with_Mortgage_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Loan_Account__c$ScCollection_Movement_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

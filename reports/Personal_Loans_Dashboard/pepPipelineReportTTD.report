@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.pepCreatedDateTime__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Application_Status_History__c$genesis__Application__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.genesis__Loan_Amount__c</field>
+    </columns>
+    <description>All Time Approval</description>
+    <filter>
+        <criteriaItems>
+            <column>genesis__Application_Status_History__c$Current_Status__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>genesis__Application_Status_History__c$genesis__Application__c.genesis__Account__c.PersonContact.Birthdate</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>genesis__Application_Status_History__c$genesis__Application__c.genesis__Status__c</column>
+            <operator>equals</operator>
+            <value>APPROVED - CONVERTED TO CONTRACT,APPROVED - DOCUMENT SIGNED,DECLINED,REFERRED,CONTRACT REJECTED,EXPIRED,PENDED,Closed,CONDITIONALLY APPROVED</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>genesis__Application_Status_History__c$genesis__Application__c.genesis__Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>pepPLDPipelineReportTTD</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>pepPLDashboardSource__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>genesis__Application_Status_History__c$genesis__Application__c.genesis__Loan_Amount__c</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>genesis__Application_Status_History__c$genesis__Application__c.pepCreatedDateTime__c</dateColumn>
+        <interval>INTERVAL_YESTERDAY</interval>
+    </timeFrameFilter>
+</Report>

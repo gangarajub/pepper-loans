@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CRM_Application__c$CRM_Primary_Introducer__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Secondary_Introducer_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$Name</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>CRM_Application__c$CRM_Net_Amount_Financed_Amount__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Broker__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Submission_Date__c</field>
+    </columns>
+    <description>Applications MTD by Brokers - Summarised by Account</description>
+    <filter>
+        <criteriaItems>
+            <column>CRM_Application__c$CRM_Current_Status__c</column>
+            <operator>equals</operator>
+            <value>Application Transferred To Operations,Contract Activation,Settled,Contract Securtized</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <aggregateType>Sum</aggregateType>
+        <dateGranularity>Day</dateGranularity>
+        <field>CRM_Application__c$CRM_Primary_Introducer_Name__c</field>
+        <sortByName>CRM_Application__c$CRM_Net_Amount_Financed_Amount__c</sortByName>
+        <sortOrder>Desc</sortOrder>
+        <sortType>Aggregate</sortType>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CRM_Application__c$CRM_Current_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Applications MTD by Brokers</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>PAF_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CRM_Application__c$CRM_Settlement_Date__c</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
+    </timeFrameFilter>
+</Report>

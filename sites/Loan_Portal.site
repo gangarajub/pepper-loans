@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomSite xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowHomePage>false</allowHomePage>
+    <allowStandardAnswersPages>false</allowStandardAnswersPages>
+    <allowStandardIdeasPages>false</allowStandardIdeasPages>
+    <allowStandardLookups>false</allowStandardLookups>
+    <allowStandardSearch>false</allowStandardSearch>
+    <authorizationRequiredPage>pepLoginPage</authorizationRequiredPage>
+    <bandwidthExceededPage>pepGenericRedirectionPostLogin</bandwidthExceededPage>
+    <changePasswordPage>pepForgotSetPassword</changePasswordPage>
+    <clickjackProtectionLevel>AllowAllFraming</clickjackProtectionLevel>
+    <customWebAddresses>
+        <certificate>Portal_Certificate</certificate>
+        <domainName>www.myloanportal.com</domainName>
+        <primary>true</primary>
+    </customWebAddresses>
+    <favoriteIcon>Favicon</favoriteIcon>
+    <fileNotFoundPage>pepGenericRedirectionPostLogin</fileNotFoundPage>
+    <forgotPasswordPage>pepForgotPassword</forgotPasswordPage>
+    <genericErrorPage>pepGenericRedirectionPostLogin</genericErrorPage>
+    <inMaintenancePage>pepGenericRedirectionPostLogin</inMaintenancePage>
+    <indexPage>pepLoginPage</indexPage>
+    <masterLabel>Loan Portal</masterLabel>
+    <requireHttps>true</requireHttps>
+    <requireInsecurePortalAccess>false</requireInsecurePortalAccess>
+    <siteAdmin>sfcoe@pepper.com.au</siteAdmin>
+    <siteRedirectMappings>
+        <action>Permanent</action>
+        <isActive>true</isActive>
+        <source>/</source>
+        <target>loginpage</target>
+    </siteRedirectMappings>
+    <siteRedirectMappings>
+        <action>Permanent</action>
+        <isActive>true</isActive>
+        <source>/pepGenericRedirectionPostLogin</source>
+        <target>/GenericRedirectionPostLogin</target>
+    </siteRedirectMappings>
+    <siteType>ChatterNetwork</siteType>
+    <subdomain>myloanportal</subdomain>
+</CustomSite>

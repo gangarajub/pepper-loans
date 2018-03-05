@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$Name</field>
+    </columns>
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$CRM_Mtg_Broker_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$CRM_Mtg_Primary_Applicant_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$CRM_Mtg_Current_Milestone__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$CRM_Mtg_Current_Milestone_Date_Time__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$LastModifiedDate</field>
+    </columns>
+    <columns>
+        <field>CRM_Mortgage_Application_Data__c$CRM_Mtg_Failure_Reason__c</field>
+    </columns>
+    <format>Summary</format>
+    <name>DES 3 hourly report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Mortgage_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>CRM_Mortgage_Application_Data__c$CRM_Mtg_Current_Milestone_Date_Time__c</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CRM_Mortgage_Application_Data__c$CRM_Mtg_Current_Milestone_Date_Time__c</dateColumn>
+        <interval>INTERVAL_CURRENTQ</interval>
+    </timeFrameFilter>
+</Report>

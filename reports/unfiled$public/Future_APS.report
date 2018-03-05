@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>loan__Automated_Payment_Setup__c$Name</field>
+    </columns>
+    <columns>
+        <field>loan__Automated_Payment_Setup__c$loan__Active__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>loan__Automated_Payment_Setup__c$loan__Recurring_ACH_Start_Date__c</column>
+            <operator>greaterOrEqual</operator>
+            <value>11/1/2016</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>loan__Automated_Payment_Setup__c$loan__Recurring_ACH_End_Date__c</column>
+            <operator>greaterOrEqual</operator>
+            <value>TODAY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>loan__Automated_Payment_Setup__c$loan__Type__c</column>
+            <operator>equals</operator>
+            <value>RECURRING</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>loan__Automated_Payment_Setup__c$loan__Active__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Future APS</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>APS__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>loan__Automated_Payment_Setup__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

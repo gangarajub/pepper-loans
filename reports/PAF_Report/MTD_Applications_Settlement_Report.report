@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_26247241</developerName>
+        <masterLabel>Application Settlement Status</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>CRM_Application__c$CRM_Current_Status__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Approved</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved With Condition(s)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Auto Approved</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Condition-Recommend</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Irregular</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Irregular Complied</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Payment Pending</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Received</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Complied</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Settlement Pending</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Payment Authorize</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Cond-Add Guaranator</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Cond-Chng Guaranator</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Cond-IncreaseDwnPmt</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved-Recommended</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved with Ammendments</sourceValue>
+            </sourceValues>
+            <value>2 Approved</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Declined</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Error</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved-Deal Lost</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Flat Cancel Contract</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Rejected-Recommended</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Auto Declined</sourceValue>
+            </sourceValues>
+            <value>4 Declined</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Settled</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Contract Securtized</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Application Transferred To Operations</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Contract Activation</sourceValue>
+            </sourceValues>
+            <value>3 Settled</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Withdrawn</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Contract Withdrawn</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Cancel-Recommended</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved but Deal Lost</sourceValue>
+            </sourceValues>
+            <value>5 Withdrawn</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>With Introducer</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Awaiting Info</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>InProcess</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>New</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Re-Submitted</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Refer</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Resubmitted</sourceValue>
+            </sourceValues>
+            <value>1 In Process</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_78378013</developerName>
+        <masterLabel>Applications Settled</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>CRM_Application__c$CRM_Current_Status__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Settled</sourceValue>
+            </sourceValues>
+            <value>Settled</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CRM_Application__c$CRM_Primary_Introducer_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Secondary_Introducer_Name__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Contract_Status__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Current_Status__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$Name</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>CRM_Application__c$CRM_Net_Amount_Financed_Amount__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Broker__c</field>
+    </columns>
+    <columns>
+        <field>CRM_Application__c$CRM_Submission_Date__c</field>
+    </columns>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_26247241</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CRM_Application__c$CRM_Primary_Introducer__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>MTD Applications Settlement Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>PAF_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CRM_Application__c$CRM_Submission_Date__c</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Apps_MTD__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Apps_MTD_Amt__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Apps_QTD__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Apps_YTD__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Apps_YTD_Amt__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Aggregator_Conversion_Rate__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Account.CRM_Mtg_Channel__c</column>
+            <operator>equals</operator>
+            <value>White Label</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.CRM_Mtg_Aggregator_State__c</column>
+            <operator>equals</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>All WL Partners Performance</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>AccountList</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>Account.CRM_Mtg_Aggregator_Conversion_Rate__c</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

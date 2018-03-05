@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollectionYesterdays_Arrears_Bucket__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Settled_Date__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Age_of_Loan__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Current_Principal__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Rolled_Up_Down__c</field>
+    </columns>
+    <description>This report would show the movement of contracts either upwards or downwards for PAF Source System.</description>
+    <filter>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.ScCollection_OldBucket__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.collect__Source_System__c</column>
+            <operator>equals</operator>
+            <value>PAF</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Loan_Account__c.ScCollectionTodays_Arrears_Bucket__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>PAF:Movement Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Loan_Account__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Loan_Account__c.ScCollection_DefaultNoticeExpiryDate__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_79003213</developerName>
+        <masterLabel>Lead Channel</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Lead.CRM_Lead_Channel_Level_4__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Direct Call</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Direct Enquiry</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Direct Loan Enquiry</sourceValue>
+            </sourceValues>
+            <value>Direct</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Lead Finder</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Lead finder enquiry</sourceValue>
+            </sourceValues>
+            <value>Lead Finder</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Home Loan Direct</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Home Loan Enquiry</sourceValue>
+            </sourceValues>
+            <value>Home Loan</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Direct PSC Transfer</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Transfer from PSC</sourceValue>
+            </sourceValues>
+            <value>Referral</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Short form</sourceValue>
+            </sourceValues>
+            <value>Short form</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>Funnel</chartType>
+        <enableHoverLabels>true</enableHoverLabels>
+        <expandOthers>false</expandOthers>
+        <groupingColumn>Lead.CRM_Lead_Channel_Level_4__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_TOP</location>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>true</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>true</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>CONVERTED</field>
+    </columns>
+    <columns>
+        <field>LEAD_OWNER</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>COMPANY_ACCT</field>
+    </columns>
+    <columns>
+        <field>STATUS</field>
+    </columns>
+    <columns>
+        <field>LAST_UPDATE</field>
+    </columns>
+    <columns>
+        <field>CONVERTED_DATE</field>
+    </columns>
+    <columns>
+        <field>OPP_OWNER</field>
+    </columns>
+    <columns>
+        <field>OPP_NAME</field>
+    </columns>
+    <columns>
+        <field>OPP_ACCT_NAME</field>
+    </columns>
+    <columns>
+        <field>AMOUNT</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Lead.CRM_Test_Lead__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead.CRM_Lead_Channel_Level_4__c</column>
+            <operator>notContain</operator>
+            <value>paf,test</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead.CRM_Lead_Channel_Level_3__c</column>
+            <operator>notContain</operator>
+            <value>paf,test,auto</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <operator>equals</operator>
+            <value>Lead.Direct_Sales</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FIRST_NAME</column>
+            <operator>notContain</operator>
+            <value>test,not provided</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>LAST_NAME</column>
+            <operator>notContain</operator>
+            <value>test,not provided</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.CRM_Lead_Channel_Level_4__c</column>
+            <operator>contains</operator>
+            <value>finder,tracey,gadsden,avjennings,hashching,hasching,dolphin,joust</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>STAGE_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Lead.CRM_Lead_Channel_Level_4__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>REFERRALS_Leads to Opportunity (DB)</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>OpportunityLead</reportType>
+    <scope>org</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CURFY</interval>
+    </timeFrameFilter>
+</Report>

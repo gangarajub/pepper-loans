@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Data_Push_Date_Time__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Data_Sync_Date_Time__c</field>
+    </columns>
+    <columns>
+        <field>Account.CRM_Mtg_Data_Sync_Errors__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>Account.CRM_Mtg_Data_Synced__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.CRM_Mtg_Is_Data_Sync_Error__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Account Records Failed to Sync</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>AccountList</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

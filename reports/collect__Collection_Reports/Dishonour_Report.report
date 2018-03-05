@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>loan__Loan_Account__c$Name</field>
+    </columns>
+    <columns>
+        <field>loan__Loan_Account__c$loan__Account__c</field>
+    </columns>
+    <columns>
+        <field>loan__Loan_Account__c.loan__Loan_Payment_Transactions__r$Name</field>
+    </columns>
+    <columns>
+        <field>loan__Loan_Account__c.loan__Loan_Payment_Transactions__r$loan__Sent_To_ACH_On__c</field>
+    </columns>
+    <columns>
+        <field>loan__Loan_Account__c.loan__Loan_Payment_Transactions__r.loan__Repayment_Transaction_Adjustment__r$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>loan__Loan_Account__c.loan__Loan_Payment_Transactions__r$loan__Transaction_Amount__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>PL Dishonour Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Repayment_Dishonours__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>loan__Loan_Account__c.loan__Loan_Payment_Transactions__r.loan__Repayment_Transaction_Adjustment__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
+    </timeFrameFilter>
+</Report>

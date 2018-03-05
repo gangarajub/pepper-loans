@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>RowCount</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA2</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Total Submitted</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>CRM_Application__c.CRM_Approved_Settled__c:SUM / (RowCount - CRM_Application__c.CRM_Withdrawn_In_Progress__c:SUM)</calculatedFormula>
+        <datatype>percent</datatype>
+        <developerName>FORMULA3</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Approval %</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>CRM_Application__c.CRM_Settled__c:SUM / CRM_Application__c.CRM_Approved_Settled__c:SUM</calculatedFormula>
+        <datatype>percent</datatype>
+        <developerName>FORMULA4</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Conversion %</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_66219455</developerName>
+        <masterLabel>Application Settlement Status</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>CRM_Application__c$CRM_Current_Status__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Approved</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved With Condition(s)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Auto Approved</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Complied</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Irregular</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Irregular Complied</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Received</sourceValue>
+            </sourceValues>
+            <value>2 Approved</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Declined</sourceValue>
+            </sourceValues>
+            <value>4 Declined</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Contract Securtized</sourceValue>
+            </sourceValues>
+            <value>3 Settled</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Withdrawn</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Contract Withdrawn</sourceValue>
+            </sourceValues>
+            <value>5 Withdrawn</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Awaiting Info</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>InProcess</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>New</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Re-Submitted</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Refer</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>With Introducer</sourceValue>
+            </sourceValues>
+            <value>1 In Process</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>FORMULA3</column>
+        </chartSummaries>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>FORMULA4</column>
+        </chartSummaries>
+        <chartType>Line</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>CRM_Application__c$CRM_Primary_Introducer__c.CRM_PAF_BDM__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_TOP</location>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>CRM_Application__c$Name</field>
+    </columns>
+    <columns>
+        <field>BucketField_66219455</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>CRM_Application__c$CRM_Primary_Introducer__c.CRM_PAF_BDM__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CRM_Application__c$CRM_Primary_Introducer__c.CRM_PAF_BDM__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CRM_Application__c$CRM_Primary_Introducer__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Conversion Rate MTD</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>PAF_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <sortColumn>BucketField_66219455</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CRM_Application__c$CRM_Submission_Date__c</dateColumn>
+        <interval>INTERVAL_THISMONTH</interval>
+    </timeFrameFilter>
+</Report>

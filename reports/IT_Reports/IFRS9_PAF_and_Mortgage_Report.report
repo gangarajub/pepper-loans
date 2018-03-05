@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>picklist</bucketType>
+        <developerName>BucketField_14088941</developerName>
+        <masterLabel>Default Notice Flag</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>FK_$collect__Contract_Status__c.ScCollection_Default_notice__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Active Default Notice</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Default Notice Issued (in-house)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Default Notice Issued(Solicitor)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Default Notice Served (mortgages)</sourceValue>
+            </sourceValues>
+            <value>Yes</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>picklist</bucketType>
+        <developerName>BucketField_73530895</developerName>
+        <masterLabel>Fraud / Bankruptcy Flag</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>FK_$collect__Contract_Status__c.ScCollection_Misc_Status__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Fraud</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Confirmed Fraud</sourceValue>
+            </sourceValues>
+            <value>Fraud</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Administration</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Bankruptcy </sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Insolvency</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Liquidation</sourceValue>
+            </sourceValues>
+            <value>Bankruptcy</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>picklist</bucketType>
+        <developerName>BucketField_92142326</developerName>
+        <masterLabel>Hardship Flag</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>FK_$collect__Contract_Status__c.ScCollection_Hardship__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Hardship Entered</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship Payment Moritorium</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship Part Payment Moritorium</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship extension of term (Active)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship natural disaster - income</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship natural disaster - Property</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship natural disaster - property damage</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Hardship Time to sell arragement (Active)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Natural Disaster</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Deceased Estate </sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Maintain arrangement and Cap</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Complaint Hardship Arrangement</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Complaint Hardship Finalised</sourceValue>
+            </sourceValues>
+            <value>Yes</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>picklist</bucketType>
+        <developerName>BucketField_4288282</developerName>
+        <masterLabel>Legal/Shortfall/CollateralinPos</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>FK_$collect__Contract_Status__c.ScCollection_Legal__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Judgement Filed</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Judgement Obtained</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Judgment Instructed</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Judgment Requested (mortgages)</sourceValue>
+            </sourceValues>
+            <value>Legal</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Shortfall Sale authorised</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Shortfall Sale Sold</sourceValue>
+            </sourceValues>
+            <value>Shortfall</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>MIP REPAIRS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Mortgagee in possession</sourceValue>
+            </sourceValues>
+            <value>Collateral In Possession</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>picklist</bucketType>
+        <developerName>BucketField_102957</developerName>
+        <masterLabel>Loss Recovery Flag</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>FK_$collect__Contract_Status__c.ScCollection_Loss_Recoveries__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Loss Recoveries</sourceValue>
+            </sourceValues>
+            <value>Loss Recoveries</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.collect__External_ID__c</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_LOB_Identifier__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.collect__Days_Past_Due__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Bucket__c</field>
+    </columns>
+    <columns>
+        <field>FK_CUSTENT_ID</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_Hardship__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_92142326</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_Hardship_Requested_Date__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_Legal__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_4288282</field>
+    </columns>
+    <columns>
+        <field>BucketField_73530895</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_Misc_Status__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_Loss_Recoveries__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_102957</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Contract_Status__c.ScCollection_Default_notice__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_14088941</field>
+    </columns>
+    <filter>
+        <booleanFilter>1 AND (2 OR 3 or 4 or 5)</booleanFilter>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.ScCollection_Country_Code__c</column>
+            <operator>equals</operator>
+            <value>AU</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$collect__Contract_Status__c.ScCollection_Hardship__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$collect__Contract_Status__c.ScCollection_Legal__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$collect__Contract_Status__c.ScCollection_Loss_Recoveries__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>FK_$collect__Contract_Status__c.ScCollection_Default_notice__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>IFRS9 PAF and Mortgage Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Loan_Account__c@collect__Loan_Account__c.collect__Collection_Status__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>FK_$collect__Contract_Status__c.ScCollection_Misc_Status__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>collect__Loan_Account__c.ScCollection_Movement_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

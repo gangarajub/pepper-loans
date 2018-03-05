@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Contract_Split_Number__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c.ScCollection_Mortgage_Funding__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.ScCollection_Contract_Split_Number__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Loan_Account__c.ScCollection_Bucket__c</column>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Loan_Account__c.ScCollection_Bucket__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>SPV Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Loan_Account__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Loan_Account__c.ScCollection_DefaultNoticeExpiryDate__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

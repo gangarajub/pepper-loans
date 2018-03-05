@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Source_System__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Queue_Contract__c.ScCollection_Remarketing_Status__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Queue_Contract__c.ScCollection_Misc_Status__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Assignee__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Assigned_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Review_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Bucket__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Balance_Amount__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Source_System__c</column>
+            <operator>equals</operator>
+            <value>PAF</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Contract__c.ScCollection_Remarketing_Status__c</column>
+            <operator>equals</operator>
+            <value>REPOSSESSED,SALE PENDING,AsSET SOLD,REDEMPTION PENDING,RELEASE ASSET,NAR PENDING,PENDING PROCEEDS,Early Payout-Sale of Asset,FOLLOW UP</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Assignee__c</column>
+            <operator>equals</operator>
+            <value>JESSICA PENNINGS,KIERON MANNING</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <name>REPORT JESS</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ScCollection_Contracts_Assignment_with_Review_Date__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>ScCollection_Contract_Allocation__c$ScCollection_Review_Date__c</dateColumn>
+        <endDate>2017-12-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2016-10-01</startDate>
+    </timeFrameFilter>
+</Report>

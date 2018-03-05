@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Queue_Contract__c$ScCollection_Dev_Contract__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>collect__Queue_Contract__c$ScCollection_PTP_Kept_Rate__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Queue_Contract__c$ScCollection_Dev_Contract__c.ScCollection_Source_System_Name__c</column>
+            <operator>equals</operator>
+            <value>Mortgage</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Queue_Contract__c$collect__User__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Mortgage:PTP Kept %</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ScCollection_Queue_Contracts__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Queue_Contract__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

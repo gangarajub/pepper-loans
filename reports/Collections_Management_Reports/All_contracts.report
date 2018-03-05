@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Loan_Account__c$Name</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c$ScCollection_Bucket__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c$collect__Collection_Status__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c$ScCollection_Source_System_Name__c</field>
+    </columns>
+    <columns>
+        <field>collect__Loan_Account__c$ScCollection_Contract_Split_Number__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Loan_Account__c$ScCollection_Source_System_Name__c</column>
+            <operator>equals</operator>
+            <value>mortgage</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Loan_Account__c$ScCollection_Contract_Split_Number__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>All contracts</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ScCollection_Contract_With_Interaction_Log__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <sortColumn>collect__Loan_Account__c$collect__Collection_Status__c</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>collect__Loan_Account__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_50536606</developerName>
+        <masterLabel>Lead Channel</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Opportunity.CRM_Lead_Channel_Level_4__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Direct Call</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Direct Enquiry</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Direct Loan Enquiry</sourceValue>
+            </sourceValues>
+            <value>Direct</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Lead Finder</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Lead Finder Enquiry</sourceValue>
+            </sourceValues>
+            <value>Lead Finder</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Short Form</sourceValue>
+            </sourceValues>
+            <value>Short Form</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Home Loan Direct</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Home Loan Enquiry</sourceValue>
+            </sourceValues>
+            <value>Home Loan</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Direct Transfer From PSC</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Transfer From PSC</sourceValue>
+            </sourceValues>
+            <value>Referral</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>Opportunity.CRM_Lead_ID__c</field>
+    </columns>
+    <columns>
+        <field>OWNER_NAME</field>
+    </columns>
+    <columns>
+        <field>OPPORTUNITY.NAME</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <description>Marketing report to show leads converted to oppty and it&apos;s diff stages including pack out.  Report is extracted from the last 30 days</description>
+    <filter>
+        <criteriaItems>
+            <column>STAGE_CHANGE</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.CRM_Lead_Channel_Level_4__c</column>
+            <operator>notContain</operator>
+            <value>paf,pl,test</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Opportunity.CRM_Lead_Channel_Level_3__c</column>
+            <operator>notContain</operator>
+            <value>Personal Loans,PL,PAF</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>STAGE_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Opportunity.CRM_Lead_Channel_Level_4__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Mktg-Leads to Oppty w Packout</name>
+    <params>
+        <name>terr</name>
+        <value>all</value>
+    </params>
+    <params>
+        <name>include</name>
+        <value>all</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>OpportunityHistory</reportType>
+    <scope>all</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <endDate>2017-06-03</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2017-04-23</startDate>
+    </timeFrameFilter>
+</Report>

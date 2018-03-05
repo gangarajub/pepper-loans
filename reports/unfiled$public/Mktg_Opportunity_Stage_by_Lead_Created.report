@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Opportunity Stage by Lead Created Date</description>
+    <filter>
+        <criteriaItems>
+            <column>CONVERTED_OPPORTUNITY_ID</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead.CRM_Test_Lead__c</column>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead.CRM_Lead_Channel_Level_4__c</column>
+            <operator>notContain</operator>
+            <value>paf,pl,test</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead.CRM_Lead_Channel_Level_3__c</column>
+            <operator>notContain</operator>
+            <value>Personal Loans,PL,PAF</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>STAGE_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Lead.CRM_Lead_Channel_Level_4__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Mktg-Opportunity Stage by Lead Created</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>OpportunityLead</reportType>
+    <scope>org</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_LASTMONTH</interval>
+    </timeFrameFilter>
+</Report>

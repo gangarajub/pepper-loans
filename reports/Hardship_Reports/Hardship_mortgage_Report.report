@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$ScCollection_Mortgage_Funding__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$Name</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$ScCollection_Arrears__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$collect__Days_Past_Due__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Queue__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c$ScCollection_Hardship_Requested_Date__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$ScCollection_Current_Principal__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$ScCollection_Settled_Date__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c.collect__Contracts__r$ScCollection_Customer_State__c</field>
+    </columns>
+    <columns>
+        <field>collect__Contract_Status__c$ScCollection_Reason_For_Default__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Status__c</column>
+            <operator>equals</operator>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$ScCollection_Hardship_Status__c</column>
+            <operator>notEqual</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r$ScCollection_Source_System_Name__c</column>
+            <operator>equals</operator>
+            <value>mortgage</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Queue__c</column>
+            <operator>notEqual</operator>
+            <value>MORTGAGE 30+ ACCOUNT MGR SPLIT 5</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Queue__c</column>
+            <operator>notEqual</operator>
+            <value>MORTGAGE 30+ ACCOUNT MGR SPLIT 4</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Queue__c</column>
+            <operator>notEqual</operator>
+            <value>MORTGAGE 30+ ACCOUNT MGR SPLIT 3</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Queue__c</column>
+            <operator>notEqual</operator>
+            <value>MORTGAGE 30+ ACCOUNT MGR SPLIT 2</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Queue__c</column>
+            <operator>notEqual</operator>
+            <value>MORTGAGE 30+ ACCOUNT MGR SPLIT 1</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$ScCollection_Hardship_Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Hardship mortgage Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Collection_Status_with_contract_and_queue__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Contract_Status__c.collect__Contracts__r.Queue_Contracts__r$collect__Oldest_Due_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

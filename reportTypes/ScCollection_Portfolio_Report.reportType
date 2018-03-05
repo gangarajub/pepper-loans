@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>ScCollection_Bucket_Summary__c</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>This is setup for Portfolio report.</description>
+    <label>Portfolio Report</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>%(Of Today)</displayNameOverride>
+            <field>ScCollection_Percent__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Today&apos;s Accounts</displayNameOverride>
+            <field>ScCollection_Count_of_Contracts__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Today&apos;s Balances</displayNameOverride>
+            <field>ScCollection_Current_Balance_Sum__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ScCollection_BucketName__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ScCollection_Contract_Summary__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Differences (In %)</displayNameOverride>
+            <field>ScCollecction_Diff_Percent__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Differences (In Balance)</displayNameOverride>
+            <field>ScCollection_Difference__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Differences (In Accounts Count)</displayNameOverride>
+            <field>ScCollection_DifferenceCount__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>% (Of Month End)</displayNameOverride>
+            <field>ScCollection_EOM_percent__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ScCollection_Count_of_Month_End_Accounts__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ScCollection_EOM_Balances__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ScCollection_Month_s_End_Bucket_Summary__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ScCollection_Yesterday_Bucket_Summary__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Day</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Day__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Portfolio</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Funder_Bank_Name__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Target</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Target__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Month End&apos;s Accounts</displayNameOverride>
+            <field>ScCollection_Month_s_End_Bucket_Summary__c.ScCollection_Count_of_Contracts__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Month End&apos;s Balances</displayNameOverride>
+            <field>ScCollection_Month_s_End_Bucket_Summary__c.ScCollection_Current_Balance_Sum__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Yesterday&apos;s Accounts</displayNameOverride>
+            <field>ScCollection_Yesterday_Bucket_Summary__c.ScCollection_Count_of_Contracts__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Yesterday&apos;s Balances</displayNameOverride>
+            <field>ScCollection_Yesterday_Bucket_Summary__c.ScCollection_Current_Balance_Sum__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>30+ Rate Today</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollction_30_Rate__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>30+ Rate Yesterday</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Yesterday_s_30_Rate__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>30+ Rate EOM</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_30_Rate_EOM__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>30+ Rate Overnight Movement</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_30_Rate_Overnight_Movement__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>EOM Movement</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_EOM_Movement__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Target Difference</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Target_Difference__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Dollar Reduction Required</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Dollar_Reduction_Required__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>30+ Balances</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Sum_of_1_2_3_4__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total Balances</displayNameOverride>
+            <field>ScCollection_Contract_Summary__c.ScCollection_Total_Balance_Today__c</field>
+            <table>ScCollection_Bucket_Summary__c</table>
+        </columns>
+        <masterLabel>Bucket Summary</masterLabel>
+    </sections>
+</ReportType>

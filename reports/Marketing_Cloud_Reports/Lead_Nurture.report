@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Lead$Id</field>
+    </columns>
+    <columns>
+        <field>Lead$FirstName</field>
+    </columns>
+    <columns>
+        <field>Lead$LastName</field>
+    </columns>
+    <columns>
+        <field>Lead$CRM_Postcode__c</field>
+    </columns>
+    <columns>
+        <field>Lead$Email</field>
+    </columns>
+    <columns>
+        <field>Lead$Phone</field>
+    </columns>
+    <columns>
+        <field>Lead$Lead_Nurture__c</field>
+    </columns>
+    <columns>
+        <field>Lead$Lead_Nurture_Enter_Date__c</field>
+    </columns>
+    <columns>
+        <field>Lead$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>Lead$CRM_Lead_Channel_Level_4__c</field>
+    </columns>
+    <description>Displays leads with Lead Nurture flag true for integration into Marketing Cloud</description>
+    <filter>
+        <criteriaItems>
+            <column>Lead$Lead_Nurture__c</column>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Lead Nurture</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Lead_Extension__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Lead$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

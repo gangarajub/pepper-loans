@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>FK_$loan__Loan_Account__c.loan__Account__c</field>
+    </columns>
+    <columns>
+        <field>collect__Promise_To_Pay__c.collect__Promise_To_Pay_Amount__c</field>
+    </columns>
+    <columns>
+        <field>collect__Promise_To_Pay__c.collect__Promise_To_Pay_Date__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>PLs: PTP Taken</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Promise_To_Pay__c@collect__Promise_To_Pay__c.ScCollection_CL_Contract__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>collect__Promise_To_Pay__c.collect__Promise_Made_On__c</dateColumn>
+        <interval>INTERVAL_TODAY</interval>
+    </timeFrameFilter>
+</Report>

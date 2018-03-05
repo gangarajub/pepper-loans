@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>RowCount</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Total Submitted</masterLabel>
+        <scale>0</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>CRM_Application__c.CRM_Approved_Settled__c:SUM / (RowCount)</calculatedFormula>
+        <datatype>percent</datatype>
+        <developerName>FORMULA2</developerName>
+        <isActive>false</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Approval %</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>CRM_Application__c.CRM_Settled__c:SUM / (RowCount)</calculatedFormula>
+        <datatype>percent</datatype>
+        <developerName>FORMULA3</developerName>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Conversion %</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>CRM_Application__c.CRM_Withdrawn_In_Progress__c:SUM/RowCount</calculatedFormula>
+        <datatype>percent</datatype>
+        <developerName>FORMULA4</developerName>
+        <isActive>false</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Abandonment %</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_3683738</developerName>
+        <masterLabel>Application Settlement Status</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Account.Applications1__r$CRM_Current_Status__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Approved</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Auto Approved</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Irregular</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Received</sourceValue>
+            </sourceValues>
+            <value>Approved</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Contract Securtized</sourceValue>
+            </sourceValues>
+            <value>Settled</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Declined</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>InProcess</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Awaiting Info</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Approved With Condition(s)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Payment Pending</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Re-Submitted</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>With Introducer</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Withdrawn</sourceValue>
+            </sourceValues>
+            <value>Abandoned</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>FORMULA3</column>
+        </chartSummaries>
+        <chartType>LineGrouped</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Account.Applications1__r$CRM_Submission_Date__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_TOP</location>
+        <secondaryGroupingColumn>Account$Name</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Account.Applications1__r$Name</field>
+    </columns>
+    <columns>
+        <field>BucketField_3683738</field>
+    </columns>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>MonthInYear</dateGranularity>
+        <field>Account.Applications1__r$CRM_Submission_Date__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.Applications1__r$CRM_Broker__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Conversion Rate</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Accounts_with_PAF_Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Account.Applications1__r$CRM_Submission_Date__c</dateColumn>
+        <interval>INTERVAL_CURPREV1</interval>
+    </timeFrameFilter>
+</Report>

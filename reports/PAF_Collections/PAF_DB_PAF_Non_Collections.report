@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_91474055</developerName>
+        <masterLabel>Queue Combos</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>COMPLAINT HARDSHIP DISPUTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>DECEASED PAF</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>DECEASED- MORTGAGE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>COMPLAINTS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>HARDSHIP COMPLAINTS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>HARDSHIP MORTGAGE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF COMPLAINT</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>PAF HARDSHIP</sourceValue>
+            </sourceValues>
+            <value>HARDSHIP &amp; COMPLAINTS</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>ADMIN</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>AGENT REQUESTED</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ENFORCEMENT QUEUE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>FIELD CALL</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>FIELD CALL UPGRADES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>REMARKETING (ESCALATIONS)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>REMARKETING (NIL BALANCE)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>REMARKETING QUEUE</sourceValue>
+            </sourceValues>
+            <value>ENFORCEMENT &amp; REMARKETING</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>WRITE OFF APPROVED</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>WRITE OFF REQUESTED</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>WRITE OFF SUPPORTED</sourceValue>
+            </sourceValues>
+            <value>PENDING WRITE OFF</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c.ScCollection_Lender_Record__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Assignee__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Assigned_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Review_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Arrears_Amount__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Untouched_Since__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Contract__c.ScCollection_Next_Installment_Date__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Untouched_Since_Duration__c</field>
+    </columns>
+    <columns>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Queue_Contract__c.ScCollection_PTP_Status__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Balance_Amount__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Contract__c.collect__Status__c</column>
+            <operator>equals</operator>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Source_System__c</column>
+            <operator>equals</operator>
+            <value>PAF</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Contract__c.ScCollection_Lender_Record__c</column>
+            <operator>notEqual</operator>
+            <value>PAF-PP1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Bucket__c</column>
+            <operator>greaterThan</operator>
+            <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>notContain</operator>
+            <value>Bucket</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>notContain</operator>
+            <value>High</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>notContain</operator>
+            <value>Nil</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ScCollection_Contract_Allocation__c$ScCollection_Queue_Name__c</column>
+            <operator>notContain</operator>
+            <value>Loss</value>
+        </criteriaItems>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_91474055</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>ScCollection_Contract_Allocation__c$ScCollection_Bucket__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>PAF DB_PAF Non-Collections</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ScCollection_Contracts_Assignment_with_Review_Date__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <timeFrameFilter>
+        <dateColumn>ScCollection_Contract_Allocation__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>genesis__Applications__c$Name</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.Bank_Statement__r$Name</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c$is_Bank_Statement_Utilized__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>Application bank Analysis</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Application_Bank_Statement__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>genesis__Applications__c.Bank_Statement__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2016-09-27</startDate>
+    </timeFrameFilter>
+</Report>

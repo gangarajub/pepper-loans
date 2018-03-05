@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>FK_collect__Loan_Account__c.ScCollection_Current_Principal__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <downGroupingContext>GRAND_SUMMARY</downGroupingContext>
+        <isActive>false</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Total</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <columns>
+        <field>FK_NAME</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_DATE</field>
+    </columns>
+    <columns>
+        <field>collect__Interaction_Log__c.collect__Collector__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Loan_Account__c.ScCollection_Bucket__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Loan_Account__c.ScCollection_Current_Principal__c</field>
+    </columns>
+    <columns>
+        <field>FK_$collect__Loan_Account__c.ScCollection_Arrears__c</field>
+    </columns>
+    <columns>
+        <field>collect__Interaction_Log__c.ScCollection_Action_Performed__c</field>
+    </columns>
+    <filter>
+        <criteriaItems>
+            <column>CUST_CREATED_NAME</column>
+            <operator>equals</operator>
+            <value>sarah bittner,sabina piljek,hannah grigoriadis,paul dryden,nick roussos,demi williams</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>collect__Interaction_Log__c.ScCollection_Action_Performed__c</column>
+            <operator>equals</operator>
+            <value>INBOUND - PAID - Customer made Payment,INBOUND - PTP - One-off,INBOUND - PTP Arrangment,OUTBOUND - PAID - Customer made Payment,OUTBOUND PTP - One-off,OUTBOUND - PTP Arrangment</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CUST_CREATED_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Late Stage PTP Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$collect__Interaction_Log__c@collect__Interaction_Log__c.collect__Dev_Contract__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <endDate>2016-11-25</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2016-11-25</startDate>
+    </timeFrameFilter>
+</Report>

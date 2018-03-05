@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.AccountFullName__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.pepCreatedDateTime__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.pepSettled_Date__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.Account_Email__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.Cl_Product_Name__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.genesis__CL_Purpose__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.GoogleClientIP__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.genesis__Status__c</field>
+    </columns>
+    <columns>
+        <field>genesis__Applications__c.Channel__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>Applications with Google Client IP</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$genesis__Applications__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>genesis__Applications__c.pepCreatedDateTime__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

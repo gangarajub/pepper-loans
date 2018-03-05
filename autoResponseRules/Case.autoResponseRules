@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>Auto Response to Scenario Email</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Mortgage Broker Scenario</value>
+            </criteriaItems>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <senderEmail>noreply@pepper.com.au</senderEmail>
+            <senderName>Pepper Scenarios Team</senderName>
+            <template>CRM_Mortgage_Templates/CRM_Mtg_New_Scenario_Auto_Response_Email</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Building Insurance Expiry</value>
+            </criteriaItems>
+            <notifyCcRecipients>true</notifyCcRecipients>
+            <replyToEmail>buildinginsurance@pepper.com.au</replyToEmail>
+            <senderEmail>noreply@pepper.com.au</senderEmail>
+            <senderName>COC Routing</senderName>
+            <template>All/Case_Creation_COC</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>

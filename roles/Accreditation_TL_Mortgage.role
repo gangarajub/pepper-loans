@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Role xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseAccessLevel>Edit</caseAccessLevel>
+    <contactAccessLevel>Edit</contactAccessLevel>
+    <description>Accreditation TL - Mortgage</description>
+    <mayForecastManagerShare>false</mayForecastManagerShare>
+    <name>Accreditation TL - Mortgage</name>
+    <opportunityAccessLevel>Read</opportunityAccessLevel>
+    <parentRole>Mortgage_Sales_Support_Manager</parentRole>
+</Role>
