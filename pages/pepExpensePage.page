@@ -1,0 +1,2060 @@
+<apex:page controller="pepExpenseController" extensions="pepExpenseSaveAndRetrieveExt" standardStylesheets="false" showHeader="false" sidebar="false"  docType="html-5.0" id="idPage"  action="{!checkcookie}" cache="{!$Label.Cache_Settings}"><!---->   
+    
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Your Expenses</title>
+         <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+        <!-- End Google Tag Manager -->
+         
+         <style>
+        .Processing
+        {
+            position: fixed;
+            background: url('/img/loading32.gif');
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            z-index: 1004;str1
+            left: 10%;
+            
+            top: 10%;
+        }
+        .refinanceMsg{
+            color: #DF0024;
+            font-size: 14px !important;
+            display: none;
+            line-height: 20px;
+            text-align: left;
+            float: left;
+            margin-top: 0 !important;
+            font-weight: normal;
+          }
+         </style>
+        <script>
+         function setVal1(sId,sVal)
+        {
+       // alert('hi');
+        var $select = $(document.getElementById(sId));
+        
+        var $options = $select.find('option');
+        
+        $options.each(function(){
+        if($(this).text()==sVal)
+        
+        $(this).attr('selected','selected');
+        });
+        }     
+         
+       
+        </script>  
+        <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" />  
+    </head>
+    <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+     <apex:form id="idForm"> 
+     <apex:inputHidden id="inputHidden" value="{!strRetrieveCode}"/>
+
+
+
+     <script>
+    function setHiddenVal()
+    {
+    $('[Id$=inputHidden]').val($('[Id$=retrieveCode]').val());   
+    }
+     
+     </script>
+      <apex:inputHidden value="{!inputValue}" id="theHiddenInput"/> 
+        
+    <c:pepCmsHeaderComponent getpageName="Header" purposeName="{!objApplication.genesis__CL_Purpose__c}" getApplication="{!objApplication}" currentPage="{!intCurrentPageNumber}" previousPage="{!intPreviousPageNumber}"></c:pepCmsHeaderComponent>  
+     <apex:actionFunction name="renderStory1" action="{!renderSectionStory1}" oncomplete="showSectionStory1();pepperApp.currencyFormat();rerendervalidation();" reRender="section1Content" />
+     <apex:actionFunction name="renderStory2" action="{!renderSectionStory2}" oncomplete="showSectionStory2();pepperApp.currencyFormat();rerendervalidation();" reRender="inputHidden2,form-section" />            
+      <apex:actionFunction name="assignOriginalvalues"    action="{!AssignOriginalValue}"    reRender="calcform" status="counterStatus"  />  
+      <apex:actionFunction name="updateMonthlyExpenseFun" action="{!AssignClonedValue}"      reRender="calcform"     status="counterStatus"  />  
+      <apex:actionfunction name="checkbackendvalidation" action="{!checkvalidation}"     rerender="section2Content" oncomplete="function2();$('#whatyouowe .section-heading .subHeading .edit').trigger('click');pepperApp.currencyFormat();"/>
+      <apex:actionFunction name="CallExpenseActionFunction" action="{!SaveCallFromHeader}" reRender="temp">
+      <apex:param name="tempparam" value="" assignTo="{!pagetoredirect}"/>
+      </apex:actionfunction>
+      
+      <apex:actionFunction name="calldebtBtnAction" action="{!handleYesNoButton}" reRender="formsectionwhat" status="counterStatus" oncomplete="showMinimizeBarajax('whatyouowe');pepperApp.currencyFormat();">          
+          
+        <apex:param name="rowIndex" value="" />
+        <apex:param name="QuesAnsrowIndex" value=""  />
+        <apex:param name="text" value=""/>
+      </apex:actionFunction>
+      <apex:actionfunction name="callcontroller" action="{!continueApplication}"/>
+      <apex:actionFunction name="callPlusFun"  action="{!addRow}"      oncomplete="showMinimizeBarajax('whatyouowe');disableCopyPaste();pepperApp.currencyFormat();" reRender="formsectionwhat,section2Content"  status="counterStatus" />
+      <apex:actionFunction name="callMinusFun" action="{!removeRow}"   oncomplete="showMinimizeBarajax('whatyouowe');disableCopyPaste();pepperApp.currencyFormat();" reRender="formsectionwhat,section2Content"  status="counterStatus" />
+             
+       <div class="pepperContainer">
+            <!-- Card section starts here -->
+            <div class="page-row collapsed in" id="livingExpenses">
+                
+                <section class="section-heading">
+                    <h3 class="heading">                
+                        <span>Living Expenses</span> 
+                        <span class="status-icon"></span>
+                    </h3>
+                     
+                    <h4 class="subHeading">
+                        <span class="sectionStoryText"></span>
+                        <a href="javascript:void(0)" class="edit firstedit" data-toggle-target="#livingExpenses">edit</a>
+                    </h4>
+                        
+                </section>
+                <section class="page-form">
+                    <div class="form-section">
+                        <section class="sectionCont">
+                            <!-- Living Expense Section Starts -->
+                            <apex:outputPanel layout="block" id="section1Content" styleClass="form-elements">
+                           
+                            <apex:inputHidden id="inputhiddensection1" value="{!strSectionStorySection1 }"/> 
+                                                           
+                               <!--<apex:actionFunction name="callActionFunction" action="{!updateTotalmonthlyExpense}" reRender="idMainRpt,section1Content,sectionRow,outCurrency1"/> -->
+                                   
+                               <apex:actionFunction name="onChangeMonthlyExpenseFun" action="{!updateExpenseData}" reRender="none" status="counterStatus" oncomplete="showMinimizeBar('livingExpenses');pepperApp.currencyFormat();rerendervalidation();" /> 
+                             
+                                 <apex:repeat value="{!lstWrapperQuestionSection1}" var="Q" id="idMainRpt">        
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row">                                       
+                                         <!-- Display Main Question -->
+                                           <apex:outputLabel styleclass="{!IF((Q.objCmsQuestion.pepSequence__c==2), 'form-cntrls form-cntrls-ex-lg', 'form-cntrls')}" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                        <!-- Display Main Question -->                                                                                
+                                        <apex:outputPanel layout="block" id="outCurrency1" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency' && Q.objCmsQuestion.pepSObjectApiName__c !='genesis__Applications__c',true,false)}">  
+                                            <apex:inputText id="idCurrency" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired currency', 'plus currency')}" value="{!Q.objInputValue}"     onblur="checkFieldValidation(this.id);" onchange="showMinimizeBar('livingExpenses');" onkeypress="javascript:return numbersonly(event,this.id)"  />                              
+                                            <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                         <apex:outputPanel layout="block"  styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency'&& Q.objCmsQuestion.pepSObjectApiName__c =='genesis__Applications__c',true,false)}">  
+                                           <!-- changed input text to output text in the line below onblur="checkFieldValidation(this.id);"  onchange="onChangeMonthlyExpense()" onkeypress="javascript:return numbersonly(event,this.id)"  and reverted also-->
+                                            <apex:inputText id="idApplication"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus totalmonthlyexpense isrequired', 'totalmonthlyexpense plus')}" value="{!Q.objInputValue}" onblur="checkFieldValidation(this.id);"  onchange="onChangeMonthlyExpense()" onkeypress="javascript:return numbersonly(event,this.id)"   /> 
+                                            <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                            
+                                        </apex:outputPanel>                                
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Percent',true,false)}">          
+                                            <apex:inputtext Id="inputPercent" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isPercent isrequired currency', 'plus currency')}" onblur="checkFieldValidation(this.id);" onchange="showMinimizeBar('livingExpenses');"  onkeypress="javascript:return numbersonly(event,this.id)" html-placeholder="%"/>
+                                             <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>        
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size >0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                        <apex:selectList styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="slctList1" value="{!Q.objInputValue}" multiselect="false" size="1"   onblur="checkFieldValidation(this.id);" onchange="showMinimizeBar('livingExpenses');"> 
+                                        <apex:selectOptions value="{!Q.lstOptions}" />                                      
+                                        </apex:selectList>
+                                         <script>
+                                         setVal1('{!$Component.slctList1}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>                                  
+                                     <!--Answer Section -->
+                                    <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAns" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls-sm" id="idQuesButton" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">                                                                              
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}">
+                                        <input type="radio" name="otherincome" />
+                                        <span class="button staticBtn radio_yes" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Go', true, false)}" >                                            
+                                            <span class="button staticBtn btn4 goBTN" data-toggle="modal" data-target="#expensesCalc" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c = 'No', true, false)}">
+                                        <input type="radio" name="otherincome" id="otherincome_no" />
+                                        <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                       
+                                        </apex:outputPanel>
+                                    </apex:repeat>                                    
+                                    <!-- Sibling question section -->                            
+                                  <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q">
+                                    <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                    <apex:inputText styleClass="plus" value="{!Q.objInputValue}" /> 
+                                    <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>
+                                    
+                                    <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                    <apex:inputText styleClass="plus currency" value="{!Q.objInputValue}" /> 
+                                    <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>                              
+                                    <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                    <apex:selectList styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="idsbiblingslsec1" value="{!Q.objInputValue}"  size="1"  onblur="checkFieldValidation(this.id);" onchange="showMinimizeBar('livingExpenses');"> 
+                                    <apex:selectOptions value="{!Q.lstOptions}" />
+                                    </apex:selectList>
+                                    <script>
+                                     //  alert('alert');
+                                        setVal1('{!$Component.idsbiblingslsec1}','{!Q.objInputValue}');                                         
+                                           
+                                       
+                                     </script> 
+                                    <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>                                                    
+                                </apex:repeat>                             
+                               </apex:outputPanel>                                
+                          </apex:repeat>                    
+                        </apex:outputPanel>
+                        <!-- Living Expense Section Ends -->                            
+                        <c:pepcmscomponent_Text pageNameTest="Expenses" sectionName="Expense Section 1 Help Text"></c:pepcmscomponent_Text>
+                        </section>
+                        <section class="spacer">
+                            <div class="minimizeSection livingexpenseminimimize"  style="display:none;" data-toggle-target="#livingExpenses">
+                                <span class="minimize"><strong></strong> Minimise</span>
+                                <span class="formStatus"><strong></strong> Section Complete</span>
+                            </div>
+                        </section>  
+                    </div>              
+                </section>
+          
+            </div>
+            
+            <!-- CALCULATOR POP UP STARTS -->
+            <div id="expensesCalc" class="fade" role="dialog" data-backdrop="static" data-keyboard="false">
+             
+                <div class="modalDialog" id="outModal">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                          <span  class="times right" data-dismiss="modal">                              
+                            
+                                <apex:outputlabel value="×" onclick="assignOriginalvalues();"/>
+                                                     
+                          </span>
+                          <h4 class="modal-title left">Living expenses calculator</h4>
+                    </div>
+                    <apex:outPutpanel layout="block" styleclass="page-form" id="calcform">
+                        <apex:outPutpanel layout="block" styleclass="form-elements" id="calcformelmnts">
+                       
+                            <div class="page-row">
+                               <c:pepcmscomponent_Text pageNameTest="Expenses" sectionName="Pop Up Section Story"></c:pepcmscomponent_Text>
+                            </div>
+                            <div class="formCont">  
+                                <!-- House Hold Sectoion Starts --> 
+                                <h3 class="ardHeading"><span class="left">{!lstWrapperQuestionPopUpSection1Clone[0].objCmsQuestion.pepSection__r.pepHeader__c}</span><span class="right">
+                                <apex:outputLabel styleClass="" value="$0"/></span></h3>
+                               
+                                <div class="innerCont" id="idhouseHoldSection">                                                
+                                <apex:repeat value="{!lstWrapperQuestionPopUpSection1Clone}" var="Q" id="idMainRptPop1">
+                                       
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"> 
+                                    <!-- Display Main Question -->
+                                    <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>                                  
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null && Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                    <apex:inputText id="checkReq" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus ')}" /> 
+                                    <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>                                
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                    <apex:inputText value="{!Q.objInputValue}" id="idAnswer"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired currency', 'plus currency popUpInputText')}"   onkeypress="javascript:return numbersonly(event,this.id)" />  
+                                    <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>                                    
+                                     <!--Answer Section -->
+                                    <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAns" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}" id="idMainRpt2">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">                                        
+                                        <label class="radioBtns">                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}">
+                                        <input type="radio" name="otherincome" />
+                                        <span class="button staticBtn radio_yes" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Go', true, false)}">                                        
+                                        <span class="button staticBtn radio_yes" data-toggle="modal" data-target="#expensesCalc">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c = 'No', true, false)}">
+                                        <input type="radio" name="otherincome" id="otherincome_no" />
+                                        <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        </label>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                     <!-- Sibling question section -->                    
+                    
+                                      <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q" id="idMainRpt3">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="inputText1Section3" styleClass="plus" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"   /> 
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                          <apex:inputText id="inputText2Section3" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency')}"   onkeypress="javascript:return numbersonly(event,this.id)" /> 
+                                          <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>                                                                       
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls date-range" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                       
+                                        <apex:selectList id="selectListSection3" value="{!Q.objInputValue}" multiselect="false" size="1" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}" >  
+                                        <apex:selectOptions value="{!Q.lstOptions}" />
+                                        </apex:selectList>
+                                         <script>
+                                         setVal1('{!$Component.selectListSection3}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>                                                    
+                                    </apex:repeat> 
+                                    
+                                    <div class="modalTip" id="popup1modalTip">
+                                        <apex:outputLabel id="idPop1Value" value="$0"></apex:outputLabel>
+                                    </div>
+                                    </apex:outputPanel> 
+                                </apex:repeat>                                      
+                            </div>
+        
+                                <!-- House Hold Sectoion Ends -->
+                                
+                                <!-- Food and Living section Starts -->
+                                <h3 class="ardHeading"><span class="left">{!lstWrapperQuestionPopUpSection2Clone[0].objCmsQuestion.pepSection__r.pepHeader__c}</span>
+                                <span class="right">
+                                   <apex:outputLabel value="$0"></apex:outputLabel> </span>
+                                </h3>
+                                <div class="innerCont" style="display: none">
+                                    <apex:repeat value="{!lstWrapperQuestionPopUpSection2Clone}" var="Q" id="idMainRptPop2">        
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"> 
+                                        <!-- Display Main Question -->
+                                            <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                            <!-- Display Main Question --> 
+                                            
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null && Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="checkReq" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus ')}"  /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>
+                                       
+                                        
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText styleClass="plus" id="idFood" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency popUpInputText')}" onkeypress="javascript:return numbersonly(event,this.id)"/> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>                                    
+                                     <!--Answer Section -->
+                                    <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAns" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">                                        
+                                        <label class="radioBtns">                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}">
+                                        <input type="radio" name="otherincome" />
+                                        <span class="button staticBtn radio_yes" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Go', true, false)}">                                        
+                                        <span class="button staticBtn radio_yes" data-toggle="modal" data-target="#expensesCalc">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c = 'No', true, false)}">
+                                        <input type="radio" name="otherincome" id="otherincome_no" />
+                                        <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        </label>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                     <!-- Sibling question section -->                   
+                                      <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="inputtextFL1" value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"  /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="inputtextFL2" value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency')}" onkeypress="javascript:return numbersonly(event,this.id)"/> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                               
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls date-range" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                        <apex:selectList id="selctListFL1" value="{!Q.objInputValue}" multiselect="false" size="1"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}">
+                                        <apex:selectOptions value="{!Q.lstOptions}" />
+                                        </apex:selectList>
+                                        <script>
+                                         setVal1('{!$Component.selctListFL1}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                                                               
+                                     </apex:repeat> 
+                                    <div class="modalTip" id="popup2modalTip">
+                                        <apex:outputLabel value="$0"></apex:outputLabel>
+                                    </div>
+                                    </apex:outputPanel> 
+                                </apex:repeat>
+                                      
+                                </div>
+
+                               
+                                <!-- Food AND Living Section Ends Here -->
+
+                                <!-- block3-->
+                                <h3 class="ardHeading"><span class="left">{!lstWrapperQuestionPopUpSection3Clone[0].objCmsQuestion.pepSection__r.pepHeader__c}</span><span class="right"><apex:outputLabel value="$0"/></span></h3>
+                                <div class="innerCont" style="display: none">
+                                    <apex:repeat value="{!lstWrapperQuestionPopUpSection3Clone}" var="Q" id="idMainRptPop3">        
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"> 
+                                        <!-- Display Main Question -->
+                                            <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                            <!-- Display Main Question --> 
+                                            
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null && Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                    <apex:inputText id="checkReq" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus ')}"   /> 
+                                    <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                    <apex:inputText id="checkReq1" styleClass="plus" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency popUpInputText')}"   onkeypress="javascript:return numbersonly(event,this.id)" /> 
+                                    <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                    </apex:outputPanel>
+                                    
+                                     <!--Answer Section -->
+                                    <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAns" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">                                        
+                                        <label class="radioBtns">                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}">
+                                        <input type="radio" name="otherincome" />
+                                        <span class="button staticBtn radio_yes" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Go', true, false)}">
+                                        
+                                        <span class="button staticBtn radio_yes" data-toggle="modal" data-target="#expensesCalc">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c = 'No', true, false)}">
+                                        <input type="radio" name="otherincome" id="otherincome_no" />
+                                        <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        </label>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                     <!-- Sibling question section -->                    
+                    
+                                      <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="inputtextES1" value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="inputtextES2" value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency')}"   onkeypress="javascript:return numbersonly(event,this.id)" /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                               
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls date-range" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                        <apex:selectList id="sId0" value="{!Q.objInputValue}" multiselect="false" size="1"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"  >
+                                        <apex:selectOptions value="{!Q.lstOptions}" />
+                                        </apex:selectList>
+                                        <script>
+                                         setVal1('{!$Component.sId0}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                                                               
+                                     </apex:repeat> 
+                                    <div class="modalTip" id="popup3modalTip">
+                                        <apex:outputLabel value="$0"></apex:outputLabel>
+                                    </div>
+                                    </apex:outputPanel> 
+                                </apex:repeat>
+                                    
+                                </div>
+                                <!-- block2 -->
+                            <!-- block3-->
+                                <h3 class="ardHeading"><span class="left">{!lstWrapperQuestionPopUpSection4Clone[0].objCmsQuestion.pepSection__r.pepHeader__c}</span><span class="right"><apex:outputLabel value="$0"/></span></h3>
+                                <div class="innerCont" style="display: none">
+                                    <apex:repeat value="{!lstWrapperQuestionPopUpSection4Clone}" var="Q" id="idMainRptPop4">        
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"> 
+                                        <!-- Display Main Question -->
+                                            <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                            <!-- Display Main Question --> 
+                                            
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null && Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="checkReq" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus ')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="checkReq1" styleClass="plus" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency popUpInputText')}" onkeypress="javascript:return numbersonly(event,this.id)"/> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                    
+                                     <!--Answer Section -->
+                                    <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAns" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">                                        
+                                        <label class="radioBtns">                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}">
+                                        <input type="radio" name="otherincome" />
+                                        <span class="button staticBtn radio_yes" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Go', true, false)}">
+                                        
+                                        <span class="button staticBtn radio_yes" data-toggle="modal" data-target="#expensesCalc">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c = 'No', true, false)}">
+                                        <input type="radio" name="otherincome" id="otherincome_no" />
+                                        <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        </label>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                     <!-- Sibling question section -->                   
+                    
+                                       <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="inputtextE1" value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="inputtextE2" value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency')}"   onkeypress="javascript:return numbersonly(event,this.id)"/> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                               
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls date-range" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                        <apex:selectList id="selE1" value="{!Q.objInputValue}" multiselect="false" size="1"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"  >
+                                        <apex:selectOptions value="{!Q.lstOptions}" />
+                                        </apex:selectList>
+                                        <script>
+                                         setVal1('{!$Component.selE1}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                                                               
+                                     </apex:repeat> 
+                                    <div class="modalTip" id="popup4modalTip">
+                                       <apex:outputLabel value="$0"></apex:outputLabel>
+                                    </div>
+                                    </apex:outputPanel> 
+                                </apex:repeat>
+                                </div>
+                            <!-- block3 -->     
+
+                            <!-- block4-->
+                                <h3 class="ardHeading"><span class="left">{!lstWrapperQuestionPopUpSection5Clone[0].objCmsQuestion.pepSection__r.pepHeader__c}</span><span class="right"><apex:outputLabel value="$0"/></span></h3>
+                                <div class="innerCont" style="display: none">
+                                    <apex:repeat value="{!lstWrapperQuestionPopUpSection5Clone}" var="Q" id="idMainRptPop5">        
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"> 
+                                        <!-- Display Main Question -->
+                                            <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                            <!-- Display Main Question --> 
+                                            
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null && Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="checkReq" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus ')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="checkReq1" styleClass="plus" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency popUpInputText')}"   onkeypress="javascript:return numbersonly(event,this.id)" /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                    
+                                     <!--Answer Section -->
+                                    <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAns" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Button',true,false)}">                                        
+                                        <label class="radioBtns">                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}">
+                                        <input type="radio" name="otherincome" />
+                                        <span class="button staticBtn radio_yes" >{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Go', true, false)}">
+                                        
+                                        <span class="button staticBtn radio_yes" data-toggle="modal" data-target="#expensesCalc">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c = 'No', true, false)}">
+                                        <input type="radio" name="otherincome" id="otherincome_no" />
+                                        <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                        </apex:outputPanel>                                        
+                                        </label>
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                     <!-- Sibling question section -->
+                    
+                    
+                                    <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="checkReq"  value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="checkReq1"  value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                               
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls date-range" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                        <apex:selectList id="sId1" value="{!Q.objInputValue}" multiselect="false" size="1"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"  >
+                                        <apex:selectOptions value="{!Q.lstOptions}" />
+                                        </apex:selectList>
+                                        <script>
+                                         setVal1('{!$Component.sId1}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                                                               
+                                    </apex:repeat>  
+                                    <div class="modalTip" id="popup5modalTip">
+                                        <apex:outputLabel value="$0"></apex:outputLabel>
+                                    </div>
+                                    </apex:outputPanel> 
+                                </apex:repeat>
+                                </div>
+                            <!-- block4 --> 
+
+                            <!-- block4-->
+                                <h3 class="ardHeading"><span class="left">{!lstWrapperQuestionPopUpSection6Clone[0].objCmsQuestion.pepSection__r.pepHeader__c}</span><span class="right">
+                                 <apex:outputLabel value="$0"/></span></h3>
+                                <div class="innerCont" style="display: none">
+                                    <apex:repeat value="{!lstWrapperQuestionPopUpSection6Clone}" var="Q" id="idMainRptPop6">        
+                                    <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"> 
+                                        <!-- Display Main Question -->
+                                            <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                            <!-- Display Main Question --> 
+                                            
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null && Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="checkReq" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="checkReq1"  styleClass="plus" value="{!Q.objInputValue}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency popUpInputText')}"  onkeypress="javascript:return numbersonly(event,this.id)" /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                    
+                                     
+                                   
+                                    
+                                     <!-- Sibling question section -->             
+                                    <apex:repeat value="{!Q.lstSiblingQuestion}" var="Q">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}">  
+                                        <apex:inputText id="checkReq"  value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                        
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                        <apex:inputText id="checkReq1"  value="{!Q.objInputValue}"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus currency')}"   /> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                               
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls date-range" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">  
+                                        <apex:selectList id="sId2" value="{!Q.objInputValue}" multiselect="false" size="1"  styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"  >
+                                        <apex:selectOptions value="{!Q.lstOptions}" />
+                                        </apex:selectList>
+                                        <script>
+                                         setVal1('{!$Component.sId2}','{!Q.objInputValue}');
+                                         </script> 
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                        </apex:outputPanel>                                                                               
+                                    </apex:repeat>  
+                                    <div class="modalTip" id="popup6modalTip">
+                                       <apex:outputLabel value="$0"></apex:outputLabel>
+                                    </div>
+                                    </apex:outputPanel> 
+                                </apex:repeat>
+                                </div>
+                            <!-- block4 -->     
+                            
+                            <!-- total -->
+
+                            <h3 class="ardHeadingTotal"><span class="left">Total Monthly Expenses</span><span class="right totalMonthly">$0</span></h3>
+                                <div class="page-row">
+                                    <div class="form-cntrl">
+                                    <apex:outputpanel styleclass="temperary">
+                                      <div  class="button primaryBtn popupbtn wAuto"   > Update Expenses </div>
+                                      <span class="right expenserequirederror" style ="color:red;">Monthly Expenses must be greater than $0.00.</span>
+                                      </apex:outputpanel>
+                                      <!--<button class="button primaryBtn " onclick="updateMonthlyExpense();">Update Expenses</button> -->
+                                    </div>
+                                </div>  
+                            </div>
+                        </apex:outPutpanel>
+                    </apex:outPutpanel>               
+                    </div>
+                </div>                  
+          </div>
+            <!-- Card section ends here -->
+                
+    
+            <!-- Card section starts here -->
+            <div class="page-row collapsed in" id="whatyouowe">
+           
+            <section class="section-heading">
+                <h3 class="heading">                
+                    <span>What you owe (debts)</span> 
+                    <span class="status-icon"></span>
+                </h3>
+
+                <h4 class="subHeading">
+                    <span class="sectionStoryText2"></span>
+                    <a href="javascript:void(0)" class="edit " data-toggle-target="#whatyouowe">edit</a>
+                </h4>
+
+            </section>
+            <section class="page-form">
+                <apex:outputPanel layout="block" id="formsectionwhat" styleclass="form-section" >
+                    <apex:inputhidden id="inputHidden2" value="{!strSectionStorySection2}"/>
+                    <section class="sectionCont">
+                        
+                        <apex:actionFunction name="callActionFunction" action="{!callRelatedQuestionOfAnswers}" reRender="formsectionwhat" oncomplete="showMinimizeBarajax('whatyouowe');pepperApp.currencyFormat();rerendervalidation();" status="counterStatus">
+                             <apex:param name="roNo" value=""
+                              assignTo="{!DebtRecordsNo}" />
+                                    
+                        </apex:actionFunction>
+                        <apex:outputPanel layout="block" id="section2Content" styleClass="form-elements">
+                          <script>
+                          function function2(){
+                          if({!savedata}){
+                          show=false;
+                          
+                          callcontroller();
+                          
+                          }
+                          else{
+                          $('[Id$=btnSearch]').prop('disabled', false);
+                          var y=$('.appenddollar').text();if(y.indexOf('$') < 0)$('.appenddollar').prepend('$');
+                          
+                          return false;
+                        }
+                        }
+                        function  showMinimizeBarajax(theform)
+{         
+       var allFill=true;
+       var boolFlag = true;  
+       var blankCheck ='';
+       var myForm = document.getElementById(theform); 
+       var $contentHeader = $(document.getElementById(theform));
+
+        var arr= theform.split(':');
+            mysec="";
+            for(var i=0;i<arr.length -1 ;i++)
+            {
+                mysec += arr[i]+"\\:";
+            }
+            mysec += arr[arr.length -1];
+
+
+    //   alert(mysec);
+        
+       $("#"+mysec+" input[type='text'], #"+mysec+" select, #"+mysec+" textarea").each(function(e)
+       {
+       
+            var selector = $(this).attr('id');   
+            if($(this).val()!=''){  
+            blankCheck =  $(this).val();
+            }
+            else{
+            allFill=false;
+            }
+
+         if(pepperApp.validation.isRequired(selector)  &&  pepperApp.validation.isCurrency(selector)  &&  pepperApp.validation.isEmail(selector)  &&  pepperApp.validation.isPhone(selector)  &&  pepperApp.validation.isPercent(selector) && pepperApp.validation.isDob(selector) &&  pepperApp.validation.isAccountNo(selector) &&  pepperApp.validation.isBsb(selector))
+                    {   
+                    }
+                    else
+                    {
+                        
+                        boolFlag= false;
+                    }
+       }); 
+        ////////////////checking radio buttons/////////////////////
+
+    //  if(boolFlag)
+    //  {
+      var radioName=[];
+      $("[id='"+mysec+"'] input[type='radio'].isrequired").each(function(i)
+       {            
+           radioName[i]=$(this).attr("name");
+                
+       });       
+       var uniqueVal = $.unique(radioName); 
+       for(i=0; i<uniqueVal.length; i++)
+       {
+                        if($("[id='"+mysec+"'] input[type='radio'][name='"+uniqueVal[i]+"'].isrequired:checked").length == 0)
+                        {
+                            allFill=false;
+                            boolFlag = false;
+                            
+                        }
+                        else
+                        {
+                            if(blankCheck=='')
+                            blankCheck = 'checked';
+                            //boolFlag = true;
+                        }
+       }
+  //  }
+        if(boolFlag && allFill==true)
+        {     
+            $contentHeader.find(".minimizeSection").slideDown();
+            $contentHeader.find(".status-icon").removeClass('inprogress').html("");
+            $contentHeader.find(".status-icon").addClass('complete').html("Complete");         
+        }  
+        else
+        { 
+               if(blankCheck !='')
+               {
+                 $contentHeader.find(".minimizeSection").slideUp();
+                 $contentHeader.find(".status-icon").removeClass('complete').html("");
+                 $contentHeader.find(".status-icon").addClass('inprogress').html("In Progress");
+               } 
+              else
+              {
+                  $contentHeader.find(".status-icon").removeClass('inprogress').html("");
+                  $contentHeader.find(".status-icon").removeClass('complete').html("");               
+              }
+        }
+} 
+                          </script>
+                             <apex:variable var="rowNo" value="{!0}"/>
+                            <apex:repeat value="{!lstWrapperQuestionSection2}" var="Q" id="idMainRpt2">
+                             
+                            {!Q.objCmsQuestion.pepLabelPriorQuestion__c}        
+                                <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row pageRowGroup">                                       
+                                <!-- Display Main Question -->
+                               <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}" 
+                                   rendered="{!if(Q.objCmsQuestion.pepLabelPriorQuestion__c!=null && (Q.objCmsQuestion.pepis_Consolidated_Debt__c ==false || (Q.objCmsQuestion.pepis_Consolidated_Debt__c ==true && isConsolidatingDebt == true)),true,false)}"/>
+                                <!-- Display Main Question -->                                                                                
+                                
+                                <apex:outputPanel layout="block"  styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                <apex:inputText id="idinputText1"  styleclass="{!IF(Q.requiredCheck, 'plus  isrequired', 'plus currency')}" value="{!Q.objInputValue}"  onblur="checkFieldValidation(this.id);"  onchange="showMinimizeBarajax('whatyouowe');" onkeypress="javascript:return numbersonly(event,this.id)"  /> 
+                                <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                </apex:outputPanel>                                
+                                
+                                <apex:outputPanel layout="block" styleClass="{!IF((Q.lstSiblingQuestion != null &&  Q.lstSiblingQuestion.size >0), 'form-cntrls', 'form-cntrls-lg')}" rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}">
+                               <apex:actionRegion >
+                                <apex:selectList id="selectListsec1" styleclass="{!IF(Q.requiredCheck, 'isrequired whatyouselect', 'whatyouselect')}"  value="{!Q.objInputValue}" multiselect="false" size="1">                               
+                                  <apex:selectOptions value="{!Q.lstOptions}" />                                                                    
+                                </apex:selectList>
+                                 
+                                 <input type="hidden" value="{!rowNo}" class="rowNoPlaceHolder"/>
+                                </apex:actionRegion>
+                               <!-- Debug[KG]-->
+                                <script>
+                                  
+                                 setVal1('{!$Component.selectListsec1}','{!Q.objInputValue}');
+                                    
+                                   
+                                  
+                                 </script> 
+                                <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+
+                                </apex:outputPanel>
+                                
+                                
+                                                            
+                                <!-- Sibling question section -->
+                               
+                                 <apex:repeat value="{!Q.lstSiblingquestion}" var="ques">
+                                 
+                                <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(OR(ques.objCmsquestion.pepType__c == 'Text',ques.objCmsquestion.pepType__c == 'Number'),true,false)}">  
+                                <apex:inputText id="inputtext1" value="{!ques.objInputValue}" styleclass="{!IF(Q.requiredCheck, 'plus isrequired', 'plus')}"   onchange="showMinimizeBarajax('whatyouowe');"/>
+                                <span class="errorMsg">{!ques.objCmsquestion.pepGenericErrorMessage__c}</span>
+                                </apex:outputPanel>
+                                
+                                <apex:outputPanel layout="block" styleClass="form-cntrls currency" rendered="{!if(ques.objCmsquestion.pepType__c == 'Currency',true,false)}">  
+                                <apex:inputText id="inputtext2" styleclass="{!IF(Q.requiredCheck, 'plus isrequired currency', 'plus currency')}" value="{!ques.objInputValue}" onblur="checkFieldValidation(this.id);" onchange="showMinimizeBarajax('whatyouowe');" onkeypress="javascript:return numbersonly(event,this.id)"  html-placeholder="repayment"/> 
+                                <span class="errorMsg ">{!ques.objCmsquestion.pepGenericErrorMessage__c}</span>
+                                </apex:outputPanel>                              
+                                <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!if(ques.objCmsquestion.pepType__c == 'Picklist',true,false)}">  
+                                <apex:selectList id="selectListsec2" styleclass="{!IF(Q.requiredCheck, 'isrequired', '')} tempColumn"  value="{!ques.objInputValue}"  size="1"  onblur="checkFieldValidation(this.id);" onchange="showMinimizeBarajax('whatyouowe');"> 
+                                <apex:selectOptions value="{!ques.lstOptions}" />
+                                </apex:selectList>
+                                <script>
+                                 setVal1('{!$Component.selectListsec2}','{!ques.objInputValue}');
+                                 </script>
+                                <span class="errorMsg ">{!ques.objCmsquestion.pepGenericErrorMessage__c}</span>
+                                </apex:outputPanel>                                                    
+                                </apex:repeat>
+                                <apex:variable var="QuesAns" value="{!0}"/>                          
+                                <apex:repeat value="{!Q.lstAnswersQuestions}" var="objAns" rendered="{!if(AND( Q.lstAnswersQuestions.size != null, Q.lstAnswersQuestions.size > 0), true, false)}">        
+                                   
+                                        <apex:outputPanel layout="block" id="sectionRow" styleClass="page-row"  > 
+                                        <apex:outputLabel styleClass="form-cntrls" value="{!objAns.objCmsQuestion.pepLabelPriorQuestion__c}" 
+                                    
+                                      rendered="{!if(objAns.objCmsQuestion.pepLabelPriorQuestion__c!=null && (objAns.objCmsQuestion.pepis_Consolidated_Debt__c ==false || (objAns.objCmsQuestion.pepis_Consolidated_Debt__c == true && isConsolidatingDebt == true)),true,false)}"/>
+                                        <apex:outputPanel layout="block"  styleClass="{!IF((objAns.lstSiblingQuestion != null &&  objAns.lstSiblingQuestion.size>0), 'form-cntrls', 'form-cntrls-lg')} currency" rendered="{!if(objAns.objCmsQuestion.pepType__c == 'Currency',true,false)}">  
+                                            <apex:inputText id="idinputText1"  styleclass="{!IF(Q.requiredCheck, 'plus  isrequired currency', 'plus currency')}" value="{!objAns.objInputValue}"  onblur="checkFieldValidation(this.id);"  onchange="showMinimizeBarajax('whatyouowe');" onkeypress="javascript:return numbersonly(event,this.id)"  /> 
+                                            <span class="errorMsg ">{!objAns.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        </apex:outputPanel>
+                                     
+                                    
+                                         <apex:repeat value="{!objAns.lstExpectedAnsers}" var="objAnswer" rendered="{!if(AND( objAns.lstExpectedAnsers.size != null, objAns.lstExpectedAnsers.size > 0, objAns.objCmsQuestion.pepType__c == 'Button', objAns.objCmsQuestion.pepSubType__c == 'Yes / No',isConsolidatingDebt), true, false)}">
+                                            
+                                             <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton1">
+
+                                                 <label class="radioBtns">
+                                                     
+                                                     <apex:outputPanel rendered="{!IF(objAnswer.objCmsAnswer.pepDisplayText__c == 'Yes' , true, false)}"> 
+                                                       
+                                                        <apex:outputPanel layout="block" rendered="{!if((Q.objExpense.Consolidate_As_A_Debt__c == true ||Q.selectedRadio =='yes') &&  Q.selectedRadio !='no' && (objAns.objInputValue != null), true,false)}">
+                                                            
+                                                            <input type="radio" name="{!rowNo}"  value="{!objAns.objInputValue}" 
+                                                            class="{!IF(Q.requiredCheck, 'isrequired', '')}"
+                                                            checked='checked' />               
+                                                            <span class="button staticBtn radio_yes debtBtn">{!objAnswer.objCmsAnswer.pepDisplayText__c}</span>
+                                                            <span class="errorMsg" style="display:none;">{!objAns.objCmsQuestion.pepGenericErrorMessage__c}</span>  
+                                                            <input type ="hidden" value="{!rowNo+1}" class="rowNo"/> 
+                                                            <input type ="hidden" value="{!QuesAns+1}" class="QuesAns"/> 
+                                                            <input type ="hidden" value="yes" class="selectedText"/>                                                       
+                                                        </apex:outputPanel>
+                                                        
+                                                        <apex:outputPanel layout="block" rendered="{!if((Q.objExpense.Consolidate_As_A_Debt__c == false && Q.selectedRadio !='yes' ) ||( Q.selectedRadio =='no') || (objAns.objInputValue == null), true,false)}">
+                                                           
+                                                            <apex:outputPanel rendered="{!IF(objAnswer.objCmsAnswer.pepDisplayText__c == 'Yes' , true, false)}"> 
+                                                            <input type="radio" name="{!rowNo}"  value="{!objAns.objInputValue}" 
+                                                            class="{!IF(Q.requiredCheck, 'isrequired', '')}"
+                                                            />  
+                                                                         
+                                                            <span class="button staticBtn radio_yes debtBtn">{!objAnswer.objCmsAnswer.pepDisplayText__c}</span>
+                                                            <span class="errorMsg" style="display:none;">{!objAns.objCmsQuestion.pepGenericErrorMessage__c}</span>  
+                                                            <input type ="hidden" value="{!rowNo+1}" class="rowNo"/> 
+                                                            <input type ="hidden" value="{!QuesAns+1}" class="QuesAns"/> 
+                                                            <input type ="hidden" value="yes" class="selectedText"/>                 
+                                                            </apex:outputPanel>
+                                                           
+                                                        </apex:outputPanel>
+                                                       </apex:outputPanel>  
+                                                        <apex:outputPanel rendered="{!IF(objAnswer.objCmsAnswer.pepDisplayText__c == 'No' , true, false)}">
+                                                            <apex:outputPanel layout="block"   rendered="{!IF(((isEdit == true && Q.objExpense.Consolidate_As_A_Debt__c ==false && Q.objExpense.Id !=null && Q.objExpense.Are_you_Consolidating_your_Debt__c =='no'  && Q.selectedRadio !='yes') || Q.selectedRadio =='no') && (objAns.objInputValue != null),true,false)}">
+                                                                
+                                                                <input type="radio"  name="{!rowNo}" 
+                                                                class="{!IF(Q.requiredCheck, 'isrequired', '')}"                       
+                                                                checked='checked'/>                      
+                                                                <span class="button staticBtn debtBtn" >{!objAnswer.objCmsAnswer.pepDisplayText__c}</span>  
+                                                                <span class="errorMsg" style="display:none;"></span>  
+                                                                <input type ="hidden" value="{!rowNo+1}" class="rowNo"/> 
+                                                                <input type ="hidden" value="{!QuesAns+1}" class="QuesAns"/> 
+                                                                <input type ="hidden" value="no" class="selectedText"/>    
+                                                               
+                                                            </apex:outputPanel>
+                                                           
+                                                              <apex:outputPanel rendered="{!IF((Q.objExpense.Consolidate_As_A_Debt__c ==true && Q.objExpense.Id !=null && Q.selectedRadio !='no') || (Q.selectedRadio =='yes' || (Q.objExpense.Id==null && Q.selectedRadio !='no'  ) ||(Q.selectedRadio !='no' && Q.objExpense.Are_you_Consolidating_your_Debt__c ==null && Q.objExpense.Id!=null)) || (objAns.objInputValue == null),true,false)}">
+                                                                
+                                                                <input type="radio"  name="{!rowNo}" 
+                                                                class="{!IF(Q.requiredCheck, 'isrequired', '')}"                       
+                                                                />                      
+                                                                <span class="button staticBtn debtBtn" >{!objAnswer.objCmsAnswer.pepDisplayText__c}</span>
+                                                                <span class="errorMsg" style="display:none;"></span>  
+                                                                <input type ="hidden" value="{!rowNo+1}" class="rowNo"/> 
+                                                                <input type ="hidden" value="{!QuesAns+1}" class="QuesAns"/>
+                                                                <input type ="hidden" value="no" class="selectedText"/>
+                                                                
+                                                              </apex:outputPanel>
+                                                        
+                                                        </apex:outputpanel>
+                                                        
+                                                        
+                                                    
+                                                 
+                                                 </label>
+                                             
+                                             </apex:outputPanel>
+                                            
+                                         </apex:repeat>
+                                  
+                                    </apex:outputPanel>
+                                     <apex:variable var="QuesAns" value="{!QuesAns+1}"/>                                 
+                                    
+                                </apex:repeat>
+                                
+                                            
+                               </apex:outputPanel> 
+                                
+                                <apex:variable var="rowNo" value="{!rowNo+1}"/>                                 
+                                <hr class="pepperHR" style ="{!IF(lstWrapperQuestionSection2.size >1,'display:block;','display:none')}"/>                                           
+                            </apex:repeat>
+                                       
+                         
+                         
+                          <div class="page-row"> 
+                           <apex:outputPanel layout="block" styleClass="cntrlExtend" >
+                                   <apex:outputPanel styleClass="right">                                            
+                                               <apex:outputPanel rendered="{!IF(lstWrapperQuestionSection2.size<MaxnumberofDebts,true,false)}" >
+                                                
+                                                        <a href="javascript: void(0)"  class="plus addRow"> </a>                                             
+                                                                                   
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!IF(lstWrapperQuestionSection2.size > 1,true,false)}" >
+                                                    
+                                                        <a href="javascript: void(0)"  class="minus plusMinus"> </a>                                                
+                                                    
+                                                </apex:outputPanel>                                                                          
+                                        </apex:outputPanel>  
+                                </apex:outPutpanel>
+                            </div> 
+                           <span style="color:red;"><apex:outputPanel style="display:{!if(formattedamount==true,'block','none')}">
+                           Sum of Remaining Amount should be between <apex:outputText styleclass="appenddollar" style="text-align:left;" value="{0, number, ###,###,###,##0.00}"><apex:param value="{!amountAfterDebt}"/></apex:outputText> and <apex:outputText styleclass="appenddollar" style="text-align:left;" value="{0, number, ###,###,###,##0.00}"><apex:param value="{!initialamount}"/></apex:outputText>
+                           </apex:outputpanel>{!sectionmessage}</span>
+                           <apex:outputPanel style="display:{!if(showDebtLimit ==true,'block','none')}"><span style="color:red;">{!debtConLimit} debt(s) need to be provided here for consolidation</span></apex:outputPanel>    
+                       </apex:outputPanel>
+                       
+                      <c:pepcmscomponent_Text pageNameTest="Expenses" sectionName="Expense Section 2 Help Text"></c:pepcmscomponent_Text>
+                    </section>
+                        
+                    <section class="spacer">
+                        <div class="minimizeSection whatyouminimize" style="display:none;" data-toggle-target="#whatyouowe">
+                            <span class="minimize"><strong></strong> Minimise</span>
+                            <span class="formStatus"><strong></strong> Section Complete</span>
+                        </div>
+                    </section>  
+                </apex:outputPanel>              
+            </section>
+        </div>
+            <!-- Card section ends here -->
+    
+    
+            <div class="page-row">
+                <div class="assessmentTxt">
+                    
+                   <c:pepcmscomponent_Text pageNameTest="Expenses" sectionName="Expense Section 3"></c:pepcmscomponent_Text>
+                </div>
+            </div>
+            <div class="form-btns">
+                <div class="page-row">
+                    
+                    <div class="form-cntrls right">
+                        <!--<button class="button primaryBtn">Continue</button>-->
+                        <!--<apex:commandButton value="Continue" styleClass="button primaryBtn"    id="idContinueButton"/>-->
+                        <input type="button" value="Continue" id="btnSearch" class="button primaryBtn continueBtn" onclick="if(!validateLivingOweSection())pepperApp.validation.errorScroll();"/>
+                        <apex:commandButton value="Continue" styleClass="button primaryBtn continueBtn" action="{!saveCallFromHeader}" id="idHeaderContinueButton" style="display:none;"/>
+                    </div>
+                    
+                    <div class="form-cntrls left">
+                        <input  onclick="show=false;$('.incomelink').trigger('click');" value= "Back" Class="backBtn button secondaryBtn " tabindex="25" type="button"></input>
+                    </div>                    
+                    
+                    <div class="form-cntrls right">
+                        <apex:commandButton action="{!save}" value="Save for Later" id="theButton2" styleClass="button secondaryBtn" html-data-toggle="modal" reRender="saveAppPanel" rendered="{!Flag}" immediate="true" status="counterStatus" onclick="show=false;"/>
+                        <apex:commandButton value="Save for Later" id="theButtons" styleClass="button secondaryBtn" html-data-target="#saveApp" html-data-toggle="modal" reRender="saveAppPanel" rendered="{!!Flag}" immediate="true" onclick="show=false;$('.errorMobile').hide();$('.errorEmail').hide();"/>
+                    </div>
+                </div>
+                <apex:outputPanel id="saveAppPanel"></apex:outputPanel>  
+            </div>
+            <div id="saveApp" class="fade" role="dialog">
+            <div class="modalDialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                      <span  class="times right" data-dismiss="modal">×</span>
+                      <h4 class="modal-title left">Save your application</h4>
+                    </div>
+                <div class="page-form">
+                    <div class="form-elements">
+                        <div class="page-row">
+                            
+                            <p>
+                            To save and access your application later we will send you a secure code.
+
+                            </p>
+                            <p>
+                            How would you like to receive the code?
+                            </p>
+                            
+                        </div>
+                            <div class="page-row">
+                            
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                        <input type="radio" name="repayloan" id="repayloan_yes"/>
+                                     <span class="button staticBtn radio_yes" onclick="assignhidden('email');temp='email';$('.initialSendButton').attr('disabled',false);$('#tellusabout').collapse('show'); $('#tellusabout2').collapse('hide')">Email</span>
+                                    </label>
+                                </div>
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                        <input type="radio" name="repayloan" id="repayloan_no"/>
+                                        <span class="button staticBtn radio_no" onclick="assignhidden('mobile');temp='mobile';$('.initialSendButton').attr('disabled',false);$('#tellusabout2').collapse('show'); $('#tellusabout').collapse('hide')">SMS</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="tellusabout" class="collapse">
+                                <div class="page-row">
+                                
+                                    <label class="form-cntrls custom_sml_label">
+                                            Email
+                                    </label>
+                                    <div class="form-cntrls custom_sml_cntrl">
+                                        <apex:inputtext value="{!email}" id="email" styleClass="isEmail"  onblur="checkFieldValidation(this.id);"
+                                                   />
+                                         <span class="errorMsg errorEmail">Either the entered email is invalid or there is no application present in the system for this email.</span>
+                                    </div>
+                                </div>
+                                    <p>
+                                        By clicking 'Save Now' you agree to the Pepper Money <a style="text-decoration:underline;" target="_blank" onclick="show=false" href="https://www.pepper.com.au/lending/personal-loans/privacy-consent">Privacy Consent</a>
+
+                                  </p>
+                                </div>
+                            <div id="tellusabout2" class="collapse">
+                                <div class="page-row">
+                                
+                                    <label class="form-cntrls">
+                                            Mobile Number
+                                    </label>
+                                    <div class="form-cntrls">
+                                        <apex:inputtext value="{!phone}" id="phone" styleClass="isPhone" onblur="checkFieldValidation(this.id);" 
+                                                        html-placeholder="04XXXXXXXX" onkeypress="javascript:return numbersonly(event,this.id)"/>
+                                        <span class="errorMsg errorMobile">Either the entered Mobile Number is invalid or there is no application present in the system for this Mobile Number.</span>
+                                    </div>
+                                </div>
+                                <p>
+                                        By clicking 'Save Now' you agree to the Pepper Money <a style="text-decoration:underline;" target="_blank" onclick="show=false" href="https://www.pepper.com.au/lending/personal-loans/privacy-consent">Privacy Consent</a>
+
+                                  </p>
+                              </div>
+                              <apex:outputPanel id="idfuncCall">
+                                <script>
+                                function CallrenderFunc(){
+                                var error={!isError};
+                                var isDisplayRet={!isdisplayRetrieve};                                                    
+                                if(error==true)
+                                {
+                                     if(temp=='mobile')
+                                                                $(".errorMobile").show();
+                                                                else
+                                                                 $(".errorEmail").show();
+                                }
+                                  
+                                 else if(isDisplayRet==true)
+                                 {
+                                   // alert('====');
+                                    $("#saveApp").modal("hide");
+                                    setTimeout(function(){
+                                      $("#saveNow").modal("show");
+                                    }, 500);                                 
+                                 }
+                                 else 
+                                 {
+                                      
+                                      $("#saveApp").modal("hide");
+                                 }                                 
+                                }
+                                </script>
+                                <apex:actionStatus id="counterStatus2" startStyleClass="spinner"/>
+                            <div class="form-cntrl">
+                                <!--<apex:commandButton action="{!save}" value="Save Now" id="theButton4" styleClass="button primaryBtn" html-data-toggle="modal" html-data-target="#saveNow" html-data-dismiss="modal" reRender="saveNow" />-->
+                                <apex:commandButton action="{!save}" value="Save Now" id="theButton4" styleClass="button primaryBtn initialSendButton" reRender="idfuncCall" oncomplete="CallrenderFunc();rerendervalidation();pepperApp.currencyFormat();" onclick="show=false;fnAnalytics($('[Id$=email]').val());" status="counterStatus2"/>
+                            
+                            </div>
+                            </apex:outputPanel>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal window ends here -->
+        <!-- pop-up Modal window starts here -->
+        <div id="saveNow" class="fade" role="dialog">
+            <div class="modalDialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                      <span  class="times right" data-dismiss="modal">×</span>
+                      <h4 class="modal-title left">Save your application</h4>
+                    </div>
+                <div class="page-form">
+                    <div class="form-elements">
+                        <div class="page-row">
+                            
+                            <p>
+                            Application already exists for your email/phone.
+                            </p>
+                            <p>
+                            Would you like to override the existing application with the new one?
+                            </p>
+                            
+                        </div>
+                            <div class="page-row">
+                            
+                                <div class="form-cntrls">
+                                    <label class="radioBtns foo">
+                                    <input type="radio" name="repayloan" id="repayloan_yes" html-data-dismiss="modal" onClick="callByRadio2()"/>
+                                    <span class="button staticBtn radio_yes">Yes</span>
+                                    </label>
+                                    <apex:actionfunction name="callByRadio2" action="{!retrieveNo}"/>
+                                </div>
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                    <input type="radio" name="repayloan" id="repayloan_no" onClick="callByRadio();$('#saveNow').modal('hide');  setTimeout(function(){ $('#retrieveApplication').modal('show');  }, 500);" />
+                                    <span class="button staticBtn radio_no">No</span>
+                                    </label>
+                                    <apex:actionfunction name="callByRadio" action="{!retrieveYes}" rerender="retrieveApplication"/>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal window ends here -->
+        <!-- Expenses Calculator Modal window starts here -->
+                            <div id="retrieveApplication" class="fade modalBase modalBaseSmall" role="dialog">
+                                <div class="modalDialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                          <span  class="times right" data-dismiss="modal">×</span>
+                                          <h4 class="modal-title left">Retrieve your application</h4>
+                                        </div>
+                                    <div class="page-form">
+                                        <div class="form-elements">
+                                            <div class="page-row">
+                                                <p>
+                                                Retrieve your application by inputting the code sent to you via email or sms below.
+                                                </p>
+                                                
+                                            </div>
+                                                
+                                                    <p>
+                                                        <apex:inputtext value="{!strRetrieveCode}" id="retrieveCode" onblur="checkFieldValidation(this.id);"/>
+                                                        <span class="errorMsg">Please enter retrieval code.</span>
+                                                    </p>
+                                                <apex:actionStatus id="counterStatus3" startStyleClass="spinner"/>
+                                                <apex:outputPanel id="idfuncCall2">
+                                                <script>
+                                                function CallrenderFunc2(){
+                                                 var isDisplayRet={!isError};
+                                                 var displaybackendText={!showBlankretrieval};
+                                                 if(isDisplayRet==true)
+                                                 {                                                    
+                                                    $("#retrieveApplication").find(".errorMsg").show();
+                                                    if(displaybackendText==true)
+                                                    $("#retrieveApplication").find(".errorMsg").text("No Application found for this retrieval code");
+                                                    else
+                                                    $("#retrieveApplication").find(".errorMsg").text("Please enter retrieval code.");
+                                                 }
+                                                 else
+                                                 {
+                                                      $("#retrieveApplication").modal("hide");
+                                                 }                                 
+                                                }
+                                                </script>
+                                                <p class="form-cntrl">
+                                                <apex:commandButton onclick="setHiddenVal();" action="{!retrieveApplication}" value="Retrieve" id="theButton5" styleClass="button primaryBtn" rerender="idfuncCall2" oncomplete="CallrenderFunc2();pepperApp.currencyFormat();rerendervalidation();" status="counterStatus3"/>
+                                                
+                                                </p>    
+                                                </apex:outputPanel>
+                                                <p>
+                                                    Cant find your code? <a href="javascript:void(0)" onclick="$('#retrieveApp2').find('.errorMsg').text('Please enter retrieval code.');$('#retrieveApp2').find('.errorMsg').hide();$('#retrieveApp2').modal('hide'); $('#retrieveApplication').modal('hide'); setTimeout(function(){ $('#ResendingCode').modal('show'); }, 500);">Resend your code now.</a>
+                                                </p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    </div>
+                                </div> 
+                                
+                                <!--start of last modal-->
+                                
+                                <!-- Expenses Calculator Modal window ends here -->
+                            <div id="ResendingCode" class="fade modalBase modalBaseSmall" role="dialog">
+                            <div class="modalDialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                      <span  class="times right" data-dismiss="modal">×</span>
+                                      <h4 class="modal-title left">Save your application</h4>
+                                    </div>
+                                <div class="page-form">
+                                    <div class="form-elements">
+                                        <div class="page-row">
+                                            
+                                            <p>
+                                            We will send you a individual and secure code which you can use to save and access your application.
+                                            </p>
+                                            <p>
+                                            How would you like to receive your code?
+                                            </p>
+                                            
+                                        </div>
+                                            <div class="page-row">
+                                            
+                                                <div class="form-cntrls">
+                                                    <label class="radioBtns">
+                                                        <input type="radio" name="repayloan" id="repayloan_yes"/>
+                                                     <span class="button staticBtn radio_yes" onclick="assignhidden('email');temp='email';$('.initialSendButton1').attr('disabled',false);$('#tellusabout5').collapse('show');$('#tellusabout6').collapse('hide')">Email</span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-cntrls">
+                                                    <label class="radioBtns">
+                                                        <input type="radio" name="repayloan" id="repayloan_no"/>
+                                                        <span class="button staticBtn radio_no" onclick="assignhidden('mobile');temp='mobile';$('.initialSendButton1').attr('disabled',false);$('#tellusabout6').collapse('show');$('#tellusabout5').collapse('hide')">SMS</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div id="tellusabout5" class="collapse">
+                                                <div class="page-row">
+                                                
+                                                    <label class="form-cntrls custom_sml_label">
+                                                            Email
+                                                    </label>
+                                                    <div class="form-cntrls custom_sml_cntrl">
+                                                        <apex:inputtext value="{!retrieveEmail}" id="newEmail" styleClass="isEmail"  onblur="checkFieldValidation(this.id);"/>
+                                                        <span class="errorMsg resenderrorEmail">Either the entered email is invalid or there is no application present in the system for this email.</span>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            <div id="tellusabout6" class="collapse">
+                                                <div class="page-row">
+                                                
+                                                    <label class="form-cntrls">
+                                                            Mobile Number
+                                                    </label>
+                                                    <div class="form-cntrls">
+                                                        <apex:inputtext value="{!retrievePhone}" id="newPhone" styleClass="isPhone" onblur="checkFieldValidation(this.id);" 
+                                                                html-placeholder="04XXXXXXXX" onkeypress="javascript:return numbersonly(event)"/>
+                                                        <span class="errorMsg resenderrorMobile">Either the entered Mobile Number is invalid or there is no application present in the system for this Mobile Number.</span>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                              <apex:actionStatus id="counterStatus4" startStyleClass="spinner"/>
+                                            <div class="form-cntrl">
+                                                <apex:commandButton action="{!resendCode}" value="Send" id="theButton6" styleClass="button primaryBtn initialSendButton1" reRender="idfuncCall3" oncomplete="CallrenderFunc3();" status="counterStatus4"/>
+                                               <apex:outputPanel id="idfuncCall3">
+                                               <script>
+                                                function CallrenderFunc3(){
+                                                    var resend={!isError};                                                    
+                                                    if(resend==true)
+                                                    {
+                                                        if(temp=='mobile')
+                                                                $(".resenderrorMobile").show();
+                                                                else
+                                                                 $(".resenderrorEmail").show();
+                                                    }
+                                                    else
+                                                    {
+                                                        $("#ResendingCode").modal("hide");
+                                                        setTimeout(function(){
+                                                          $("#retrieveApplication").modal("show");
+                                                        }, 500);
+                                                        
+                                                    }
+                                                }
+                                                </script>
+                                             </apex:outputPanel>
+                                            </div>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <!-- Modal window ends here -->
+        </div>
+    
+       <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+     
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+     </apex:form>   
+    
+      <script>
+      
+   
+
+           // callActionFunction(0);  
+           //var Goclick=0;
+          pepperApp.expCalc = 
+          {
+              weekly: "weekly",
+              fortnightly: "fortnightly",
+              monthly: "monthly",
+              quarterly: "quarterly",
+              yearly: "yearly",
+              dollar: "$",
+              calculate: function(amount, dateRange){
+            // console.log(amount);
+             var amount = removeCommas(amount);
+          //   console.log(amount);
+                var calc=0;
+                var amount = amount || 0;
+                switch(dateRange){
+                  case pepperApp.expCalc.weekly:
+                    calc= ((amount*52)/12);
+                    break;
+                  case pepperApp.expCalc.fortnightly:
+                    calc= ((amount*26)/12);
+                    break;
+                  case pepperApp.expCalc.monthly:
+                    calc= amount*1;
+                    break;
+                  case pepperApp.expCalc.quarterly:
+                    calc=amount/3;
+                    break;
+                  case pepperApp.expCalc.yearly:
+                    calc=amount/12;
+                    break;
+                }
+               return calc;
+              }
+           }                    
+
+            $(document).on("keyup",".currency input", function()
+           {
+           
+           
+
+            //$(".currency input").on("keyup", function(){
+             var amnt = $(this).val();  
+                         
+             var daterange = $(this).parents('.currency').siblings(".date-range").find("option:selected").html(); 
+             var result =  pepperApp.expCalc.calculate(amnt, daterange);
+             result = result.toFixed(2);
+            // alert(result);
+             var total =0;         
+             
+             result =parseFloat(validDigits(result));
+             
+             $(this).parents(".currency").siblings(".modalTip").find("label").html(pepperApp.expCalc.dollar+addCommas(result.toFixed(2)));
+             //$(this).parents(".currency").siblings(".modalTip").find("label").html(pepperApp.expCalc.dollar+result);
+             $(this).parents(".innerCont").children(".page-row").children(".modalTip").each(function()
+             {
+                 // alert($(this).text());
+               //  console.log('testIss'+$(this).text());
+                  var prevValue = $(this).text().replace("$","0");
+                  //console.log('prevValue',prevValue);
+                  prevValue  = removeCommas(prevValue);
+               //   console.log('prevValue',prevValue);
+                  total +=parseFloat(prevValue) ;
+                //  console.log('total',total);
+             });
+           //  total = total.toFixed(2);
+          //   total = validDigits(total); 
+          //   console.log('totalis',total);            
+             $(this).parents("span,div").prev(".ardHeading").find("span.right label").html(pepperApp.expCalc.dollar+addCommas(total.toFixed(2)));
+                 var totalSectionAmount =0;
+                 
+                $(".formCont").children(".ardHeading").children(".right").each(function()
+                {
+                   //  console.log('isss'+$(this).text());
+                      var prevValue = $(this).text().replace("$","0");
+                   //   console.log('i'+prevValue);
+                      prevValue  = removeCommas(prevValue);                    
+                      totalSectionAmount +=parseFloat(prevValue) ;
+                      
+                      
+                });
+              //  totalSectionAmount  = totalSectionAmount.toFixed(2);
+                $(".totalMonthly").html(pepperApp.expCalc.dollar+addCommas(totalSectionAmount.toFixed(2)));
+            });
+            
+           $(document).on("change",".date-range select", function()
+           {           
+            
+            // $(".date-range select").on("change", function(){           
+             var daterange = $(this).find("option:selected").html();
+             var amnt = $(this).parents(".date-range").siblings(".currency").find("input").val();
+            // console.log(amnt);
+             var result =  pepperApp.expCalc.calculate(amnt, daterange); 
+             result = result.toFixed(2);
+             var total =0;   
+             result =parseFloat(validDigits(result));
+             $(this).parents(".date-range").siblings(".modalTip").find("label").html(pepperApp.expCalc.dollar+addCommas(result.toFixed(2)));
+              $(this).parents(".innerCont").children(".page-row").children(".modalTip").each(function()
+             {
+                 // alert($(this).text());
+                  var prevValue = $(this).text().replace("$","0");
+                  prevValue  = removeCommas(prevValue);
+                  total +=parseFloat(prevValue);
+                 console.log('total'+total);
+             }); 
+            // total = total.toFixed(2);              
+             $(this).parents("span,div").prev(".ardHeading").find("span.right label").html(pepperApp.expCalc.dollar+addCommas(total.toFixed(2)));
+                var totalSectionAmount =0;
+                $(".formCont").children(".ardHeading").children(".right").each(function()
+                {
+                      var prevValue = $(this).text().replace("$","0");
+                      prevValue  = removeCommas(prevValue);
+                      
+                      totalSectionAmount +=parseFloat(prevValue) ;
+                      
+                      
+                });
+               // totalSectionAmount  = totalSectionAmount.toFixed(2);
+                $(".totalMonthly").html(pepperApp.expCalc.dollar+addCommas(totalSectionAmount.toFixed(2)));
+            });
+            
+        function updateMonthlyExpense()
+        {
+            
+             var totalMonthlyExpenseValue = $(".totalMonthly").text().replace(pepperApp.expCalc.dollar,"");
+             //$(".inpthidden").val(totalMonthlyExpenseValue);
+            // $('[Id$=inputhidden]').val(totalMonthlyExpenseValue);
+            // $('[Id$=inputhidden]').val(totalMonthlyExpenseValue);                 
+             $(".totalmonthlyexpense").siblings('.errorMsg').hide();
+             $(".totalmonthlyexpense").val(totalMonthlyExpenseValue);
+             
+            updateMonthlyExpenseFun();
+            showMinimizeBar('livingExpenses');                 
+        }    
+            
+        function onChangeMonthlyExpense()
+        {
+             
+            //$('[Id$=inputhidden]').val($(".totalmonthlyexpense").val());
+            
+            var theform ='expensesCalc';
+            $("#"+theform+" input[type='text'],#"+theform+" select,  #"+theform+" textarea").each(function(e)
+            {
+                console.log('hi');
+                 $(this).val("");
+               // $(this).trigger('change');
+                
+            });
+           
+            showMinimizeBar('livingExpenses');
+            onChangeMonthlyExpenseFun();
+        }
+            
+        /*pepperApp.edit = function(e)
+        {
+        e.parents(".section-heading").find(".status-icon").removeClass('complete').html("");
+        e.parents(".section-heading").find(".status-icon").addClass('inprogress').html("In Progress");
+        e.parents(".section-heading").find(".subHeading span").html("");
+        }
+     
+     
+        pepperApp.inProgress = function(e)
+        {
+              e.find(".status-icon").removeClass('complete');
+              e.find(".status-icon").addClass('inprogress').html("In Progress");
+        }  
+
+        $("#livingExpenses, #whatyouowe").on("keyup change", function()
+        {
+          pepperApp.inProgress($(this));
+        })
+        
+        
+         pepperApp.inComplete = function(e)
+         {
+            
+           e.parents("#livingExpenses,#whatyouowe").find(".status-icon").addClass('complete').html("Complete");
+         }*/
+
+        $(".livingexpenseminimimize").on("click", function()
+        { 
+                               
+          //pepperApp.inComplete($(this));          
+          renderStory1();
+         
+         });            
+           
+            
+        function showSectionStory1()
+        {
+            
+            var str = '{!strSectionStorySection1}';
+          //  alert('>>'+'{!strSectionStorySection1}');
+            $(".sectionStoryText").html($('[Id$=inputhiddensection1]').val());               
+             $(".sectionStoryText").show();            
+        }
+
+        $(document).on("click",".whatyouminimize", function()
+        {           
+          
+          //pepperApp.inComplete($(this)); 
+          renderStory2();
+         
+        }) 
+            
+            
+        function showSectionStory2()
+        {
+            var str = '{!strSectionStorySection2}';
+            $(".sectionStoryText2").html($('[Id$=inputHidden2]').val());               
+            $(".sectionStoryText2").show(); 
+                      
+        }           
+
+         
+         
+       function  popUpValidation(theform)
+       {
+                            
+         var boolFlag = true;
+         $("#" + theform + " input[type='text']").each(function(e){
+         
+                var nextSelect = $(this).parent().next().children("select");
+                
+           //if text field is filled with some value show error message other wise hide error message in sibling select element
+            if($(this).val() !=null && $(this).val() !="")
+            {                
+                if($(nextSelect).val() ==null || $(nextSelect).val() =="")
+                {
+                    $(nextSelect).siblings('.errorMsg').show();
+                    boolFlag = false;
+                }
+                
+                
+                else
+                {
+                    
+                   $(this).siblings('.errorMsg').hide();
+               
+                
+                }  
+            }
+            else
+            {
+               if($(nextSelect).val() != null && $(nextSelect).val() !="")
+               {
+                   $(this).siblings('.errorMsg').show();
+                    boolFlag = false;    
+               }
+               else
+               {
+                   $(this).siblings('.errorMsg').hide();
+               }
+             
+            }
+            
+          });         
+           
+         if($(".totalMonthly").text().replace(pepperApp.expCalc.dollar,"")=='0.00'){
+          $('.expenserequirederror').show();
+          boolFlag=false; 
+          }
+          else{
+           $('.expenserequirederror').hide();
+          }
+         if(boolFlag == true)
+         {
+           
+            
+         
+            $('#expensesCalc').modal('hide');
+            updateMonthlyExpense();
+            
+            
+         }
+         
+         return boolFlag;     
+        }
+        
+        
+       function  validateLivingOweSection()
+       {
+            console.log('Hi'); 
+            //setTimeout(function(){ pepperApp.validation.errorScroll(); }, 1);           
+            var boolFlag = true;
+            var boolFalgTemp = true;
+            var idLivingSection = 'livingExpenses';
+            var idwhatyouoweSection ='whatyouowe';
+              
+            $("#"+idLivingSection+" input[type='text'], #"+idLivingSection+" select, #"+idLivingSection+" textarea").each(function(e)
+            {               
+              boolFlag =   checkFieldValidation($(this).attr("id"));
+              if(boolFlag == false)
+              {
+                  $(this).siblings('.errorMsg').show();
+                  boolFalgTemp = false;
+              }
+              else
+              {
+                   $(this).siblings('.errorMsg').hide();
+              }
+              
+                var radioCheckFlag = radioCheck(true, 'idPage:idForm');
+                
+                if(boolFalgTemp)
+                {
+                    boolFalgTemp = radioCheckFlag;
+                }
+               
+            });
+            
+            $("#"+idwhatyouoweSection+" input[type='text'], #"+idwhatyouoweSection+" select, #"+idwhatyouoweSection+" textarea").each(function(e)
+            {
+              boolFlag =   checkFieldValidation($(this).attr("id"));
+              if(boolFlag == false)
+              {
+                  boolFalgTemp = false;
+                  $(this).siblings('.errorMsg').show();
+              }
+              else
+              {
+                   $(this).siblings('.errorMsg').hide();
+              }
+                         
+                var radioCheckFlag = radioCheck(true, 'idPage:idForm');
+                
+                
+                if(boolFalgTemp )
+                {
+                    boolFalgTemp = radioCheckFlag;
+                }
+            });
+            
+           
+             if(boolFalgTemp)
+             {
+                 $('[Id$=btnSearch]').prop('disabled', true);
+                 backendvalidate();
+             
+             }
+             
+             return boolFalgTemp ;   
+             
+             
+             
+        }
+        
+     function backendvalidate(){
+     checkbackendvalidation();
+    }
+        
+        
+        
+        
+     function checkValidation(rowNo)
+     {
+           
+           
+           
+            
+             callActionFunction(rowNo);           
+                      
+         
+     }  
+    function percentCheck(objVal){
+        var per = objVal;
+        
+        if(per < 0 || per > 100){
+            $('.livingexpenseminimimize').css('display', 'none');
+        }
+    }
+
+  
+    $(document).on('blur change','select',function(){
+   
+    var prevInputText = $(this).parent().prev().children("input");
+   
+   
+    if($(this).val() !='' && $(this).val() !=null)
+    {
+       $(this).siblings('.errorMsg').hide();
+    }
+    else
+    {
+        if($(prevInputText).val() !='' && $(prevInputText).val() !=null)
+        {
+            $(this).siblings('.errorMsg').show();
+        }
+    }
+  });
+
+        $(document).on('blur','.popUpInputText',function()
+     {
+        var nextSelect = $(this).parent().next().find('select');
+        
+       
+        if($(this).val() !='' && $(this).val() !=null)
+        {
+           $(this).siblings('.errorMsg').hide();
+        }
+        else
+        {
+            if($(nextSelect).val() !='' && $(nextSelect).val() !=null)
+            {
+                
+                $(this).siblings('.errorMsg').show();
+            }
+            else
+            {
+                 $(this).siblings('.errorMsg').hide();
+            }
+        }
+    });
+    function settvalues()
+    {
+       
+       var theform ='expensesCalc';
+       
+        $("#"+theform+" input[type='text'],#"+theform+" select,  #"+theform+" textarea").each(function(e)
+        {
+           
+            $(this).trigger('change');
+            
+        });
+    }
+    
+ 
+    
+    function disableCopyPaste()
+    {
+        var controls = $(".currency");
+        controls.bind("paste", function () {
+            return false;
+        });
+        controls.bind("drop", function () {
+            return false;
+        });
+        controls.bind("cut", function () {
+            return false;
+        });
+        controls.bind("copy", function () {
+            return false;
+        });
+    }
+    
+
+   
+   function removeCommas(currencyData)
+{
+   var arr = currencyData.split(',');
+     var mystr ='';
+     //console.log('array length - ' + arr.length);
+    for(var i =0; i<arr.length; i++ )
+     {
+       mystr +=arr[i];
+     }
+      return mystr;
+}
+
+function addCommas(n){
+    var rx=  /(\d+)(\d{3})/;
+    return String(n).replace(/^\d+/, function(w){
+        while(rx.test(w)){
+            w= w.replace(rx, '$1,$2');
+        }
+        return w;
+     });
+ }
+   // return integers and decimal numbers from input
+  // optionally truncates decimals- does not 'round' input
+ function validDigits(n, dec){
+     n= n.replace(/[^\d\.]+/g, '');
+     var ax1= n.indexOf('.'), ax2= -1;
+     if(ax1!= -1){
+         ++ax1;
+         ax2= n.indexOf('.', ax1);
+         if(ax2> ax1) n= n.substring(0, ax2);
+         if(typeof dec=== 'number') n= n.substring(0, ax1+dec);
+     }
+     return n;
+ }
+      </script>
+      
+     
+      
+       <script>
+        disableCopyPaste();
+        showMinimizeBar('livingExpenses');
+        showMinimizeBarPage('whatyouowe');
+      function  showMinimizeBarPage(theform)
+     {     
+         
+       var allFill=true;
+       var boolFlag = true;  
+       var blankCheck ='';
+       var myForm = document.getElementById(theform); 
+       var $contentHeader = $(document.getElementById(theform));
+
+        var arr= theform.split(':');
+            mysec="";
+            for(var i=0;i<arr.length -1 ;i++)
+            {
+                mysec += arr[i]+"\\:";
+            }
+            mysec += arr[arr.length -1];
+
+
+       
+        
+       $("#"+mysec+" input[type='text'], #"+mysec+" select, #"+mysec+" textarea").each(function(e)
+       {
+
+            var selector = $(this).attr('id');
+
+            if($(this).val()!=''){ 
+            blankCheck =  $(this).val();
+            }
+            else{
+                
+            allFill=false;
+            }
+
+         if(pepperApp.validation.isRequired(selector)  &&  pepperApp.validation.isCurrency(selector)  &&  pepperApp.validation.isEmail(selector)  &&  pepperApp.validation.isPhone(selector)  &&  pepperApp.validation.isPercent(selector) && pepperApp.validation.isDob(selector) &&  pepperApp.validation.isAccountNo(selector) &&  pepperApp.validation.isBsb(selector))
+                    {   
+                    }
+                    else
+                    {
+                        
+                        boolFlag= false;
+                    }
+       }); 
+        ////////////////checking radio buttons/////////////////////
+
+    //  if(boolFlag)
+    //  {
+      var radioName=[];
+      $("[id='"+mysec+"'] input[type='radio'].isrequired").each(function(i)
+       {            
+           radioName[i]=$(this).attr("name");
+                
+       });       
+       var uniqueVal = $.unique(radioName); 
+       for(i=0; i<uniqueVal.length; i++)
+       {
+                        if($("[id='"+mysec+"'] input[type='radio'][name='"+uniqueVal[i]+"'].isrequired:checked").length == 0)
+                        {
+                            allFill=false;
+                            boolFlag = false;
+                            
+                        }
+                        else
+                        {
+                            if(blankCheck=='')
+                            blankCheck = 'checked';
+                            //boolFlag = true;
+                        }
+       }
+  //  }
+        if(boolFlag && allFill==true)
+        {     
+            $contentHeader.find(".minimizeSection").slideDown();
+            $contentHeader.find(".status-icon").removeClass('inprogress').html("");
+            $contentHeader.find(".status-icon").addClass('complete').html("Complete");         
+        }  
+        else
+        { 
+              
+                  $contentHeader.find(".status-icon").removeClass('inprogress').html("");
+                  $contentHeader.find(".status-icon").removeClass('complete').html("");               
+              
+        }
+}   
+      
+    
+    function CallIncomeMethod()
+        {
+            $('#pageId\\:idForm\\:idHeaderContinueButton').trigger('click');
+        }  
+     
+
+          $(document).ready(
+function(){
+$('.initialSendButton').attr('disabled',true);
+$('.initialSendButton1').attr('disabled',true);
+
+}
+);
+var temp;
+
+function assignhidden(r){
+document.getElementById("idPage:idForm:theHiddenInput").value=r;
+}
+$(document).ready(
+
+function(){
+$(".totalmonthlyexpense ").prop('disabled', true);
+
+
+}
+);
+$(document).on("click",".popupbtn",function() 
+{
+    popUpValidation('expensesCalc');  
+    $('#outModal .errorMsg').each(function(){
+        if($(this).css('display') == 'block'){            
+            $(this).parents('.innerCont').siblings('.innerCont').slideUp();
+            $(this).parents('.innerCont').slideDown();
+            return false;
+        }
+    });        
+});
+
+
+$(document).on("click",".firstedit",function() 
+{
+    $(".totalmonthlyexpense ").prop('disabled', true);
+    
+});
+
+$(document).on("click",".addRow",function() 
+{
+    
+    callPlusFun();
+            
+});
+
+$(document).on("click",".minus",function() 
+{
+    
+    callMinusFun();
+            
+});
+
+$(document).on("change",".whatyouselect",function() 
+{
+      var indexNo =  $(this).next('.rowNoPlaceHolder').val();
+      checkValidation(indexNo);
+     
+            
+});
+
+
+
+$(document).on("click",".goBTN",function() 
+{
+    
+  settvalues();
+            
+});
+
+$(document).on("click",".debtBtn",function() 
+{
+    
+  
+  var firstElement = $(this).next('.errorMsg').next('.rowNo');
+  var firstElementval = firstElement.val();
+  
+  
+  var secondElement = firstElement.next('.QuesAns');
+  var secondElementval = secondElement.val();
+  
+  
+  var thirdElement = secondElement.next('.selectedText');
+  var thirdElementval = thirdElement.val();
+  
+  calldebtBtnAction(firstElementval ,secondElementval ,thirdElementval);
+ 
+            
+});
+
+var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+  
+       
+</script>
+      
+       <style>
+           .pageRowGroup .page-row {
+               margin-left:0;
+               margin-right:0;
+               clear:both;
+           }
+           
+           
+            @media only screen and (max-width: 480px) {
+    
+    .modal-open {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+    }
+}
+    </style>
+   
+    </body>
+</html>
+<script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+                     $('.expenserequirederror').hide();
+               
+            
+    });
+    
+     
+     
+   </script>
+
+   
+</apex:page>

@@ -1,0 +1,234 @@
+<apex:page controller="pepLoanSetupUploadedDocsController" sidebar="false" showHeader="false" standardStylesheets="false" id="idPage" cache="false"   action="{!checkcookie}">
+  <apex:composition template="pepSideBarTemplate">
+  <apex:define name="body">
+  
+     <!-- Google Tag Manager -->
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    
+    <!-- End Google Tag Manager -->
+    
+    
+    <!-- Google Tag Manager (noscript) -->
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- End Google Tag Manager (noscript) --> 
+  
+  <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+      <apex:form id="loansetUpDocFrmId">
+                <div class="uploadDoc brdNone">
+                <div class="loanSetTopSec">
+                    <h3 class="colA">
+                    
+                    
+                     <c:pepcmscomponent_Text pageNameTest="LoanSetup(uploadedDocs)" sectionName="UploadedDocsSection1"></c:pepcmscomponent_Text>
+                    
+                    </h3>
+                    <div class="colB">
+                    <apex:actionRegion >
+                        <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/> 
+                         </apex:actionRegion>  
+                        </div>
+                         </div>
+                    <div class="innerCont">
+                    <div>
+                        <div class="page-form">
+                            
+                                    <div class="form-section">  
+                                        
+                                            <p class="cent"><c:pepcmscomponent_Text pageNameTest="LoanSetup(uploadedDocs)" sectionName="UploadedDocsSection2"></c:pepcmscomponent_Text></p>
+                                    
+                                        <p>
+                                            <strong>Bankstatements.com.au</strong>
+                                        </p>
+                                        <apex:repeat value="{!lstBankAccs}" var="bnkVar">
+                                        
+                                            <div class="page-row">
+                                                <div class="sectionA">
+                                                    {!bnkVar.loan__Bank_Name__c} Account {!bnkVar.Bank_Account_Number__c }
+                                                </div>
+                                                
+                                                <div class="sectionB">
+                                                    <span class="status-icon complete">Received</span>
+                                                </div>
+                                            </div>
+                                        </apex:repeat>
+                                    
+                    <!--
+                                        <div class="page-row">
+                                            <div class="sectionA">
+                                                [Financial Institution] [Account XXXXXX]
+                                            </div>
+                                            
+                                            <div class="sectionB">
+                                                <span class="status-icon complete">Received</span>
+                                            </div>
+                                        </div>
+                             -->           
+                                        <div class="page-row">
+                                            <div class="form-cntrl">
+                                                <apex:commandLink action="{!redirectToBankStmt}" value="Add bankstatement.com.au" styleClass="button ternaryBtn foo"></apex:commandLink>
+                                               <!-- <a href="/apex/pepBankInfoDetails"><div class="button ternaryBtn">Add bankstatement.com.au</div></a>-->
+                                            </div>
+                                        </div>
+                                        
+                                        <hr class="pepperHR"/>
+                                    
+                                    <p >
+                                    <font color="red"><strong>&#9888;</strong></font>
+                                    <c:pepcmscomponent_Text pageNameTest="LoanSetup(uploadedDocs)" sectionName="UploadedDocsSection3"></c:pepcmscomponent_Text>
+                                        
+                                    </p>
+
+                                    <div class="page-row">
+                                  
+                                     <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+                                    <apex:inputHidden id="idAttachment" value="{!IdAttachment}"/>
+                                    <script>
+     
+                                     function deleteAttachments(attachmentId)
+                                     {        
+                                         $('[Id$=idAttachment]').val(attachmentId);  
+                                        
+                                         callActionFunction(attachmentId);
+                                     }
+                                     
+                                     </script>
+                                    <apex:actionFunction action="{!deleteAttachment}" name="callActionFunction" status="counterStatus">                  
+                                    </apex:actionFunction>
+                                    
+                                    
+                                         <apex:repeat value="{!allAttachments}" var="a">
+                                            <div class="sectionA">
+                                             {!a.Name}
+                                            </div>
+                                            
+                                            <div class="sectionB">
+                                                
+                                                <span class="status-icon remove"><a class="status-icon remove" href="#" onclick="show=false;deleteAttachments('{!a.Id}');">Remove</a></span>
+                                                <span class="status-icon view"><a href="{!$Label.pepSiteUrl}/servlet/servlet.FileDownload?file={!a.id}" target="_blank">View</a></span>
+                                            </div>
+                                             
+                                       </apex:repeat>
+                                       
+                                    </div>  
+                                    <center>
+                                        <apex:outputPanel rendered="{!if(strErrorMesg<>null && strErrorMesg <> '',true,false)}" style="color:red;">{!strErrorMesg}</apex:outputPanel>
+                                    </center>
+                                  
+                                    <div class="page-row">
+                                            <div class="form-cntrl">
+                                             <div class="button ternaryBtn" type="button" onclick="show=false;uploadDoc()">Upload document</div>
+                                                    
+                                                <apex:actionFunction action="{!uploadFile}" name="UploadDocument" status="ProcessStatus"/>
+                                                <apex:inputFile value="{!attachDoc.body}" fileName="{!attachDoc.name}" contentType="{!attachDoc.contentType}"  id="inptFileUpload"  onchange="UploadDocument();" accept="image/*" style="position: absolute; left:-1000px"> </apex:inputFile>
+                            
+                                            </div>
+                                    </div>
+
+                                    </div>
+                            </div>
+                        </div>
+                    <p>
+                    <c:pepcmscomponent_Text pageNameTest="LoanSetup(uploadedDocs)" sectionName="UploadedDocsSection4"></c:pepcmscomponent_Text>
+                    </p>
+                    
+                    </div>
+                    <div class="loanSetBotSec page-row">
+                    <apex:actionRegion >
+      <div class="colA"><apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div>
+      </apex:actionRegion>
+      <div class="colB"> <apex:commandButton action="{!redirectToNextPage}" onclick="show=false;" value="Continue" styleClass="button primaryBtn " disabled="{!if(allAttachments.size > 0 || lstBankAccs.size > 0,false,true)}" /></div>
+     </div>
+                   <!-- <div class="page-row">
+                        <div class="form-cntrl">
+                            
+                                <apex:commandButton action="{!redirectToNextPage}" value="Continue" styleClass="button primaryBtn foo" disabled="{!if(allAttachments.size > 0 || lstBankAccs.size > 0,false,true)}" />
+                          
+                            
+                        </div>
+                    </div>   -->                           
+                </div>
+         
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <script>
+        $(function(){
+            var validator = $("#myForm").validate({
+                //var $this = $(this);
+                onfocusout: function (element) {
+                    $(element).valid();
+                    //alert(validator.numberOfInvalids());
+                   
+                }
+            });
+        });
+        
+        function uploadDoc()
+        {
+            var inputFile = $(document.getElementById("idPage:j_id0:loansetUpDocFrmId:inptFileUpload"));
+            inputFile.trigger("click");
+        }
+    </script>
+    
+ 
+    </apex:form> 
+    <apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+             var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }    
+ </script>
+ </apex:outputPanel>
+   </apex:define>
+</apex:composition>
+</apex:page>

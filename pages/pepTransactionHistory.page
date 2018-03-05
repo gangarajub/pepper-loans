@@ -1,0 +1,124 @@
+<apex:page sidebar="false"  showHeader="false" standardStylesheets="false" cache="{!$Label.Cache_Settings}" controller="pepTransactionHistoryController">   
+<apex:composition template="pepDashBoardHeaderSideBarTemplate">
+<apex:define name="body">
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}"/> 
+<!--<apex:form id="ThePage">   -->   
+<apex:actionStatus id="counterStatus" startStyleClass="spinner" startText="tesing....."/>
+<apex:outputPanel layout="block" styleclass="page-form" id="IDForm">
+                                <div class="page-row">
+                                    <div class="form-section">
+                                        <div class="loanTxtOuter">
+                                            <div class="page-row">
+                                                <div class="loanTxtHead">
+                                                    <h3>Transaction History</h3>
+                                                </div>
+                                            </div>                                          
+                                        </div>                                          
+
+                                        <div class="form-elements">                                             
+                                            <div class="frmSection-alt">   
+                                                <ul>
+                                            <apex:repeat value="{!lstSetController}" var="obj"  rendered="{!lstSetController[0].strPaymentStatus!='null'}">
+                                                 <li>
+                                                        <div class="page-row">
+                                                        <span class="transactionCol fa-icon {!obj.strPaymentStatus}">{!if(obj.strPaymentStatus=='fail','Failed',if(obj.strPaymentStatus=='schedule','Scheduled',if(obj.strPaymentStatus=='process','Processed','Paid')))}   {!obj.strPaymentDate}</span>
+                                                        <span class="transactionCol">Amount: <span>${!obj.strAmount}
+                                                       
+                                                       
+                                                       
+                                                       
+                                                        </span></span>
+                                                            <span class="transactionCol toggleBtn"><a href="#" class="plus"></a></span> 
+                                                        </div>
+                                                       
+                                                        <div class="page-row toggleBlk" >
+                                                         <span class="transactionCol fa-icon {!obj.strPaymentType}">{!if(obj.strPaymentType=='offPayment','One Off','Recurring')} Payment <br/>
+                                                          <apex:outputText rendered="{!obj.strPaymentStatus=='schedule'}">Next Payment {!obj.strNextPaymentDate}</apex:outputText></span>
+                                                          <span class="transactionCol">
+                                                               <apex:outputText rendered="{!obj.strPaymentStatus!='schedule'}"> Remaining: <span>${!obj.strRemaining}</span> </apex:outputText> 
+                                                                <apex:outputText rendered="{!obj.strPaymentStatus=='schedule'}"><br/>Rate: <span>{!obj.strRate}</span></apex:outputText>
+                                                            </span>
+                                                        </div>
+                                                        
+                                                    </li>
+                                                     
+                                           </apex:repeat>
+                                         
+                                             <apex:outputPanel rendered="{!lstSetController[0].strPaymentStatus=='null'}">  
+                                            <li>
+                                                        No Transaction Found.
+                                                        
+                                            </li>
+                                           </apex:outputPanel> 
+                                           
+                                           
+                                                </ul> 
+                                                <div class="pagination">
+                                                <span class="back">
+                                                <apex:commandLink value="Back" action="{!previous}" status="counterStatus" rendered="{!lstIntBar.size>1 && intPageNumber!=1}" reRender="IDForm" />
+                                                <apex:outputtext value="Back"  rendered="{!lstIntBar.size>1 && intPageNumber==1}"  /> 
+                                                   <!--<a href="javascript:void(0);">Back</a>--></span>
+                                                
+                                                <span class="pageNumbers">
+                                               <apex:repeat value="{!lstIntBar}" var="pNumber">
+                                                <apex:commandLink value="{!pNumber}" action="{!GoTo}" styleClass="" status="counterStatus"  reRender="IDForm"  rendered="{!intPageNumber!=pNumber}">
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="{!pNumber}"/>
+                                                </apex:commandLink>
+                                                <!-- {!if(intPageNumber==pNumber,'active','')} -->
+                                                <apex:outputText rendered="{!intPageNumber==pNumber}"><a Class="active">{!pNumber}</a></apex:outputText>
+                                               </apex:repeat>
+                                               
+                                               
+                                               
+                                                <!--<a href="javascript:void(0);">1</a>
+                                                 <apex:commandLink value="1" action="{!GoTo}" styleClass="{!if(intPageNumber==1,'active','')}" status="spinner"  reRender="myForm" >
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="1"/>
+                                                </apex:commandLink>
+                                                <apex:commandLink value="2" action="{!GoTo}" styleClass="{!if(intPageNumber==2,'active','')}" status="spinner"  reRender="myForm" >
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="2"/>
+                                                
+                                                 <apex:commandLink value="3" action="{!GoTo}" styleClass="{!if(intPageNumber==3,'active','')}" status="spinner"  reRender="myForm" >
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="3"/>
+                                                </apex:commandLink>
+                                                
+                                                 <apex:commandLink value="4" action="{!GoTo}" styleClass="{!if(intPageNumber==4,'active','')}" status="spinner"  reRender="myForm" >
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="4"/>
+                                                </apex:commandLink>
+                                                
+                                                 <apex:commandLink value="5" action="{!GoTo}" styleClass="{!if(intPageNumber==5,'active','')}" status="spinner"  reRender="myForm" >
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="5"/>
+                                                </apex:commandLink>-->
+                                                </span>
+                                                <span class="next"><apex:commandLink value="Next" action="{!next}" rendered="{!hasNext}" status="counterStatus" reRender="IDForm"  /> 
+                                                <apex:outputtext value="Next"  rendered="{!!hasNext && lstIntBar.size>1}"   /> 
+                                                
+                                                    <!--<a href="javascript:void(0);">Next</a>--></span><br/>
+                                                <center><span>Total Pages:{!Total_Pages}</span></center>  
+                                                    
+                                                </div>   
+                                                </div>
+                                                </div>  
+                                                </div>  
+                                                </div>
+                                                
+                                                
+                                                
+           
+                                                
+  </apex:outputPanel>                                              
+<!--</apex:form>-->
+
+<script src="assets/common/scripts/jquery.min.js" ></script>
+    <script src="assets/common/scripts/bootstrap.min.js" ></script>
+    <script src="assets/common/scripts/pepperScript.js" ></script>
+  
+    
+ 
+  
+ 
+ 
+ 
+   
+ </apex:define>
+</apex:composition>
+</apex:page>

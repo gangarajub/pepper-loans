@@ -1,0 +1,230 @@
+<apex:page id="idPage" standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" standardController="genesis__Applications__c" extensions="pepServiceabilityController"  action="{!checkcookie}" cache="{!$Label.Cache_Settings}">  
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pepper Expenses</title>        
+        <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>  
+        <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" />    
+    </head>
+    
+<style type="text/css">
+        .disabled
+        {
+            background: none repeat scroll 0 0 burlyWood;
+            cursor: default !important;
+        }
+    </style>
+  
+<script language="javascript">
+
+        function init()
+        {     
+              $('.btn_submit').attr('disabled', 'disabled');
+               
+               $('.btn_submit').addClass('disabled'); 
+        }
+        
+        function enableButton(x)
+        {
+           // alert('x::'+x);
+             document.getElementById('idPage:idForm:ihdn_yes').value = x;      
+           // alert('x::'+ document.getElementById('ihdn_yes').value);   
+            $('.btn_submit').removeAttr('disabled');
+            $('.btn_submit').removeClass('disabled');  
+           
+        }
+
+     </script>
+
+<apex:form id="idForm">   
+
+ 
+<body onload="init()">
+
+<c:pepCmsHeaderComponent getpageName="Header" purposeName="{!lstApp[0].genesis__CL_Purpose__c}"  getApplication="{!lstApp[0]}"></c:pepCmsHeaderComponent>
+
+   
+    <div class="pepperContainer">           
+            <div class="form-cntrls-sm">
+            
+                 <!--<button class="button staticBtn" data-toggle="modal" data-target="#postiveService">Go</button> -->
+            </div>
+                                
+                              <!-- Expenses Calculator Modal window starts here -->
+                            <div id="postiveService" class="fade" role="dialog">
+                                <div class="modalDialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+
+                                          <h4 class="modal-title left">{!strSectionHeader}</h4>
+                                    </div>
+                                    <div class="page-form">
+                                        <div class="form-elements">
+                                        
+ <apex:inputHidden id="ihdn_yes" value="{!YesOrNo}"/>
+                                            <div class="page-row"> 
+                                                <p class="head"><c:pepcmscomponent_Text pageNameTest="Serviceability Negative" sectionName="Let See What we can do" /> </p>
+                                                <p>
+                                                    <c:pepcmscomponent_Text pageNameTest="Serviceability Negative" sectionName="Negative Accessibility Section 1" /> 
+                                                <!--We have assessed your application and unfortunately we have calculated that you might have <br/> some trouble paying back that loan amount. But we can still help! -->
+                                                </p>
+                                                <p>
+                                                     <c:pepcmscomponent_Text pageNameTest="Serviceability Negative" sectionName="Negative Accessibility Section 3" /> 
+                                                </p>
+                                                <p>
+                                                <strong><apex:outputText value="{!strSectionBody}" escape="false"/>  <br/> <apex:outputText value="{!strSectionBody2}" escape="false"/> 
+                                                
+                                                </strong><br/>
+                                                 <span style="font-size:12px">
+                                                    <c:pepcmscomponent_Text pageNameTest="Serviceability Negative" sectionName="Negative Serviceability Section 3" /> 
+                                               </span>
+                                                <br></br>
+                                                <br></br>
+                                                <br></br>
+                                               <apex:outputText value="{!strSectionBody3}" escape="false" style="text-align:center" />
+                                                 
+                                                </p>
+                                                
+                                                      
+                                                   <!-- <c:pepCmsComponent3 pageNameTest="Serviceability" sectionName="Negative Accessibility Section 4" /> -->
+                                                
+                                                
+                                                
+                                            </div>
+                                                
+                                                
+                                                <div class="page-row">
+                                                
+                                                    <div class="form-cntrls">
+                                                        <label class="radioBtns"> 
+                                                        <input type="radio" name="repayloan" />                                                                     
+                                                                <input type="button" id="repayloan_yes" name="repayloan" value="Yes" class="button staticBtn radio_yes" data-toggle-target="#tellusabout" onClick="enableButton('yes');" />                                                        
+                                                         <!--  <input type="radio" name="repayloan" id="repayloan_yes"> -->
+                                                            <!--<span class="button staticBtn radio_yes" data-toggle-target="#tellusabout">Yes</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-cntrls">
+                                                        <label class="radioBtns">                                                       
+                                                             <input type="radio" name="repayloan"/>
+                                                            <input type="button" id="repayloan_no" name="repayloan" value="No" class="button staticBtn radio_no" data-toggle-target="#tellusabout" onClick="enableButton('no');"  /> 
+                                                             
+                                                            <!-- <input type="radio" name="repayloan" id="repayloan_no"> -->
+                                                            <!-- <span class="button staticBtn radio_no" data-toggle-target="#tellusabout">No</span> -->
+                                                        </label>
+                                                    </div>
+                                                </div>                          
+                                            </div>
+                                            <div id="tempDiv"></div>
+                                                <!-- block2 -->
+                                                <div class="page-row">
+                                                    <div class="form-cntrl">                                                    
+                                                        <apex:commandButton id="idBtn" Styleclass="button primaryBtn btn_submit foo"  disabled="disabled" value="Continue" action="{!RedirectToNegative}" /> 
+                                                     <!-- <button class="button primaryBtn disable">Continue</button> -->
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </div> <!--  <div class="page-form">-->
+                                        
+                                        
+                                    </div>  
+                                    </div>
+                                    <!--fade-->
+                                    
+                                                 
+                           
+                            <!-- Expenses Calculator Modal window ends here -->
+</div>
+  
+   
+        <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+  
+
+   <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+<script>
+$(window).load(function(){
+  $("#postiveService").modal("show");
+});
+var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+</script> 
+
+<!-- Added by COE 061220160915 -->
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+
+    
+</body>
+ </apex:form>
+</html>
+<script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+</apex:page>

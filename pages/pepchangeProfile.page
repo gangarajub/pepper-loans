@@ -1,0 +1,586 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false"  docType="html-5.0" controller="pepchangeProfileController" id="idPage" cache="{!$Label.Cache_Settings}" >
+ <link href="https://kleber.datatoolscloud.net.au/jquery19/themes/base/jquery.ui.all.css" rel="stylesheet"/>
+    <script src="https://kleber.datatoolscloud.net.au/jquery19/jquery-1.9.1.js" ></script>
+    <script src="https://kleber.datatoolscloud.net.au/jquery19/ui/jquery.ui.core.js" ></script>
+    <script src="https://kleber.datatoolscloud.net.au/jquery19/ui/jquery.ui.widget.js" ></script>
+    <script src="https://kleber.datatoolscloud.net.au/jquery19/ui/jquery.ui.position.js" ></script>
+    <script src="https://kleber.datatoolscloud.net.au/jquery19/ui/jquery.ui.autocomplete.js" ></script>
+    <Script src="https://kleber.datatoolscloud.net.au/jquery19/ui/jquery.ui.menu.js" ></script>  
+   
+   <apex:composition template="pepDashBoardHeaderSideBarTemplate"  > 
+      <apex:define name="body"  >
+           <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+           <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+           <apex:actionFunction name="callActionFun" action="{!selectedCommuncationType}"  reRender="none"  status="counterStatus">
+            <apex:param name="strVal" value=""/>
+            <apex:param name="strChecked" value=""/>
+          </apex:actionFunction>
+                                
+        <apex:outputPanel styleClass="myLoan myProfile"  id="idTopOutPutPanel">
+                <div class="loanHead" >
+                    <h1><span>My Details</span> </h1>
+                </div>  
+
+                <div class="page-form">
+                        
+                            <div class="page-row">
+                            
+                                <div class="form-section">  
+                                
+                            
+                                    <div class="loanTxtHead">
+                                        <div>
+                                            <h3 class="mrgn_tnone">Account </h3>
+                                        </div>
+                                        
+                                    </div>  
+
+                                    <apex:outputpanel layout="block" styleclass="form-elements" id="idSection1Out1">
+                                            
+                                        <apex:outputpanel layout="block" styleclass="form-section innerForm" id="idSection1Out2">    
+                                            <div class="form-elements">
+                                             <apex:repeat value="{!lstWrapperQuestionSection1}" var="Q" id="idMainRpt1">       
+                                                <div class="page-row">
+                                                        <label class="form-dcntrls">{!Q.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg LoanDetailCont">
+                                                            
+                                                               <apex:outputText value="{!Q.objInputValue}" rendered="{!isSection1Changed !=true}"/>
+                                                               <apex:inputText value="{!Q.objInputValue}" id="idUserId" onblur="checkFieldValidation(this.id); if(!checkFieldValidation(this.id)) $('.tmpMsg').hide();" rendered="{!isSection1Changed ==true && Q.objCmsQuestion.pepType__c =='Text'}"  styleClass="{!IF(Q.objCmsQuestion.pepIsRequired__c,'isrequired userClass','')}" /> 
+                                                               <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                               
+                                                               <apex:outputPanel rendered="{!isSection1Changed ==true && Q.objCmsQuestion.pepType__c =='Text'}">
+                                                               <span class="errorMsg tmpMsg" style="{!IF(checkUserId ==true,'display:block;','display:none;')}">{!$Label.UserIdExistErrorMeassage}</span>
+                                                               </apex:outputPanel>
+                                                                
+                                                                <ul>
+                                                               <apex:repeat rendered="{!Q.lstwrapperLoanAccount!= null && Q.lstwrapperLoanAccount.size > 0}" value="{!Q.lstwrapperLoanAccount}" var="strLoan">
+                                                               
+                                                              
+                                                               <li> <span>
+                                                                {!strLoan.strLoanName} &nbsp; </span>
+                                                                 <span>
+                                                                 <!--<apex:outputText value="${0,number,###,###,###,##0.00}" id="myNumberDisplay" >
+                                                                    <apex:param value="{!loanAccount.loan__Loan_Amount__c}"/>
+                                                                </apex:outputText>-->
+                                                                {!strLoan.strLoanNUmber}
+                                                                </span>
+                                                               </li>
+                                                               
+                                                                
+                                                             </apex:repeat>
+                                                              </ul>
+                                                        </div>
+                                                </div>
+                                              
+                                             </apex:repeat> 
+                                             
+                                             
+                                                <apex:outputPanel layout="block" styleClass="page-row text-right" rendered="{!isSection1Changed !=true}">
+                                                       <apex:commandLink value="Change" styleClass="button primaryBtn" action="{!editSection}" reRender="idSection1Out1,idSection1Out2" >
+                                                            <apex:param name="sectionNo" value="1" assignTo="{!changedSectionNo}"/>
+                                                        </apex:commandLink> 
+                                                                                                   
+                                                </apex:outputPanel>           
+                                                
+                                                <apex:outputPanel layout="block" styleClass="page-row text-right" rendered="{!isSection1Changed ==true}">
+                                                     <apex:commandLink value="Cancel" styleClass="button secondaryBtn" action="{!cancelSection}" reRender="idSection1Out1,idSection1Out2" >
+                                                            <apex:param name="sectionNo" value="1" assignTo="{!changedSectionNo}"/>
+                                                   </apex:commandLink>                                            
+
+                                                   <apex:commandButton value="Save" styleClass="button primaryBtn" onclick="if(!checkData('idPage:idPage:myForm','userClass')) return false;" action="{!saveSection1Data}" reRender="idSection1Out1,idSection1Out2"/>
+                                                    
+                                                </apex:outputPanel>
+                                                
+                                                
+                                            </div>  
+                                        </apex:outputpanel>
+                                    
+                            
+                                    </apex:outputpanel>
+                                    
+                                    
+                                        <div class="loanTxtHead">
+                                            <div>
+                                                <h3>Password 
+                                                 
+                                                </h3>                                                  
+                                                 
+                                                
+                                            </div>
+                                            
+                                        </div>  
+
+                                        <apex:outPutpanel layout="block" styleclass="form-elements" style="{!IF(isPwdSectionChanged!=true,'display:block;','display:none;')}" id="idSection2Out1">
+                                                
+                                            <apex:outPutpanel layout="block" styleclass="form-section innerForm" id="idSection2Out2">    
+                                                <div class="form-elements">
+                                                    <apex:repeat value="{!lstWrapperQuestionPwdSection}" var="Q" id="idMainRptPwd"> 
+                                                        <div class="page-row">
+                                                            <label class="form-dcntrls">                                                             
+                                                             
+                                                             <apex:outputText value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"/>          
+                                                             
+                                                            </label>
+                                                                <div class="form-dcntrls-lg">
+                                                                    <apex:outputText value="XXXXXXXXX" />
+                                                                    
+                                                                   
+                                                                </div>
+                                                        </div>
+                                                                                                     
+                                                    </apex:repeat>  
+                                                   
+                                                    
+                                                    
+                                                          
+                                                    <apex:outputPanel layout="block" styleClass="page-row text-right" >
+                                                       <apex:commandLink value="Change" styleClass="button primaryBtn" action="{!editSection}" oncomplete="disableCopyPaste();"  reRender="idMainRptEditPwd,idSection2Out1,idSection2Out2,ideditPwdSec1out1,ideditPwdSec1out2" >
+                                                            <apex:param name="sectionNo" value="4" assignTo="{!changedSectionNo}"/>
+                                                        </apex:commandLink>                                                
+                                                   </apex:outputPanel>
+                                               
+
+                                                    
+                                                </div>  
+                                            </apex:outPutpanel>
+                                        
+                                
+                                        </apex:outPutpanel>
+                                    
+                                     <apex:outPutpanel layout="block"  Styleclass="form-elements" style="{!IF(isPwdSectionChanged ==true ,'display:block;','display:none;')}" id="ideditPwdSec1out1">
+                                                       
+                                                <apex:outPutpanel layout="block" styleClass="form-section innerForm" id="ideditPwdSec1out2">    
+                                                    <div class="form-elements">
+                                                    
+                                                    <apex:repeat value="{!lstWrapperQuestionEditPwdSection}" var="Q" id="idMainRptEditPwd"> 
+                                                        <div class="page-row">
+                                                            <label class="form-dcntrls">
+                                                             
+                                                             <apex:outputText value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}"/>
+                                                             
+                                                            </label>
+                                                                <div class="form-dcntrls-lg">
+                                                                    
+                                                                    <apex:inputsecret id="idPwd" value="{!Q.objInputValue}"  rendered="{!Q.objCmsQuestion.pepType__c =='Password' && isPwdSectionChanged == true}" onblur="hidemsg1();checkFieldValidation(this.id);" styleClass="{!IF(Q.objCmsQuestion.pepIsRequired__c,IF(Q.objCmsQuestion.pepFieldApiName__c ='New Password','newpwd ispassword pwd disablecopy isrequired',IF(Q.objCmsQuestion.pepFieldApiName__c =='Current Password','currntpwd disablecopy ispassword isrequired','cnfpwd disablecopy ispassword isrequired')),'')}"/> 
+                                                                    <span class="errorMsg pwderror">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                                   
+                                                                       <apex:outputPanel rendered="{!If(Q.objCmsQuestion.pepFieldApiName__c == 'Confirm Password' ,true,false)}">
+                                                                        <span class="pwdMsg errorMsg" style="display:block;">{!strPwdErrorMsg}</span>
+                                                                      </apex:outputPanel>
+                                                                   
+                                                                    
+                                                                </div>
+                                                        </div>                                                  
+                                                    </apex:repeat>
+                                                    <div class="loginTxt" style="{!IF(isPwdSectionChanged ==true ,'display:block;','display:none;')}">
+                                                            <div class="page-row">
+                                                                <label class="form-dcntrls"></label>
+                                                                <div class="form-dcntrls-lg charLen"> <span class="icon circle">&nbsp;8 Characters</span> </div>
+                                                            </div>
+                                                       <div class="page-row">
+                                                                <label class="form-dcntrls"></label>
+                                                                <div class="form-dcntrls-lg letterLen"><span class="icon circle">&nbsp;1 Letter</span></div>
+                                                            </div>
+                                                            <div class="page-row">
+                                                                <label class="form-dcntrls"></label>
+                                                                <div class="form-dcntrls-lg numLen"> <span class="icon circle">&nbsp;1 Number </span> </div>
+                                                            </div>
+                                                     </div>
+                                                     
+                                                    
+                                                         
+                                                
+                                                <apex:outputPanel layout="block" styleClass="page-row text-right" >
+                                                     <apex:commandLink value="Cancel" styleClass="button secondaryBtn" action="{!cancelSection}" reRender="idSection2Out1,ideditPwdSec1out1,ideditPwdSec1out2" >
+                                                            <apex:param name="sectionNo" value="4" assignTo="{!changedSectionNo}"/>
+                                                   </apex:commandLink>                                            
+
+                                                   <apex:commandButton value="Save" styleClass="button primaryBtn" onclick="if(!checkData('idPage:idPage:myForm','ispassword')) return false;"  action="{!saveSectionPwdData}" reRender="ideditPwdSec1out1,ideditPwdSec1out2,idSection2Out2,idSection2Out1"/>
+                                                    
+                                                </apex:outputPanel>
+                                            
+                                                    </div>
+                                                </apex:outPutpanel>
+                                        </apex:outPutpanel>
+                                    
+                                    
+                                          
+
+                                    <div class="loanTxtHead">
+                                        <div>
+                                            <h3>Contact 
+                                            
+                                                    
+                                          </h3>                                             
+                                           
+                                        </div>
+                                        
+                                    </div>  
+
+                                     
+                                     <div class="form-elements">
+                                            
+                                        <apex:outPutpanel layout="block" styleclass="form-section innerForm" id="idContactsection1Out1">    
+                                            <apex:outPutpanel layout="block" styleclass="form-elements" id="idContactsection1Out2">
+                                              <apex:repeat value="{!lstWrapperQuestionSection2}" var="Q" id="idMainRpt2">      
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls">{!Q.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg">
+                                                        
+                                                       <apex:outputText value="{!Q.objInputValue}" rendered="{!isSection2Changed !=true && (Q.objCmsQuestion.pepFieldApiName__c !='Name' || Q.objCmsQuestion.pepFieldApiName__c !='PersonMobilePhone' || Q.objCmsQuestion.pepFieldApiName__c !='personEmail')}"/> 
+                                                       <apex:outputText value="{!Q.objInputValue}" rendered="{!isSection2Changed !=true && (Q.objCmsQuestion.pepFieldApiName__c =='Name' && Q.objCmsQuestion.pepFieldApiName__c =='PersonMobilePhone' && Q.objCmsQuestion.pepFieldApiName__c =='personEmail')}"/> 
+                                                       <apex:outputText value="{!Q.objInputValue}" rendered="{!isSection2Changed ==true && (Q.objCmsQuestion.pepFieldApiName__c =='Name' || Q.objCmsQuestion.pepFieldApiName__c =='PersonMobilePhone' || Q.objCmsQuestion.pepFieldApiName__c =='personEmail')}"/>
+                                                       <apex:inputText value="{!Q.objInputValue}"  id="inptText" rendered="{!isSection2Changed ==true && Q.objCmsQuestion.pepFieldApiName__c !='Name' && Q.objCmsQuestion.pepFieldApiName__c !='PersonMobilePhone' && Q.objCmsQuestion.pepFieldApiName__c !='personEmail'}" onblur="checkFieldValidation(this.id);"  onkeypress="{!IF(Q.objCmsQuestion.pepType__c=='HomePhone','javascript:return numbersonly(event,this.id)','')} " styleClass="{!IF(Q.objCmsQuestion.pepGoogleApi__c ==true,IF(Q.objCmsQuestion.pepIsRequired__c, If(Q.objCmsQuestion.pepType__c=='HomePhone','PersonHomePhone iscontact  disablecopy addresspicker_map isrequired','addresspicker_map iscontact  isrequired'), 'addresspicker_map iscontact '),If(Q.objCmsQuestion.pepType__c=='HomePhone',if(Q.objCmsQuestion.pepIsRequired__c ,'isrequired disablecopy iscontact   PersonHomePhone',' disablecopy iscontact  PersonHomePhone'),''))}"  html-placeholder="{!If(Q.objCmsQuestion.pepType__c=='HomePhone','02XXXXXXXX','')}"  />
+                                                        <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                        
+                                                       <apex:inputHidden id="complete_address"   value="{!Q.strGAPIAddress}" rendered="{!Q.objCmsQuestion.pepGoogleApi__c == true}" />
+                                                       
+                                                    </div>
+                                                   
+                                                </div>
+                                              </apex:repeat>
+                                              <c:GoogleAPIComponent />
+                                                <span class="errorMsg dupAccError">An account already exists with these details, please change your email or mobile information.</span>     
+                                                         
+                                                
+                                               <apex:outputPanel layout="block" styleClass="page-row text-right" rendered="{!isSection2Changed !=true}">
+                                                   <apex:commandLink value="Change" styleClass="button primaryBtn" action="{!editSection}" oncomplete="disableCopyPaste();" reRender="idContactsection1Out1,idContactsection1Out2" >
+                                                            <apex:param name="sectionNo" value="2" assignTo="{!changedSectionNo}"/>
+                                                   </apex:commandLink>                                               
+                                                </apex:outputPanel>
+                                                <apex:outputPanel layout="block" styleClass="page-row text-right" rendered="{!isSection2Changed ==true}">
+                                                     <apex:commandLink value="Cancel" styleClass="button secondaryBtn" action="{!cancelSection}" reRender="idContactsection1Out1,idContactsection1Out2" >
+                                                            <apex:param name="sectionNo" value="2" assignTo="{!changedSectionNo}"/>
+                                                   </apex:commandLink>                                            
+
+                                                   <apex:commandButton value="Save" styleClass="button primaryBtn" onclick="if(!checkData('idPage:idPage:myForm','iscontact')) return false;" action="{!saveSection2Data}"  reRender="idContactsection1Out1,idContactsection1Out2,accountDuplicacy" oncomplete="checkAccDuplicacy();"/>
+                                                    
+                                                </apex:outputPanel>
+                                               
+                                            </apex:outPutpanel>
+                                        </apex:outPutpanel>
+                                    
+                            
+                                    </div>
+
+                                    <div class="loanTxtHead">
+                                        <div>
+                                            <h3>My Contact Preferences
+                                                
+                                                                                                    
+                                                    
+                                            
+                                             </h3>
+                                        </div>
+                                        
+                                    </div>  
+                                    
+                                    
+                                    <div class="form-elements">
+                                       
+                                           
+                                        <apex:outPutpanel layout="block" styleclass="form-section innerForm" id="idout1Section3">    
+                                            <apex:outPutpanel layout="block" styleclass="form-elements" id="idout2Section3">
+                                                    
+                                                 
+                                             <apex:repeat value="{!lstWrapperQuestionSection3}" var="Q" id="idMainRpt3">                             
+                                                     
+                                                <div class="page-row">                                        
+                                                    
+                                                    <label class="form-dcntrls lblrow">{!Q.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    
+                                                    <div class="form-dcntrls-lg">
+                                                     
+                                                        <apex:repeat value="{!Q.lstExpectedAnsers}" var="objAnswer" rendered="{!if(AND( Q.lstExpectedAnsers.size != null, Q.lstExpectedAnsers.size > 0, Q.objCmsQuestion.pepType__c == 'Checkbox'), true, false)}">
+                                                         
+                                                            <span class="custom-chkBox spanComm ">
+                                                            
+                                                                <input type="checkbox" id="{!objAnswer.objCmsAnswer.pepDisplayText__c}" name="{!objAnswer.objCmsAnswer.pepDisplayText__c}" tabindex="24"  class ="{!IF(objAnswer.isCommunicationTypeExists,'checked communicationChecked ','communicationChecked')}"   onclick="checkedValue('{!objAnswer.objCmsAnswer.pepDisplayText__c}')" />                                                            
+                                                                <label for="{!objAnswer.objCmsAnswer.pepDisplayText__c}">{!objAnswer.objCmsAnswer.pepDisplayText__c}</label>
+                                                             
+                                                            </span> 
+                                                            
+                                                            
+                                                         </apex:repeat>
+                                                         
+
+                                                    </div>
+                                                </div>
+                                                 <p style="margin-top: 30px;">
+                                                    
+                                                    {!Q.objCmsQuestion.pepLabelAfterQuestion__c}
+                                                </p>
+                                                
+                                             </apex:repeat>
+                                                
+                                             <apex:outputPanel id="idouterror1">  
+                                               <apex:outputPanel rendered="{!showCommunicationTypeError}" id="idouterror">
+                                                   <span class="errorMsg " style="display:block;">At least one communication method must be checked</span> 
+                                               </apex:outputPanel> 
+                                            </apex:outputPanel> 
+
+                                               
+                                                <div class="page-row text-right" >
+                                                    
+                                                <apex:outputPanel id="idbtnOut"> 
+                                                    
+                                                    
+                                                    <script>                                             
+                                                       
+                                                        $(".communicationChecked").each(function(e)
+                                                        {                                                        
+                                                        
+                                                        if('{!isSection3Changed}' == 'true')
+                                                        {
+                                                        
+                                                        $(this).removeAttr("disabled", "disabled");
+                                                        $(".spanComm ").removeClass("chkboxDis");
+                                                        
+                                                        }
+                                                        else
+                                                        {
+                                                        $(this).attr("disabled", true);
+                                                        $(".spanComm ").addClass("chkboxDis");
+                                                        }
+                                                        
+                                                        });                                                    
+                                                    
+                                                    </script>
+                                                               
+                                                     <apex:outputPanel layout="block" styleClass="page-row text-right" rendered="{!isSection3Changed!=true}" id="idChangeOut">
+                                                       <apex:commandLink value="Change" styleClass="button primaryBtn" action="{!editSection}" reRender="idbtnOut,idChangeOut,idsaveCancelOut"  >
+                                                                <apex:param name="sectionNo" value="3" assignTo="{!changedSectionNo}"/>
+                                                       </apex:commandLink>                                               
+                                                    </apex:outputPanel> 
+                                                    <apex:outputPanel layout="block" styleClass="page-row text-right" rendered="{!isSection3Changed==true}" id="idsaveCancelOut">
+                                                         <apex:commandLink value="Cancel" styleClass="button secondaryBtn" action="{!cancelSection}"  reRender="idout1Section3,idout2Section3" >
+                                                                <apex:param name="sectionNo" value="3" assignTo="{!changedSectionNo}"/>
+                                                       </apex:commandLink>                                            
+    
+                                                       <apex:commandButton value="Save" styleClass="button primaryBtn" action="{!savesection3Data}" reRender="idouterror1,idouterror,idbtnOut,idChangeOut,idsaveCancelOut" />
+                                                        
+                                                    </apex:outputPanel>
+                                               </apex:outputPanel>      
+                                                    
+                                                           
+                                                  
+                                                </div>
+                                            </apex:outPutpanel>  
+                                        </apex:outPutpanel>
+                                    
+                            
+                                    </div>
+
+
+
+                                </div>  
+                                
+                                    
+
+                            </div>
+                </div>         
+               
+            </apex:outputpanel>    
+        
+            
+      
+     </apex:define> 
+     </apex:composition>
+     <script>
+     function checkedValue(strVal)
+     {
+        
+         //alert($("#"+strVal+"").is(":checked"));
+         $("#"+strVal+"").removeClass('checked');
+         
+         var strChecked = $("#"+strVal+"").is(":checked");
+         callActionFun(strVal,strChecked);
+     
+     
+     }
+     
+     function disableCheckBox()
+     {
+          
+         $(".communicationChecked").each(function(e)
+         {
+          
+         
+           if('{!isSection3Changed}' == 'true')
+           {
+                 $(this).attr("disabled", false);
+                  $(".spanComm ").removeClass("chkboxDis");
+           }
+           else
+           {
+              $(this).attr("disabled", "disabled");
+              $(".spanComm ").addClass("chkboxDis");
+           }
+            
+         });
+     }
+     
+     $(document).ready(function()
+     {
+         
+         disableCheckBox();
+       
+     });
+     $(document).on("keydown", ".pwd", function (e) 
+    {
+        return e.which != 32;
+    });
+    
+    function passwordvalidations()
+    {
+        var strCurrentPwd = $( ".currntpwd " ).val();
+        var strNewPwd = $( ".newpwd" ).val();
+        var strConfirmPwd = $( ".cnfpwd" ).val();
+        
+         if(strConfirmPwd =='')
+         {
+            $( ".pwdMsg" ).text("");
+            return false;
+         }      
+        if(!(isNaN(strNewPwd) && strNewPwd.length >= 8 && strNewPwd.match(/[a-z]/i)))
+        {
+             $(".pwdMsg").show(); 
+             
+            
+            $( ".pwdMsg" ).text("Password is incorrect or does not meet our criteria. Please re-try");
+            return false;
+        }
+        
+        if(strCurrentPwd != '' && strNewPwd !='' && strConfirmPwd !=''&& strCurrentPwd == strNewPwd)
+        {
+           
+            $(".pwdMsg").show(); 
+            $( ".pwdMsg" ).text("Your password shouldn\'t be your old password");
+            return false;
+        }
+        else if(strConfirmPwd !='' && strNewPwd !='' && strConfirmPwd  != strNewPwd)
+        {
+             
+            $(".pwdMsg").show(); 
+            $( ".pwdMsg " ).html("Your password doesn\'t match");
+            return false;
+        }
+        else
+        {
+            
+            $( ".pwdMsg" ).text("");
+        }
+        return true;
+    }
+    
+    
+   function  checkData(theform,strclassName)
+    {   
+    
+        $( ".pwdMsg" ).text("");           
+        var myForm = document.getElementById(theform);         
+        var boolFlag = true;          
+        for (var i = 0; i < myForm.elements.length; i++) 
+        {
+          if(myForm.elements[i].getAttribute("type") == "hidden") continue;
+          
+          var $this = $(document.getElementById(myForm.elements[i].id));
+          if(!$this.hasClass(strclassName)) continue;
+          
+          var fieldFlag = checkFieldValidation(myForm.elements[i].id);
+       //   alert('val is'+fieldFlag);
+          if(boolFlag)
+          {
+            boolFlag =  fieldFlag;
+          }
+        }
+
+        //checking radio button is checked or unchecked
+ 
+       var radioCheckFlag = radioCheck(true, theform);
+       if(boolFlag)
+       {
+            boolFlag = radioCheckFlag;
+       }
+       
+        if(strclassName =='ispassword')
+        {
+           
+           boolFlag = passwordvalidations();
+          
+          
+        }
+    //   alert(boolFlag);
+         $('.tmpMsg').hide();
+        return boolFlag; 
+         
+    }
+    
+    
+        
+       
+    
+    
+    function hidemsg()
+    {
+      
+        $(".pwderror").hide();
+         
+    }
+    
+    function hidemsg1()
+    {
+      
+        $(".pwdMsg").hide();
+         
+    }
+   
+     function disableCopyPaste()
+    {
+        hidemsg();
+        var controls = $(".disablecopy ");
+        controls.bind("paste", function () {
+            return false;
+        });
+        controls.bind("drop", function () {
+            return false;
+        });
+        controls.bind("cut", function () {
+            return false;
+        });
+        controls.bind("copy", function () {
+            return false;
+        });
+    }
+     
+     
+     function checkUser()
+     {
+          if(('{!checkUserId}')=='true')
+            {
+                 $('.errorMsg').show();
+                 return false;
+            }
+     
+     }
+    </script>
+    <apex:outputPanel id="accountDuplicacy">  
+             <script>
+             function checkAccDuplicacy()
+            {
+              // alert('{!checkDupAcc}');
+               if(('{!checkDupAcc}')=='true')
+               {
+                 
+                  $(".dupAccError").show();
+                  return false;
+               }
+            }
+            </script>
+  </apex:outputPanel> 
+    <style>
+.loanTxtHead h3 { padding-left:0px!important;}
+</style>
+     
+ </apex:page>

@@ -1,0 +1,84 @@
+<apex:component >
+<apex:attribute name="PageName1" type="String" description="PageName"/>
+<apex:attribute name="PageLabel" type="String" description="PageLabel"/>
+
+
+     <script type="text/javascript">
+        
+            var email1 = "";
+                var sitecatEnabled = true;
+                var device = "";
+                var nAgt = navigator.userAgent;
+            
+                if  ( (nAgt.indexOf("Opera")!=-1) || (nAgt.indexOf("MSIE")!=-1) || (nAgt.indexOf("Chrome")!=-1) || (nAgt.indexOf("Safari")!=-1) || (nAgt.indexOf("Firefox")!=-1) )  {
+                    device = "Desktop";
+                }
+            
+                else if ( (nAgt.indexOf("iPhone")!=-1) || (nAgt.indexOf("iPad")!=-1) || (nAgt.indexOf("iPod")!=-1))  {
+                    device = "Apple";
+                }
+                else if (nAgt.indexOf("Android")!=-1) {
+                    device = "Android";
+                }
+            
+                else if (nAgt.indexOf("Opera Mini/")!=-1) {
+                    device = "Mobile";
+                }
+            
+                        
+                var digitalData ;
+               function fnAnalytics(email)
+             {   
+             //email1=email;
+              //alert(email1+'--'+email);
+              email1 =email;
+                digitalData = {
+                "page": 
+                {
+                    "pageInfo": 
+                    {
+                        "pageID": "{!PageName1}", // unique ID of every page. Populated automatically when page loads
+                        "pageName": "{!PageLabel}", // s.pageName, usually defined by <title> in html. Populated automatically when page loads
+                        "brand": "Pepper", // brand, very important if multiple brand across the business. Populated automatically when page loads
+                        "sysEnv": device // system environment which a user used to view the content (desktop, mobile)
+                    },
+                    "category": 
+                    {
+                        "primaryCategory": "Category 1", // the main section, usually matches the first menu seen on website (Home Loans; Car Loands; Help etc.). Populated automatically with the pageID when the page loads 
+                        "subCategory1": "", // the first sub-section of the Primary Category Populated automatically with the pageID when the page loads
+                        "subCategory2": "", // the second sub-section of the subCategory1 Populated automatically with the pageID when the page loads
+                        "subCategory3": "", // the second sub-section of the subCategory2 Populated automatically with the pageID when the page loads
+                        "subCategory4": "", // the second sub-section of the subCategory3 Populated automatically with the pageID when the page loads
+                        "pageType": "Home Page" // type of page content (home page, article page etc).                 
+                    }
+                },
+                "user": 
+                [
+                    {
+                        "profile": 
+                        {
+                            "profileInfo": 
+                            {                                 
+                                "membershipService": "", // usually a visitor or member (No Need to populate)
+                                "memberServiceID": "" //  when the user gets authenticated it will be assigned with a unique ID, please populate here (No need to populate)
+                            },
+                        }
+                    }
+                ],
+            "events": [], // empty array to store page events 
+            "version": "1.0"
+            };
+                  
+                  try {
+digitalData.events.push(
+{ "type": "analytics", 
+  "email": email1 } 
+);
+} catch (e) {
+} 
+}
+fnAnalytics('');
+            </script>
+
+     <script src="{!$label.pepAdobe_analytics_script}"></script>  
+</apex:component>

@@ -1,0 +1,3 @@
+<apex:page controller="pepJumioCallBackUrlController" action="{!saveData}" showHeader="false" sidebar="false" cache="{!$Label.Cache_Settings}">
+  
+</apex:page>

@@ -1,0 +1,299 @@
+<apex:page sidebar="false" controller="PepChangePaymentsFrequency" showHeader="false" standardStylesheets="false" docType="html-5.0"  cache="{!$Label.Cache_Settings}">
+
+ <apex:composition template="pepDashBoardHeaderSideBarTemplate"> 
+        <apex:define name="body"> 
+          <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+  
+                    <div class="page-form paymentFrequency">
+                            
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                    
+                                    <div class="loanTxtOuter">
+                                        <div class="loanTxtHead paymentFreCol">
+                                            <div class="page-row">
+                                                <h3><c:pepcmscomponent_Text pageNameTest="Change payments frequency" sectionName="SectionOne(CPF)"></c:pepcmscomponent_Text></h3>
+                                                <span class="headIcons">
+                                                <span class="fa fa-calendar"></span> 
+                                                <span class="fa fa-exchange"></span>
+                                                <span class="fa fa-calview"></span>
+                                                </span>
+                                            </div>
+                                            <!-- <div style="clear: both"></div> -->
+                                        </div>  
+
+                                       <c:pepcmscomponent_Text pageNameTest="Change payments frequency" sectionName="SectionTwo(CPF)"></c:pepcmscomponent_Text>        
+                                    </div>
+                                        <div class="form-elements">
+                                                
+                                            <div class="form-section innerForm">    
+                                                <div class="form-elements">
+                                                 <apex:outputPanel id="rerenderAmount">
+         
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">Choose frequency</label>
+                                                        <div class="form-dcntrls-lg">
+                                                            
+                                             <apex:selectList value="{!selectedFrequency}" multiselect="false" size="1" styleClass="frequencyClass"> 
+                                               <apex:selectOptions value="{!Frequency}" />                                      
+                                                 </apex:selectList> 
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">Debit Date</label>
+                                                        <div class="form-dcntrls-lg">
+                                                      <apex:inputText value="{!inputDate}" styleClass="inputDate" id="aeDate"/>
+                                                       <span class="errorMsg dateMSg" style="display: none;">{!$label.DashboardFrequencyError}<br></br>(next interest charge date: {!nextInterestChargeDate})</span> 
+                                                        </div>
+                                                    </div>
+                                                    
+                                                     
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls"></label>
+                                                        <div class="form-dcntrls-lg">
+                                                          <!--  <button class="button primaryBtn small">Pay Now</button>--> 
+                                                          <apex:commandButton action="{!calculateRepaymentValue}" value="Calculate" styleClass="button primaryBtn small " reRender="rerenderAmount,rerenderFrequency,rerenderfrequencyfunction" status="counterStatus" oncomplete="enableUpdateButton();"/>
+                                                        </div>
+                                                    </div>
+                                                     
+                                                    
+                                                    <hr class="pepperHR" />
+                                                   
+                                                      
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">Your repayment</label>
+                                                        <div class="form-dcntrls-lg amt">
+                                                                <strong>${!calculatedRepayment}</strong>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                   <div class="page-row">
+                                                        <label class="form-dcntrls">Paid on</label>
+                                                        <div class="form-dcntrls-lg freq">
+                                                                <strong>{!selectedFrequency}</strong>
+                                                        </div>
+                                                    </div>  
+                                                  
+                                                    </apex:outputPanel>
+
+                                                </div>  
+                                            </div>
+                                        
+                                        <div>
+                                            <p class="custom-chkBox">   
+                                               <!-- <c:pepcmscomponent_Text pageNameTest="Change payments frequency" sectionName="SectionThree(CPF)"></c:pepcmscomponent_Text>-->
+                                               <apex:outputText escape="false" value="{!Section3}" id="rerenderFrequency"/>
+                                             </p>
+                                        </div>
+
+                                        <div class="loanSetBotSec">
+                                          <!--  < <div class="colA"><button class="button secondaryBtn">Cancel</button></div>
+                                           <div class="colB"><button class="button primaryBtn">Change payment frequency</button></div> -->
+                                         <div class="colA"><apex:commandButton value="Cancel" action="{!cancelRedirection}" styleClass="button secondaryBtn"/></div>  
+                                         <div class="colB"><apex:commandButton action="{!updateLoanAccount}" value="Update payment frequency" styleClass="button primaryBtn temp" reRender="rerenderModal,rerenderMsg" status="counterStatus" oncomplete="showModal();">
+                                        </apex:commandButton>
+                                         </div>
+                                        </div>
+                                       </div>  
+                                    </div>  
+                                    
+                                        
+
+                                </div>
+                    </div>                  
+                  <!--  <div class="clear"></div> -->
+                
+
+<apex:outputPanel id="rerenderMsg">
+    <div id="pepperModal_success" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="fa fa-check-circle right"></span>
+            Your frequency has been updated.
+          </div>
+          <div class="modal-body">
+            <div class="page-row">
+                <div class="modalContent">
+                    <p>Your repayment: ${!calculatedRepayment}</p>
+                    <p>Paid on: {!selectedFrequency}</p>
+                    
+                </div>              
+            </div>
+            <div class="page-row">
+                <button class="button secondaryBtn modalOK wAuto" data-dismiss="modal" onClick="window.location.reload();">Continue</button>
+                     
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</apex:outputPanel>
+
+  <div id="pepperModal_activeHoliday" class="modal fade pepperModal_error" role="dialog" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            
+            Action Unavailable!
+          </div>
+          <div class="modal-body">
+            <div class="page-row">
+                <div class="modalContent">
+                    <p>This action is unavailable as your payment holiday is active.</p>
+                </div>              
+            </div>
+            <div class="page-row">
+                <apex:commandButton id="idPopupOk" action="{!cancelRedirection}" value="OK" styleClass="button secondaryBtn modalOK"/>
+                <!--<button class="button secondaryBtn modalOK">OK</button>-->
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div> 
+    
+ </apex:define> 
+     </apex:composition>
+    <apex:includeScript value="//code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+   <apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+  <apex:outputPanel id="rerenderfrequencyfunction">
+    <script>
+        
+   $('.frequencyClass, .inputDate').change(function()
+    {
+       checkFrequencyInFR();
+    });   
+        
+    function checkFrequencyInFR()
+    {
+           
+            var frequency = $('.frequencyClass').val().toLowerCase();
+            var diffDays = 'null';
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var dateValue = $('.inputDate').val();
+            var oneDay = 24*60*60*1000;
+            var inputDate ='';
+            var nextInterestDate ='';
+            var monthlyFrequencyDate ='';
+         
+            if(dateValue !='')
+            {
+                var arr1 =  dateValue.split('/');
+                inputDate = new Date(arr1[2], arr1[1] - 1, arr1[0]);
+                var nextDate = ('{!nextInterestChargeDate}');
+                var arr3 =  nextDate.split('/');
+                nextInterestDate = new Date(arr3[2], arr3[1] - 1, arr3[0]);
+                monthlyFrequencyDate = new Date(arr3[2], arr3[1] - 1, arr3[0]);
+                if(frequency =='monthly')
+                {
+                   monthlyFrequencyDate.setMonth(monthlyFrequencyDate.getMonth() +1);
+                   monthlyFrequencyDate.setDate(monthlyFrequencyDate.getDate() - 1);
+                }
+                     diffDays = Math.round((inputDate.getTime() - nextInterestDate.getTime())/(oneDay));
+           }
+            
+          if((!isValidDate(dateValue)) || inputDate<=nextInterestDate || diffDays<=0 || isNaN(diffDays) || diffDays =='null')
+           {
+               $('.primaryBtn ').attr("disabled","disabled");
+               $('.dateMSg').show();
+           }
+        
+          else if(frequency == 'weekly' && diffDays>6)
+            {
+               
+               $('.primaryBtn ').attr("disabled","disabled");
+               $('.dateMSg').show();
+            }
+             
+            else if(frequency =='fortnightly' && diffDays>13)
+             {
+                
+                $('.primaryBtn ').attr("disabled","disabled");
+                $('.dateMSg').show();
+             }
+             
+            
+            else if(frequency =='monthly' && inputDate > monthlyFrequencyDate)
+             {
+             
+                $('.primaryBtn ').attr("disabled","disabled");
+                $('.dateMSg').show();
+             }
+           
+           else
+           {    
+              // alert(); 
+               $('.temp').attr("disabled","disabled");
+               $('.small').removeAttr("disabled");
+               $('.dateMSg').hide();
+              
+           } 
+   
+  }    
+ </script>
+ </apex:outputPanel>
+ <script>       
+    function isValidDate(comingDate) 
+     {
+          var bits = comingDate.split('/');
+          var buildDate = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
+          return !!(buildDate && (buildDate.getMonth() + 1) == bits[1] && buildDate.getDate() == Number(bits[0]));
+    }
+
+        $(document).ready(function() {
+                datepicker();
+                // $(".inputDate").change();
+              $('.primaryBtn').attr("disabled","disabled");
+        });
+        
+       
+         function enableUpdateButton()
+        {
+            $('.primaryBtn').removeAttr("disabled");
+             datepicker();
+        }
+        
+         $(document).ready(function() {
+         
+                   if(('{!activeHoliday}')=='true')
+                        {
+                           $('#pepperModal_activeHoliday').modal();
+                        }
+                });
+                
+         function datepicker(){
+                $("[id$='aeDate']" ).datepicker({dateFormat:'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-6:+100",});
+       }   
+   </script>
+   
+   <apex:outputPanel id="rerenderModal">
+           <script>
+            function showModal() 
+            {
+                  // alert('{!successMsg}');
+                    if(('{!successMsg}')=='true')
+                    {
+                       $('#pepperModal_success').modal();
+                       $('.primaryBtn').attr("disabled","disabled");
+                       $('.small').attr("disabled","disabled");
+                    }
+                    else
+                    {
+                       $('#pepperModal_error').modal();
+                    }
+             }   
+           </script>
+   </apex:outputPanel>
+   <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+</apex:page>

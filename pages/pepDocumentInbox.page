@@ -1,0 +1,95 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" controller="pepDocumentInboxController" action="{!updateDocument}" cache="{!$Label.Cache_Settings}">
+  <apex:composition template="pepDashBoardHeaderSideBarTemplate" > 
+        <apex:define name="body">
+                   <apex:outputPanel id="IDForm">
+                   <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" />        
+                    <div class="page-form" id="mainForm">
+                            <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                        
+                                        <div class="loanTxtOuter">
+                                            <div class="page-row">
+                                                <div class="loanTxtHead">
+                                                    <h3><c:pepcmscomponent_Text pageNameTest="Document Inbox" sectionName="SectionOne(DI)"></c:pepcmscomponent_Text></h3>
+                                                </div>
+                                                <p><c:pepcmscomponent_Text pageNameTest="Document Inbox" sectionName="SectionTwo(DI)"></c:pepcmscomponent_Text></p>
+                                            </div>                                          
+                                            
+                                        </div>                                          
+                                        <div class="page-row">
+                                        <div class="form-elements">                                             
+                                            <div class="form-section frmSection-alt dashInbox"> 
+                                            
+                                                    <table class="table">
+                                                        <thead> 
+                                                            <tr> 
+                                                                <th>Date</th> 
+                                                                <th>Document</th>
+                                                            </tr> 
+                                                        </thead> 
+                                                        
+                                                        <apex:repeat value="{!lstSetController}" var="att">
+                                                        
+                                                        <tbody> 
+                                                        
+                                                            <tr> 
+                                                                <td><apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!att.createdDate}"/></apex:outputText></td> 
+                                                                <td class="pdf">{!att.name}</td> 
+                                                                <td><apex:outputLink value="{!URLFOR($Action.Attachment.Download, att.id)}" target="_blank" styleClass="download" ></apex:outputLink></td> 
+                                                            </tr>
+                                                         
+                                                        </tbody> 
+                                                        
+                                                        </apex:repeat>
+                                                    </table>    
+                                                       
+                                            </div>
+                                         <!--   <apex:commandButton value="<<Previous" action="{!previous}" rendered="{!hasPrevious}"  status="counterStatus"/>
+                                            <apex:commandButton value="Next >>" action="{!next}" rendered="{!hasNext}"  status="counterStatus" />-->
+                                            <div class="pagination">
+                                                <span class="back">
+                                                <apex:commandLink value="Back" action="{!previous}" status="counterStatus" rendered="{!lstIntBar.size>1 && intPageNumber!=1}" reRender="IDForm" />
+                                                <apex:outputtext value="Back"  rendered="{!lstIntBar.size>1 && intPageNumber==1}"  /> 
+                                                   <!--<a href="javascript:void(0);">Back</a>--></span>
+                                                
+                                                <span class="pageNumbers">
+                                               <apex:repeat value="{!lstIntBar}" var="pNumber">
+                                                <apex:commandLink value="{!pNumber}" action="{!GoTo}" styleClass="" status="counterStatus"  reRender="IDForm"  rendered="{!intPageNumber!=pNumber}">
+                                                 <apex:param name="pn" assignTo="{!intPageNumber}" value="{!pNumber}"/>
+                                                </apex:commandLink>
+                                                <!-- {!if(intPageNumber==pNumber,'active','')} -->
+                                                <apex:outputText rendered="{!intPageNumber==pNumber}"><a Class="active">{!pNumber}</a></apex:outputText>
+                                               </apex:repeat>
+                                               </span>
+                                                <span class="next"><apex:commandLink value="Next" action="{!next}" rendered="{!hasNext}" status="counterStatus" reRender="IDForm"  /> 
+                                                <apex:outputtext value="Next"  rendered="{!!hasNext && lstIntBar.size>1}"   /> 
+                                                
+                                                    <!--<a href="javascript:void(0);">Next</a>--></span><br/>
+                                                <center><span>Total Pages:{!Total_Pages}</span></center> 
+                                             </div> 
+                                        </div>  
+                                    </div>  
+                                </div>
+                                </div>
+                    </div>   
+                    </apex:outputPanel>       
+                      </apex:define> 
+     </apex:composition>             
+
+   
+    <script>
+        $(function(){
+            $(document).on("click", ".plus", function(e){
+                e.preventDefault();
+                $(this).parents("li").find(".toggleBlk").slideToggle();
+                $(this).toggleClass("minus");
+            });
+        });
+    </script>
+
+<style>
+.loanTxtHead h3 { padding-left:0px!important;}
+</style>
+
+</apex:page>

@@ -1,0 +1,348 @@
+<apex:page standardStylesheets="false" controller="pepPaymentHolidayDashboardController" sidebar="false" showHeader="false"  docType="html-5.0" id="idPage" cache="false">
+    <apex:composition template="pepDashBoardHeaderSideBarTemplate" > 
+        <apex:define name="body">
+        
+           <apex:inputHidden id="inputHidden"/>
+           <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+            <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+           <apex:actionFunction name="callActionFun" action="{!selectedData}"   reRender="parentout,wrapperRpt,wrapperOut1,wrapperOut2" status="counterStatus" oncomplete="testCheck();" >
+            <apex:param name="rowNo" value="" assignTo="{!selectedCheckbox}"/>
+          </apex:actionFunction>
+           <!--<apex:actionFunction name="rerenderGraph" reRender="idGraph"/>              -->
+                         
+            <div class="page-form paymentHoliday">
+                        
+                            <div class="page-row">
+                                 <div class="form-section" style="padding:0 15px;">  
+                               
+                                <div class="loanTxtOuter">
+                                    <div class="loanTxtHead">
+                                        <div class="page-row">
+                                            <h3>{!lstCMSSection1[0].pepHeader__c} </h3>
+                                            <span class="headIcons">
+                                            <span class="fa fa-plane"></span>
+                                            </span>
+                                        </div>
+                                        <!-- <div style="clear: both"></div> -->
+                                    </div>  
+                                    <c:pepcmscomponent_Text pageNameTest="Dashboard(Payment Holiday)" sectionName="PaymentHolidayDBSection1"></c:pepcmscomponent_Text>
+                                   </div>
+                                    <div class="form-elements" style="padding-left:0;padding-right:0;">
+                                            
+                                        <div class="form-section innerForm" style="padding:0 10px;">    
+                                            <div class="form-elements">
+                                           
+         
+                                                    
+                                                <p>{!lstCMSSection2[0].pepHeader__c}</p>
+                                                
+                                                <div class="paymentHolidayCal">
+                                                
+                                                <apex:outputPanel id="parentout">
+                                                <apex:variable var="i" value="{!1}"/>
+                                                <apex:repeat value="{!lstWrapper}" var="wrapper" id="wrapperRpt"> 
+                                               
+                                                <apex:outputPanel rendered="{!IF(i<=2,true,false)}" id="wrapperOut1"> 
+                                                    <span  class ="{!IF(i<=2,'custom-chkBox chkboxDis','custom-chkBox')}" >  
+                                                        <input type="checkbox" id="aprildis"  name="aprildis" tabindex="21" disabled="disabled"  onclick="checkedMonth('{!i}');"/>
+                                                        <label for="aprildis"></label>
+                                                        <div>{!wrapper.strMonth}<br/>{!wrapper.strYear}</div>
+                                                    </span>
+                                                  </apex:outputPanel>
+                                                
+                                                     <apex:outputPanel rendered="{!IF(i> 2,true,false)}" id="wrapperOut2">
+                                                      
+                                                        
+                                                           
+                                                        <span  class ="{!IF(wrapper.disableCounter >= 3 && wrapper.isChecked!=true  ,'custom-chkBox chkboxDis','custom-chkBox')}"> 
+                                                      
+                                                         <input type="checkbox" class="{!IF(wrapper.isChecked==true ,'chkboxes checked',IF(wrapper.disableCounter >= 3,'disable chkboxes','chkboxes'))}"  name="{!wrapper.strMonth}" tabindex="21" id="{!wrapper.strMonth}{!wrapper.strYear}" onclick="checkedMonth('{!i}','{!wrapper.strMonth}{!wrapper.stryear}');" />
+                                                           
+                                                            <label for="{!wrapper.strMonth}{!wrapper.strYear}"></label>
+                                                            <div>{!wrapper.strMonth}<br/>{!wrapper.strYear}</div>
+                                                        </span>
+                                                      </apex:outputPanel>
+                                                 
+                                                  <apex:variable var="i" value="{!i+1}"/>  
+                                                </apex:repeat>
+                                                 </apex:outputPanel>
+                                              <span class="errorMsg" style="display:none">You can only select maximum 3 holidays for a rolling 12 months time period</span>
+                                                   
+                                                <div class="clear"></div>
+                                                    <div class="calInfoCont">
+                                                    <div class="txtInfo">
+                                                        <div  class ="{!If(isRecurringDisable == true,'custom-chkBox chkboxDis','custom-chkBox')}">
+                                                        <apex:inputCheckbox id="requestInfo"  value="{!isRecurring}" disabled="{!isRecurringDisable == true}"  /> 
+                                                        <!--<input type="checkbox" id="requestInfo" name="debt" tabindex="24"/>-->
+                                                        <label for="idPage:idPage:myForm:requestInfo">Make these holidays recurring over the life of the loan</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btnInfo">
+                                                       <apex:commandButton styleClass="button primaryBtn calc" value="Calculate"  action="{!calculate}" status="counterStatus"      />
+                                                      
+                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                               
+                                                <apex:outputPanel layout="block" styleclass="graphCont" id="idGraph" >
+                                                  <apex:outputPanel id="idoutyyy">
+                                                    <table style="width:100%;height:100%;overflow-x:scroll;"  >
+                                                    <tr>
+                                                    
+                                                    <td id="barchart_material" ></td>
+                                                    </tr>
+                                                    </table>
+                                                  
+                                                     
+                                                 </apex:outputPanel>  
+    
+                                                  
+                                                </apex:outputPanel>
+
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    
+                                    <div class="botInfo">
+                                       
+                                        <c:pepcmscomponent_Text rendered="{!showText}" pageNameTest="Dashboard(Payment Holiday)" sectionName="PaymentHolidayDBSection2" ></c:pepcmscomponent_Text>
+                                
+                                    </div>
+
+    
+                                    <div class="loanSetBotSec">
+                                        <div class="colA">
+                                            
+                                            <apex:commandButton styleClass="button secondaryBtn" value="Cancel" action="{!cancelpaymentHoliday}"/>
+                                        </div>
+                                        <div class="colB">
+                                        <apex:commandButton value="Set up payment holiday" styleClass="button primaryBtn" action="{!SavepaymentHoliday}" oncomplete="$('#pepperModal_success').modal();" status="counterStatus"/>
+                                        
+                                        </div>
+                                    </div>
+
+                                    </div>  
+                                </div>  
+                                
+                                    
+
+                            </div>
+                </div>    
+
+<div id="pepperModal_success" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        Your payment holiday has been set up.
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                
+            </div>              
+        </div>
+        <div class="page-row">
+            <apex:commandButton id="idOK" action="{!redirectOK}" value="OK" styleClass="button secondaryBtn modalOK"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>                
+                                     
+       
+     
+     </apex:define> 
+     </apex:composition>
+     
+     
+  
+   <script>
+   
+    function checkedMonth(rowNO,strVal)
+    {  
+        
+     
+        //$("#"+strVal+"").removeClass('checked');        
+        $('[Id$=inputHidden]').val(strVal);
+        callActionFun(rowNO);      
+        
+        
+    }
+    
+    function testCheck()
+    {
+        
+        $(".custom-chkBox input[type='checkbox'].checked").prop( "checked", true );
+        addDisable();
+    }
+    
+   
+    
+    function addDisable() 
+    {
+        $(".disable").each(function()
+        {    
+        
+        $(this).attr("disabled", "true");
+        
+        });
+
+
+    }
+    
+    
+   </script> 
+  
+   <script> 
+    
+    
+    $(document).ready(function()
+     {
+        callgoogleChart();
+        addDisable();
+        
+     });
+     
+     
+    </script>
+    
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+     // google.load("visualization", "1.1", {packages:["corechart"]});
+     // google.setOnLoadCallback(drawVisualization);
+      
+      
+      function callgoogleChart()
+      {
+         google.charts.load('current', {'packages':['corechart']});
+         google.charts.setOnLoadCallback(drawVisualization);
+      
+      }
+     
+      
+      function drawVisualization()
+      {
+       
+          
+        var data = google.visualization.arrayToDataTable([
+        ['Month','Bolivia',{ role: 'style' },{ role: 'annotation' },'test',{ role: 'style' },{ role: 'annotation' }],
+        
+             <apex:repeat value="{!lstChartwrapper}" var="key" >                 
+                    ['{!key.strMonthName}',{!key.decMinValue},'fill-color: #006845','{!key.strminValue}',{!key.decDifferenceVal},'stroke-width: 0; fill-color: #ffd100','{!key.decMonthVal}'],
+                   
+            </apex:repeat>
+         
+      ]);
+        
+   
+      var options = {
+      seriesType: 'bars',
+      series: {2: {type: 'line',visibleInLegend :false}},
+      lineWidth:3,
+      pointSize:13,
+      
+      hAxis:
+      {
+       title: '',
+       
+      
+       titleTextStyle:
+       {
+        bold: true
+       }
+
+  
+  
+      },
+      pointsVisible:false,
+      bar: { groupWidth: '30%' },
+      isStacked: true,  
+      
+          
+      
+      vAxis:{ ticks: [{v:0,f:''}],
+     
+
+        maxValue:{!decMaxValueForChart},
+        title:'amount(frequency)',
+        direction:1,
+        
+        titleTextStyle:{bold:true},
+        paddingRight: '500',
+        marginRight: '100',
+        
+      
+        
+       
+       },
+      
+      
+          backgroundColor: '#e8e9ea',
+      chartArea:{left:10,top:0,right:0,width:'100%',height:'70%',backgroundColor: '#e8e9ea'},
+        tooltip:{
+        trigger: 'none'
+        }
+      
+    };
+        
+  
+           var chart3 = new google.visualization.ComboChart(document.getElementById('barchart_material'));
+           chart3.draw(data, options);
+     }
+     
+     
+
+       
+
+    
+    </script>
+   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+      <script>
+         /* var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+            
+            window.addEventListener(orientationEvent, function() {
+            google.charts.setOnLoadCallback(drawVisualization);
+               
+            }, false);
+            
+          */
+          
+           
+            
+          $(window).on("orientationchange",function(){
+           
+             google.charts.setOnLoadCallback(drawVisualization);
+            });
+            
+            $(window).on("load", function(){
+                google.charts.setOnLoadCallback(drawVisualization);
+            });
+            
+            
+          
+     </script>
+   
+    <style>
+    
+    .graphCont { overflow-x: auto; overflow-y:hidden; }
+     .graphCont table{  height:230px !important;}
+     .graphCont table[style]{
+         min-width: 770px !important;
+     
+            
+     }
+   </style>
+   <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+ 
+</apex:page>

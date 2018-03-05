@@ -1,0 +1,1131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>AfterExpiredDays__c</fullName>
+        <externalId>false</externalId>
+        <formula>Today()-DWH_Propert_Ins_Exp_Date__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>AfterExpiredDays</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Assign_To_Me__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Assign To Me</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assign_To_Servicing_TL__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Assign To Servicing TL</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>AssignedToLoggedIn__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(OwnerId ==  $User.Id ,true,false)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>AssignedToLoggedIn</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assigned_To__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Owner:Queue.QueueName != &apos;&apos;,Owner:Queue.QueueName, Owner:User.FirstName &amp; &apos; &apos;&amp; Owner:User.LastName )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Assigned To</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>COC_Not_Applicable__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Not Applicable (Discharged)</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Call_Created__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Call Created</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Cease_Process__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Cease Process</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Close_Reason__c</fullName>
+        <externalId>false</externalId>
+        <label>Close Reason</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Property Insurance Updated</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Incomplete - Borrower contacted</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Invalid Property</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Responded To Customer enquiry</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>3rd attempt no response</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>DWH_Instance__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>DWH: Instance</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DWH_Propert_Ins_Exp_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Security Insurance Expiry Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>DWH_Source_System__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>DWH: Source System</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Day7Letter_Date_Time__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Day7Letter(Date/Time)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Details_Sent_To_ESB__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Details(COC Data) sent to Jackson if box is ticked.</inlineHelpText>
+        <label>Insurance Details sent to Jackson?</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Disable_Letter_To_Customer__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Disable Letter To Customer</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Disable_SMS_To_Customer__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Disable SMS To Customer</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Disable_Task_Assignment_To_Call__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Disable Task Assignment To Call</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Don_t_Send_To_Jackson__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Don&apos;t Send To Jackson</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ESB_API_Success_Error_Message__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Message returned from Jackson</label>
+        <length>131072</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Expiry_Date_Time__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Expiry Date Time</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Financed__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Financed</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Insurance_API_Log__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Insurance API Log</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Insurance_Premium__c</fullName>
+        <externalId>false</externalId>
+        <label>Insurance Premium</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Insurance_Type_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Insurance Type Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Insurer_Short_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Insurer Short Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Letter_Send_Pending_Holiday_7_days__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Is Letter Send Pending(Holiday) 7 days</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_SMS_Send_Pending_Holiday_14_days__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Is SMS Send Pending (Holiday) 14 days</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_SMS_Send_Pending_Holiday_1_day_exp__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Is SMS Send Pending (Holiday) 1 day exp</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Issue_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Issue Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Legal_Entity_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Legal Entity Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Letter_Generation_API_Log__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Letter Generation API Log</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Letter_Generation_Submitted__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Letter Generation Submitted</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Letter_Generation_Success_Error_Message__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Letter Generation(Success/Error) Message</label>
+        <length>131072</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Letter_Sent_To_Customer__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>7 day Pre Expiry Letter sent to Customer</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Loan_Surrogate__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Number</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Make_visible_in_Queue__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Make visible in Queue</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Mobile_Phone__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Mobile Phone</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Mortgage_Funding__c</fullName>
+        <externalId>false</externalId>
+        <formula>Property__r.CL_Contract__r.ScCollection_Mortgage_Funding__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Mortgage Funding</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MotgageFunding__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>MotgageFunding</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Not_Applicable_for_COC_Process__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Not Applicable for COC Process</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>OriginatorID__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>OriginatorID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OriginatorShortName__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>OriginatorShortName</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Originator_Id__c</fullName>
+        <externalId>false</externalId>
+        <formula>Property__r.CL_Contract__r.ScCollection_Originator_ID__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Originator Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Originator_Short_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Property__r.CL_Contract__r.ScCollection_Originator_Short_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Originator Short Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_Amount_Insured__c</fullName>
+        <externalId>false</externalId>
+        <label>Security Amount Insured</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_External_ID__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Security External ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_Ins_Policy_No__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Security Insurance Policy Number</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_Insurance_External_Id__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>true</externalId>
+        <label>Security Insurance External Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_Insurer_External_ID__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Security Insurer External ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_Insurer_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(NOT(ISBLANK( Property_Insurer__r.Name__c )),Property_Insurer__r.Name__c,&apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Security Insurer Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property_Insurer__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Security Insurer</label>
+        <referenceTo>Property_Insurer__c</referenceTo>
+        <relationshipName>PropertyInsurances</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Property_Replace_Sq_Mtrs__c</fullName>
+        <externalId>false</externalId>
+        <label>Security Replace Sq Mtrs</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Property__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Security Number</label>
+        <referenceTo>Property__c</referenceTo>
+        <relationshipName>PropertyInsurances</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Public_Liability_Cover__c</fullName>
+        <externalId>false</externalId>
+        <label>Public Liability Cover</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ReinitiateTimedependentActions__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>ReinitiateTimedependentActions</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Risk_Entity__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Risk Entity</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SMS_1_Day_Post_Expiry__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>SMS 1 Day Post Expiry</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>SMS_Before_14_Days__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>SMS Before 14 Days</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Security_Property_Address__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Security Property Address</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>SendInsuranceDetailsToJackson__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>SendInsuranceDetailsToJackson</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>SendLetter__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>SendLetter</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Short_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Property__r.CL_Contract__r.collect__Account__r.IsPersonAccount, 
+Property__r.CL_Contract__r.collect__Account__r.PersonContact.FirstName &amp; &apos; &apos; &amp; Property__r.CL_Contract__r.collect__Account__r.PersonContact.LastName, 
+Property__r.CL_Contract__r.collect__Account__r.Name)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Short Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Source_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Source Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Open</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COC Incomplete</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Task_To_Call_Created__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Task To Call Created</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>TobeexpiredDays__c</fullName>
+        <externalId>false</externalId>
+        <formula>DWH_Propert_Ins_Exp_Date__c-Today()</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>TobeexpiredDays</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Security Insurance</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Short_Name__c</columns>
+        <columns>DWH_Propert_Ins_Exp_Date__c</columns>
+        <columns>Security_Property_Address__c</columns>
+        <columns>Status__c</columns>
+        <columns>Assigned_To__c</columns>
+        <columns>SMS_Before_14_Days__c</columns>
+        <columns>Letter_Generation_Submitted__c</columns>
+        <columns>SMS_1_Day_Post_Expiry__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>AssignedToLoggedIn__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>notEqual</operation>
+            <value>Closed</value>
+        </filters>
+        <label>Assigned To Me</label>
+    </listViews>
+    <listViews>
+        <fullName>All1</fullName>
+        <columns>NAME</columns>
+        <columns>Mobile_Phone__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Mobile_Phone__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Sydney_Queue</fullName>
+        <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5) OR (1 AND 2 AND 3 AND 4 AND 6)</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Loan_Surrogate__c</columns>
+        <columns>DWH_Propert_Ins_Exp_Date__c</columns>
+        <columns>Mobile_Phone__c</columns>
+        <columns>Security_Property_Address__c</columns>
+        <columns>Status__c</columns>
+        <columns>Assigned_To__c</columns>
+        <columns>Letter_Generation_Submitted__c</columns>
+        <columns>SMS_Before_14_Days__c</columns>
+        <columns>SMS_1_Day_Post_Expiry__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Assigned_To__c</field>
+            <operation>contains</operation>
+            <value>Sydney</value>
+        </filters>
+        <filters>
+            <field>Not_Applicable_for_COC_Process__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>DWH_Propert_Ins_Exp_Date__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>8/1/2017</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>notEqual</operation>
+            <value>Closed</value>
+        </filters>
+        <filters>
+            <field>AfterExpiredDays__c</field>
+            <operation>greaterThan</operation>
+            <value>7</value>
+        </filters>
+        <filters>
+            <field>TobeexpiredDays__c</field>
+            <operation>lessOrEqual</operation>
+            <value>14</value>
+        </filters>
+        <label>Sydney Queue</label>
+        <queue>Sydney_Queue</queue>
+        <sharedTo>
+            <group>COC_Team</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Unallocated</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Loan_Surrogate__c</columns>
+        <columns>Mobile_Phone__c</columns>
+        <columns>DWH_Propert_Ins_Exp_Date__c</columns>
+        <columns>Security_Property_Address__c</columns>
+        <columns>Status__c</columns>
+        <columns>Assigned_To__c</columns>
+        <columns>Letter_Generation_Submitted__c</columns>
+        <columns>SMS_Before_14_Days__c</columns>
+        <columns>SMS_1_Day_Post_Expiry__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Assigned_To__c</field>
+            <operation>equals</operation>
+            <value>Unallocated</value>
+        </filters>
+        <filters>
+            <field>Not_Applicable_for_COC_Process__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>DWH_Propert_Ins_Exp_Date__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>8/1/2017</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>notEqual</operation>
+            <value>Closed</value>
+        </filters>
+        <filters>
+            <field>OriginatorShortName__c</field>
+            <operation>notContain</operation>
+            <value>HOMELOANS LIMIT</value>
+        </filters>
+        <label>Unallocated</label>
+        <queue>UnAllocated_Insurance</queue>
+        <sharedTo>
+            <group>COC_Team</group>
+        </sharedTo>
+    </listViews>
+    <nameField>
+        <label>Security Insurance Name</label>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Security Insurances</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Mortgage_Insurance</fullName>
+        <active>true</active>
+        <label>Mortgage</label>
+        <picklistValues>
+            <picklist>Close_Reason__c</picklist>
+            <values>
+                <fullName>3rd attempt no response</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Incomplete - Borrower contacted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Invalid Property</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Property Insurance Updated</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Responded To Customer enquiry</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>COC Incomplete</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Open</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>PAF_Insurance</fullName>
+        <active>true</active>
+        <label>PAF</label>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>COC Incomplete</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Open</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>DWH_Propert_Ins_Exp_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Security_Property_Address__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Insurance_Premium__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Insurer_Short_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Property_Ins_Policy_No__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Property_Replace_Sq_Mtrs__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Public_Liability_Cover__c</lookupDialogsAdditionalFields>
+        <searchFilterFields>DWH_Propert_Ins_Exp_Date__c</searchFilterFields>
+        <searchFilterFields>Security_Property_Address__c</searchFilterFields>
+        <searchFilterFields>Insurance_Premium__c</searchFilterFields>
+        <searchFilterFields>Insurer_Short_Name__c</searchFilterFields>
+        <searchFilterFields>Property_Ins_Policy_No__c</searchFilterFields>
+        <searchFilterFields>Mobile_Phone__c</searchFilterFields>
+        <searchFilterFields>Property_Amount_Insured__c</searchFilterFields>
+        <searchFilterFields>Property_Insurer__c</searchFilterFields>
+        <searchFilterFields>Property_Replace_Sq_Mtrs__c</searchFilterFields>
+        <searchFilterFields>Status__c</searchFilterFields>
+        <searchResultsAdditionalFields>Expiry_Date_Time__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Security_Property_Address__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Loan_Surrogate__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>MotgageFunding__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>OriginatorID__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>OriginatorShortName__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Risk_Entity__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Property_Ins_Policy_No__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Insurer_Short_Name__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Close_Reason_Validation</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND(ISPICKVAL(Status__c,&apos;Closed&apos;),Source_Name__c=&apos;MORTGAGE&apos;, ISPICKVAL(Close_Reason__c,&apos;&apos;)),true,false)</errorConditionFormula>
+        <errorMessage>Close reason is necessary   for closing the Property Insurance.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Prevent_Update_Before_Assignment</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND(AssignedToLoggedIn__c == false,ISPICKVAL(Status__c,&apos;Closed&apos;),Source_Name__c=&apos;MORTGAGE&apos;, $Profile.Name !=&apos;System Administrator&apos;, $Profile.Name !=&apos;System Admin Integration&apos;),true,false)</errorConditionFormula>
+        <errorMessage>Each Property Insurance record must be assigned to an agent before updating. Please assign to yourself and try again.</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Assign_To_Me</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Assign To Me</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/34.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/34.0/apex.js&quot;)} 
+var application= sforce.connection.query(&quot;SELECT Id,OwnerId from Property_Insurance__c where id =&apos;{!Property_Insurance__c.Id}&apos; limit 1&quot;); 
+
+var records = application.getArray(&quot;records&quot;); 
+var app=records[0]; 
+var genApplication= new sforce.SObject(&quot;Property_Insurance__c&quot;); 
+genApplication.Id = &apos;{!Property_Insurance__c.Id}&apos;; 
+genApplication.OwnerID=&apos;{!User.Id}&apos;; 
+//save the change 
+result = sforce.connection.update([genApplication]); 
+javascript: document.location.reload(true)</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Insurance_Updation_Error</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Insurance Update Error</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/apex.js&quot;)} 
+if(&apos;{!Property_Insurance__c.Insurance_API_Log__c}&apos;==&apos;&apos;){ 
+alert(&quot;Not Applicable&quot;); 
+} 
+else{ 
+sforce.apex.execute(&quot;JacksonApiCalling&quot;,&quot;updateError&quot;,{apilog:&quot;{!Property_Insurance__c.Insurance_API_Log__c}&quot;,entity:&quot;Insurance&quot;,recordID:&quot;{!Property_Insurance__c.Id}&quot;}); 
+location.reload(true); 
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Invoke_letter_Generation</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Invoke letter Generation</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/apex.js&quot;)} 
+if(&apos;{!Property_Insurance__c.AssignedToLoggedIn__c}&apos;==&apos;1&apos;){
+
+if(&apos;{!Property_Insurance__c.Letter_Generation_Submitted__c}&apos;== &apos;1&apos;){ 
+alert(&apos;Already submitted to Jackson.&apos;); 
+} 
+else{ 
+var valid=sforce.apex.execute(&quot;JacksonApiCalling&quot;,&quot;submitLetterInvocation&quot;,{insuranceID:&quot;{!Property_Insurance__c.Id}&quot;}); 
+if(valid==&apos;true&apos;){
+alert(&apos;Letter Invocation Submitted sucessfully.&apos;); 
+location.reload(true);
+}
+else{
+alert(&quot;Property is not registered or Loan contract is not active or Property does not belong to Lenders for COC.&quot;);
+} 
+} 
+}
+else{
+alert(&quot;Please assign the insurance to you.&quot;);
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Letter_Generation_Error</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Letter Generate Error</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/31.0/apex.js&quot;)}
+if(&apos;{!Property_Insurance__c.Letter_Generation_API_Log__c}&apos;==&apos;&apos;){
+alert(&quot;Not Applicable&quot;);
+}
+else{
+sforce.apex.execute(&quot;JacksonApiCalling&quot;,&quot;updateError&quot;,{apilog:&quot;{!Property_Insurance__c.Letter_Generation_API_Log__c}&quot;,entity:&quot;Letter&quot;,recordID:&quot;{!Property_Insurance__c.Id}&quot;}); 
+location.reload(true);
+}</url>
+    </webLinks>
+</CustomObject>

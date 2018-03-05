@@ -1,0 +1,275 @@
+<apex:page controller="pepRetrieveApplication" id="pageId"  standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" cache="{!$Label.Cache_Settings}">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retrieve Application</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->
+
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+    <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+    <style>
+   
+   body {
+          padding-right: 0px !important;
+ 
+    }
+   
+    .modal-open {
+     overflow-y: auto!important;
+     }
+     .errorholder{
+     color: #DF0024;
+    font-size: 14px !important;
+    line-height: 20px;
+    text-align: left;
+    float: left;
+    margin-top: 0 !important;
+    font-weight: normal;
+}
+     
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="pepperContainer">
+    <apex:form id="idForm">
+    <apex:inputHidden value="{!inputValue}" id="theHiddenInput"/>
+    <apex:inputHidden value="{!strRetrieveCode}" id="strRetrieveCodeHidden"/>
+ <apex:inputHidden id="inputHidden1" value="{!retrieveEmail}"/>
+ <apex:inputHidden id="inputHidden2" value="{!retrievePhone}"/>
+   
+    
+        <!-- Expenses Calculator Modal window starts here -->
+                           <div id="retrieveApp2" class="fade modalBase modalBaseSmall" role="dialog">
+                                <div class="modalDialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                          <span  class="times right" data-dismiss="modal">x</span>
+                                          <h4 class="modal-title left">Retrieve my application</h4>
+                                        </div>
+                                    <apex:outputpanel styleclass="page-form" id="outTest">
+                                    <apex:messages /> 
+                                        <div class="form-elements">
+                                            <div class="page-row">
+                                                <p>
+                                                Input the application code we sent you by email or SMS
+
+                                                </p>
+                                                
+                                            </div>
+                                                
+                                                    <p>
+                                                        <apex:inputtext value="{!strRetrieveCode}" id="retrieveCode2"  styleclass="retrievalcode" />
+                                                        <span class="errorMsg">Please enter retrieval code.</span>
+              
+                                                    </p>
+                                            
+                                                <apex:outputPanel id="idfuncCallRet2">
+                                                <script>
+                                                    function CallrenderFunc2(){
+                                                      
+                                                        var isDisplayRet={!isError};
+                                                        var displaybackendText={!showBlankretrieval};
+                                                         if(isDisplayRet==true)
+                                                         {                                                    
+                                                            $("#retrieveApp2").find(".errorMsg").show();
+                                                          
+                                                            if(displaybackendText==true)
+                                                            $("#retrieveApp2").find(".errorMsg").text("No Application found for this retrieval code");
+                                                            else
+                                                            $("#retrieveApp2").find(".errorMsg").text("Please enter retrieval code.");
+                                                         }
+                                                         else
+                                                         {
+                                                            $("#retrieveApp2").modal("hide");
+                                                         }                                 
+                                                    }
+                                                </script>
+                                                <apex:actionStatus id="retrieveStatus" startStyleClass="spinner"/>
+                                                <p class="form-cntrl">
+                                                <apex:commandButton action="{!retrieveApplication}" onclick="callRetrieve(this.value);" value="Retrieve" id="theButton5R" styleClass="button primaryBtn" rerender="idfuncCallRet2,outTest" oncomplete="CallrenderFunc2();"  status="retrieveStatus" />
+                                                
+                                                </p>    
+                                                </apex:outputPanel>
+                                                <p>
+                                                    Lost your application code? <u><a href="javascript:void(0)" onclick="$('#retrieveApp2').find('.errorMsg').text('Please enter retrieval code.');$('#retrieveApp2').find('.errorMsg').hide();$('#retrieveApp2').modal('hide');$('#Resend2').modal('show')">Resend now.</a></u>
+                                                </p>
+                                                
+                                            </div>
+                                        </apex:outputpanel>
+                                    </div>
+                                
+                                    </div>
+                                </div> 
+                                
+                                <!--start of last modal-->
+                                
+                                <!-- Expenses Calculator Modal window ends here -->
+                            <div id="Resend2" class="fade modalBase modalBaseSmall" role="dialog">
+                            <div class="modalDialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                      <span  class="times right" data-dismiss="modal">×</span>
+                                      <h4 class="modal-title left">Save your application</h4>
+                                    </div>
+                                <div class="page-form">
+                                    <div class="form-elements">
+                                        <div class="page-row">
+                                            
+                                            <p>
+                                            We will send you a individual and secure code which you can use to save and access your application.
+                                            </p>
+                                            <p>
+                                            How would you like to receive your code?
+                                            </p>
+                                            
+                                        </div>
+                                            <div class="page-row">
+                                            
+                                                <div class="form-cntrls">
+                                                    <label class="radioBtns">
+                                                        <input type="radio" name="repayloan" id="repayloan_yes"/>
+                                                     <span class="button staticBtn radio_yes" onclick="assignhidden('email');temp='email';$('.initialSendButton').attr('disabled',false);$('#tellusabout3').collapse('show'); $('#tellusabout4').collapse('hide')">Email</span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-cntrls">
+                                                    <label class="radioBtns">
+                                                        <input type="radio" name="repayloan" id="repayloan_no"/>
+                                                        <span class="button staticBtn radio_no" onclick="assignhidden('mobile');temp='mobile';$('.initialSendButton').attr('disabled',false);$('#tellusabout4').collapse('show'); $('#tellusabout3').collapse('hide')">SMS</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div id="tellusabout3" class="collapse">
+                                                <div class="page-row">
+                                                
+                                                    <label class="form-cntrls custom_sml_label">
+                                                            Email
+                                                    </label>
+                                                   
+                                                    <div class="form-cntrls custom_sml_cntrl">
+                                                        <apex:inputtext value="{!retrieveEmail}" id="newEmailR" styleClass="isEmail"  onblur="pepperApp.validation.isRequired(this.id);pepperApp.validation.isEmail(this.id);"/>
+                                                        <span class="errorMsg errorEmail">Either the entered email is invalid or there is no application present in the system for this email.</span>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            <div id="tellusabout4" class="collapse">
+                                                <div class="page-row">
+                                                
+                                                    <label class="form-cntrls">
+                                                            Mobile Number
+                                                    </label>
+                                                    <div class="form-cntrls">
+                                                        <apex:inputtext value="{!retrievePhone}" id="newPhoneR" styleClass="isPhone" onblur="pepperApp.validation.isRequired(this.id);pepperApp.validation.isPhone(this.id);" 
+                                                        html-placeholder="04XXXXXXXX" onkeypress="javascript:return numbersonly(event)"/>
+                                                        <span class="errorMsg errorMobile">Either the entered Mobile Number is invalid or there is no application present in the system for this Mobile Numer.</span>
+
+                                                    </div>
+                                                </div>
+                                              </div>
+                                              
+                                              <apex:actionStatus id="retrieveStatus2" startStyleClass="spinner"/>
+                                            <div class="form-cntrl">
+                                                <apex:commandButton onclick="setval();" action="{!resendCode}" value="Send" id="theButton6R" styleClass="button primaryBtn initialSendButton" reRender="idfuncCallRet3,inputHidden1,inputHidden2" onComplete="CallrenderFuncRet3();" status="retrieveStatus2">
+                                                
+                                                </apex:commandbutton>
+                                               <apex:outputPanel id="idfuncCallRet3">
+                                               
+                                                   <script>
+                                                   
+                                                        function CallrenderFuncRet3(){
+                                                            var resend={!isError};                                                   
+                                                            if(resend==true)
+                                                            {
+                                                                if(temp=='mobile')
+                                                                $("#Resend2").find(".errorMobile").show();
+                                                                else
+                                                                 $("#Resend2").find(".errorEmail").show();
+                                                                
+                                                            }
+                                                            else
+                                                            {
+                                                            
+                                                            
+                                                            $("#Resend2").find(".errorMobile").hide();
+                                                            $("#Resend2").find(".errorEmail").hide();
+                                                            $("#Resend2").modal("hide");
+                                                            $("#retrieveApp2").modal("show");
+                                                            $(".retrievalcode").val("");
+                                                            $(".isEmail").val("");
+                                                            $(".isPhone").val("");
+                                                            }
+                                                    }
+                                                    </script>
+                                                     </apex:outputPanel>
+                                            </div>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <!-- Modal window ends here -->                   
+        </apex:form>
+    </div>
+    
+
+    <div class="pageFooter">
+        <footer class="pepperContainer">
+            Pepper Group Limited ABN 55 094 317 665; Australian Finance Services Licence 286655; <br/>
+Australian Credit Licence 286655 Pepper Asset Finance Pty Ltd ACN 165 183 317; Australian Credit Licence 458899 <br/>
+&copy; Copyright 2016 Pepper Group Limited, All rights reserved.
+        </footer>
+    </div>
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+<script>
+$(window).load(function(){
+  $("#retrieveApp2").modal("show");
+});
+$(document).ready(
+function(){
+$('.initialSendButton').attr('disabled',true);
+
+}
+);
+function assignhidden(r){
+document.getElementById("pageId:idForm:theHiddenInput").value=r;
+}
+var temp;
+
+
+function callRetrieve()
+{
+   var strcode = document.getElementById('pageId:idForm:retrieveCode2').value;
+    $('[Id$=strRetrieveCodeHidden]').val(strcode);
+    
+}
+
+function setval()
+{
+       $('[Id$=inputHidden1]').val( $('[Id$=newEmailR]').val());
+       $('[Id$=inputHidden2]').val( $('[Id$=newPhoneR]').val());
+}
+
+</script> 
+
+
+
+
+
+</body>
+</html>
+</apex:page>

@@ -1,0 +1,73 @@
+<apex:page id="idPage" sidebar="false" showHeader="false" docType="html-5.0" cache="{!$Label.Cache_Settings}" standardStylesheets="false" controller="pepBankInfoDetailscontroller" action="{!updatebank}"> 
+
+
+
+
+    <apex:composition template="pepSideBarTemplate">
+      <apex:define name="body"> 
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+
+})(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager (noscript) -->
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- End Google Tag Manager (noscript) -->
+
+          <apex:form id="frmdocId">
+              <div class="uploadDoc">
+                  <c:pepBankInformationDetails id="cmpId"></c:pepBankInformationDetails>
+              </div>
+          </apex:form>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+     <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+     <apex:includeScript value="//code.jquery.com/ui/1.11.4/jquery-ui.js"/>               
+      </apex:define> 
+    </apex:composition>
+    <script>
+    var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }   
+    </script>
+
+
+    
+</apex:page>

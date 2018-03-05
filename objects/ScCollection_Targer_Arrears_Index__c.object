@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>to capture each months target arrears index</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>ScCollection_April_Target_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>April Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_August_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>August Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Dec_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Dec Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Feb_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Feb Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Jan_Target__c</fullName>
+        <externalId>false</externalId>
+        <label>Jan Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_July_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>July Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_June_Arrears_Index_Target__c</fullName>
+        <externalId>false</externalId>
+        <label>June Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_March_Target_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>March Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_May_Target_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>May Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Nov_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Nov Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Oct_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Oct Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Sep_Arrears_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Sep Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <label>Target Arrears Index</label>
+    <visibility>Public</visibility>
+</CustomObject>

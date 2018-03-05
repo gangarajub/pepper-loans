@@ -1,0 +1,124 @@
+<apex:page sidebar="false" controller="peploanSetupverifyidController" id="idPage" standardStylesheets="false" showHeader="false"  docType="html-5.0"  cache="{!$Label.Cache_Settings}"  >
+
+        <apex:composition template="pepSideBarTemplate"> 
+        <apex:define name="body" >
+        
+    <!-- Google Tag Manager -->
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google Tag Manager (noscript) -->
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- End Google Tag Manager (noscript) -->        
+        
+        
+        <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+          
+         <apex:form id="idForm">  
+                                 
+                        <div class="verifyId">
+                        <div class="loanSetTopSec">
+                            <h3 class="colA">Verify your ID</h3>
+                            <div class="saveLater colB">
+                              <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                         </div>
+                        </div>
+                            <div class="innerCont">
+                                <c:pepcmscomponent_Text pageNameTest="Loan Setup(verifyid)" sectionName="Section 1"></c:pepcmscomponent_Text>
+                            </div>
+                        
+                            <apex:outputPanel layout="block" styleclass="page-row" id="outTest" >
+                                <div class="form-cntrl">
+                                    
+                                    <apex:commandButton action="{!displayIframe}" rendered="{!IF(calljumioApi == true,false,true)}" value="Verify your ID" styleClass="button primaryBtn foo"  reRender="idForm,outTest"  status="counterStatus"/>                           
+                                    <br/><br/>
+                                    
+                                    
+                                   
+                              
+                                                              
+                                  
+                                  <script type="text/javascript" src="https://netverify.com/widget/jumio-verify/2.0/iframe-script.js"> </script>
+                                  
+                                  <script type="text/javascript">                                  
+                                       /*<![CDATA[*/
+                                        JumioClient.setVars({                                        
+                                        authorizationToken: "{!StrAuthToken}",
+                                        responsiveLayout: true,
+                                        
+                                        }).initVerify("JUMIOIFRAME");
+                                        /*]]>*/                                  
+                                       
+                                  </script>                        
+                                 <div  id="JUMIOIFRAME" Style="{!IF(calljumioApi ==true,'display:block;','display:none;')}"></div> 
+                                                   
+                                  
+                                 
+                              <!--  <apex:iframe src="{!clientRedirectURL}" rendered="{!!exceptionOccur}"/> -->
+                                 <apex:outputpanel rendered="{!exceptionOccur}">
+                                  <p><strong>We are facing some technical difficulties.So you can either Retry or either use our Manual upload option by click on the respective button below.</strong></p>
+                                 <apex:commandbutton value="Retry" styleClass="button primaryBtn" action="{!refreshpage}"/>&nbsp;&nbsp;<apex:commandbutton value="Manual Upload" styleClass="button primaryBtn" action="/pepjumiofailure"/>
+                                 </apex:outputpanel>
+                                                                        
+                                </div>
+                            </apex:outputPanel>
+                            <div class="description">
+                               <c:pepcmscomponent_Text pageNameTest="Loan Setup(verifyid)" sectionName="Section 2"></c:pepcmscomponent_Text>
+                            </div>
+                            <div class="loanSetBotSec">
+                            
+                            <div class="colA"><apex:commandButton action="{!saveForLater}" value="Save for later"  Styleclass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div> 
+                         
+                           
+                           
+                    
+                    </div>                    
+                        </div> 
+       
+
+
+     </apex:form>
+     <apex:outputPanel id="renderScriptSFR">
+
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+           
+            
+ </script>
+ </apex:outputPanel>
+     </apex:define> 
+     </apex:composition> 
+    
+       <style>
+       a
+       {
+           text-decoration:underline;
+       }
+      
+      </style>  
+ 
+
+</apex:page>

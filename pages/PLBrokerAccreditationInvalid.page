@@ -1,0 +1,14 @@
+<apex:page standardStylesheets="false" standardController="PL_Broker_Accreditation__c" extensions="PLBrokerAccreditationController" sidebar="false" showHeader="false">
+<apex:stylesheet value="https://ui.pepper.com.au/SalesForceForm/css/salesforce-forms.min.css"/>    
+<apex:form styleClass="SF-Form form-cntrls">
+    <p>
+        Sorry! The link you clicked is invalid or has expired.
+    </p>
+    <p>
+        Please <apex:commandLink action="{!RequestURL}" value="click here" id="RequestLink"/> and a new URL will be emailed to you.
+    </p>
+    <p>
+        We look forward to finalising your Pepper Money accreditation for Personal Loans.
+    </p>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,624 @@
+<apex:component id="idMainComponent" controller="pepCmsComponent_New" access="global" allowDML="true">
+   <apex:attribute name="componentController" type="pepCMSModelContainer_New" assignTo="{!objModelContainer}" description="The controller for the component." />
+    <apex:attribute name="cmsPageName" type="string" assignTo="{!strPageName}" required="true" access="global" description="The page name." />
+    
+    <style>
+        ul.consent li {
+            list-style-type: disc;
+        }
+    </style>
+    <script type="text/javascript">
+        
+        $(document).ready(function()
+        {
+            if($( "[id$='sDate'], [id$='eDate'], [id$='asDate'], [id$='aeDate']" ).length){
+                datepicker();
+            }
+            
+        }
+      );
+    
+       function datepicker(){
+      
+           $( "[id$='sDate']" ).datepicker({dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+           $( "[id$='eDate']" ).datepicker({dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+           $( "[id$='asDate']" ).datepicker({dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+           $( "[id$='aeDate']" ).datepicker({dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+       }
+    
+    
+        function assignVals(SID, QID, Cont){
+        
+        
+       
+    
+       // alert('SID:: '+SID + 'QID:: '+ QID + 'Cont::'+ Cont.value);
+            if(Cont.value != null && Cont.value != ""){
+              //  alert('SID:: '+SID + 'QID:: '+ QID + 'Cont::'+ Cont.value);
+                document.getElementById('{!$Component.idMainComponent.hidSId}').value = SID;
+                document.getElementById('{!$Component.idMainComponent.hidQId}').value = QID;
+                document.getElementById('{!$Component.idMainComponent.hidAId}').value =Cont.value;//'a7YN0000000CzdTMAS';// (Cont.value).substr(0,18);
+                document.getElementById('{!$Component.idMainComponent.hidWTD}').value = "ADD,NEXT";
+                
+                
+                  if(Cont.value.includes('/true') || $(Cont).hasClass('CallRerender')){
+                  disablesaveforlaterbutton();
+                  fnRelatedQuestionsOfAnswers();
+                  }
+                  
+                  
+                  }
+                
+        }
+        
+        
+        function assignVals_forButton(SID, QID, AID, WTD){
+         
+            document.getElementById('{!$Component.idMainComponent.hidSId}').value = SID;
+            document.getElementById('{!$Component.idMainComponent.hidQId}').value = QID;
+            document.getElementById('{!$Component.idMainComponent.hidAId}').value = AID;
+            if(WTD=='true')
+            WTD='ADD,NEXT';
+            else
+            WTD='NoMoreQuestions';
+            document.getElementById('{!$Component.idMainComponent.hidWTD}').value = WTD;
+            if(WTD=='ADD,NEXT'){
+            disablesaveforlaterbutton();
+            $('.clickme').click();
+            }
+           
+        }
+        function removeQuestionsornot(SID,QID,AID,WTD,elem){
+            
+            document.getElementById('{!$Component.idMainComponent.hidSId}').value = SID;
+            document.getElementById('{!$Component.idMainComponent.hidQId}').value = QID;
+            document.getElementById('{!$Component.idMainComponent.hidAId}').value = AID;
+            document.getElementById('{!$Component.idMainComponent.hidWTD}').value = WTD;
+            if($(elem).hasClass('callrerendercbutton')){
+            
+            $('.clickmebutton').click();
+            
+            }
+            else{
+           
+            $('.clickmebutton1').click();
+            
+            }
+        }
+        function sectionComplete(section,secId){
+            
+            document.getElementById('{!$Component.idMainComponent.hidStory}').value = secId;
+           
+            subHeadingActionFunc();
+        }
+        
+        
+        function  showMinimizeBar1(theform)
+        {     
+           var boolFlag = true;  
+           
+           var $contentHeader = $(document.getElementById(theform));
+            
+           /*$("#"+theform+" input[type='text'].isrequired, #"+theform+" select.isrequired, #"+theform+" textarea.isrequired").each(function(e)
+           $("" + $contentHeader +" input[type='text'].isrequired").each(function(e)*/
+           $contentHeader.find("input[type='text'].isrequired").each(function(e)
+           {
+                //alert(1);
+                //alert($(this).attr('id'));
+                
+                
+                if($(this).val() !=null && $(this).val() !="" && $(this).val() !="null")
+                {
+                   
+                }
+                else
+                {
+                    //alert(2);
+                    boolFlag = false;              
+                }             
+                
+            });  
+           if(boolFlag){
+               $contentHeader.find("select.isrequired").each(function(e)
+               {
+                    
+                    if($(this).val() !=null && $(this).val() !="" && $(this).val() !="null")
+                    {
+                            
+                    }
+                    else
+                    {                        
+                        boolFlag = false;              
+                    }             
+                   
+                });  
+            }
+            if(boolFlag){
+               $contentHeader.find("textarea.isrequired").each(function(e)
+               {
+                    
+                    if($(this).val() !=null && $(this).val() !="" && $(this).val() !="null")
+                    {
+                       
+                    }
+                    else
+                    {
+                        
+                        boolFlag = false;              
+                    }             
+                   
+                });  
+            }
+            
+            if(boolFlag){
+               $contentHeader.find("input[type='date'].isrequired").each(function(e)
+               {
+                    //alert($(this).val());
+                    if($(this).val() !=null && $(this).val() !="" && $(this).val() !="null")
+                    {
+                       
+                    }
+                    else
+                    {
+                        
+                        boolFlag = false;              
+                    }             
+                   
+                });  
+            }
+            
+       
+            //alert( boolFlag);
+            if(boolFlag)
+            {
+                var radioName=[];
+                /*$("#"+theform+" input[type='radio'].isrequired").each(function(i)*/
+                $contentHeader.find(" input[type='radio'].isrequired").each(function(i)
+                {
+                    
+                    radioName[i]=$(this).attr("name");
+                    
+                });
+                
+                var uniqueVal = $.unique(radioName);
+               
+                for(i=0; i<uniqueVal.length; i++)
+                {
+                    /*if($("#"+theform+" input[type='radio'][name='"+uniqueVal[i]+"'].isrequired:checked").length == 0)*/
+                    if($contentHeader.find(" input[type='radio'][name='"+uniqueVal[i]+"'].isrequired:checked").length == 0)
+                    {
+                        boolFlag = false;
+                    }
+                    else
+                    {
+                        //boolFlag = true;
+                    }
+                }
+            }      
+            
+            if(boolFlag)
+            {     
+                $contentHeader.find(".minimizeSection").slideDown();   
+            }  
+            else
+            {
+                $contentHeader.find(".minimizeSection").slideUp();
+            } 
+        }
+        
+     
+        var confirmchecker=false;
+        var popCount=0;
+        var cancelclick=true;
+        var buttonid;
+        function confirmhandler(t,buttonId){
+        buttonid=buttonId
+        if(t=='Experienced_bankruptcy_in_past__c'){
+                
+                if(confirmchecker==false){
+                $('#myModalbankrupt').modal('show');
+                return false;
+                }
+                else{
+                return true;
+                }
+        }
+        else{
+        
+        return true;
+        }
+        
+       
+        }
+        
+        function callsubmit(){
+        $('#myModalbankrupt').modal('hide');
+        confirmchecker=true;
+        $('.bankruptbutton').trigger('click');
+        }
+        
+        
+        //alert('{!$Component.idMainComponent.forEachSection.MainPanel}');
+    </script>
+    <!-- Trigger the modal with a button -->
+<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+
+<!-- Modal -->
+<div id="myModalbankrupt" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" style="margin-left:100%">&times;</button>
+        
+      </div>
+      <div class="modal-body">
+        <p>If you proceed to the end of the personal details page to proceed we will require you to provide your permission for making an assessment of your credit file.Prior history of these events may lead to your application being declined.</p>
+      </div>
+      <div class="modal-footer">
+        <center>
+        <button type="button" class="btn secondaryBtn" onclick="callsubmit();">Ok</button>
+       
+        </center>
+      </div>
+    </div>
+
+  </div>
+</div>
+    
+    <apex:actionFunction action="{!RelatedQuestionsOfAnswers}"  name="fnRelatedQuestionsOfAnswers" id="fnRelatedQuestionsOfAnswers" reRender="form_elements" status="counterStatus" oncomplete="setTimeout(function(){enablesaveforlaterbutton();},2000);tabIndexing();datepicker();dobValidation();pepperApp.currencyFormat();"/>
+    <apex:actionFunction action="{!RelatedQuestionsOfAnswers}"  name="fnRelatedQuestionsOfAnswers2" id="fnRelatedQuestionsOfAnswers2"  oncomplete="enablesaveforlaterbutton();tabIndexing();datepicker();dobValidation();pepperApp.currencyFormat();"/>
+    
+    <apex:inputHidden id="hidSId" value="{!selectedSection}"/>
+    <apex:inputHidden id="hidQId" value="{!selectedQuestion}"/>
+    <apex:inputHidden id="hidAId" value="{!SelectedAnswer}"/>
+    <apex:inputHidden id="hidWTD" value="{!WhatToDo}"/>
+    
+    <apex:actionFunction action="{!parsedSectionStory}"  name="subHeadingActionFunc" reRender="subHeading,subHeading2" oncomplete="tabIndexing();enablesaveforlaterbutton()"/> 
+    <apex:inputHidden id="hidStory" value="{!section}" />
+    <!--<apex:outputPanel id="tempchecker">-->
+    <apex:repeat id="forEachSection" value="{!RenderQuestions.lstSection}" var="S">
+        <apex:outputPanel layout="block" id="MainPanel" styleClass="page-row collapsed in {!S.objCmsSection.Id}">
+           
+            <apex:actionStatus id="counterStatus" startStyleClass="spinner" />
+            <section class="section-heading">
+                <h3 class="heading">                
+                    <span>{!S.objCmsSection.pepHeader__c}</span> 
+                    <span class="status-icon"></span>
+                </h3>
+                <apex:outputPanel id="subHeading">
+                <apex:outputPanel >
+                <h4 class="subHeading">
+                    <span id="SectionStory_{!S.objCmsSection.Id}">{!S.strSectionStory}</span>
+                    <a href="javascript:void(0)" class="edit"  data-toggle-target="#{!SUBSTITUTE($Component.idMainComponent.forEachSection.MainPanel, ':', '\\:')}">edit</a>
+                    
+                </h4>
+                </apex:outputPanel>
+                </apex:outputPanel>
+            </section>
+            <section class="page-form">
+                <div class="form-section">
+                    <section class="sectionCont">
+                        <apex:outputPanel layout="block" id="form_elements" styleClass="form-elements">
+                        <script>
+                        $('.PersonHomePhone').attr('placeholder','02XXXXXXXX');
+                        
+                        var ctrlDown = false;
+                        var ctrlKey = 17, vKey = 86, cKey = 67;
+                     
+                        $(document).keydown(function(e)
+                        {
+                            if (e.keyCode == ctrlKey) ctrlDown = true;
+                        }).keyup(function(e)
+                        {
+                            if (e.keyCode == ctrlKey) ctrlDown = false;
+                        });
+                     
+                        $(".spacenumbervalidator").keydown(function(e)
+                        {
+                            if (ctrlDown && (e.keyCode == vKey || e.keyCode == cKey)) return false;
+                        });
+                        
+                        </script>
+                        
+                             <span style="color:red;display:{!if(S.showerror==True,'block','none')}" class="temp{!S.objCmsSection.Id}" >{!S.errormessage}</span>
+                            <apex:repeat value="{!S.lseQuestions}" var="Q" id="forEachQuestion">
+                                <apex:outputPanel rendered="{!if(Q.objCmsQuestion.pepType__c == 'Checkbox',true,false)}"><div Class="page-row" style="padding-left:10%"><apex:outputText escape="false" value="{!$Label.ConsentCheckText}" /></div></apex:outputPanel>
+                                <div Class="page-row">
+                                    
+                                    <apex:outputLabel styleClass="form-cntrls" value="{!Q.objCmsQuestion.pepLabelPriorQuestion__c}" rendered="{!if((Q.objCmsQuestion.pepLabelPriorQuestion__c!=null && Q.objCmsQuestion.pepLabelPriorQuestion__c!=''),true,false)}"/>
+                                     <hr  style ="{!IF(Q.objCmsQuestion.pepType__c == 'Line','display:block;','display:none')}" styleClass="{!IF(AND(Q.lstSiblingQuestions != null, Q.lstSiblingQuestions.size > 0), 'form-cntrls', 'form-cntrls-lg')}"/> 
+                                    <apex:outputPanel id="idSubPanel" layout="block" styleClass="{!IF(AND(Q.lstSiblingQuestions != null, Q.lstSiblingQuestions.size > 0), 'form-cntrls', 'form-cntrls-lg')} {!if(Q.objCmsQuestion.pepDisplayDollar__c,'currency','')}" rendered="{!if(NOT(AND( Q.lstExpectedAnswers.size != null, Q.lstExpectedAnswers.size > 0, Q.objCmsQuestion.pepType__c == 'Button')), true, false)}">
+                                    
+                                    <apex:inputcheckbox id="dvscheckbox" onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');" onblur="checkFieldValidation(this.id);" rendered="{!If(Q.objCmsQuestion.pepFieldApiName__c=='pepCheckProvideDVSAuthorization__c',true,false)}" styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c,'isrequired','')} dvscheckbox" value="{!Q.checkboxHandler}" style="float:left;transform: scale(2); -ms-transform: scale(2); -webkit-transform: scale(1.4);"/>
+                                        
+                                        <apex:inputText id="checkReq" 
+                                            styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, If(Q.objCmsQuestion.pepGoogleApi__c == true ,'addresspicker_map plus isrequired','isrequired'), If(Q.objCmsQuestion.pepGoogleApi__c == true , 'addresspicker_map plus',''))} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')} 
+                                                                {!If(Q.objCmsQuestion.pepFieldApiName__c== 'FirstName'  || Q.objCmsQuestion.pepFieldApiName__c== 'MiddleName' || Q.objCmsQuestion.pepFieldApiName__c== 'LastName', 'isName', IF(Q.objCmsQuestion.pepFieldApiName__c=='pepABN_CAN__c','isABN',''))} {!IF(AND(Q.objCmsQuestion.pepType__c == 'Number',Q.objCmsQuestion.pepFieldapiname__c=='Identification_Number__c'),'spacenumbervalidator','')}" 
+                                            onblur="checkFieldValidation(this.id);showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                            onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}{!IF(AND(Q.objCmsQuestion.pepType__c == 'Number',Q.objCmsQuestion.pepFieldApiName__c=='Identification_Number__c'),'javascript:return spaceandlengthchecker(event,this.id)','')}"
+                                            value="{!Q.objInputValue}" 
+                                            rendered="{!if(OR(Q.objCmsQuestion.pepType__c == 'Text',Q.objCmsQuestion.pepType__c == 'Number'),true,false)}" >                                             
+                                        <script>
+                                        showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');
+                                        </script>
+                                        </apex:inputText>
+                                        <apex:inputhidden id="complete_address" rendered="{!Q.objCmsQuestion.pepFieldApiName__c == 'Address__c'}" value="{!Q.strGAPIAddress}"/>
+                                                                
+                                        <apex:inputText value="{!Q.objInputValue}" id="aeDate" 
+                                                styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}"                                                  
+                                                onblur="checkFieldValidation(this.id);"
+                                                onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                                rendered="{!if(Q.objCmsQuestion.pepType__c == 'Date',true,false)}"
+                                                onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"/>  
+                                       
+                                        <apex:inputText id="idCurrency1" 
+                                            styleClass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')} isCurrency {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}" 
+                                            onblur="checkFieldValidation(this.id);showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                            onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                            value="{!Q.objInputValue}" 
+                                            rendered="{!if(Q.objCmsQuestion.pepType__c == 'Currency',true,false)}"/> 
+                                        
+                                        <apex:inputText value="{!Q.objInputValue}" id="idEmail1"
+                                            styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired isEmail', 'isEmail')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}" 
+                                            onblur="checkFieldValidation(this.id);"
+                                            onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                            onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                            rendered="{!if(Q.objCmsQuestion.pepType__c == 'Email',true,false)}"/> 
+                                        
+                                        <apex:inputtextarea id="idTextAr" value="{!Q.objInputValue}" 
+                                            rendered="{!if(Q.objCmsQuestion.pepType__c == 'Text area',true,false)}" 
+                                            onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                            onblur="checkFieldValidation(this.id);"
+                                            onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                            styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" />
+                                        
+                                        <apex:inputtext value="{!Q.objInputValue}" id="idPhone1"
+                                            styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired isPhone', 'isPhone')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')} {!IF(Q.objCmsQuestion.pepFieldApiName__c=='PersonHomePhone','PersonHomePhone','')}"
+                                            rendered="{!if(Q.objCmsQuestion.pepType__c== 'Phone',true,false)}"
+                                            onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                            onblur="checkFieldValidation(this.id);" html-placeholder="04XXXXXXXX"
+                                            onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"/>
+                                            
+                                        <apex:inputtext value="{!Q.objInputValue}" id="idPercent1"
+                                            styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}"
+                                            rendered="{!if(Q.objCmsQuestion.pepType__c == 'Percent',true,false)}"
+                                            onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                            onblur="checkFieldValidation(this.id);"
+                                            onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"/>
+                                       
+                                      
+                                        <apex:selectList id="idSelect1" value="{!Q.actualvalue}" multiselect="false" size="1" 
+                                            rendered="{!if(Q.objCmsQuestion.pepType__c == 'Picklist',true,false)}" 
+                                             onblur="checkFieldValidation(this.id);"
+                                            onchange="assignVals('{!S.objCmsSection.Id}', '{!Q.objCmsQuestion.Id}', this);showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"                                            
+                                            styleclass="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')} {!If(Q.handleRerender==true,'CallRerender','')}" > 
+                                           <apex:selectOptions value="{!Q.lstOptions}" />
+                                            <script>
+                                                  showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');
+                                        </script>
+                                        </apex:selectList>
+                                        
+                                        <apex:outputPanel rendered="{!if(Q.objCmsQuestion.pepType__c == 'Checkbox',true,false)}"><br /></apex:outputPanel>
+                                        <span class="errorMsg">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        <!-- <apex:commandButton value="Click Me" action="{!RelatedQuestionsOfAnswers}" reRender="forEachSection" status="counterStatus"/> -->
+                                    </apex:outputPanel>
+                                    <apex:repeat value="{!Q.lstExpectedAnswers}" var="objAns" rendered="{!if(AND( Q.lstExpectedAnswers.size != null, Q.lstExpectedAnswers.size > 0, Q.objCmsQuestion.pepType__c == 'Button', Q.objCmsQuestion.pepSubType__c == 'Yes / No'), true, false)}">
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls" id="idQuesButton1">
+                                           <label class="radioBtns">
+                                                <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'Yes' , true, false)}">
+                                                        <apex:outputPanel layout="block" rendered="{!if(objAns.objCmsAnswer.id == Q.objInputValue, true,false)}">
+                                                            <input type="radio" id="id_{!objAns.objCmsAnswer.pepCmsQuestion__c}" name="{!objAns.objCmsAnswer.pepCmsQuestion__c}"  value="{!Q.objInputValue}" 
+                                                                class="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"
+                                                                onblur="checkFieldValidation(this.id);" checked = 'checked' 
+                                                                  />
+                                                                
+                                                            <span class="button staticBtn radio_yes">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                                            <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                       </apex:outputPanel>
+          
+                                                      <apex:outputPanel layout="block" rendered="{!if(NOT(objAns.objCmsAnswer.id == Q.objInputValue),true,false)}" styleclass="{!If(Q.objCmsQuestion.pepFieldApiName__c=='Experienced_bankruptcy_in_past__c','bankruptbutton','')}" onmouseover="popCount=0;">
+                                                            <apex:actionsupport event="onclick" action="{!RelatedQuestionsOfAnswers}" reRender="form_elements" status="counterStatus" oncomplete="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}'); tabIndexing();enablesaveforlaterbutton();" onsubmit="if(!confirmhandler('{!Q.objCmsQuestion.pepFieldApiName__c}',this.id)){enablesaveforlaterbutton();return false;}">
+                                                               <input type="radio" id="id_{!objAns.objCmsAnswer.pepCmsQuestion__c}" name="{!objAns.objCmsAnswer.pepCmsQuestion__c}"  value="{!Q.objInputValue}" 
+                                                                class="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"
+                                                                onblur="checkFieldValidation(this.id);" onclick="disablesaveforlaterbutton();" />
+                                                               <apex:param value="{!objAns.objCmsAnswer.Id }" assignTo="{!SelectedAnswer}" name="SelectedAnswer" /> 
+                                                                <apex:param value="{!objAns.objCmsAnswer.pepCmsQuestion__c}" assignTo="{!selectedQuestion}" name="selectedQuestion" />  
+                                                                <apex:param value="{!S.objCmsSection.Id}" assignTo="{!selectedSection}" name="selectedSection" />
+                                                                <apex:param value="{!if(Q.objCmsQuestion.pepHasAnswers__c,'ADD,NEXT','NoMoreQuestions')}" assignTo="{!WhatToDo}" name="WhatToDo" />  
+                                                            </apex:actionSupport>
+                                                            <span class="button staticBtn radio_yes">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                                            <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> 
+                                                        </apex:outputPanel>
+                                                      
+                                                     
+                                                      
+                                                       
+                                                        <!-- <apex:param value="{!objAns.objCmsAnswer.Id }" assignTo="{!Q.objInputValue}" name="{!Q.objInputValue}" /> -->
+                                                        
+                                                </apex:outputPanel>
+                                                
+                                                <apex:outputPanel rendered="{!IF(objAns.objCmsAnswer.pepDisplayText__c == 'No' ,  true, false)}">
+                                                    
+                                                        
+                                                        <apex:outputPanel layout="block" rendered="{!if(objAns.objCmsAnswer.id == Q.objInputValue, true,false)}">
+                                                            
+                                                            <input type="radio"  id="id_{!objAns.objCmsAnswer.pepCmsQuestion__c}" name="{!objAns.objCmsAnswer.pepCmsQuestion__c}" 
+                                                                class="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"
+                                                                onblur="checkFieldValidation(this.id);" 
+                                                                oncomplete="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');" checked = 'checked'/>
+                                                                
+                                                            <!-- <apex:actionsupport event="onchange" action="{!RelatedQuestionsOfAnswers}" reRender="form_elements" status="counterStatus" oncomplete="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');">
+                                                                
+                                                                <apex:param value="{!objAns.objCmsAnswer.Id }" assignTo="{!SelectedAnswer}" name="SelectedAnswer" /> 
+                                                                <apex:param value="{!objAns.objCmsAnswer.pepCmsQuestion__c}" assignTo="{!selectedQuestion}" name="selectedQuestion" />  
+                                                                <apex:param value="{!S.objCmsSection.Id}" assignTo="{!selectedSection}" name="selectedSection" />
+                                                                <apex:param value="REMOVE" assignTo="{!WhatToDo}" name="WhatToDo" />  
+                                                            </apex:actionSupport> -->
+                                                            <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                                            <!-- Commented by IJ <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> -->
+                                                        </apex:outputPanel>
+                                                        
+                                                      <apex:outputPanel layout="block" rendered="{!if(NOT(objAns.objCmsAnswer.id == Q.objInputValue), true,false)}">
+                                                            <apex:actionsupport event="onchange" action="{!removeQuestionFromWrapper}" reRender="form_elements" status="counterStatus" oncomplete="confirmchecker=false;showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');tabIndexing();enablesaveforlaterbutton();">
+                                                                <input type="radio"  id="id_{!objAns.objCmsAnswer.pepCmsQuestion__c}" name="{!objAns.objCmsAnswer.pepCmsQuestion__c}" 
+                                                                class="{!IF(Q.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"
+                                                                onblur="checkFieldValidation(this.id);" 
+                                                                oncomplete="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');" onchange="disablesaveforlaterbutton();"/>
+                                                            
+                                                                <apex:param value="{!objAns.objCmsAnswer.Id }" assignTo="{!SelectedAnswer}" name="SelectedAnswer" /> 
+                                                                <apex:param value="{!objAns.objCmsAnswer.pepCmsQuestion__c}" assignTo="{!selectedQuestion}" name="selectedQuestion" />  
+                                                                <apex:param value="{!S.objCmsSection.Id}" assignTo="{!selectedSection}" name="selectedSection" />
+                                                                <apex:param value="REMOVE,NEXT" assignTo="{!WhatToDo}" name="WhatToDo" />  
+                                                            </apex:actionSupport>
+                                                            <span class="button staticBtn radio_no" data-toggle-target="#secondaryIncome">{!objAns.objCmsAnswer.pepDisplayText__c}</span>
+                                                        <!-- Commented by IJ    <span class="errorMsg ">{!Q.objCmsQuestion.pepGenericErrorMessage__c}</span> -->
+                                                        </apex:outputPanel>
+                                                     
+                                                      
+                                                      
+                                                        
+                                                        
+                                                        
+                                                </apex:outputPanel>
+                                            </label>   
+                                             
+                                        </apex:outputPanel>
+                                    </apex:repeat>
+                                    
+                                    <apex:outputPanel layout="block" styleClass="cntrlExtend" rendered="{!if(AND( Q.lstExpectedAnswers.size != null, Q.lstExpectedAnswers.size > 0, Q.objCmsQuestion.pepType__c == 'Button', Q.objCmsQuestion.pepSubType__c == '+ / -',Q.isRender==true), true, false)}">
+                                        <apex:outputPanel styleClass="right">
+                                            <apex:repeat value="{!Q.lstExpectedAnswers}" var="objAns" >
+                                                <apex:outputPanel rendered="{!IF( objAns.objCmsAnswer.pepDisplayText__c == '+', true, false)}">
+                                                    <apex:actionsupport event="onclick" action="{!RelatedQuestionsOfAnswers}" reRender="form_elements" status="counterStatus" oncomplete="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');tabIndexing();enablesaveforlaterbutton();">
+                                                        <a href="javascript: void(0)"  onclick="disablesaveforlaterbutton();" class="plus"> </a>                                          
+                                                        <apex:param value="{!objAns.objCmsAnswer.Id }" assignTo="{!SelectedAnswer}" name="SelectedAnswer" /> 
+                                                        <apex:param value="{!objAns.objCmsAnswer.pepCmsQuestion__c}" assignTo="{!selectedQuestion}" name="selectedQuestion" />  
+                                                        <apex:param value="{!S.objCmsSection.Id}" assignTo="{!selectedSection}" name="selectedSection" />
+                                                        <apex:param value="ADD,ABOVE" assignTo="{!WhatToDo}" name="WhatToDo" />  
+                                                    </apex:actionSupport>                                 
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!IF( objAns.objCmsAnswer.pepDisplayText__c == '-', true, false)}">
+                                                    <apex:actionsupport event="onclick" action="{!removeQuestionOnMinus}" reRender="form_elements" status="counterStatus" oncomplete="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');tabIndexing();enablesaveforlaterbutton();">
+                                                        <a href="javascript: void(0)" onclick="disablesaveforlaterbutton();" class="minus plusMinus"> </a>                                          
+                                                        <apex:param value="{!objAns.objCmsAnswer.Id }" assignTo="{!SelectedAnswer}" name="SelectedAnswer" /> 
+                                                        <apex:param value="{!objAns.objCmsAnswer.pepCmsQuestion__c}" assignTo="{!selectedQuestion}" name="selectedQuestion" />  
+                                                        <apex:param value="{!S.objCmsSection.Id}" assignTo="{!selectedSection}" name="selectedSection" />
+                                                        <apex:param value="REMOVE,ABOVE" assignTo="{!WhatToDo}" name="WhatToDo" /> 
+                                                    </apex:actionSupport>                                 
+                                                </apex:outputPanel>
+                                            </apex:repeat>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>
+                                
+                                
+                                    <!-- Section for Sibling questions -->
+                                    <apex:repeat value="{!Q.lstSiblingQuestions}" var="SQ">
+                                    
+                                    
+                                        
+                                            <apex:outputPanel layout="block" styleClass="form-cntrls {!if(SQ.objCmsQuestion.pepType__c == 'Currency','currency','')}" rendered="{!if(NOT(AND( SQ.lstExpectedAnswers.size != null, SQ.lstExpectedAnswers.size > 0, SQ.objCmsQuestion.pepType__c == 'Button')), true, false)}">
+                                                <apex:inputText id="checkReq" 
+                                                    styleclass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}" 
+                                                    onblur="checkFieldValidation(this.id);showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                                    onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                                    value="{!SQ.objInputValue}" 
+                                                    rendered="{!if(OR(SQ.objCmsQuestion.pepType__c == 'Text',SQ.objCmsQuestion.pepType__c == 'Number'),true,false)}" />
+                                                
+                                                <apex:inputText id="idCurrency1" 
+                                                    styleClass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')}  isCurrency {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}" 
+                                                    onblur="checkFieldValidation(this.id);showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                                    onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                                    value="{!SQ.objInputValue}" 
+                                                    rendered="{!if(SQ.objCmsQuestion.pepType__c == 'Currency',true,false)}"/> 
+                                                
+                                                <apex:inputText value="{!SQ.objInputValue}" 
+                                                    styleclass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}" 
+                                                    onblur="checkFieldValidation(this.id);"
+                                                    onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                                    onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                                    rendered="{!if(SQ.objCmsQuestion.pepType__c == 'Email',true,false)}"/> 
+                                                
+                                                
+                                                
+                                                <apex:inputtextarea value="{!SQ.objInputValue}" 
+                                                    rendered="{!if(SQ.objCmsQuestion.pepType__c == 'Text area',true,false)}" 
+                                                    onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                                    onblur="checkFieldValidation(this.id);"
+                                                    onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                                    styleclass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" />
+                                                
+                                                <apex:inputtext value="{!SQ.objInputValue}" 
+                                                    rendered="{!if(OR(SQ.objCmsQuestion.pepType__c== 'Phone', SQ.objCmsQuestion.pepType__c == 'Percent'),true,false)}"
+                                                    onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                                    onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');" 
+                                                    onblur="checkFieldValidation(this.id);"
+                                                    styleclass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}"/>
+                                                
+                                                <apex:inputtext value="{!SQ.objInputValue}" 
+                                                    styleclass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}"
+                                                    rendered="{!if(OR(SQ.objCmsQuestion.pepType__c== 'Phone', SQ.objCmsQuestion.pepType__c == 'Percent'),true,false)}"
+                                                    onchange="showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');" 
+                                                    onkeypress="{!if(Q.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"
+                                                    onblur="checkFieldValidation(this.id);" />
+                                                
+                                                <apex:selectList id="idSelect2" value="{!SQ.actualvalue}" multiselect="false" size="1" 
+                                                    rendered="{!if(SQ.objCmsQuestion.pepType__c == 'Picklist',true,false)}" 
+                                                    onblur="checkFieldValidation(this.id);"
+                                                    onchange="assignVals('{!S.objCmsSection.Id}', '{!SQ.objCmsQuestion.Id}', this); showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');"
+                                                    styleclass="{!IF(SQ.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(Q.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')} tempColumn">
+                                                    <apex:selectOptions value="{!SQ.lstOptions}" />
+                                                     
+                                                </apex:selectList>
+                                                
+                                                <span class="errorMsg ">{!SQ.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                
+                                            </apex:outputPanel>
+                                    </apex:repeat>
+                                </div>
+                            </apex:repeat>
+                        <c:GoogleAPIComponent />
+                     
+                        </apex:outputPanel>
+                        <ul class="form-helptips">                       
+                            <apex:outputText escape="false" value="{!S.HelpText}" rendered="{!AND(S.HelpText != null, S.HelpText != '')}"/>
+                            <!--<apex:repeat value="{!S.HelpText}" var="HelpText" rendered="{!AND(S.HelpText.size != null, S.HelpText.size > 0)}">
+                                <apex:param name="DisplayText" value="{!TRIM(HelpText)}"/>
+                                <apex:outputPanel rendered="{!IF(TRIM(HelpText) == '', false, true)}">
+                                    <li>{!TRIM(HelpText)}</li>
+                                </apex:outputPanel>
+                            </apex:repeat> -->
+                        </ul>
+                    </section>
+                        
+                    <section class="spacer">
+                        
+                        <div class="minimizeSection mtest" onclick="sectionComplete('{!$Component.idMainComponent.forEachSection.MainPanel}','{!S.objCmsSection.Id}');" style="display:none;" data-toggle-target="#{!SUBSTITUTE($Component.idMainComponent.forEachSection.MainPanel, ':', '\\:')}">
+                            <span class="minimize"><strong></strong> Minimise</span>
+                            <span class="formStatus"><strong></strong> Section Complete</span>
+                        </div>
+                     
+                    </section>    
+                        
+                        
+                </div>
+            </section>
+        </apex:outputPanel>
+        
+        <script>
+            showMinimizeBar('{!$Component.idMainComponent.forEachSection.MainPanel}');
+             $(document).ready(setTimeout(function(){ $('.PersonHomePhone').attr('placeholder','02XXXXXXXX');},2000));
+             function spaceandlengthchecker(e,inputid){
+             if(e.keyCode=='32')
+             return false;
+             if(document.getElementById(inputid).value !=''){
+             if(document.getElementById(inputid).value.length>=9)
+             return false;
+             }
+             }
+        </script>
+        
+    </apex:repeat>
+   
+</apex:component>

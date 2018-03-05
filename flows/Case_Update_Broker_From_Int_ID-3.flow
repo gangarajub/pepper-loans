@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>Record_Found</name>
+        <label>Record Found?</label>
+        <locationX>112</locationX>
+        <locationY>141</locationY>
+        <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>soContact.Id</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Case</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>Updates the broker linked to a case based on the integer ID entered on the case</description>
+    <interviewLabel>Case Update Broker From Int ID {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case Update Broker From Int ID</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Lookup_Contact</name>
+        <label>Lookup Contact</label>
+        <locationX>75</locationX>
+        <locationY>42</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Record_Found</targetReference>
+        </connector>
+        <filters>
+            <field>CRM_Mtg_Unique_Id_Formula__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varContactIntID</elementReference>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <outputReference>soContact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CRM_Mtg_Mortgage_BDM__c</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Case</name>
+        <label>Update Case</label>
+        <locationX>167</locationX>
+        <locationY>241</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varCaseID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CRM_Mtg_Mortgage_BDM__c</field>
+            <value>
+                <elementReference>soContact.CRM_Mtg_Mortgage_BDM__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ContactId</field>
+            <value>
+                <elementReference>soContact.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <startElementReference>Lookup_Contact</startElementReference>
+    <variables>
+        <description>Contact Record</description>
+        <name>soContact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <description>CaseID</description>
+        <name>varCaseID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Broker Integer ID</description>
+        <name>varContactIntID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

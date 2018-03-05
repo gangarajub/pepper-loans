@@ -1,0 +1,214 @@
+<apex:page controller="pepVerifyLoginController" standardStylesheets="false" cache="{!$Label.Cache_Settings}"  showHeader="false" docType="html-5.0" id="idPage" action="{!SetOTP}" ><!--action="{!checkcookie}"-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pepper OTP</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->
+    <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <link href="assets/common/stylesheets/main.css" rel="stylesheet" type="text/css" />-->
+   <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+    <apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <style>
+        form{
+            min-height: 100%;
+            height: 100%;
+        }
+        .headerCont + .pepperContainer{
+            min-height: calc(100% - 68px);
+            padding-bottom: 212px;
+            margin-bottom: -212px;
+        }
+        .uCode span{ margin-top: 0 !important; }
+        
+        @media (min-width: 1200px) { .custDet {padding-left:160px;} }
+        @media only screen 
+        and (min-device-width : 768px) 
+        and (max-device-width : 1024px) 
+        and (orientation : portrait) {
+        .pageFooter
+            {        
+                position:absolute;
+                bottom:0px;
+                width:100%;        
+            }
+        }
+    </style> 
+    <script>
+        
+        function DisableGetMyOfferButton()
+        {
+            document.getElementById('idPage:IdForm:IdGetMyOffer').disabled = true;
+        }
+        
+        function EnableGetMyOfferButton()
+        {
+             
+            if(document.getElementById('idPage:IdForm:IdPassword').value != '' && ('{!boolAccountLocked }')=='false')
+              document.getElementById('idPage:IdForm:IdGetMyOffer').disabled = false;
+            else
+              document.getElementById('idPage:IdForm:IdGetMyOffer').disabled = true;
+                 
+        } 
+        
+        
+    </script>
+</head>
+<body>
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!PageName}" />
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+<apex:form ID="IdForm">
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+    <div class="pepperCustomFluid">
+        <!-- PFA Header part starts --> 
+        <div class="offsetBlkHeight"></div>
+        <div class="offsetBlk">
+            <div class="containerFluid">
+                <header class="page-row">
+                    <div class="hamBurger_menu text-center">
+                        <span class="menu"></span>
+                    </div>
+                    <div class="pageLogo">
+                        <a href="#logo" tabindex="1"><apex:image url="{!URLFOR($Resource.ResourceZip,'assets/common/images/logo.png')}" alt="Pepper"/></a>
+                    </div>
+                    <div class="callPhone text-center">
+                        <a class="phone" href="tel:1300659430" tabindex="2"></a>
+                    </div>
+                    <div class="callAssist">                    
+                        <span><c:pepcmscomponent_Text pageNameTest="Dashboard Header" sectionName="SectionOne(DH)"></c:pepcmscomponent_Text>
+                        </span>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <!-- PFA Header ends -->
+            
+        <!-- PFA Content starts -->
+        <div class="pepperContainer PFA">
+            <div class="page-row">
+                <div class="personalDetVerification">
+                    <h3 class="heading cstmHeading">
+                        <c:pepcmscomponent_Text pageNameTest="Second OTP" sectionName="Second OTP Section 3"></c:pepcmscomponent_Text>
+                    </h3>
+                    <div class="clear">
+                        <div class="form-cntrl negAppForm">
+                            <div class="boxInfo">
+                                <div class="appinfo">
+                                    <div class="page-row">
+                                        <label class="form-cntrls uCode"><c:pepcmscomponent_Text pageNameTest="Second OTP" sectionName="Second OTP Section 5"></c:pepcmscomponent_Text></label>
+                                        <div class="form-cntrls" style="margin-bottom:0px;">
+                             <apex:inputSecret value="{!password}" redisplay="true"  onmousemove="EnableGetMyOfferButton();"  id="IdPassword"/>
+                  <apex:outputPanel id="rerenderError">          
+                        <apex:outputPanel id="IdOutputPanel" rendered="{!boolEnable == false}" >
+                            <span class = "errorMsg" style="display:inline;"> Invalid password entered. </span>
+                        </apex:outputPanel> 
+                        
+                        <apex:outputPanel id="IdSecondOutputPanel" rendered="{!boolOTPDuration == false}" >
+                            <span class = "errorMsg" style="display:inline;"> Temporary password has expired. Please use Resend Now link below to receive a new temporary password.</span>
+                        </apex:outputPanel>
+                        
+                        <apex:outputPanel id="IdThirdOutputPanel" rendered="{!boolAccountLocked == true}" >
+                            <span class = "errorMsg" style="display:inline;"> Your account has been locked. Please contact pepper.</span>
+                        </apex:outputPanel> 
+                </apex:outputPanel>                   
+                                   </div>                          
+                                    </div>                      
+                                      
+                                    <div class="page-row">
+                                        <label class="form-cntrls btncont"></label>
+                                        <div class="form-cntrls text-right">
+                                        <!--    <input class="button primaryBtn sendBtn" value="Continue" type="submit" />-->
+                            <apex:commandButton id="IdGetMyOffer" value="Continue" action="{!SetOTP}" onclick="show=false;" styleClass="button primaryBtn sendBtn" status="counterStatus" reRender="rerenderError"/>
+                              <!--   <apex:commandLink action="{!SetOTP}" value="Continue" id="IdGetMyOffer"  styleClass="button primaryBtn sendBtn" status="counterStatus" reRender="rerenderError"/>-->
+                                        </div>                          
+                                    </div>
+                                  
+
+                                    <div class="page-row custDet">
+                                        
+                                        <div>
+    
+                                            <c:pepcmscomponent_Text pageNameTest="Second OTP" sectionName="Second OTP Section 4"></c:pepcmscomponent_Text>
+                                            <apex:commandLink action="{!ResendNow}" value="Resend now" id="IdSave" onclick="show=false;" style="color:#000000;text-decoration: underline;"/>
+                                        </div>
+                                    </div>
+
+                        </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <!-- PFA Content ends -->
+        
+        
+        <!-- Footer starts -->
+           <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+        <!-- Footer ends -->
+
+    </div>
+    
+    </apex:form>
+    <script src="assets/common/scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+    <script src="assets/common/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/common/scripts/pepperScript.js" type="text/javascript"></script>
+    
+
+
+</body>
+</html>
+
+<script>
+           DisableGetMyOfferButton();
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+     var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+   </script>
+   </apex:page>

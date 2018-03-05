@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>sfa:activityPanel</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>activityTabContent</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>forceChatter:recordFeedContainer</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>feedTabContent</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>force:detailPanel</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>detailTabContent</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>CommunicationPublisher</componentName>
+        </componentInstances>
+        <name>facet-83c40d1a-74d6-44b6-9fe9-3f0116d705fc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>recordSize</name>
+                <value>10</value>
+            </componentInstanceProperties>
+            <componentName>CommunicationHistoryDisplay</componentName>
+        </componentInstances>
+        <name>facet-2eca79fb-3f9b-4ee7-9579-f76ebe5308cc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>decorate</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>richTextValue</name>
+                <value>&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Left a voicemail&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+We tried calling and left you a voicemail. Please call us back on 1373777 and quote your application ID. *Do not reply to this text*&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Conditionally Approved&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+Your loan has been conditionally approved. Please call us on 1373777 and quote your application ID. *Do not reply to this text*&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Approved&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+Congratulations on being a Pepper customer! Please call us back on 1377777.&amp;nbsp;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Referral Campaign&amp;nbsp;&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+You can get a 0.5% discount on your rate if you refer a friend. Please go to&amp;nbsp;&lt;a data-aura-rendered-by=&quot;108:1546;a&quot; href=&quot;http://www.pepper.com.au/&quot; target=&quot;_blank&quot;&gt;www.pepper.com.au&lt;/a&gt;&amp;nbsp;to submit a referral. *Do not reply to this message*&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Submit docs&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+We are still waiting to receive the supporting loan docs. Please send to&amp;nbsp;&lt;a data-aura-rendered-by=&quot;108:1546;a&quot; href=&quot;mailto:homeloans@pepper.com.au&quot;&gt;homeloans@pepper.com.au&lt;/a&gt;&amp;nbsp;at your earliest covenience to finalise your application!&amp;nbsp;</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:richText</componentName>
+        </componentInstances>
+        <name>facet-6154e332-6598-422f-9e6b-15c8f1e59986</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>active</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>activityTabContent</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Standard.Tab.activity</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>feedTabContent</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Standard.Tab.collaborate</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>detailTabContent</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Standard.Tab.detail</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>facet-83c40d1a-74d6-44b6-9fe9-3f0116d705fc</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>SMS</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>facet-2eca79fb-3f9b-4ee7-9579-f76ebe5308cc</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>SMS History</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>facet-6154e332-6598-422f-9e6b-15c8f1e59986</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>SMS Templates</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>tabs</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>hideUpdateButton</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentName>runtime_sales_lead:pathAssistant</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>tabs</name>
+                <value>tabs</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tabset</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>main</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>runtime_sales_merge:mergeCandidatesPreviewCard</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>force:relatedListContainer</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>rightsidebar</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>collapsed</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentName>force:highlightsPanel</componentName>
+        </componentInstances>
+        <mode>Replace</mode>
+        <name>leftsidebar</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Lead Record Page</masterLabel>
+    <pageTemplate>flexipage:recordHomeThreeColTemplateDesktop</pageTemplate>
+    <parentFlexiPage>runtime_sales_lead__Lead_rec_L_3col</parentFlexiPage>
+    <sobjectType>Lead</sobjectType>
+    <type>RecordPage</type>
+</FlexiPage>

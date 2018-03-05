@@ -1,0 +1,271 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" standardController="genesis__Applications__c" extensions="pepServiceabilityController" id="pageId"  action="{!checkcookie}" cache="{!$Label.Cache_Settings}">  
+
+<html lang="en">
+<head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Serviceability Negative</title>     
+        
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+        <!-- End Google Tag Manager -->
+        
+        <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>     
+        
+        
+ 
+        
+    </head>
+<style type="text/css">
+    .displaynone
+    {
+        display:none;
+    }
+  .brdbacknone { background:none!important; border:none!important; }
+</style>
+<body>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+<apex:form id="idForm"> 
+  <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+  <apex:actionFunction id="AF" name="callCreateTask" action="{!createTask}" rerender="idText" oncomplete="return enableText();"  status="counterStatus"/>
+    <div class="headerCont">
+    <div class="pepperContainer">
+        <header class="page-row">
+            <div class="pageLogo">
+               <a href="#logo"><apex:image url="{!URLFOR($Resource.ResourceZip,
+                              'assets/common/images/logo.png')}" alt="Pepper"/></a>
+            </div>
+            
+            <div class="callAssist">
+                <span>{!if(lstsectionHeader[0].pepSectionUniqueName__c == 'Need help',lstsectionHeader[0].pepSectionBodyRich__c, '') }  <strong>{!if(lstsectionHeader[1].pepSectionUniqueName__c == 'Call',lstsectionHeader[1].pepSectionBodyRich__c, '' )}</strong></span>
+            </div>
+          
+        </header>
+    </div>
+    </div>
+
+    <!-- mid sectin  start here -->
+    <div class="pepperContainer">
+        <div class="page-row">
+            <div class="startNegApp">
+                <h3 class="heading "> <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="Sorry" /> </h3>
+                <p>
+                       <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="AssessedYourApp" /> 
+                </p>
+              <!--  <p>
+                    <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="GetInContact" /> 
+                </p> -->
+                <p>
+                    <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="CallUs" /> 
+                </p>    
+                
+                
+                <div class="page-row">
+                    <div class="form-cntrl">
+                        <div class="">
+                             <div class="boxInfoCont">
+                                <div class="boxInfo brdbacknone">
+                              <!--  <p> <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="CallOn" /> <br/>
+                                    <span><strong> <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="Number" /> </strong></span></p>
+                                    
+                                    <p> <c:pepcmscomponent_Text pageNameTest="Serviceability Negative2" sectionName="QuoteApp" /> <br/>
+                                    <span><strong>{!strAppNumber}</strong></span>
+                                    </p>   -->                                 
+                                <div class="page-row">
+                    <div class="form-cntrl">                    
+                            <apex:commandButton id="idBtn" Styleclass="button staticBtn foo" action="{!getRedirectToLandingPage}" value="Back to Pepper" status="counterStatus"/>  
+                        <!-- <button class="button staticBtn">Back to Pepper</button> -->
+                    </div>
+                </div>    
+                                </div>
+                                </div>
+                            <!--
+                           <div class="boxInfoCont">
+                                <div class="boxInfo">
+                                <div class="appinfo" id="idBox">
+                                    <div class="page-form">                                   
+                                    
+                                        <div class="form-elements">
+                                           
+                                            <div class="page-row">
+                                                <label class="form-cntrls">First Name</label>
+                                                <div class="form-cntrls-lg">
+                                                    <apex:inputText id="idName" value="{!strFirstName}"  styleClass="isrequired" onblur="checkFieldValidation(this.id);"/>
+                                                  <span class="errorMsg" style="display:none;">Please enter your name!</span> 
+                                                      
+                                                </div>                          
+                                            </div>
+                                            <div class="page-row">
+                                                <label class="form-cntrls">Mobile Number</label>
+                                                <div class="form-cntrls-lg">
+                                                   <apex:inputText id="idMobile" value="{!strMobileNo}" 
+                                                       onblur="checkFieldValidation(this.id);" styleClass="isrequired isPhone" 
+                                                       onkeypress="javascript:return numbersonly(event)" html-placeholder="04XXXXXXXX"/>
+                                                   <span class="errorMsg" style="display:none;">Mobile number is required e.g. 0412345678</span>
+                                                </div>                          
+                                            </div>
+
+                                            <div class="page-row">
+                                                <label class="form-cntrls">&nbsp;</label>
+                                                <div class="form-cntrls-lg">
+                                                    <apex:commandButton id="idBtnCall" Styleclass="button primaryBtn left" onclick="callMe();"  value="Call me back" reRender="doNothing"  status="counterStatus"><div id="doNothing"></div>
+                                                    </apex:commandButton>                                                    
+                                                   </div>
+                                                                  
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div> 
+                              
+                            
+                                <apex:outputPanel id="idText" layout="block" styleClass="page-row">
+                               
+                               
+                                        <p class="thanksMes">{!strThanksMsz}</p>
+                               
+                             </apex:outputPanel>
+                                </div>
+                            </div>
+                            -->
+                            
+                        </div>
+
+                    </div>
+
+
+                </div>  
+
+                
+            </div>
+
+        </div>
+    </div>
+    <!-- mid section end here -->
+
+
+    <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+</apex:form>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+ <script >
+
+    $(document).ready(function(){
+    
+      //  $( '.appinfo' ).addClass( 'displaynone' );
+        $( '.thanksMes' ).addClass( 'displaynone' );
+  
+    });
+    function enableText()
+    {       
+       //  alert(checkData('pageId:idForm'));
+       var vr = checkData('pageId:idForm');
+       //alert(vr);
+       if(vr == true)
+       {
+           $( '.appinfo' ).addClass( 'displaynone' );
+           $( '.thanksMes' ).removeClass( 'displaynone' );
+       }
+    }
+    
+    function callMe()
+    {
+      
+        var vr = checkData('pageId:idForm');
+        //alert('vr:: '+vr);
+        if(vr == true)
+        {
+            callCreateTask();
+        }
+    }
+    var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+</script>
+
+
+
+
+
+</body>
+
+</html>
+ <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+
+</apex:page>

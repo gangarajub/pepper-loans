@@ -1,0 +1,11 @@
+<apex:page sidebar="false" showHeader="false">
+<apex:stylesheet value="https://ui.pepper.com.au/SalesForceForm/css/salesforce-forms.min.css"/>    
+<apex:form styleClass="SF-Form form-cntrls">
+    <p>
+        Thanks for requesting accreditation with Pepper.  
+    </p>
+    <p>
+        You will receive an email shortly with your accreditation details.
+    </p>
+</apex:form>
+</apex:page>

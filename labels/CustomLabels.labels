@@ -1,0 +1,1518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>ACCRUED_INTEREST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ACCRUED_INTEREST</shortDescription>
+        <value>ACCRUED_INTEREST</value>
+    </labels>
+    <labels>
+        <fullName>APP_FEE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>APP_FEE</shortDescription>
+        <value>APP_FEE</value>
+    </labels>
+    <labels>
+        <fullName>ApplicationAttachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ApplicationAttachment</shortDescription>
+        <value>Credit Contract</value>
+    </labels>
+    <labels>
+        <fullName>AutomaticNotificationFailureEmails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AutomaticNotificationFailureEmails</shortDescription>
+        <value>salesforcecoe@pepper.com.au</value>
+    </labels>
+    <labels>
+        <fullName>BANKRUPT</fullName>
+        <categories>decline</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BANKRUPT</shortDescription>
+        <value>noticed something on your credit file which does not meet our lending policy.</value>
+    </labels>
+    <labels>
+        <fullName>BankstatementAPI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BankstatementAPI</shortDescription>
+        <value>BankStatement.com.au</value>
+    </labels>
+    <labels>
+        <fullName>Best_time_to_call_Hardship</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Best time to call - Hardship</shortDescription>
+        <value>Please enter the best time to call</value>
+    </labels>
+    <labels>
+        <fullName>CHARGE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CHARGE</shortDescription>
+        <value>CHARGE</value>
+    </labels>
+    <labels>
+        <fullName>CLContractAttachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLContractAttachment</shortDescription>
+        <value>DDR,BORROWER STATEMENT</value>
+    </labels>
+    <labels>
+        <fullName>CLContractStatus</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CLContractStatus</shortDescription>
+        <value>Closed - Obligations met,Closed- Written Off,Closed - Refinanced,Closed - Premature</value>
+    </labels>
+    <labels>
+        <fullName>CL_Loan_License</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CL Loan License</shortDescription>
+        <value>05028000000PF3B</value>
+    </labels>
+    <labels>
+        <fullName>CL_Originate_License</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CL Originate License</shortDescription>
+        <value>05028000000PF3V</value>
+    </labels>
+    <labels>
+        <fullName>COCSyncErrorEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>COCSyncErrorEmail</shortDescription>
+        <value>.</value>
+    </labels>
+    <labels>
+        <fullName>CRM_Base_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CRM Base URL</shortDescription>
+        <value>https://pepper-aus--preprod.lightning.force.com/one/one.app#/home</value>
+    </labels>
+    <labels>
+        <fullName>CRM_Mtg_Accreditation_Queue_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mortgage Accreditation Queue Id</shortDescription>
+        <value>00G28000002WCA2</value>
+    </labels>
+    <labels>
+        <fullName>CRM_Mtg_Accreditation_Record_Type_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mortgage Accreditation Record Type Id</shortDescription>
+        <value>01228000000TK2k</value>
+    </labels>
+    <labels>
+        <fullName>CRM_Mtg_Minutes_Email_Header_Default_Image_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Minutes Email Header Default Image Id</shortDescription>
+        <value>01528000003undS</value>
+    </labels>
+    <labels>
+        <fullName>CRM_Mtg_Transfer_Record_Type_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mortgage Transfer Record Type Id</shortDescription>
+        <value>01228000000TK2l</value>
+    </labels>
+    <labels>
+        <fullName>CRM_RT_Applications_Submitted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CRM_RT_Applications_Submitted</shortDescription>
+        <value>Applications Submitted</value>
+    </labels>
+    <labels>
+        <fullName>CRM_RT_Leads_Conversion</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CRM_RT_Leads_Conversion</shortDescription>
+        <value>Leads Conversion</value>
+    </labels>
+    <labels>
+        <fullName>CRM_RT_Settled</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CRM_RT_Settled</shortDescription>
+        <value>Settled</value>
+    </labels>
+    <labels>
+        <fullName>Cache_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cache Settings</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
+        <fullName>CocBatchSize</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CocBatchSize</shortDescription>
+        <value>500</value>
+    </labels>
+    <labels>
+        <fullName>CommercialDefault12Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommercialDefault12Months</shortDescription>
+        <value>Number of commercial defaults/SCI in the last 12 months</value>
+    </labels>
+    <labels>
+        <fullName>CommercialTelcoDefault12Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CommercialTelcoDefault12Months</shortDescription>
+        <value>Number of commercial telco or utility defaults/SCI in the last 12 months</value>
+    </labels>
+    <labels>
+        <fullName>ConsentCheckText</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ConsentCheckText</shortDescription>
+        <value>&lt;p&gt;Your identification information is required to enable us to undertake a credit check with a credit reporting body and for identity verification purposes. If you do not have any of these forms of identification please save your application and call 1300 659 430.&lt;/p&gt;
+
+ 
+
+&lt;p&gt;By ticking the Credit Check Consent box to the right, you: &lt;/p&gt;
+
+&lt;ul class=&quot;consent&quot;&gt;
+&lt;li&gt; confirm that you are authorised to provide these identification details, including on behalf of any joint applicant; &lt;/li&gt;
+&lt;li&gt; acknowledge that they will be used for identity verification purposes; and &lt;/li&gt;
+&lt;li&gt; acknowledge that the information will be subject to an Information Match Request in relation to relevant Official Record Holder information and that a corresponding Information Match Result will be provided via the use of third-party systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Please refer to our &lt;a href=&quot;https://www.pepper.com.au/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; for further information.&lt;/p&gt;</value>
+    </labels>
+    <labels>
+        <fullName>ConsumerDefault12Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>defaults/SCI in the last 12 months</shortDescription>
+        <value>Number of consumer defaults/SCI in the last 12 months</value>
+    </labels>
+    <labels>
+        <fullName>ConsumerDefault60Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>defaults/SCI in the last 60/84 months</shortDescription>
+        <value>Number of consumer defaults/SCI in the last 60/84 months</value>
+    </labels>
+    <labels>
+        <fullName>ConsumerDefaultLessThan60Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>defaults/SCI &lt; 60/84 mths</shortDescription>
+        <value>Number of consumer personal loan defaults/SCI &lt; 60/84 mths</value>
+    </labels>
+    <labels>
+        <fullName>ConsumerTelcoDefault12Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ConsumerTelcoDefault12Months</shortDescription>
+        <value>Number of consumer telco or utility defaults/SCI in the last 12 months</value>
+    </labels>
+    <labels>
+        <fullName>CookieRedirect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CookieRedirect</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/application/GenericRedirection</value>
+    </labels>
+    <labels>
+        <fullName>DDP_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DDP_Name</shortDescription>
+        <value>Contract DDP</value>
+    </labels>
+    <labels>
+        <fullName>DDP_Option</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DDP_Option</shortDescription>
+        <value>Application Contract</value>
+    </labels>
+    <labels>
+        <fullName>DISB_AMOUNT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DISB_AMOUNT</shortDescription>
+        <value>DISB_AMOUNT</value>
+    </labels>
+    <labels>
+        <fullName>Daily_Report_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Daily Report ID</shortDescription>
+        <value>00O280000088ilP,00O280000088ilc,00O280000088ilY,00O280000088ilU,00O280000088ilI,00O280000088ilm,00O280000088ilB</value>
+    </labels>
+    <labels>
+        <fullName>DashboardFrequencyError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DashboardFrequencyError</shortDescription>
+        <value>Please select a valid date greater than next interest charge date and within the days of selected frequency.</value>
+    </labels>
+    <labels>
+        <fullName>DealerAmountError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DealerAmountError</shortDescription>
+        <value>The value of Amount should be at least 50% of the Loan Amount, while not exceeding it.</value>
+    </labels>
+    <labels>
+        <fullName>Decline_Postcode</fullName>
+        <categories>decline</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>POSTCODE DECLINE</shortDescription>
+        <value>noticed something on your application which does not meet our lending policy.</value>
+    </labels>
+    <labels>
+        <fullName>Disbursal_Folder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Disbursal Folder</shortDescription>
+        <value>Disbursal File</value>
+    </labels>
+    <labels>
+        <fullName>DollarAmountInLast12Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>defaults/SCI in the last 12 months</shortDescription>
+        <value>Total latest dollar amount of consumer defaults/SCI in the last 12 months</value>
+    </labels>
+    <labels>
+        <fullName>DollarAmountInLast60Months</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>defaults/SCI in the last 60/84 months</shortDescription>
+        <value>Total latest dollar amount of consumer defaults/SCI in the last 60/84 months</value>
+    </labels>
+    <labels>
+        <fullName>ESB_Error_Reporting_Email_Ids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ESB Error Reporting Email Ids</shortDescription>
+        <value>pawan.mudgal@saasfocus.com;garima.chaturvedi@saasfocus.com</value>
+    </labels>
+    <labels>
+        <fullName>ExpirySMSNote</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExpirySMSNote</shortDescription>
+        <value>14 Days prior expiry SMS has been sent to the customer.</value>
+    </labels>
+    <labels>
+        <fullName>ForgotPassword</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ForgotPassword</shortDescription>
+        <value>You have used an old password, please try again.</value>
+    </labels>
+    <labels>
+        <fullName>ForgotUserNameError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ForgotUserNameError</shortDescription>
+        <value>No match found for these values. Please contact Pepper Support team for further assistance!</value>
+    </labels>
+    <labels>
+        <fullName>FutureFinancialsEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FutureFinancialsEmail</shortDescription>
+        <value>scs@futurefinancial.com.au</value>
+    </labels>
+    <labels>
+        <fullName>GenericErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GenericErrorMessage</shortDescription>
+        <value>If you need any assistance please call our team on 1300 659 430</value>
+    </labels>
+    <labels>
+        <fullName>Hardship_Length_of_assistance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hardship - Length of assistance</shortDescription>
+        <value>Please enter the length of time needed for assistance</value>
+    </labels>
+    <labels>
+        <fullName>Hardship_Reason_for_hardship</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hardship - Reason for hardship</shortDescription>
+        <value>Please enter a valid reason for hardship</value>
+    </labels>
+    <labels>
+        <fullName>Hardship_Type_of_assistance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hardship - Type of assistance</shortDescription>
+        <value>Please enter the type of assistance</value>
+    </labels>
+    <labels>
+        <fullName>HomeLoansLimitEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HomeLoansLimitEmail</shortDescription>
+        <value>homeloans.insurance@homeloans.com.au</value>
+    </labels>
+    <labels>
+        <fullName>INTEREST_CHARGED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>INTEREST_CHARGED</shortDescription>
+        <value>INTEREST_CHARGED</value>
+    </labels>
+    <labels>
+        <fullName>InboundSenderId</fullName>
+        <categories>919282159481 -- 61417023084</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InboundSenderId</shortDescription>
+        <value>PepperMoney</value>
+    </labels>
+    <labels>
+        <fullName>InsuranceTojacksonNote</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InsuranceTojacksonNote</shortDescription>
+        <value>Insurance Details has been sent to Jackson.</value>
+    </labels>
+    <labels>
+        <fullName>JacksonGenericEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>JacksonGenericEmail</shortDescription>
+        <value>amsprd@jackson</value>
+    </labels>
+    <labels>
+        <fullName>Jumio_Document_cate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Jumio Document Category</shortDescription>
+        <value>Jumio Identification</value>
+    </labels>
+    <labels>
+        <fullName>Key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Key</shortDescription>
+        <value>8UIicY01xSqVvtxaR5/Ij2yysp3BBtiEXsuKF1Pitis=</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_AddQuestion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Question</shortDescription>
+        <value>Add Question</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Anonymous</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Anonymous</shortDescription>
+        <value>Anonymous</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Answer_as</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Answer as</shortDescription>
+        <value>Answer as</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Chatter</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chatter</shortDescription>
+        <value>Chatter</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Chatter_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Chatter Link</shortDescription>
+        <value>Chatter Link</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Community</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Community</shortDescription>
+        <value>Community</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_ContactWithCase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contact with Case</shortDescription>
+        <value>Contact with Case:</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_CurrentSurveys</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Current Surveys</shortDescription>
+        <value>Current Surveys</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Delete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Delete_Confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Are you sure you want to delete this survey?</shortDescription>
+        <value>Are you sure you want to delete this survey?</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Email_Link_Anonymous</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Link, Anonymous</shortDescription>
+        <value>Email Link, Anonymous</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Email_Link_w_Contact_Case_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Link w/ Contact &amp; Case Merge</shortDescription>
+        <value>Email Link w/ Contact &amp; Case Merge</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Email_Link_w_Contact_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Link w/ Contact Merge</shortDescription>
+        <value>Email Link w/ Contact Merge</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_EnterSurveyName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Survey Name</shortDescription>
+        <value>Enter Survey Name</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_External_Please_Create_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>For external facing surveys, please create a site first.  You may still create i</shortDescription>
+        <value>For external facing surveys, please create a site first.  You may still create internal surveys without creating a site.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_For_community_assistance_with_Survey_Force</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>For community assistance with Survey Force</shortDescription>
+        <value>For community assistance with Survey Force</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Getting_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Getting Help</shortDescription>
+        <value>Getting Help</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_HeaderAndThankYou</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Header and Thank You</shortDescription>
+        <value>Header, Thank You &amp; CSS</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Installation_Guide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Installation Guide</shortDescription>
+        <value>Installation Guide</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Internal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Internal</shortDescription>
+        <value>Internal</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_JustContact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Just Contact</shortDescription>
+        <value>Just Contact</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Learn_More</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Learn More</shortDescription>
+        <value>Learn More</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_MakeANewSurvey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Make A New Survey</shortDescription>
+        <value>Make A New Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_MakeNewSurvey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Make New Survey</shortDescription>
+        <value>Make New Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Make_a_Sample_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Make a Sample Survey</shortDescription>
+        <value>Make a Sample Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Next_Steps</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Next Steps</shortDescription>
+        <value>Next Steps</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_PleaseEnterTheList</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Please enter the list</shortDescription>
+        <value>Please enter the list of answers/responses in the field below. Each value should be separated by a new line.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Question</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Question</shortDescription>
+        <value>Question</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Required</shortDescription>
+        <value>required</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_RequiredQuestion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Required Question</shortDescription>
+        <value>Required Question</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Resources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Results</shortDescription>
+        <value>Results</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SELECTSITE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SELECT SITE</shortDescription>
+        <value>--SELECT SITE--</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SELECTTYPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>--SELECT--</shortDescription>
+        <value>--SELECT--</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Salesforce_Answers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Salesforce Answers</shortDescription>
+        <value>Salesforce Answers</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SaveOrder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save Order</shortDescription>
+        <value>Save Order</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SelectQuestionType</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Question Type</shortDescription>
+        <value>Select Question Type</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SelectSitetodisplaySurvey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Site to display Survey</shortDescription>
+        <value>Select Site to display Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Share</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share</shortDescription>
+        <value>Share</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Share_My_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share My Survey</shortDescription>
+        <value>Share My Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Sharing_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sharing Options</shortDescription>
+        <value>Sharing Options</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SubmitSurvey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Submit Survey</shortDescription>
+        <value>Submit Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SurveyForceIsOpenSource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SurveyForceIsOpenSource</shortDescription>
+        <value>Survey Force is Open Source software.  We welcome your issue reports, ideas, documentation, code tweaks and all other participation.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_SurveyURLLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Survey URL Link</shortDescription>
+        <value>Survey URL Link</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Survey_Force_is_unsupported</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Survey Force is unsupported</shortDescription>
+        <value>Survey Force is unsupported.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Survey_Force_on_Github</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Survey Force on Github</shortDescription>
+        <value>Survey Force on Github</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Survey_Name_Is_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Survey Name Is Required</shortDescription>
+        <value>Survey Name is Required</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Survey_Site_Is_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Survey Site Is Required</shortDescription>
+        <value>Survey Site Is Required</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Survey_Submitted_Thank_you</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Your survey has been submitted. Thank you for taking our survey.</shortDescription>
+        <value>Your survey has been submitted. Thank you for taking our survey.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_To_submit_ideas_or_issues</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>To submit ideas or issues</shortDescription>
+        <value>To submit ideas or issues</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_User_Guide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>User Guide</shortDescription>
+        <value>User Guide</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_View_Results_In_New_Window</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Results In New Window</shortDescription>
+        <value>View Results In New Window</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_View_Sample_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Sample Survey</shortDescription>
+        <value>View Sample Survey</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Welcome_to_Survey_Force</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Welcome to Survey Force</shortDescription>
+        <value>Welcome to Survey Force</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_X1_Create_a_sample_survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>1. Create a sample survey by clicking the button below.</shortDescription>
+        <value>1. Create a sample survey by clicking the button below.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_X2_External_Setup_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>2. Set up a site if you would like to have external-facing surveys.</shortDescription>
+        <value>2. Set up a site if you would like to have external-facing surveys.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_X3_Start_creating_your_first_survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>3. Start creating your first survey.</shortDescription>
+        <value>3. Start creating your first survey.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_You_have_already_taken_this_survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>You have already taken this survey!</shortDescription>
+        <value>You have already taken this survey!</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_Your_next_few_steps_are_easy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Your next few steps are easy.</shortDescription>
+        <value>Your next few steps are easy.</value>
+    </labels>
+    <labels>
+        <fullName>LABS_SF_please_visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>please visit</shortDescription>
+        <value>please visit</value>
+    </labels>
+    <labels>
+        <fullName>LandingPageRedirection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LandingPageRedirection</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/application/LandingPage</value>
+    </labels>
+    <labels>
+        <fullName>LandingPageredirect</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LandingPageredirect</shortDescription>
+        <value>/landingpage</value>
+    </labels>
+    <labels>
+        <fullName>Lead_Record_Type_Direct_Sales</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lead Record Type Direct Sales</shortDescription>
+        <value>01228000000TF2wAAG</value>
+    </labels>
+    <labels>
+        <fullName>LoginURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>LoginURL</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/loginpage</value>
+    </labels>
+    <labels>
+        <fullName>Max_Number_of_Debts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Max Number of Debts</shortDescription>
+        <value>14</value>
+    </labels>
+    <labels>
+        <fullName>Monthly_Report_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Monthly Report ID</shortDescription>
+        <value>00O280000088ilQ,00O280000088il7,00O280000088ilX,00O280000088ild,00O280000088ilV,00O280000088ilJ,00O280000088iln,00O280000088ilC,00O280000088ilF,00O280000088ilj,00O280000088ilM</value>
+    </labels>
+    <labels>
+        <fullName>Mortgage_Dashboard</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mortgage Dashboard</shortDescription>
+        <value>Mortgage</value>
+    </labels>
+    <labels>
+        <fullName>NONSERVICEABLE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NONSERVICEABLE</shortDescription>
+        <value>were unable to ascertain if you could afford the loan from the information you provided in your loan application.</value>
+    </labels>
+    <labels>
+        <fullName>NewLine</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NewLine</shortDescription>
+        <value>-
+-</value>
+    </labels>
+    <labels>
+        <fullName>New_Line</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Line</shortDescription>
+        <value>-
+-</value>
+    </labels>
+    <labels>
+        <fullName>OBSReportEmail</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OBSReportEmail</shortDescription>
+        <value>cjoya@pepper.com.au</value>
+    </labels>
+    <labels>
+        <fullName>OBSReportId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OBSReportId</shortDescription>
+        <value>00O28000009KCxF</value>
+    </labels>
+    <labels>
+        <fullName>OneDaySMSnote</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OneDaySMSnote</shortDescription>
+        <value>Post Expiry SMS has ben sent.</value>
+    </labels>
+    <labels>
+        <fullName>Opportunity_First_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity First Label</shortDescription>
+        <value>Contact - 1st</value>
+    </labels>
+    <labels>
+        <fullName>Opportunity_Second_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity Second Label</shortDescription>
+        <value>Contact - 2nd</value>
+    </labels>
+    <labels>
+        <fullName>Opportunity_Third_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity Third Label</shortDescription>
+        <value>Contact - 3rd</value>
+    </labels>
+    <labels>
+        <fullName>PAF_Dashboard</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PAF Dashboard</shortDescription>
+        <value>PAF</value>
+    </labels>
+    <labels>
+        <fullName>PDCheckboxError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PDCheckboxError</shortDescription>
+        <value>Please click checkbox to continue.</value>
+    </labels>
+    <labels>
+        <fullName>PL_Accreditation_Base_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL Accreditation Base URL</shortDescription>
+        <value>https://sjdev-loanapplication.cs5.force.com/placcreditation</value>
+    </labels>
+    <labels>
+        <fullName>PL_Accreditation_Code_Expiry_Hours</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL Accreditation Code Expiry Hours</shortDescription>
+        <value>24</value>
+    </labels>
+    <labels>
+        <fullName>PL_Broker_Base_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL Broker Base URL</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/application/LandingPage?p2=</value>
+    </labels>
+    <labels>
+        <fullName>PL_PAFPortalContact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PL-PAFPortalContact</shortDescription>
+        <value>13 73 77</value>
+    </labels>
+    <labels>
+        <fullName>POSTCODEDECLINE</fullName>
+        <categories>decline</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Postcode decline</shortDescription>
+        <value>noticed something on your credit file which does not meet our lending policy.</value>
+    </labels>
+    <labels>
+        <fullName>POSTCODE_DECLINE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>POSTCODE_DECLINE</shortDescription>
+        <value>noticed something on your application which does not meet our lending policy.</value>
+    </labels>
+    <labels>
+        <fullName>PRINCIPAL_ADJUSTMENT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PRINCIPAL_ADJUSTMENT</shortDescription>
+        <value>PRINCIPAL_ADJUSTMENT</value>
+    </labels>
+    <labels>
+        <fullName>PURPOSE_REFINANCE_LOAN</fullName>
+        <categories>APPLICATION_PURPOSE</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PURPOSE_REFINANCE_LOAN</shortDescription>
+        <value>a refinance loan</value>
+    </labels>
+    <labels>
+        <fullName>PURPOSE_VEHICLE_LOAN</fullName>
+        <categories>APPLICATION_PURPOSE</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PURPOSE_VEHICLE_LOAN</shortDescription>
+        <value>a vehicle loan</value>
+    </labels>
+    <labels>
+        <fullName>Parent_Domain</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Parent Domain</shortDescription>
+        <value>https://staging.onebigswitch.com.au/</value>
+    </labels>
+    <labels>
+        <fullName>Payment_Folder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Folder</shortDescription>
+        <value>Payment File</value>
+    </labels>
+    <labels>
+        <fullName>PepCreditCategory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PepCreditCategory</shortDescription>
+        <value>Credit Contract</value>
+    </labels>
+    <labels>
+        <fullName>Pepper_Business_Account</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pepper Business Account</shortDescription>
+        <value>Pepper Finance Corporation Limited</value>
+    </labels>
+    <labels>
+        <fullName>Purpose</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Purpose</shortDescription>
+        <value>a debt consolidation loan</value>
+    </labels>
+    <labels>
+        <fullName>REFUND</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REFUND</shortDescription>
+        <value>REFUND</value>
+    </labels>
+    <labels>
+        <fullName>REPAYMENT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REPAYMENT</shortDescription>
+        <value>REPAYMENT</value>
+    </labels>
+    <labels>
+        <fullName>REPAYMENT_REVERSAL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>REPAYMENT_REVERSAL</shortDescription>
+        <value>REPAYMENT_REVERSAL</value>
+    </labels>
+    <labels>
+        <fullName>ScCollecition_UerErrMsg</fullName>
+        <categories>This message would be displayed when the user would try to deactivate another user who has some active contracts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UerErrMsg</shortDescription>
+        <value>The user has {!numberOfCont} active contract(s).You can not deactivate this user.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollecition_UerErrMsgQueue</fullName>
+        <categories>This message would be displayed when the user would try to deactivate another user who is a part of any queue</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Active Queue Message</shortDescription>
+        <value>The user is a part of {!numOfQueue} Queue(s).You can not deactivate the user.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_ActiveContractsStatus</fullName>
+        <categories>These are the open contract status which would be used to recognize an open contract</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Active Contracts Status</shortDescription>
+        <value>Open;MDO</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Audit_History_Size</fullName>
+        <categories>This is to setup for controlling the Audit History list size appearing on console main view</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Audit History Size</shortDescription>
+        <value>20</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_DefaultNoticeExpiryDays</fullName>
+        <categories>This is used to setup the Default Notice Expiry Date on Contract</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default Notice Expiry Days</shortDescription>
+        <value>30</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_EscalationToSupervisorDaysHardship</fullName>
+        <categories>Story# 170 - This is setup for no of days in which contract will escalate to supervisor if Hardship Request Counter will reach up the given value.</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Escalation to Supervisor Days (Hardship)</shortDescription>
+        <value>100</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Follow_Up_Date_Cap_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Follow-Up Date Cap Error</shortDescription>
+        <value>Error : You cannot extend the Review date more than {dynamic} days.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Follow_Up_Date_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Follow-Up Date Error</shortDescription>
+        <value>Error : Review date must be greater than or equal to today.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Hardship_Declaration</fullName>
+        <categories>this message would be displayed on hardship page</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hardship Declaration</shortDescription>
+        <value>I/we declare that all particulars completed on this form are true and correct.  I/we give permission to Pepper Australia Pty Ltd, to check and confirm the information given.  I/we undertake to notify Pepper Australia Pty Ltd of any change in my/our financial position and/or any change of address or telephone number.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Interaction_Log_Size</fullName>
+        <categories>This is to setup for controlling the Interaction Log list size appearing on console main view</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Interaction Log Size</shortDescription>
+        <value>20</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_MarkAsPriorityDaysHardship</fullName>
+        <categories>Story# 170 - This is setup for no of days in which contract will mark as high priority if Hardship Request Counter will reach up the given value.</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mark As Priority Days (Hardship)</shortDescription>
+        <value>4</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Notification_Size</fullName>
+        <categories>This is to setup for controlling the Interaction Log list size appearing on console main view</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Notification Size</shortDescription>
+        <value>10</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Amount_Cap_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP Amount Cap Error</shortDescription>
+        <value>Error : You cannot take a Promise for an Amount less than $ {dynamic}.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Date_Cap_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP Date Cap Error</shortDescription>
+        <value>Error : You cannot take a Promise for a Date exceeding {dynamic} days.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Date_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP Date Error</shortDescription>
+        <value>Error : Please provide a date equal to or greater than today.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Delete_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP Delete Error</shortDescription>
+        <value>Error: You cannot delete this Promise to Pay record.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_First_Date_Cap_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP First Date Cap Error</shortDescription>
+        <value>Error : You cannot choose the First Promise to Pay Date beyond {dynamic} days for recurring promises.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Last_Date_Cap_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP Last Date Cap Error</shortDescription>
+        <value>Error : You cannot choose the Last Promise to Pay Date beyond {dynamic} days for recurring promises.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Min_Amount_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PTP Min Amount Error</shortDescription>
+        <value>Error : You cannot take a Promise for an amount less than $ {dynamic}.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_PTP_Same_Date_Deletion_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ScCollection_PTP_Same_Date_Deletion_Error</shortDescription>
+        <value>You can&apos;t delete PTP record on the payment date.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Past_PTP_Delete_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ScCollection_Past_PTP_Delete_Error</shortDescription>
+        <value>You can&apos;t delete PTP record of past payment date.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Payment_Schedule_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payment Schedule Error</shortDescription>
+        <value>Error : Please create a payment schedule before submitting your PTP request.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Promise_Kept_Broken_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Promise Kept Broken Error</shortDescription>
+        <value>Error :  You cannot choose both Promise Kept &amp; Promise Broken checkboxes</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Required_Field_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Required Field Error</shortDescription>
+        <value>Error : Please provide a value for all the required fields.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Schedule_Mismatch_Error</fullName>
+        <categories>ScCollection Error Labels</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Schedule Mismatch Error</shortDescription>
+        <value>Error : Mismatch found between values in payment schedule and promise to pay details.</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Set_Hardship_Decline_status_to_None_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Set Hardship Decline status to &apos;None&apos; Days</shortDescription>
+        <value>2000</value>
+    </labels>
+    <labels>
+        <fullName>ScCollection_Set_Hardship_Expired_Status_to_None</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Set Hardship Expired Status to None</shortDescription>
+        <value>9</value>
+    </labels>
+    <labels>
+        <fullName>SecuredLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SecuredLabel</shortDescription>
+        <value>unsecured</value>
+    </labels>
+    <labels>
+        <fullName>Secured_DDP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Secured DDP</shortDescription>
+        <value>Secured Contract DDP</value>
+    </labels>
+    <labels>
+        <fullName>Secured_DDP_Option</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Secured DDP Option</shortDescription>
+        <value>Secured Application Contract</value>
+    </labels>
+    <labels>
+        <fullName>SenderId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SenderId</shortDescription>
+        <value>PepperMoney</value>
+    </labels>
+    <labels>
+        <fullName>Site_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site URL</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/application/</value>
+    </labels>
+    <labels>
+        <fullName>Site_URL_for_Docusign</fullName>
+        <categories>changed this https://uat-uat-pepperloan.cs31.force.com/</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site URL for Docusign</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/application/GenericRedirection</value>
+    </labels>
+    <labels>
+        <fullName>TOTAL_DISBURSEMENT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_DISBURSEMENT</shortDescription>
+        <value>TOTAL_DISBURSEMENT</value>
+    </labels>
+    <labels>
+        <fullName>TechnicalErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TechnicalErrorMessage</shortDescription>
+        <value>Technical error has been generated.</value>
+    </labels>
+    <labels>
+        <fullName>UserIdExistErrorMeassage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UserIdExistErrorMeassage</shortDescription>
+        <value>This user id can&apos;t be acceptable, Please try with different one. Verify that your user id is an email address (for example, username@company.com).</value>
+    </labels>
+    <labels>
+        <fullName>VinError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VinError</shortDescription>
+        <value>VIN was not found please check the details and try again.</value>
+    </labels>
+    <labels>
+        <fullName>WRITE_OFF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WRITE_OFF</shortDescription>
+        <value>WRITE_OFF</value>
+    </labels>
+    <labels>
+        <fullName>Web_Analytics_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Web Analytics ID</shortDescription>
+        <value>UA-61433843-3</value>
+    </labels>
+    <labels>
+        <fullName>Weekly_Report_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Weekly Report ID</shortDescription>
+        <value>00O280000088ilR,00O280000088il8,00O280000088ile,00O280000088ila,00O280000088ilK,00O280000088ilo,00O280000088ilD,00O280000088ilG,00O280000088ilh,00O280000088ilk,00O280000088ilN,00O28000008jl1l</value>
+    </labels>
+    <labels>
+        <fullName>enforcingConsolidate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>enforcingConsolidate</shortDescription>
+        <value>At least one debt should be provided here for consolidation.</value>
+    </labels>
+    <labels>
+        <fullName>lettertojackson</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>lettertojackson</shortDescription>
+        <value>Letter invocation process has been invoked on the Jackson side.</value>
+    </labels>
+    <labels>
+        <fullName>loginTOContract</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>loginTOContract</shortDescription>
+        <value>application/contract</value>
+    </labels>
+    <labels>
+        <fullName>pepAdobe_analytics_script</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Adobe analytics script</shortDescription>
+        <value>http://assets.adobedtm.com/2c5aa8248193a4df5b5a115db9c7a33ec887ad4b/satelliteLib-e77fc8152025827050a877b48840f414216b0165-staging.js</value>
+    </labels>
+    <labels>
+        <fullName>pepBSB_validation_Msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BSB validation Msg</shortDescription>
+        <value>Please enter valid BSB</value>
+    </labels>
+    <labels>
+        <fullName>pepBank_statement</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bank statement</shortDescription>
+        <value>Bank Statement</value>
+    </labels>
+    <labels>
+        <fullName>pepBankstatementAPI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BankstatementAPI</shortDescription>
+        <value>BankStatement.com.au</value>
+    </labels>
+    <labels>
+        <fullName>pepCommunity_url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community url</shortDescription>
+        <value>_ui/networks</value>
+    </labels>
+    <labels>
+        <fullName>pepDebtClPuprposeName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pepDebtClPuprposeName</shortDescription>
+        <value>a debt consolidation loan</value>
+    </labels>
+    <labels>
+        <fullName>pepDefaultDeclineReason</fullName>
+        <categories>Decline</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default Decline Reason</shortDescription>
+        <value>default reason..</value>
+    </labels>
+    <labels>
+        <fullName>pepGoogle_API_Key</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Google API Key</shortDescription>
+        <value>AIzaSyCafthoYzEGIiaLzh3LLI58P3I5mwh7gaI</value>
+    </labels>
+    <labels>
+        <fullName>pepSiteUrl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>pepSiteUrl</shortDescription>
+        <value>https://preprod-myloanportal.cs57.force.com/application</value>
+    </labels>
+    <labels>
+        <fullName>peporgWideEmailAddressId</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>orgWideEmailAddressId</shortDescription>
+        <value>0D228000000Gw15</value>
+    </labels>
+    <labels>
+        <fullName>purposeName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>purposeName</shortDescription>
+        <value>a refinance loan</value>
+    </labels>
+    <labels>
+        <fullName>vehicleAge</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>vehicleAge</shortDescription>
+        <value>12</value>
+    </labels>
+</CustomLabels>

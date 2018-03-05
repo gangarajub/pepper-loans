@@ -1,0 +1,486 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the creating new interaction log for pepper collections.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 03-JUN-2016    Created By: Pawan Mudgal   Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="ScCollection_CreateLogController" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head> 
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+            <apex:includeScript value="{!URLFOR($Resource.bootstrap, 'js/bootstrap.min.js')}" />
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+            
+            <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap-theme.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    if('{!objLog.Id}' != '' && '{!strTabId}' != '')
+                    {
+                        $('.successsection').show();
+                        $('#successtext').html('Interaction Log created successfully !!!');
+                        
+                        //close tab after 3 secs
+                        setTimeout(function(){ closeSubTabOnLoad(); }, 3000);
+                        
+                        //refresh all other windows
+                        sforce.console.refreshPrimaryTabById('{!strTabId}', true, null);    
+                    }
+                }); 
+                
+                function closeSubTabOnLoad() 
+                {
+                    sforce.console.getEnclosingTabId(closeSubtab);
+                }
+                var closeSubtab = function closeSubtab(result) 
+                {
+                    var tabId = result.id;
+                    sforce.console.closeTab(tabId);
+                };
+                
+                function restrictNumericInput(fieldid)
+                {
+                    document.getElementById(fieldid).addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110, 190].indexOf(key) !== -1 ||
+                             (key == 65 && ( e.ctrlKey || e.metaKey  ) ) || 
+                             (key >= 35 && key <= 40) ||
+                             (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) ||
+                             (key >= 96 && key <= 105)
+                           )) e.preventDefault();
+                    });
+                }
+                
+                function ValidateSubmit()
+                {
+                    $('.errorsection').hide();
+                    $('#errortext').html('');
+                                                
+                    $('.requiredField').each(function(index) 
+                    {
+                        $(this).removeClass('errorBorder');
+                        $(this).addClass('normalBorder');
+                    });
+                    
+                    if(validateRequiredFields() && validateNumericFields() && validateDateFields())
+                    {
+                        SubmitData_AF();
+                    }
+                    else
+                    {
+                        $(window).scrollTop(0);
+                    }
+                }
+                
+                function assignToUser()
+                {
+                    // this method would open a user assignment screen
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_AssignToUser?id='+'{!strContractId}', true, 'Assign To User', null);
+                    });
+                } 
+                 
+                                
+                function validateRequiredFields()
+                {
+                    var result = true;
+                    
+                    $('.requiredField').each(function(index) 
+                    {
+                        if($(this).val() == '')
+                        {
+                            $('.errorsection').show();
+                            $('#errortext').html('Error : please provide values for all required fields.');
+                            $(this).removeClass('normalBorder');
+                            $(this).addClass('errorBorder');
+                            result = false;
+                        }
+                    });
+                    
+                    return result;
+                }
+                
+                function validateNumericFields()
+                {
+                    var result = true;
+                    
+                    $('.numberField').each(function(index) 
+                    {
+                        if($(this).val() <= 0)
+                        {
+                            $('.errorsection').show();
+                            $('#errortext').html('Error : please provide values greated than zero.');
+                            $(this).removeClass('normalBorder');
+                            $(this).addClass('errorBorder');
+                            result = false;
+                        }
+                    });
+                    
+                    return result;
+                }
+                
+                function validateDateFields()
+                {
+                    var result = true;
+                    var docId = 'Page:frm:alldocreceivedid';
+                    $('.dateField').each(function(index) 
+                    {
+                        if($(this).val() != ''){
+                            var selecteddate = parseDate($(this).val());
+                            selecteddate.setHours(0, 0, 0, 0);
+                            var todaydate = new Date('{!NOW()}');
+                            todaydate.setHours(0, 0, 0, 0);
+                            var c = $(this).attr('id');
+                            if(selecteddate < todaydate && c != docId)
+                            {
+                                $('.errorsection').show();
+                                $('#errortext').html('Error : please provide valid dates greater or equal to today.');
+                                $(this).removeClass('normalBorder');
+                                $(this).addClass('errorBorder');
+                                result = false;
+                            }
+                        }   
+                    });
+                    
+                    return result;
+                }
+                
+                // accepts format like dd/mm/yyyy
+                function parseDate(datestr) 
+                {
+                    var arr = datestr.match(/(\d+)/g);
+                    var y = parseInt(arr[2]);
+                    var m = parseInt(arr[1])-1;
+                    var d = parseInt(arr[0]);
+                    return new Date(y,m,d);
+                }
+                
+                function ChangeNotice()
+                {
+                    var selectedvalue = $('.noticepicklist').val();
+                    
+                    if(selectedvalue == 'Active Default Notice' || selectedvalue == 'Default Notice Issued (in-house)' || selectedvalue == 'Default Notice Issued(Solicitor)')
+                    {
+                        $('#noticedate').show();
+                        $('.noticedate').addClass('requiredField'); 
+                    }
+                    else
+                    {
+                        $('#noticedate').hide();
+                        $('.noticedate').removeClass('requiredField'); 
+                    }
+                }
+                
+                function OpenPTP()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_CreatePTP?id={!strContractId}&tabid=' + result.id, true, 'Promise To Pay', null);
+                    });
+                }
+                
+                function SyncInteractionLog(){
+                    Sync_Data();
+                }
+            </script>
+            <style>
+                .errorMsg
+                {
+                    display:none !important;
+                }
+            </style>
+        </head>
+        <body>
+            <section id="main-section">
+                <div class="container-fluid">
+                    <apex:form id="frm" style="margin-top:5px;">
+                        
+                        <apex:actionStatus id="OutPanelRenderer" layout="block" startStyleClass="customLoading" styleClass="customLoading"/>
+                        
+                        <apex:outputPanel id="success_msg_panel" rendered="{!showSmsSent}">
+                            <div class="alert alert-success fade in alert-dismissable" style="margin-top:18px;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                                <strong>Success!</strong> Sms has been sent successfully.
+                            </div>
+                        </apex:outputPanel>
+                        
+                        <apex:outputPanel id="syncerr_msg_panel" rendered="{!If(objLog.ScCollection_Synced__c == false && objLog.ScCollection_Error_Message__c != null,true,false)}">
+                            <div class="alert alert-danger fade in alert-dismissable" style="margin-top:15px; margin-bottom:0px; font-size:14px;">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                                <strong>Error !!! </strong> {!objLog.ScCollection_Error_Message__c}.
+                            </div>
+                            
+                        </apex:outputPanel>
+                        
+                        <apex:outputPanel id="log_Panel" rendered="{!showSubmit}">
+                            
+                            <apex:actionFunction action="{!SubmitData}" name="SubmitData_AF" />
+                            
+
+                            <aside id="center_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+                                
+                                <section class="cstm-form" style="text-align:center; margin-top:10px;">
+                                    <a href="#" class="nav-login active" onclick="ValidateSubmit();" style="cursor:pointer;"><span>Save</span></a>
+                                    <a href="#" class="nav-login active" onclick="OpenPTP();" style="cursor:pointer;margin-left:10px;"><span>Create PTP</span></a>
+                                    <a href="#" class="nav-login active" onclick="assignToUser();" style="cursor:pointer;text-align:center; margin-top:10px;display:{!IF(displayAssignToUser,'inline-block','none')}"><span>Assign to User</span></a>
+                                    
+                               </section>
+                                <div class="clearfix"></div>
+                                
+                                <div class="col-md-12 col-sm-12 iframe-sm-12 noleftpadding">
+                                    <label class="displayNone errorsection"><i class="fa fa-exclamation-triangle"></i><span id="errortext"></span></label>
+                                    <apex:pageMessages id="servererror" />
+                                </div>
+                                <div class="clearfix"></div>
+                                
+                                <section class="cstm-form clearfix">
+                                    <fieldset>
+                                        <legend>Interaction Log Details</legend>
+                                        
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label>Action</label>
+                                            <apex:selectList id="actions" value="{!strSelectedAction}" styleClass="form-control requiredField" multiselect="false" size="1">
+                                                <apex:selectOptions value="{!ActionName}" id="fieldoption" />
+                                                <apex:actionSupport action="{!changeAction}" event="onchange" reRender="log_Panel" status="OutPanelRenderer" />
+                                            </apex:selectList>
+                                            <div class="requiredMark"></div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Next Action</label>
+                                            <apex:outputText value="{!strNextAction}" />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group display:block;" style="{!If(showRequestedBy,'display:block;','display:none;')}">
+                                            <label>Requested By</label>
+                                            <apex:inputField id="requestedby" value="{!objLog.ScCollection_Requested_by__c}" styleClass="form-control {!If(showRequestedBy,'requiredField','')}" />
+                                            <div class="{!If(showRequestedBy,'requiredMark','')}"></div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="{!If(showRequestedVia,'display:block;','display:none;')}">
+                                            <label>Requested Via</label>
+                                            <apex:inputField id="requestedvia" value="{!objLog.ScCollection_Requested_Via__c}" styleClass="form-control {!If(showRequestedVia,'requiredField','')}" />
+                                            <div class="{!If(showRequestedVia,'requiredMark','')}"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="{!If(showDateAllReceived,'display:block;','display:none;')}">
+                                            <label>Date All Documents Received</label>
+                                            <apex:inputField id="alldocreceivedid" value="{!objLog.ScCollection_Date_all_documents_received__c}" styleClass="form-control dateField {!If(showDateAllReceived,'requiredField','')} " style="width:100%;" />
+                                            <div class="{!If(showDateAllReceived,'requiredMark','')}"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label>Review Date</label>
+                                            <apex:inputField id="reviewdate" value="{!objLog.collect__Follow_Up_Date_Time__c}" styleClass="form-control requiredField dateField" style="width:100%;" />
+                                            <div class="requiredMark"></div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label>Reason For Default</label>
+                                            <apex:inputField id="defaultreason" value="{!objLog.ScCollection_Reason_For_Default__c}" styleClass="form-control {!If(strRFD = 'Yes','requiredField','')}" />
+                                            <div class="{!If(strRFD = 'Yes','requiredMark','')}"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-12 col-sm-12 iframe-sm-12 form-group">
+                                            <label>Templates</label>
+                                            <apex:selectList id="template" value="{!strSelectedTemplate}" styleClass="form-control" multiselect="false" size="1">
+                                                <apex:selectOptions value="{!TemplateName}" id="templatefieldoption" />
+                                                <apex:actionSupport action="{!changeTemplate}" event="onchange" reRender="log_Panel" status="OutPanelRenderer" />
+                                            </apex:selectList>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-12 col-sm-12 iframe-sm-12 form-group">
+                                            <label>Comments</label>
+                                            <apex:inputField id="comments" value="{!objLog.collect__Description__c}" styleClass="form-control requiredField" />
+                                            <div class="requiredMark"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-12 col-sm-12 iframe-sm-12 form-group" style="margin-bottom: 0px;">
+                                            <div class="col-md-4 col-sm-4 iframe-sm-4 noleftpadding">
+                                                <label style="margin-left: 10px;margin-bottom:0px;">Create Activity</label>
+                                                <apex:inputCheckbox id="activity" value="{!createActivity}" styleClass="custom-checkbox" />
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 iframe-sm-4" style="display:{!If(lstwrapperForStatusFields.size > 0,'block','none')};">
+                                                <label style="margin-left: 10px;margin-bottom:0px;">Edit Status</label>
+                                                <apex:inputCheckbox id="status" value="{!editStatus}" styleClass="custom-checkbox">
+                                                    <apex:actionSupport action="{!changeStatus}" event="onchange" reRender="log_Panel" status="OutPanelRenderer"/>
+                                                </apex:inputCheckbox>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </section>                           
+                                
+                                <apex:outputPanel id="status_edit_Panel" rendered="{!If(editStatus == true && lstwrapperForStatusFields.size > 0,true,false)}">
+                                    <section class="cstm-form clearfix">
+                                        <fieldset>
+                                            <legend>Contract Status Details</legend>
+                                            <apex:repeat id="repeatid" value="{!lstwrapperForStatusFields}" var="obj">
+
+                                            <apex:outputPanel rendered="{!obj.write}">
+                                                <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                    <label>{!obj.objconfig.collect__Status__c}</label>
+                                                    <apex:selectList id="selectid" value="{!obj.strSelectedStatus}" styleClass="form-control {!If(obj.objconfig.collect__Status_API_Name__c == 'ScCollection_Default_notice__c','noticepicklist','')}" multiselect="false" size="1" onchange="{!If(obj.objconfig.collect__Status_API_Name__c == 'ScCollection_Default_notice__c','ChangeNotice();','')}">
+                                                        <apex:selectOptions value="{!obj.lstStatusOptions}"/>
+                                                    </apex:selectList>
+                                                </div>
+
+                                                </apex:outputPanel>
+                                            </apex:repeat>
+                                            <div id="noticedate" class="col-md-6 col-sm-6 iframe-sm-6 form-group displayNone">
+                                                <label>Notice Issue Date</label>
+                                                <apex:inputField id="noticedate" value="{!objStatus.ScCollection_default_Notice_Issue_Date__c}" styleClass="form-control noticedate" style="width:99%;float:right;"/>
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                        </fieldset>
+                                    </section> 
+                                    <apex:outputText escape="false" value="<script>ChangeNotice();</script>"></apex:outputText>    
+                                </apex:outputPanel>
+                                
+                                <apex:outputPanel id="status_view_Panel" rendered="{!If(editStatus == false && lstwrapperForStatusFields.size > 0,true,false)}">
+                                    <section class="cstm-form clearfix">
+                                        <fieldset style="background: rgba(223, 0, 36, 0.1);color: rgba(223, 0, 36, 0.9);padding-bottom:0px !important;">
+                                            <legend style="margin-bottom: 0px !important;">Contract Status Details</legend>
+                                            <apex:repeat value="{!lstwrapperForStatusFields}" var="obj">
+                                             <apex:outputPanel rendered="{!obj.read}">
+                                                <div class="col-md-6 col-sm-6 iframe-sm-6 norightpadding noleftpadding" style="margin-bottom:5px !important;">
+                                                    <div style="width:40%;float:left;padding:0px 5px;">
+                                                        <label style="float:right;margin-bottom: 2px !important;">{!obj.objconfig.collect__Status__c}</label>
+                                                    </div>
+                                                    <div style="width:60%;float:left;padding:0px 5px;">
+                                                        <span>{!obj.strSelectedStatusView}</span>
+                                                    </div>
+                                                </div>
+
+                                                </apex:outputPanel>
+                                            </apex:repeat>
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 norightpadding noleftpadding" style="margin-bottom:5px !important;">
+                                                <div style="width:40%;float:left;padding:0px 5px;">
+                                                    <label style="float:right;margin-bottom: 2px !important;">RFD</label>
+                                                </div>
+                                                <div style="width:60%;float:left;padding:0px 5px;">
+                                                    <span>{!If(objStatus.ScCollection_Reason_For_Default__c != null,objStatus.ScCollection_Reason_For_Default__c,'None')}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </section>    
+                                </apex:outputPanel>
+                                
+                                <section class="cstm-form clearfix" style="text-align:center; margin-top:5px;margin-bottom: 10px;">
+                                    <a href="#" class="nav-login active" onclick="ValidateSubmit();"><span>Save</span></a>
+                                    <a href="#" class="nav-login active" onclick="OpenPTP();" style="cursor:pointer;margin-left:10px;"><span>Create PTP</span></a>
+                                    <a href="#" class="nav-login active" onclick="assignToUser();" style="cursor:pointer;text-align:center; margin-top:10px;display:{!IF(displayAssignToUser,'inline-block','none')}"><span>Assign to User</span></a>
+                                     
+                                </section>
+                            </aside>
+                        </apex:outputPanel>
+                        
+                        <apex:outputPanel id="log_detail" rendered="{!NOT(showSubmit)}">
+                        <apex:actionFunction action="{!SyncData}" name="Sync_Data"  reRender="log_detail" status="OutPanelRenderer" />
+                            <aside id="center_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+                            
+                                <section class="cstm-form" style="text-align:center; margin-top:10px;">
+                                    <a href="#" class="nav-login active" onclick="assignToUser();" style="cursor:pointer;display:{!IF(displayAssignToUser=false && objLog.Id != '' && strTabId != '','none','inline-block')}"><span>Assign to User</span></a>
+                                                                    
+                                    <a href="#" class="nav-login active" onclick="SyncInteractionLog();" style="cursor:pointer;display:{!IF(objLog.ScCollection_Error_Message__c != '' && objLog.ScCollection_Synced__c == false,'inline-block','none')}"><span>Sync Log</span></a>
+                                    
+                                </section>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12 col-sm-12 iframe-sm-12 noleftpadding">
+                                    <label class="displayNone successsection"><i class="fa fa-check" aria-hidden="true"></i><span id="successtext"></span></label>
+                                </div>
+                                <div class="clearfix"></div>
+                                
+                                <section class="cstm-form clearfix">
+                                    <fieldset>
+                                        <legend>Interaction Log Details</legend>
+                                        <section class="cstm-form" style="text-align:center; margin-top:10px; margin-bottom:10px;">
+                                           
+                                        </section>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Action</label>
+                                            <apex:outputField value="{!objLog.collect__Action__r.Name}"/>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Next Action</label>
+                                            <apex:outputField value="{!objLog.collect__Action__r.ScCollection_Next_Action__c}" />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Review Date Time</label>
+                                            <apex:outputField value="{!objLog.collect__Follow_Up_Date_Time__c}" />
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Reason For Default</label>
+                                            <apex:outputField value="{!objLog.ScCollection_Reason_For_Default__c}" />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-12 col-sm-12 form-group">
+                                            <label style="display:block;">Comments</label>
+                                            <apex:outputField value="{!objLog.collect__Description__c}" />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Interaction Date</label>
+                                            <apex:outputField value="{!objLog.CreatedDate}" />
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                            <label style="display:block;">Created By</label>
+                                            <apex:outputField value="{!objLog.CreatedBy.Name}" />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="margin-bottom: 5px;">
+                                            <label style="margin-left: 10px;">Activity Created</label>
+                                            <apex:inputCheckbox value="{!createActivity}" styleClass="custom-checkbox" disabled="true"/>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="margin-bottom: 5px;">
+                                            <label style="margin-left: 10px;">Synced</label>
+                                            <apex:inputCheckbox value="{!objLog.ScCollection_Synced__c}" styleClass="custom-checkbox" disabled="true"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </fieldset>
+                                </section> 
+                                <apex:outputPanel rendered="{!If(lstwrapperForStatusFields.size > 0,true,false)}">
+                                    <section class="cstm-form clearfix">
+                                        <fieldset style="background: rgba(223, 0, 36, 0.1);color: rgba(223, 0, 36, 0.9);padding-bottom:0px !important;">
+                                            <legend style="margin-bottom: 0px !important;">Contract Status Details</legend>
+                                            <apex:repeat value="{!lstwrapperForStatusFields}" var="obj">
+                                            <apex:outputPanel rendered="{!obj.write}" >
+                                                <div class="col-md-6 col-sm-6 iframe-sm-6 norightpadding noleftpadding" style="margin-bottom:5px !important;">
+                                                    <div style="width:40%;float:left;padding:0px 5px;">
+                                                        <label style="float:right;margin-bottom: 2px !important;">{!obj.objconfig.collect__Status__c}</label>
+                                                    </div>
+                                                    <div style="width:60%;float:left;padding:0px 5px;">
+                                                        <span>{!obj.strSelectedStatusView}</span>
+                                                    </div>
+                                                </div>
+                                                </apex:outputPanel>
+                                            </apex:repeat>
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 norightpadding noleftpadding" style="margin-bottom:5px !important;">
+                                                <div style="width:40%;float:left;padding:0px 5px;">
+                                                    <label style="float:right;margin-bottom: 2px !important;">RFD</label>
+                                                </div>
+                                                <div style="width:60%;float:left;padding:0px 5px;">
+                                                    <span>{!If(objStatus.ScCollection_Reason_For_Default__c != null,objStatus.ScCollection_Reason_For_Default__c,'None')}</span>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </section>                         
+                                </apex:outputPanel>
+                            </aside>
+                        </apex:outputPanel>
+                    </apex:form>
+                </div>
+            </section>
+        </body>
+    </html>
+</apex:page>

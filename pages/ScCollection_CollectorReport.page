@@ -1,0 +1,1337 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the contract console list view for pepper collections.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 06-SEP-2016    Created By: Pawan Mudgal   Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="ScCollection_CollectorReportHandler" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+            <apex:includeScript value="{!URLFOR($Resource.bootstrap, 'js/bootstrap.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-datatable.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquerydataTables.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/dataTablesjqueryui.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/modernizr-custom.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/moment.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/datetime-moment.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/dataTablesbuttons.min.js')}" /><!-- common for all buttons -->
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jszip.min.js')}" /><!-- for excel option-->
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/pdfmake.min.js')}" /><!-- for pdf option-->
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/vfs_fonts.js')}" /><!-- for pdf option-->
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/buttonshtml5.min.js')}" /><!-- common for all buttons -->
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/buttonsprint.min.js')}" /><!-- for print button -->      
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/bootstrap-multiselect.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/highcharts.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jqueryhighchartTable-min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/dxall.js')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-ui.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/dataTablesjqueryui.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/buttonsdataTables.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap-multiselect.css')}" />
+            
+            <script>
+                jQuery(document).ready(function()
+                {
+                    $.fn.dataTable.moment('D/MM/YYYY');
+                    $.fn.dataTable.moment('DD/MM/YYYY');
+                    $('.datefield').attr('maxlength','10');
+                    
+                    $('.userdropdown').multiselect(
+                    {
+                        includeSelectAllOption: false
+                    });                    
+                    
+                    document.getElementById('Page:frm:start_date').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 191)))   
+                        {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    document.getElementById('Page:frm:end_date').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 191)))   
+                        {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    document.getElementById('Page:frm:ptp_start_date').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 191)))   
+                        {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    document.getElementById('Page:frm:ptp_end_date').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 191)))   
+                        {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    document.getElementById('Page:frm:ptp_start_date_filter').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 191)))   
+                        {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    document.getElementById('Page:frm:ptp_end_date_filter').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 191)))   
+                        {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    jQuery.extend(jQuery.fn.dataTableExt.oSort, 
+                    {
+                        "num-html-pre": function(a) 
+                        {
+                            var x = String(a).replace( /<[\s\S]*?>/g, "" );
+                            return parseFloat(x);
+                        },
+                        "num-html-asc": function(a,b) 
+                        {
+                            return((a < b) ? -1 : ((a > b) ? 1 : 0));
+                        },
+                        "num-html-desc": function (a,b) 
+                        {
+                            return((a < b) ? 1 : ((a > b) ? -1 : 0));
+                        }
+                    });
+                }); 
+                
+                function loadwidget()
+                {
+                    var mycontracttable = $('#contracttable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": "num-html"},
+                           {"type": "num-html"},
+                           {"type": "num-fmt"},
+                           {"type": "num-html"},
+                           {"type": "num-html"},
+                           {"type": "num-html"},
+                           {"type": "num-html"},
+                           {"type": "num-fmt"},
+                           {"type": "num-html"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-html"}
+                        ],
+                        "order": [],
+                        "pageLength": 50,
+                        "searching": false
+                    });
+                                        
+                    new $.fn.dataTable.Buttons(mycontracttable, 
+                    {
+                        buttons: [
+                            {
+                                extend: 'csv',
+                                text: 'Export To CSV',
+                                filename: 'performancereport',
+                                extension: '.csv'
+                            },
+                            {
+                                extend: 'excel',
+                                text: 'Export To Excel',
+                                filename: 'performancereport',
+                                extension: '.xlsx'
+                            },
+                            {
+                                extend: 'pdf',
+                                text: 'Export To PDF',
+                                filename: 'performancereport',
+                                extension: '.pdf',
+                                title: 'Collector Performance Report',
+                                orientation: 'landscape',
+                                customize: function (doc) 
+                                {
+                                    doc.content.splice(1,0, 
+                                    {
+                                        margin: [0, 0, 0, 12],
+                                        alignment: 'left',
+                                        image: 'data:image/png;base64,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',
+                                    });
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                text: 'Print Report',
+                                title: 'Collector Performance Report'
+                            }
+                        ]
+                    });
+                     
+                    mycontracttable.buttons().containers().prependTo('#contracttable_wrapper');
+                }
+                
+                function loadptpwidget()
+                {
+                    var myptptable = $('#ptptable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": "num-html"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-html"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-html"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                        ],
+                        "order": [],
+                        "pageLength": 50,
+                        "searching": false
+                    });
+                    
+                    new $.fn.dataTable.Buttons(myptptable, 
+                    {
+                        buttons: [
+                            {
+                                extend: 'csv',
+                                text: 'Export To CSV',
+                                filename: 'ptpreport',
+                                extension: '.csv'
+                            },
+                            {
+                                extend: 'excel',
+                                text: 'Export To Excel',
+                                filename: 'ptpreport',
+                                extension: '.xlsx'
+                            },
+                            {
+                                extend: 'pdf',
+                                text: 'Export To PDF',
+                                filename: 'ptpreport',
+                                extension: '.pdf',
+                                title: 'Collector PTP Report'
+                            },
+                            {
+                                extend: 'print',
+                                text: 'Print Report',
+                                title: 'Collector PTP Report'
+                            }
+                        ]
+                    });
+                     
+                    myptptable.buttons().containers().prependTo('#ptptable_wrapper');
+                }
+                
+                function loadmodalwidget()
+                {
+                    $('#contractdetailtable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": "string"},
+                           {"type": null},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num"},
+                           {"type": "string"}
+                        ],
+                        "order": [[ 2, "desc" ]],
+                        "pageLength": 50
+                    });
+                }
+                
+                function loadptpmodalwidget()
+                {
+                    $('#ptpdetailtable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": "string"},
+                           {"type": "num-fmt"},
+                           {"type": null},
+                           {"type": "string"},
+                           {"type": "string"},
+                           {"type": "num-fmt"}
+                        ],
+                        "order": [[ 0, "desc" ]],
+                        "pageLength": 50
+                    });
+                }
+                
+                function getSearchRecords(UserIds, StartDate, EndDate)
+                {
+                    var $container = jQuery("#contractdiv");
+                    var $chartcontainer = jQuery("#chartcontractdiv");
+                    var $guagecontainer = jQuery("#guagecontractdiv");
+                    $container.empty();
+                    $chartcontainer.empty();
+                    $guagecontainer.empty();
+                    $('#errormessage').hide();
+                    
+                    ScCollection_CollectorReportHandler.getSearchResults(UserIds, StartDate, EndDate, 
+                    function(result, event)
+                    {
+                        if(event.status)
+                        {
+                            var myTable = "<table id='contracttable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th>Collector Name</th><th title='Start Of Day Queue Size'>SOD Queue</th><th title='Accounts Actioned From Queue'>Actioned</th><th title='Queue Actioned %'>Actioned %</th><th title='Inbound Accounts Actioned'>Reviewed</th><th title='Team Accounts Actioned'>Team</th><th title='Total Accounts Actioned'>Total</th><th title='Right Party Contacts'>RPC</th><th>RPC %</th><th title='Promises Taken Count'>PTP Count</th><th title='Promises Taken Amount'>PTP Amount</th><th title='Sum of Balance Amount'>Total Loan Balance</th><th>PTP/RPC Rate</th><th title='Loans With RPC But No promises'>RPC but no PTP</th></tr></thead><tbody>";
+                            var myTableChart = "<table id='contractcharttable' class='highchart1' data-graph-container-before='1' data-graph-type='column' data-graph-datalabels-enabled='1' data-graph-margin-top='60' style='position:fixed;'><caption>Collector Performance Analysis</caption><thead><tr><th>Collector Name</th><th>Start Of Day Queue</th><th>Total Actioned</th><th>Total Reviewed</th><th>Total Team</th></tr></thead><tbody>";
+                                                        
+                            for(var i=0; i < result.length; i++)
+                            {
+                                var objresult = result[i];
+                                myTable += "<tr><td>" + objresult.strUserName + "</td>"; 
+                                myTableChart += "<tr><td>" + objresult.strUserName + "</td>"; 
+                                var myguage = "<div id='div" + i + "' style='width: 100%;height:75px;'></div><div class='col-md-12 col-sm-12' style='text-align:center; padding:0px 0px 20px 0px;'><text style='font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; color:#3E576F; fill:#3E576F;' zindex='1'><span id='userheading" + i + "'></span></text></div><div class='clearfix'></div>";
+                                
+                                var totalassigned = '0';
+                                var totalactioned = '0';
+                                var totalactionedperc = '0';
+                                var iconcolor = '#734F96';
+                                var helptext = objresult.strUserName;
+                                
+                                if(objresult.setQueueAccountsAssigned.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setQueueAccountsAssigned + "\");'>" + objresult.setQueueAccountsAssigned.length + "</a></td>";
+                                    myTableChart += "<td>" + objresult.setQueueAccountsAssigned.length + "</td>";
+                                    totalassigned = objresult.setQueueAccountsAssigned.length;
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myTableChart += "<td>0</td>";
+                                }
+                                
+                                if(objresult.setQueueAccountsActioned.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setQueueAccountsActioned + "\");'>" + objresult.setQueueAccountsActioned.length + "</td>";
+                                    myTableChart += "<td>" + objresult.setQueueAccountsActioned.length + "</td>";
+                                    totalactioned = objresult.setQueueAccountsActioned.length;
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myTableChart += "<td>0</td>";
+                                }
+                                
+                                if(objresult.setQueueAccountsAssigned.length > 0 && objresult.setQueueAccountsActioned.length > 0)
+                                {
+                                    myTable += "<td>" + ((objresult.setQueueAccountsActioned.length/objresult.setQueueAccountsAssigned.length)*100).toFixed(2) + " %</td>";
+                                    totalactionedperc = ((objresult.setQueueAccountsActioned.length/objresult.setQueueAccountsAssigned.length)*100).toFixed(2);
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                if(totalactionedperc >= 0 && totalactionedperc <= 50)
+                                {
+                                    iconcolor = '#CE2029';
+                                }  
+                                else if(totalactionedperc > 50 && totalactionedperc <= 85)   
+                                {
+                                    iconcolor = '#FFD700';
+                                }   
+                                else
+                                {
+                                    iconcolor = '#228B22';
+                                }   
+                                                     
+                                if(objresult.setInboundAccountsActioned.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setInboundAccountsActioned + "\");'>" + objresult.setInboundAccountsActioned.length + "</td>";
+                                    myTableChart += "<td>" + objresult.setInboundAccountsActioned.length + "</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myTableChart += "<td>0</td>";
+                                }
+                                
+                                if(objresult.setOtherAccountsActioned.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setOtherAccountsActioned + "\");'>" + objresult.setOtherAccountsActioned.length + "</td>";
+                                    myTableChart += "<td>" + objresult.setOtherAccountsActioned.length + "</td></tr>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myTableChart += "<td>0</td></tr>";
+                                }
+                                
+                                if(objresult.setTotalAccountsActioned.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setTotalAccountsActioned + "\");'>" + objresult.setTotalAccountsActioned.length + "</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                if(objresult.setRightPartyContacts.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setRightPartyContacts + "\");'>" + objresult.setRightPartyContacts.length + "</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                if(objresult.setTotalAccountsActioned.length > 0 && objresult.setRightPartyContacts.length > 0)
+                                {
+                                    myTable += "<td>" + ((objresult.setRightPartyContacts.length/objresult.setTotalAccountsActioned.length)*100).toFixed(2) + " %</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                                                
+                                if(objresult.setPromisesTakenCount.length > 0  && objresult.setPromisesTakenCountAgainstParent.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setPromisesTakenCount + "\");'>" + objresult.setPromisesTakenCountAgainstParent.length + "</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesTakenAmount.toFixed(2)) + "</td>";
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesLoanBalance.toFixed(2)) + "</td>";
+                                
+                                if(objresult.setPromisesTakenCountAgainstParent.length > 0 && objresult.setRightPartyContacts.length > 0)
+                                {
+                                    myTable += "<td>" + ((objresult.setPromisesTakenCountAgainstParent.length/objresult.setRightPartyContacts.length)*100).toFixed(2) + "%</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                if(objresult.setRPCNoPromises.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showpopup(\"" + objresult.setRPCNoPromises + "\");'>" + objresult.setRPCNoPromises.length + "</td></tr>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td></tr>";
+                                }
+                                
+                                helptext += ' (' + totalactioned + '/' + totalassigned + ')';
+                                $("#heading").html('Collector Performance Analysis');
+                                $guagecontainer.append(myguage);
+                                $("#userheading"+i+"").html(helptext);
+                                
+                                var options = 
+                                {
+                                    scale: 
+                                    {
+                                        startValue: 0, endValue: 100,
+                                        tickInterval: 50,
+                                        label: 
+                                        {
+                                            customizeText: function (arg) 
+                                            {
+                                                return arg.valueText + ' %';
+                                            }
+                                        }
+                                    }
+                                };
+                                
+                                $("#div"+i+"").dxLinearGauge($.extend(true, {}, options, 
+                                {
+                                    value: totalactionedperc,
+                                    valueIndicator: 
+                                    {
+                                        type: 'textCloud',
+                                        color: iconcolor
+                                    }
+                                }));
+                            }
+                            
+                            myTable += "</tbody></table>";
+                            myTableChart += "</tbody></table>";
+                            $container.append(myTable);
+                            //$chartcontainer.append(myTableChart);
+                            loadwidget();
+                            $('#loadinggif').hide();
+                            //$('table.highchart1').highchartTable();
+                        } 
+                        else if (event.type == 'exception') 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessage').show();
+                            $('#errorheader').html('Sorry ! unable to process this request.');
+                            $('#errortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        } 
+                        else 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessage').show();
+                            $('#errorheader').html('Sorry ! unable to process this request.');
+                            $('#errortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        }
+                    }, {escape:true});
+                }
+                
+                function getPtpSearchRecords(UserIds, StartDate, EndDate, StartDateFilter, EndDateFilter)
+                {
+                    var $ptpcontainer = jQuery("#ptpdiv");
+                    var $ptpkeptchartcontainer = jQuery("#ptpkeptchartdiv");
+                    var $ptpbrokenchartcontainer = jQuery("#ptpbrokenchartdiv");
+                    var $ptpsummarychartcontainer = jQuery("#ptpsummarychartdiv");
+                    var $ptpguagecontainer = jQuery("#ptpguagecontractdiv");
+                    $ptpcontainer.empty();
+                    $ptpkeptchartcontainer.empty();
+                    $ptpbrokenchartcontainer.empty();
+                    $ptpsummarychartcontainer.empty();
+                    $ptpguagecontainer.empty();
+                    $('#ptperrormessage').hide();
+                    
+                    ScCollection_CollectorReportHandler.getPtpSearchResults(UserIds, StartDate, EndDate, StartDateFilter, EndDateFilter,  
+                    function(result, event)
+                    {
+                        if(event.status) 
+                        {
+                            var myTable = "<table id='ptptable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th>Collector Name</th><th>Taken #</th><th>Taken $</th><th>Taken Balance</th><th>Kept #</th><th>Kept $</th><th>Kept %</th><th>Kept Balance</th><th>Broken #</th><th>Broken $</th><th>Broken %</th><th>Broken Balance</th></tr></thead><tbody>";
+                            var myptpkeptTableChart = "<table id='ptpkeptcharttable' class='highchart2' data-graph-container-before='1' data-graph-type='pie' data-graph-datalabels-enabled='1' data-graph-margin-top='60' style='position:fixed;'><caption>Promises Kept Analysis</caption><thead><tr><th>Collector Name</th><th>Promises Kept</th></tr></thead><tbody>";
+                            var myptpbrokenTableChart = "<table id='ptpbrokencharttable' class='highchart2' data-graph-container-before='1' data-graph-type='pie' data-graph-datalabels-enabled='1' data-graph-margin-top='60' style='position:fixed;'><caption>Promises Broken Analysis</caption><thead><tr><th>Collector Name</th><th>Promises Broken</th></tr></thead><tbody>";
+                            var myptpsummaryTableChart = "<table id='ptpsummarycharttable' class='highchart2' data-graph-container-before='1' data-graph-type='column' data-graph-datalabels-enabled='1' data-graph-margin-top='60' style='position:fixed;'><caption>PTP Performance Analysis</caption><thead><tr><th>Collector Name</th><th>Promises Taken</th><th>Promises Kept</th><th>Promises Broken</th></tr></thead><tbody>";
+                            
+                            for(var i=0; i < result.length; i++)
+                            {
+                                var objresult = result[i];
+                                myTable += "<tr><td>" + objresult.strUserName + "</td>"; 
+                                myptpkeptTableChart += "<tr><td>" + objresult.strUserName + "</td>"; 
+                                myptpbrokenTableChart += "<tr><td>" + objresult.strUserName + "</td>"; 
+                                myptpsummaryTableChart += "<tr><td>" + objresult.strUserName + "</td>"; 
+                                var myptpguage = "<div id='guage" + i + "' style='width: 50%;height:300px;float:left;padding:20px 0px;'></div>";
+                                
+                                if(i == 1 || i == 3 || i == 5 || i == 7 || i == 9)
+                                {
+                                    myptpguage += "<div class='clearfix'></div>";
+                                }
+                                
+                                var totalpromises = '0';
+                                var totalkept = '0';
+                                var totalkeptperc = '0';
+                                var ptphelptext = objresult.strUserName;
+                                
+                                if(objresult.setPromisesTakenCount.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showptppopup(\"" + objresult.setPromisesTakenCount + "\");'>" + objresult.setPromisesTakenCount.length + "</a></td>";
+                                    myptpsummaryTableChart += "<td>" + objresult.setPromisesTakenCount.length + "</td>"; 
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myptpsummaryTableChart += "<td>0</td>"; 
+                                }
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesTakenAmount.toFixed(2)) + "</td>";
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesTakenBalance.toFixed(2)) + "</td>";
+                                
+                                if(objresult.setPromisesKeptCount.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showptppopup(\"" + objresult.setPromisesKeptCount + "\");'>" + objresult.setPromisesKeptCount.length + "</a></td>";
+                                    myptpkeptTableChart += "<td data-graph-name='" + objresult.strUserName + " (" + objresult.setPromisesKeptCount.length + ")" + "'>" + objresult.setPromisesKeptCount.length + "</td></tr>"; 
+                                    myptpsummaryTableChart += "<td>" + objresult.setPromisesKeptCount.length + "</td>"; 
+                                    totalkept = objresult.setPromisesKeptCount.length;
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myptpkeptTableChart += "<td data-graph-name='" + objresult.strUserName + " (0)'>0</td></tr>"; 
+                                    myptpsummaryTableChart += "<td>0</td>"; 
+                                }
+                                                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesKeptAmount.toFixed(2)) + "</td>";
+                                
+                                if(objresult.setPromisesKeptCount.length > 0 || objresult.setPromisesBrokenCount.length > 0)
+                                {
+                                    myTable += "<td>" + ((objresult.setPromisesKeptCount.length/(objresult.setPromisesKeptCount.length + objresult.setPromisesBrokenCount.length))*100).toFixed(2) + " %</td>";
+                                    totalpromises = objresult.setPromisesKeptCount.length + objresult.setPromisesBrokenCount.length;
+                                    totalkeptperc = ((objresult.setPromisesKeptCount.length/(objresult.setPromisesKeptCount.length + objresult.setPromisesBrokenCount.length))*100).toFixed(2);
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesKeptBalance.toFixed(2)) + "</td>";
+                                
+                                if(objresult.setPromisesBrokenCount.length > 0)
+                                {
+                                    myTable += "<td><a href='#' onclick='showptppopup(\"" + objresult.setPromisesBrokenCount + "\");'>" + objresult.setPromisesBrokenCount.length + "</td>";
+                                    myptpbrokenTableChart += "<td data-graph-name='" + objresult.strUserName + " (" + objresult.setPromisesBrokenCount.length + ")" + "'>" + objresult.setPromisesBrokenCount.length + "</td></tr>"; 
+                                    myptpsummaryTableChart += "<td>" + objresult.setPromisesBrokenCount.length + "</td></tr>"; 
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                    myptpbrokenTableChart += "<td data-graph-name='" + objresult.strUserName + " (0)'>0</td></tr>"; 
+                                    myptpsummaryTableChart += "<td>0</td></tr>"; 
+                                }
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesBrokenAmount.toFixed(2)) + "</td>";
+                                
+                                if(objresult.setPromisesBrokenCount.length > 0 || objresult.setPromisesKeptCount.length > 0)
+                                {
+                                    myTable += "<td>" + ((objresult.setPromisesBrokenCount.length/(objresult.setPromisesBrokenCount.length + objresult.setPromisesKeptCount.length))*100).toFixed(2) + " %</td>";
+                                }
+                                else
+                                {
+                                    myTable += "<td>0</td>";
+                                }
+                                
+                                myTable += "<td>$ " + numberWithCommas(objresult.PromisesBrokenBalance.toFixed(2)) + "</td></tr>";
+                                
+                                ptphelptext += ' (' + totalkeptperc + '%)';
+                                $("#ptpheading").html('Promises Kept Rate Analysis');
+                                $ptpguagecontainer.append(myptpguage);
+                                
+                                $("#guage"+i+"").dxCircularGauge(
+                                {
+                                    scale: 
+                                    {
+                                        startValue: 0,
+                                        endValue: 100,
+                                        tickInterval: 5,
+                                        label: 
+                                        {
+                                            customizeText: function (arg) 
+                                            {
+                                                return arg.valueText + " %";
+                                            }
+                                        }
+                                    },
+                                    rangeContainer: 
+                                    {
+                                        ranges: 
+                                        [
+                                            { startValue: 0, endValue: 30, color: "#CE2029" },
+                                            { startValue: 30, endValue: 60, color: "#FFD700" },
+                                            { startValue: 60, endValue: 100, color: "#228B22" }
+                                        ]
+                                    },
+                                    title: 
+                                    {
+                                        text: ptphelptext,
+                                        font: { size: 20 }
+                                    },
+                                    value: totalkeptperc
+                                });
+                            }
+                            
+                            myTable += "</tbody></table>";
+                            myptpkeptTableChart += "</tbody></table>";
+                            myptpbrokenTableChart += "</tbody></table>";
+                            myptpsummaryTableChart += "</tbody></table>";
+                            $ptpcontainer.append(myTable);
+                            //$ptpkeptchartcontainer.append(myptpkeptTableChart);
+                            //$ptpbrokenchartcontainer.append(myptpbrokenTableChart);
+                            //$ptpsummarychartcontainer.append(myptpsummaryTableChart);
+                            loadptpwidget();
+                            $('#loadinggif').hide();
+                            //$('table.highchart2').highchartTable();
+                        } 
+                        else if (event.type == 'exception') 
+                        {
+                            $('#loadinggif').hide();
+                            $('#ptperrormessage').show();
+                            $('#ptperrorheader').html('Sorry ! unable to process this request.');
+                            $('#ptperrortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        } 
+                        else 
+                        {
+                            $('#loadinggif').hide();
+                            $('#ptperrormessage').show();
+                            $('#ptperrorheader').html('Sorry ! unable to process this request.');
+                            $('#ptperrortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        }
+                    }, {escape:true});
+                }
+                
+                function PerformSearch_JS()
+                {
+                    var selectlist = $("#sl option:selected");
+                    var userids = '';
+                    var selecteduserscount = 0;
+                    
+                    selectlist.each(function() 
+                    {
+                        userids += "'" + $(this).val() + "',";
+                        selecteduserscount++;
+                    });
+                    
+                    var startdate = document.getElementById('Page:frm:start_date').value;
+                    var enddate = document.getElementById('Page:frm:end_date').value;
+                    
+                    if(selecteduserscount > 0)
+                    {
+                        if(selecteduserscount <= 10)
+                        {
+                            userids = userids.substr(0, userids.length - 1);
+                            
+                            if(startdate != '' && enddate != '')
+                            {
+                                if(moment(startdate, 'DD/MM/YYYY',true).isValid() || moment(startdate, 'D/MM/YYYY',true).isValid())
+                                {
+                                    if(moment(enddate, 'DD/MM/YYYY',true).isValid() || moment(enddate, 'D/MM/YYYY',true).isValid())
+                                    {
+                                        var start = $('.start_date').val();
+                                        var end = $('.end_date').val();
+                                        var diff = new Date(parseDate(end) - parseDate(start));
+                                        var days = diff/1000/60/60/24;
+                                        
+                                        if(days < 31)
+                                        {
+                                            $('#loadinggif').show();
+                                            getSearchRecords(userids,startdate,enddate);    
+                                        }
+                                        else
+                                        {
+                                            alert('Please provide valid date range of maximum 31 days...');
+                                            document.getElementById('Page:frm:start_date').focus(); 
+                                        }
+                                    }
+                                    else
+                                    {
+                                        alert('Please provide valid end date in DD/MM/YYYY format...');
+                                        document.getElementById('Page:frm:end_date').focus();    
+                                    }
+                                }
+                                else
+                                {
+                                    alert('Please provide valid start date in DD/MM/YYYY format...');
+                                    document.getElementById('Page:frm:start_date').focus();
+                                }
+                            }
+                            else
+                            {
+                                alert('Please provide value for both start date and end date...');
+                            }
+                        }
+                        else
+                        {
+                            alert('Please select upto 10 values only for user...');    
+                        }
+                    }
+                    else
+                    {
+                        alert('Please select atleast one value for user...');
+                    }
+                }
+                
+                function PerformPtpSearch_JS()
+                {
+                    var selectlist = $("#ptp_sl option:selected");
+                    var userids = '';
+                    var selecteduserscount = 0;
+                    
+                    selectlist.each(function () 
+                    {
+                        userids += "'" + $(this).val() + "',";
+                        selecteduserscount++;
+                    });
+                    
+                    var startdate = document.getElementById('Page:frm:ptp_start_date').value;
+                    var enddate = document.getElementById('Page:frm:ptp_end_date').value;
+                    var startdatefilter = document.getElementById('Page:frm:ptp_start_date_filter').value;
+                    var enddatefilter = document.getElementById('Page:frm:ptp_end_date_filter').value;
+                    
+                    if(selecteduserscount > 0)
+                    {
+                        if(selecteduserscount <= 10)
+                        {
+                            userids = userids.substr(0, userids.length - 1);
+                                                        
+                            if(startdate != '' && enddate != '')
+                            {
+                                if(moment(startdate, 'DD/MM/YYYY',true).isValid() || moment(startdate, 'D/MM/YYYY',true).isValid())
+                                {
+                                    if(moment(enddate, 'DD/MM/YYYY',true).isValid() || moment(enddate, 'D/MM/YYYY',true).isValid())
+                                    {
+                                        if(startdatefilter != '' || enddatefilter != '')
+                                        {
+                                            if((moment(startdatefilter, 'DD/MM/YYYY',true).isValid() || moment(startdatefilter, 'D/MM/YYYY',true).isValid()) && (moment(enddatefilter, 'DD/MM/YYYY',true).isValid() || moment(enddatefilter, 'D/MM/YYYY',true).isValid()))
+                                            {
+                                                var start = $('.ptpstart_date_filter').val();
+                                                var end = $('.ptpend_date_filter').val();
+                                                var diff = new Date(parseDate(end) - parseDate(start));
+                                                var days = diff/1000/60/60/24;
+                                                
+                                                if(days < 31)
+                                                {
+                                                    $('#loadinggif').show();
+                                                    getPtpSearchRecords(userids,startdate,enddate,startdatefilter,enddatefilter);        
+                                                }
+                                                else
+                                                {
+                                                    alert('Please provide valid date range of maximum 31 days...');
+                                                    document.getElementById('Page:frm:ptp_start_date_filter').focus(); 
+                                                }
+                                            }
+                                            else
+                                            {
+                                                alert('Please provide valid filter dates in DD/MM/YYYY format...');
+                                                document.getElementById('Page:frm:ptp_start_date_filter').focus();    
+                                            }    
+                                        }
+                                        else
+                                        {
+                                            var start = $('.ptpstart_date').val();
+                                            var end = $('.ptpend_date').val();
+                                            var diff = new Date(parseDate(end) - parseDate(start));
+                                            var days = diff/1000/60/60/24;
+                                            
+                                            if(days < 31)
+                                            {
+                                                $('#loadinggif').show();
+                                                getPtpSearchRecords(userids,startdate,enddate,'','');    
+                                            }
+                                            else
+                                            {
+                                                alert('Please provide valid date range of maximum 31 days...');
+                                                document.getElementById('Page:frm:ptp_start_date').focus(); 
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        alert('Please provide valid end date in DD/MM/YYYY format...');
+                                        document.getElementById('Page:frm:ptp_end_date').focus();    
+                                    }
+                                }
+                                else
+                                {
+                                    alert('Please provide valid start date in DD/MM/YYYY format...');
+                                    document.getElementById('Page:frm:ptp_start_date').focus();
+                                }
+                            }
+                            else
+                            {
+                                alert('Please provide value for both start date and end date...');
+                            }
+                        }
+                        else
+                        {
+                            alert('Please select upto 10 values only for user...');    
+                        }
+                    }
+                    else
+                    {
+                        alert('Please select atleast one value for user...');
+                    }
+                }
+                
+                function showpopup(contractarray)
+                {
+                    $('.contractmodal').show();
+                    $('#loadinggif').show();
+                    var $containerdetail = jQuery("#contractdetaildiv");
+                    $containerdetail.empty();
+                    $('#errormessagedetail').hide();
+                    
+                    ScCollection_CollectorReportHandler.getDetailResults(contractarray, 
+                    function(result, event)
+                    {
+                        if(event.status) 
+                        {
+                            var mydetailTable = "<table id='contractdetailtable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th>Contract No</th><th>Customer Name</th><th>Due Date</th><th>Arrear Amount</th><th>Balance Amount</th><th>Bucket</th><th>Status</th></tr></thead><tbody>";
+                            
+                            for(var i=0; i < result.length; i++)
+                            {
+                                var objresult = result[i];
+                                
+                                mydetailTable += "<tr><td><a href='#' style='cursor:pointer;' onclick=openContractTab(\'" + result[i].strContractId + "\',\'" + result[i].strContractNo + "\');>" + result[i].strContractNo + "<a/></td>"; 
+                                mydetailTable += "<td>" + result[i].strCustomerName + "</td>";
+                                mydetailTable += "<td>" + result[i].strDueDate + "</td>";
+                                mydetailTable += "<td>$ " + numberWithCommas(result[i].ArrearAmount.toFixed(2)) + "</td>";
+                                mydetailTable += "<td>$ " + numberWithCommas(result[i].BalanceAmount.toFixed(2)) + "</td>";
+                                mydetailTable += "<td>" + result[i].strBucket + "</td>";
+                                mydetailTable += "<td>" + result[i].strStatus + "</td></tr>";
+                            }
+                            
+                            mydetailTable += "</tbody></table>";
+                            $containerdetail.append(mydetailTable);
+                            loadmodalwidget();
+                            $('#loadinggif').hide();
+                        }
+                        else if (event.type == 'exception') 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessagedetail').show();
+                            $('#errorheaderdetail').html('Sorry ! unable to process this request.');
+                            $('#errortextdetail').html('Please contact system administrator.');
+                            console.log(event.message);
+                        } 
+                        else 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessagedetail').show();
+                            $('#errorheaderdetail').html('Sorry ! unable to process this request.');
+                            $('#errortextdetail').html('Please contact system administrator.');
+                            console.log(event.message);
+                        }
+                    }, {escape:true});
+                }
+                
+                function closepopup()
+                {
+                    $('.contractmodal').hide();
+                }
+                
+                function showptppopup(ptparray)
+                {
+                    $('.ptpmodal').show();
+                    $('#loadinggif').show();
+                    var $containerdetail = jQuery("#ptpdetaildiv");
+                    $containerdetail.empty();
+                    $('#ptperrormessagedetail').hide();
+                    
+                    ScCollection_CollectorReportHandler.getPtpDetailResults(ptparray, 
+                    function(result, event)
+                    {
+                        if(event.status) 
+                        {
+                            var mydetailTable = "<table id='ptpdetailtable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th>Contract No</th><th>Customer Name</th><th>PTP Amount</th><th>PTP Date</th><th>SPV</th><th>Bucket</th><th>Balance</th></tr></thead><tbody>";
+                            
+                            for(var i=0; i < result.length; i++)
+                            {
+                                var objresult = result[i];
+                                
+                                mydetailTable += "<tr><td><a href='#' style='cursor:pointer;' onclick=openContractTab(\'" + result[i].strContractId + "\',\'" + result[i].strContractNo + "\');>" + result[i].strContractNo + "<a/></td>"; 
+                                mydetailTable += "<td>" + result[i].strCustomerName + "</td>";
+                                mydetailTable += "<td>$ " + numberWithCommas(result[i].strPtpAmount.toFixed(2)) + "</td>";
+                                mydetailTable += "<td>" + result[i].strPtpDate + "</td>";
+                                mydetailTable += "<td>" + result[i].strSPV + "</td>";
+                                mydetailTable += "<td>" + result[i].strBucket + "</td>";
+                                mydetailTable += "<td>$ " + numberWithCommas(result[i].strBalance.toFixed(2)) + "</td></tr>";
+                            }
+                            
+                            mydetailTable += "</tbody></table>";
+                            $containerdetail.append(mydetailTable);
+                            loadptpmodalwidget();
+                            $('#loadinggif').hide();
+                        }
+                        else if (event.type == 'exception') 
+                        {
+                            $('#loadinggif').hide();
+                            $('#ptperrormessagedetail').show();
+                            $('#ptperrorheaderdetail').html('Sorry ! unable to process this request.');
+                            $('#ptperrortextdetail').html('Please contact system administrator.');
+                            console.log(event.message);
+                        } 
+                        else 
+                        {
+                            $('#loadinggif').hide();
+                            $('#ptperrormessagedetail').show();
+                            $('#ptperrorheaderdetail').html('Sorry ! unable to process this request.');
+                            $('#ptperrortextdetail').html('Please contact system administrator.');
+                            console.log(event.message);
+                        }
+                    }, {escape:true});
+                }
+                
+                function ptpclosepopup()
+                {
+                    $('.ptpmodal').hide();
+                }
+                
+                function openContractTab(recordId, recordName) 
+                {
+                    // open the selected article and focus
+                    sforce.console.getFocusedPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openPrimaryTab(sforce.console.getFocusedPrimaryTabId(),'/' + recordId + '?nooverride=1', true, recordName, openSuccess,recordName);
+                    });
+                    
+                    var openSuccess = function openSuccess(result) 
+                    {
+                        //Report whether opening the new tab was successful
+                        if (result.success == true) 
+                        {
+                        } 
+                        else 
+                        {
+                            sforce.console.focusPrimaryTabByName(recordName);
+                        }
+                    };
+                }
+                
+                function numberWithCommas(x) 
+                {
+                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }  
+                
+                function parseDate(str) 
+                {
+                    var mdy = str.split('/');
+                    return new Date(mdy[2],mdy[1]-1,mdy[0]);
+                }
+            </script>
+            
+            <style>
+                .uimessage 
+                {
+                    box-shadow: 0 0 0 1px #E0B4B4 inset,0 0 0 0 transparent;
+                    background-color: #FFF6F6;
+                    color: #9F3A38;
+                    font-size: 1em;
+                    padding: 1em 1.5em;
+                    border-radius: .28571429rem;
+                }
+                .uimessage .header 
+                {
+                    font-weight: 700;
+                    font-size: 1.2em;
+                }
+                .uimessage p 
+                {
+                    opacity: .85;
+                    margin: .75em 0;
+                }
+                .pagination>li 
+                {
+                    display: inline-block;
+                    margin-left:0px;
+                }
+                .table-bordered>tbody>tr>td
+                {
+                    border-top: 1px solid #ddd;
+                    border-left: 0px;
+                    border-right: 0px;
+                    border-bottom: 0px;
+                }
+                .dataTables_length
+                {
+                    float: right!important;
+                }
+                .modal-dialog-cstm 
+                {
+                    width: 90%;
+                    margin: 10px auto;
+                }
+                .modal-header-cstm
+                {
+                    background-color: #fff !important;
+                    min-height: 20px !important;
+                    color: #fff !important;
+                    padding: 10px 15px 0px 15px !important;
+                    border-radius: 5px !important;
+                }
+                #contractdetailtable_wrapper
+                {
+                    position: relative !important;
+                }
+                #contractdetailtable_filter
+                {
+                    display:inline-block !important;
+                    float:left;
+                    text-align:left;
+                }
+                #ptpdetailtable_wrapper
+                {
+                    position: relative !important;
+                }
+                #ptpdetailtable_filter
+                {
+                    display:inline-block !important;
+                    float:left;
+                    text-align:left;
+                }
+                .dataTables_wrapper .dataTables_filter input
+                {
+                    height:23px !important;
+                }
+                .nav-tabs>li.active>a
+                {
+                    background:rgba(223, 0, 36, 0.8);
+                    color:#fff;
+                    font-weight:bold;
+                }
+                .nav-tabs>li.active>a:hover
+                {
+                    background:rgba(223, 0, 36, 0.8);
+                    color:#fff;
+                    font-weight:bold;
+                }
+                .nav-tabs>li.active>a:focus
+                {
+                    background:rgba(223, 0, 36, 0.8);
+                    color:#fff;
+                    font-weight:bold;
+                }
+                .table-bordered>tbody>tr>td
+                {
+                    border-left:0px !important;
+                    border-right:0px !important;
+                    border-top:1px solid rgb(221, 221, 221) !important;
+                    border-bottom:0px !important;
+                }
+                .dt-buttons
+                {
+                    padding:10px 0px 0px 10px !important;
+                }
+                a.dt-button
+                {
+                    margin-right: 1em;    
+                }
+                #contracttable_length
+                {
+                    margin-top:5px;
+                }
+                .btn-group
+                {
+                    width:100% !important;
+                }
+                .multiselect
+                {
+                    color: #333 !important;
+                    margin: 0px !important;
+                    padding: 6px 10px !important;
+                    border: 1px solid #b5b5b5 !important;
+                    border-bottom-color: #b5b5b5 !important;
+                    background: none !important;
+                    font-weight: bold !important;
+                    font-size: 1em !important;
+                    border-radius: 3px !important;
+                    width:100% !important;
+                    text-align: left !important;
+                }
+                .btn .caret 
+                {
+                    float: right !important;
+                    margin-top: 5px !important;
+                }
+                .multiselect-container
+                {
+                    width:100% !important;
+                    max-height: 200px !important;
+                    overflow: auto !important;
+                }
+                .multiselect-container>li
+                {
+                    padding: 0px !important;
+                    margin:0px !important;
+                }
+                .multiselect-container>li>a>label
+                {
+                    padding: 3px 10px 3px 35px;
+                }
+                .multiselect-container>li>a>label>input[type=checkbox]
+                {
+                    margin-bottom: 0px !important;
+                    height: 15px !important;
+                    margin-top: 0px !important;
+                }
+                .highcharts-title
+                {
+                    font-size:18px !important;
+                    font-weight:bold !important;
+                }
+            </style>
+        </head>
+        <body>
+            <div id="loadinggif" class="customLoading" style="display:none;"><span id="counter"></span></div>
+            <div style="margin: 0px 20px 20px 15px !important;">
+                <apex:form id="frm" style="margin-top:1em;">
+                    <ul class="nav nav-tabs">
+                        <li class="active" style="margin-left: 0px;margin-top: 10px;"><a data-toggle="tab" href="#performance">Performance Report</a></li>
+                        <li style="margin-left: 0px;margin-top: 10px;"><a data-toggle="tab" href="#ptp">PTP Kept / Broken Report</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="performance" class="tab-pane fade in active">
+                            <aside class="col-md-12 col-sm-12" style="padding:0px !important;">
+                                <section class="cstm-form clearfix" style="margin-top:1em;">
+                                    <div class="col-md-4 col-sm-4 form-group">
+                                        <label style="display:block;">Select User</label>
+                                        <select id="sl" class="userdropdown" multiple="multiple">
+                                            <apex:repeat value="{!mapQueueUsersList}" var="obj">
+                                                <option value="{!obj}">{!mapQueueUsersList[obj]}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 form-group">
+                                        <label>Select Start Date</label>
+                                        <apex:inputField id="start_date" styleClass="form-control datefield start_date" value="{!objStartDate.ActivityDate}" style="width:100%;" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 form-group">
+                                        <label>Select End Date</label>
+                                        <apex:inputField id="end_date" styleClass="form-control datefield end_date" value="{!objEndDate.ActivityDate}" style="width:100%;" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label></label>
+                                        <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/search_icon.png')}" style="height: 30px; margin-top: 22px; cursor:pointer;" title="click to search" onclick="PerformSearch_JS();"/>
+                                    </div>
+                                </section>
+                                
+                                <section class="cstm-form clearfix">
+                                    <div id="errormessage" class="uimessage" style="display:none;">
+                                        <div id="errorheader" class="header"></div>
+                                        <p id="errortext"></p>
+                                    </div>
+                                    <div id="contractdiv" class="col-md-12 col-sm-12" style="padding:0px;">
+                                        
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div style="text-align:center; padding:20px 0px 0px 0px;" class="col-md-12 col-sm-12">
+                                        <text style="font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#3E576F; fill:#3E576F;" zindex="1">
+                                            <span id="heading"></span>
+                                        </text>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div id="guagecontractdiv" class="demo-container col-md-12 col-sm-12" style="padding:0px;">
+                                        
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div id="chartcontractdiv" class="col-md-12 col-sm-12" style="padding:30px 0px;">
+                                        
+                                    </div>
+                                </section>
+                            </aside>
+                        </div>
+                        <div id="ptp" class="tab-pane fade">
+                            <aside class="col-md-12 col-sm-12" style="padding:0px !important;">
+                                <section class="cstm-form clearfix" style="margin-top:1em;">
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label style="display:block;font-size:12px;">Select User</label>
+                                        <select id="ptp_sl" class="userdropdown" multiple="multiple">
+                                            <apex:repeat value="{!mapQueueUsersList}" var="obj">
+                                                <option value="{!obj}">{!mapQueueUsersList[obj]}</option>
+                                            </apex:repeat>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label style="font-size:12px;">Promise Taken Start Date</label>
+                                        <apex:inputField id="ptp_start_date" styleClass="form-control datefield ptpstart_date" value="{!objPtpStartDate.ActivityDate}" style="width:100%;" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label style="font-size:12px;">Promise Taken End Date</label>
+                                        <apex:inputField id="ptp_end_date" styleClass="form-control datefield ptpend_date" value="{!objPtpEndDate.ActivityDate}" style="width:100%;" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label style="font-size:12px;">Kept / Broken Start Date</label>
+                                        <apex:inputField id="ptp_start_date_filter" styleClass="form-control datefield ptpstart_date_filter" value="{!objPtpStartDateFilter.ActivityDate}" style="width:100%;" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label style="font-size:12px;">Kept / Broken End Date</label>
+                                        <apex:inputField id="ptp_end_date_filter" styleClass="form-control datefield ptpend_date_filter" value="{!objPtpEndDateFilter.ActivityDate}" style="width:100%;" />
+                                    </div>
+                                    <div class="col-md-2 col-sm-2 form-group">
+                                        <label></label>
+                                        <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/search_icon.png')}" style="height: 30px; margin-top: 22px; cursor:pointer;" title="click to search" onclick="PerformPtpSearch_JS();"/>
+                                    </div>
+                                </section>
+                                
+                                <section class="cstm-form clearfix">
+                                    <div id="ptperrormessage" class="uimessage" style="display:none;">
+                                        <div id="ptperrorheader" class="header"></div>
+                                        <p id="ptperrortext"></p>
+                                    </div>
+                                    <div id="ptpdiv" class="col-md-12 col-sm-12" style="padding:0px;">
+                                        
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div style="text-align:center; padding:20px 0px 0px 0px;" class="col-md-12 col-sm-12">
+                                        <text style="font-family:Verdana, Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#3E576F; fill:#3E576F;" zindex="1">
+                                            <span id="ptpheading"></span>
+                                        </text>
+                                    </div>
+                                    <div id="ptpguagecontractdiv" class="demo-container col-md-12 col-sm-12" style="padding:0px;">
+                                        
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div id="ptpkeptchartdiv" class="col-md-6 col-sm-6" style="padding:30px 0px;float:left;">
+                                        
+                                    </div>
+                                    <div id="ptpbrokenchartdiv" class="col-md-6 col-sm-6" style="padding:30px 0px;float:left;">
+                                        
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div id="ptpsummarychartdiv" class="col-md-12 col-sm-12" style="padding:30px 0px;">
+                                        
+                                    </div>
+                                </section>
+                            </aside>
+                        </div>
+                    </div>
+                </apex:form>
+            </div>
+            
+            <div id="contractdetailModal" class="modal contractmodal">
+                <div class="modal-dialog-cstm">
+                    <div class="modal-content" style="border-radius: 5px !important;">
+                        <div class="modal-header-cstm">
+                            <button type="button" class="close" onclick="closepopup();">&times;</button>
+                            <h4 class="modal-title" style="color:#000;">Contract Details</h4>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px;overflow: auto;">
+                            <div id="errormessagedetail" class="uimessage" style="display:none;">
+                                <div id="errorheaderdetail" class="header"></div>
+                                <p id="errortextdetail"></p>
+                            </div>
+                            <div id="contractdetaildiv" class="col-md-12 col-sm-12" style="padding:0px;position: relative;float: none !important;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ptpdetailModal" class="modal ptpmodal">
+                <div class="modal-dialog-cstm">
+                    <div class="modal-content" style="border-radius: 5px !important;">
+                        <div class="modal-header-cstm">
+                            <button type="button" class="close" onclick="ptpclosepopup();">&times;</button>
+                            <h4 class="modal-title" style="color:#000;">PTP Details</h4>
+                        </div>
+                        <div class="modal-body" style="max-height: 450px;overflow: auto;">
+                            <div id="ptperrormessagedetail" class="uimessage" style="display:none;">
+                                <div id="ptperrorheaderdetail" class="header"></div>
+                                <p id="ptperrortextdetail"></p>
+                            </div>
+                            <div id="ptpdetaildiv" class="col-md-12 col-sm-12" style="padding:0px;position: relative;float: none !important;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

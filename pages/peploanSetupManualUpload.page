@@ -1,0 +1,94 @@
+<apex:page sidebar="false" controller="peploanSetupManualUploadController" id="idPage" standardStylesheets="false" showHeader="false"  docType="html-5.0"  action="{!checkcookie}" cache="{!$Label.Cache_Settings}"  >
+        <apex:composition template="pepSideBarTemplate" >
+            <apex:define name="body" >
+            <apex:form id="idForm">
+                <apex:actionFunction action="{!upload}" name="UploadDocument" status="counterStatus"/>
+                <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>          
+                <div class="uploadDoc">
+                <div class="loanSetTopSec">
+                    <h3 class="colA">Verify your ID</h3>
+                    <div class="saveLater colB">
+                         <button class="button primaryBtn">Save for later</button>
+                    </div>
+                </div>
+
+                 <div class="innerCont">
+                      <c:pepcmscomponent_Text pageNameTest="Loan Setup(Manual Upload)" sectionName="Section1"></c:pepcmscomponent_Text>
+                    
+                    <div>
+                        <div class="page-form">
+                            
+                            <div class="form-section">
+
+                                <div class="form-cntrl">
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup(Manual Upload)" sectionName="Section2"></c:pepcmscomponent_Text>
+                                </div>
+
+                                <div class="form-cntrl">
+                                <c:pepcmscomponent_Text pageNameTest="Loan Setup(Manual Upload)" sectionName="Section3"></c:pepcmscomponent_Text>
+                                </div>
+                                <div class="form-cntrl">
+                                <button class="button primaryBtn" type="button" onclick="uploadDoc()">Upload ID</button>
+                                <apex:inputFile value="{!objAttachment.body}"  fileName="{!objAttachment.name}" contentType="{!objAttachment.contentType}"  id="inptFileUpload" accept="image/*"  style="position: absolute; left:-1000px"   onchange="UploadDocument();"> </apex:inputFile>
+                            </div>
+
+                            </div>
+                        </div>
+                   </div>
+                  </div>
+                    
+                     <div class="description">
+                    <!-- <c:pepcmscomponent_Text pageNameTest="Loan Setup(Manual Upload)" sectionName="Section4"></c:pepcmscomponent_Text> -->                       
+                    </div>   
+
+                    <div class="page-row loanSetBotSec">                        
+                           <!-- <div class="colA"><button class="button secondaryBtn">Save</button></div> -->                
+                    </div>              
+                </div>
+            </apex:form>
+         </apex:define>
+     </apex:composition> 
+     <script>
+        function uploadDoc(){
+            var inputFile = $(document.getElementById("idPage:j_id0:idForm:inptFileUpload"));
+            inputFile.trigger("click");
+        }
+    </script>
+
+<!-- ADDED BY COE 061220160915 -->
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+
+    
+</apex:page>

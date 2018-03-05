@@ -1,0 +1,316 @@
+<apex:page controller="pepLandingPagecontroller" standardStylesheets="false" docType="html-5.0" id="idPage" cache="{!$Label.Cache_Settings}" showHeader="false">
+    <html lang="en">
+        <head>
+
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Pepper Landing</title>
+            <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>           
+           
+           <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+            
+           
+        </head>
+        <body style="background:transparent" >
+            <apex:form id="idForm" forceSSL="true">
+            <script>
+            
+            $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+            // Added By Kripa to add cookies from the page
+            function setCookie(fieldName, fieldValue)
+            {
+                document.cookie= "path=/";
+                //document.cookie= "domain=https://dev-pepper.cs6.force.com";
+                document.cookie = "apex__"+fieldName+"="+fieldValue;        
+                //alert(document.cookie);
+            }
+            // On fresh window load clear old cookies.
+            window.onload = deleteAllCookies;
+            function deleteAllCookies() {
+                   var cookies = document.cookie.split(";");
+            
+                   for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";                 
+                }
+            }
+             function deleteAllCookies1() {
+                   var cookies = document.cookie.split(";");
+                   
+                   for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                   
+                    if(name.indexOf('apex__genesis__CL_Purpose__c')<=-1)
+                       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";                 
+                }
+            }
+            </script>   
+               <!-- <span class="spinner"></span> -->
+                <div class="pepperContainer">
+                    <div class="page-row">
+                        <div class="app-landing">
+                            <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+                            <div class="paraForm">
+                             <apex:variable var="sec" value="{!1}"/>
+                                                         
+                              <apex:repeat value="{!lstWrapperSection}" var="section" id="idRepeatSection">
+                               
+                                <apex:variable var="quesNo" value="{!1}" id="idRepeatQuestion"/>                               
+                                <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c =='LandingPageSection1'}" id="idSection1">  
+                                        
+                                     <span id="idSpan" class="{!IF(quesNo == questionNo+1 || (quesNo =1 && questionNo==null) ||( questionNo !=null && quesNo <= questionNo)||(ques.strAnswer!=null && questionNo !=2 ) && isError==false ,'active','')}" >
+                                      <apex:outputText value="{!ques.objQuestion.pepLabelPriorQuestion__c} " escape="false"/>                        
+                                        <apex:outputPanel rendered="{!if(ques.objQuestion.pepType__c == 'Picklist',true,false)}" id="idOutPurpose">  
+                                                                                                               
+                                            <apex:selectList rendered="{!IF(ques.objQuestion.pepFieldApiName__c =='genesis__CL_Purpose__c',true,false)}" style="width: 280px;"  value="{!ques.strAnswer}" multiselect="false" size="1" > 
+                                                   <apex:selectOptions value="{!ques.lstSelectOption}"/>                                      
+                                                   <apex:actionSupport id="n1"  event="onchange" action="{!fetchAllRateCard}"   status="counterStatus"  reRender="idForm,idSection1,idOutPurpose,idAmount,idIntrstEMI,outsecureLoan" oncomplete="tabIndexing();pepperApp.currencyFormat();" onsubmit="deleteAllCookies(); setCookie('{!ques.objQuestion.pepFieldApiName__c}', this.value);">
+                                                    <apex:param name="sectionName" value="{!sec}"
+                                                        assignTo="{!sectionNumber}" />
+                                                       <apex:param name="questionNo" value="{!quesNo}"
+                                                        assignTo="{!questionNo}"/>
+                                                   </apex:actionsupport>                                                                                                                                                                                                                                  
+                                            </apex:selectList>                                                                                         
+                                             <apex:selectList rendered="{!IF(ques.objQuestion.pepFieldApiName__c !='genesis__CL_Purpose__c',true,false)}" value="{!ques.strAnswer}" multiselect="false" size="1" styleClass="{!IF(ques.objQuestion.pepFieldApiName__c =='Requested_Term__c','pepW50','')} temp{!quesNo}" >
+                                                   <apex:selectOptions value="{!ques.lstSelectOption}"/>                                                                                                               
+                                                   <apex:actionSupport id="n2"  event="onchange" action="{!querydata}"  status="counterStatus"  reRender="idForm" oncomplete="applyBlank();pepperApp.currencyFormat();tabIndexing();function123($(this).attr('tabindex'));" onsubmit="setCookie('{!ques.objQuestion.pepFieldApiName__c}', this.value);">
+                                                    <apex:param name="sectionName" value="{!sec}"
+                                                        assignTo="{!sectionNumber}" />
+                                                       <apex:param name="questionNo" value="{!quesNo}"
+                                                        assignTo="{!questionNo}"/>
+                                                  </apex:actionsupport>                                                                                                                                                                                                 
+                                             </apex:selectList>
+                                             <span class="selectInfo" style="{!if((quesNo==6),'','display: none')}"></span>                                                    
+                                       </apex:outputPanel>                       
+                                       <apex:outputPanel rendered="{!if(ques.objQuestion.pepType__c == 'Currency',true,false)}" id="idAmount" styleClass="currencyAppLanding ">
+                                                                                                                                                  
+                                            <apex:inputText value="{!ques.strAnswer}"    id="IdLoanAmount" onkeypress="javascript:return numbersonly(event,this.id);" html-placeholder="{!decAmountPlaceHolder}"     >
+                                                 <apex:actionSupport event="onblur"  action="{!querydata}" status="counterStatus"    reRender="idForm" oncomplete="applyBlank(); pepperApp.currencyFormat();setTimeout(function(){tabIndexing();}, 3000);function123($(this).attr('tabindex'));" onsubmit="deleteAllCookies1(); setCookie('{!ques.objQuestion.pepFieldApiName__c}', this.value);"  >
+                                                    <apex:param name="sectionName" value="{!sec}"
+                                                        assignTo="{!sectionNumber}" />
+                                                       <apex:param name="questionNo" value="{!quesNo}"
+                                                        assignTo="{!questionNo}"/>
+                                                  </apex:actionsupport> 
+                                            </apex:inputText>
+                                                                                                                                                                                                                                
+                                       </apex:outputPanel>
+                                       
+                                       <apex:outputPanel layout="block" rendered="{!if(isError == true && StrMinLoanAmount !='' && StrMaxLoanAmount!=''&& quesNo == 2,true,false)}" id="idOutError">                                                   
+                                                   <span class="errorMsg"  style="display:block; text-align:left; width: 100%;">
+                                                   {!SUBSTITUTE(SUBSTITUTE(ques.objQuestion.pepGenericErrorMessage__c,"{minAmount}", StrMinLoanAmount),"{maxAmount}",StrMaxLoanAmount)}
+                                                   </span>
+                                              </apex:outputPanel> 
+                                              
+                                                                                     
+                                       <apex:outputPanel rendered="{!if(OR(ques.objQuestion.pepType__c == 'Text',ques.objQuestion.pepType__c == 'Number'),true,false)}">                                                    
+                                            <apex:inputText value="{!ques.strAnswer}" />                          
+                                       </apex:outputPanel> 
+                                       <apex:outputText value="{!ques.objQuestion.pepLabelAfterQuestion__c}" escape="false"/>              
+                                    </span> 
+                                    <apex:variable var="quesNo" value="{!quesNo+1}"/>
+                                </apex:repeat>
+                                <apex:variable var="section" value="{!sec+1}"/>                  
+                            </apex:repeat>                   
+                            </div>
+                            <div class="creditRating">
+                                <span class="selectInfo"></span>
+                                <c:pepcmscomponent_Text pageNameTest="Landing Page" sectionName="Landing Page Credit Section"></c:pepcmscomponent_Text> 
+                            </div>
+                            <apex:outputPanel rendered="{!IF(decIndicativeInterestrate !=null  && decEMI != null && decIndicativeInterestrate > 0,true,false)}" id="idIntrstEMI">
+                            <div class="estimateBlk customCollapse in">
+                                <div class="page-row">
+                                    <div class="rate">
+                                         <apex:repeat value="{!lstWrapperSection}" var="section" id="idIndicativeRate"> 
+                                            <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c =='LandingPageSection2'}">
+                                                <apex:outputText value="{!ques.objQuestion.pepLabelPriorQuestion__c} " escape="false"/>
+                                                 <p class="app-lg-txt">
+                                                     {!decIndicativeInterestrate}% p.a.
+                                                 </p> 
+                                                 <apex:outputText value="{!ques.objQuestion.pepLabel_After_Question_New__c}" escape="false"/>                       
+                                            </apex:repeat>
+                                         </apex:repeat>                         
+                                    </div>
+                                    <div class="repayment">
+                                        <apex:repeat value="{!lstWrapperSection}" var="section" id="idEmi"> 
+                                            <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c =='LandingPageSection3'}">                                                
+                                                <apex:outputText value="{!SUBSTITUTE(ques.objQuestion.pepLabelPriorQuestion__c, '{}', strPaymentFrequencyLabel)}" escape="false"/>
+                                                <p class="app-lg-txt">${!decEMI} </p>
+                                                <apex:outputText value="{!ques.objQuestion.pepLabelAfterQuestion__c}" escape="false"/>   
+                                                                    
+                                            </apex:repeat>
+                                         </apex:repeat>                            
+                                    </div>
+                                </div>
+                            </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleclass="secureloanCall" rendered="{!IF(clPurposeName =='a vehicle loan' && decIndicativeInterestrate !=null  && decEMI != null && decIndicativeInterestrate > 0,true,false)}" id="outsecureLoan">
+                                <p><c:pepcmscomponent_Text pageNameTest="Landing Page" sectionName="Landing Page Disclaimer Section"></c:pepcmscomponent_Text> <br/>
+                                    <span class="conditions"><c:pepcmscomponent_Text pageNameTest="Landing Page" sectionName="Landing Page Disclaimer 2 Section"></c:pepcmscomponent_Text></span>
+                                </p>
+                                
+                                <p class="call">&nbsp;<c:pepcmscomponent_Text pageNameTest="Landing Page" sectionName="Landing Page Phone Section"></c:pepcmscomponent_Text></p>
+                            </apex:outputPanel>
+                             <!--<button class="button primaryBtn wAuto" id="idApplynow">Apply Now</button>-->
+                           <!--   <apex:commandButton value="Apply Now" action="{!applyNow}" styleClass="button primaryBtn wAuto" />-->
+                           <p style="text-align: center">
+                            <apex:commandLink value="Apply Now"   action="{!applyNow}"  styleClass="button primaryBtn wAuto foo" target="_blank"/>
+                           </p>
+                             <p class="retrieveApp">
+                             or &nbsp;<apex:commandLink value="retrieve an existing application"  styleClass="wAuto" action="{!retrieveAppCode}"  target="_blank" /> 
+                             </p>
+                                                  
+                            <!--<p class="retrieveApp">or <a href="https://pepperaus--dev--c.cs6.visual.force.com/apex/pepRetrieveApp">retrieve an existing application</a></p>-->          
+                            <p class="use-of-calc">
+                                <c:pepcmscomponent_Text pageNameTest="Landing Page" sectionName="LandingPageSection5"></c:pepcmscomponent_Text>
+                               
+                            </p>
+                        </div>  
+                    </div>
+                </div> 
+                
+            </apex:form>
+            <script>
+                
+            $(document).ready(function(){
+              $(document).on("cut copy paste","#idPage\\:idForm\\:idRepeatSection\\:0\\:idSection1\\:1\\:IdLoanAmount",function(e) {
+                  //console.log('hi');
+                  e.preventDefault();
+              });
+              $('[Id$=IdLoanAmount]').attr("type","tel");
+            });
+            </script>
+                   
+                <script type="text/javascript">
+                    (function() {
+                    _satellite.pageBottom();
+                    })();
+                </script>         
+           
+       
+        </body>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/> 
+        
+       
+        <script>
+          var selectInfoclicked = false;
+          function applyBlank()
+          {
+             
+             $('a.wAuto').attr('target', '_blank'); 
+             if(selectInfoclicked == true)
+             {
+                 $(".creditRating").show();
+             }
+          }
+          
+          
+          
+          
+            $(document).ready(function()
+            {
+               $('a.wAuto').attr('target', '_blank'); 
+            });
+        var tempTabindex;
+        function function123(x){
+       
+        if(x=='2'){
+        tempTabindex=parseInt(x);
+        tempTabindex=tempTabindex + 1;
+        $(".temp"+tempTabindex).focus();
+        }
+         else{
+         if(x==undefined || x=='3'){
+         tempTabindex=parseInt(3);
+         tempTabindex=tempTabindex + 1;
+         }
+         else{
+         var z=parseInt(x);
+         tempTabindex=z + 1;
+         }
+        $(".temp"+tempTabindex).focus();
+         }      
+        }
+       
+            
+        $(document).on("click",".selectInfo",function() 
+        {
+        
+            if(selectInfoclicked ==false)
+            {
+                selectInfoclicked = true;
+            }
+            else if(selectInfoclicked ==true)
+            {
+                selectInfoclicked = false;
+            }
+            
+        });
+           
+       
+        </script>
+        <script>
+           $(function(){
+            Number.prototype.format = function () {
+                return this.toString().split( /(?=(?:\d{3})+(?:\.|$))/g ).join( "," );
+            };
+                
+            $(document).on('keypress keyup', ".currencyAppLanding input", function(evt){
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if(charCode == 0 || charCode == 229){
+                    var str = $(this).val();
+                    charCode = str.charCodeAt(str.length-1);
+                    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                        str = str.slice(0, -1);
+                        $(this).val(str);
+                    }    
+                }
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }                
+                return true;
+            });
+            
+            
+            $(document).on('blur', ".currencyAppLanding input", function(evt){
+                if(!isNaN(parseInt($(this).val()))){
+                    var num = ($(this).val().replace(/\,/g,""));
+                    $(this).val(num.format());
+                }
+            }); 
+            
+            pepperApp.currencyFormat = function(){
+                $(".currencyAppLanding").each(function(){
+                    var $this = $(this).find("input");                    
+                    if($this.val()){
+                        $this.val(addCommas($this.val()));
+                    }   
+                });
+            }
+
+        });
+         $(document).ready(function() {
+                     handleform();
+                     });   
+           
+            function handleform(){
+           /* $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });*/
+           }
+            
+        </script>
+       
+        
+    </html>
+</apex:page>

@@ -1,0 +1,26 @@
+<apex:page standardStylesheets="false" showHeader="false" action="{!fetchSignedPDF}" sidebar="false" controller="pepEmbedToDocuSignController">
+    <script type="text/javascript">
+        function navigateTop(){
+            //if (top.frames.length!=0)
+                // strip out site path
+                window.top.location.href= '{!redirectstring}';
+        }
+    </script>
+
+    
+    <body onload="navigateTop();">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    </body>
+
+</apex:page>

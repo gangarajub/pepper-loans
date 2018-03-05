@@ -1,0 +1,397 @@
+<apex:page action="{!checkCookie}" controller="pepPayoutLoanPageController" cache="false" docType="html-5.0" standardStylesheets="false" sidebar="false" id="pageId" showHeader="false">
+<title>Pepper PayOff Your Loan</title>
+<apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+ <style>              
+    .bsbValidationErrorMsg
+    {
+    color:#DF0024; 
+    font-size: 14px; 
+    display:none; 
+    line-height: 20px;
+    text-align: left;
+    float:left;
+    margin-top:0 !important;
+    font-weight:normal;
+    }                  
+    </style>
+<script type="text/javascript">
+            
+             
+           
+            function DisableAcceptandContinueButton()
+            {            
+                
+                document.getElementById('pageId:idPage:myForm:idCalculate').disabled = true;
+                document.getElementById('pageId:idPage:myForm:idAcceptandContinueButton').disabled = true;
+            }
+            
+            
+                 
+       </script>
+       
+       <apex:outputPanel id="rerenderModal">
+           <script>
+            function showModal() 
+            {
+               if('{!boolBSCallBWebserviceError}'=='false')
+                {
+                 
+                        if(('{!successMsg}')=='true')
+                        {
+                           $('#pepperModal_success').modal();
+                        }
+                        else
+                        {
+                           $('#pepperModal_error').modal();
+                        }
+                }    
+             }   
+           </script>
+   </apex:outputPanel>
+
+ <apex:composition template="pepDashBoardHeaderSideBarTemplate"  > 
+      <apex:define name="body"  >
+      <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+      <apex:actionFunction action="{!RetrieveBankAccountData}" name="CallActionFunction" reRender="idBankDetailsOutputPanel"/>  
+      
+                    <div class="page-form">
+                            
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                    
+                                    <div class="loanTxtOuter">
+                                        <div class="loanTxtHead paymentLoanCol">
+                                            <div>
+                                                <h3><c:pepcmscomponent_Text pageNameTest="Pay Off Your Loan" sectionName="Payoff Section 1"></c:pepcmscomponent_Text></h3>
+                                                <span class="headIcons">
+                                                <span class="fa fa-sort-amount-desc"></span> 
+                                        
+                                                </span>
+                                            </div>
+                                            <!-- <div style="clear: both"></div> -->
+                                        </div>  
+
+                                     <c:pepcmscomponent_Text pageNameTest="Pay Off Your Loan" sectionName="Payoff Section 2"></c:pepcmscomponent_Text>  
+                                      
+                                    </div>
+                                        <div class="form-elements">
+                                                
+                                            <div class="form-section innerForm">    
+                                                 <apex:outputpanel layout="block" styleclass="form-elements" id="idMainout">
+                                                        
+                                                    <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idMainRpt">
+                                        
+                                        
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 1),true,false)}">
+                                               
+                                                        
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                            <apex:selectList value="{!selectedAccount}" multiselect="false" size="1" onchange="CallActionFunction();" styleClass="frequencyClass"> 
+                                                                <apex:selectOptions value="{!lstOptions}"/>                                      
+                                                            </apex:selectList>
+                                                            <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                                
+                                                        </div>
+                                                    </div>
+                                            </apex:outputpanel>
+                                        </apex:repeat>
+                                        
+                                        <apex:outputpanel id="idBankDetailsOutputPanel">
+                                        <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idsecondRpt">
+                                          
+                                          <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 2),true,false)}">          
+                                                    <div class="page-row ">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                                <apex:outputLabel value="{!strAccountHolderName}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                                    <apex:inputText rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}" value="{!strAccountHolderName}" onblur="checkFieldValidation(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="InputAccountHolderName"/>
+                                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>                                                        </div>
+                                                    </div>
+                                         </apex:outputPanel>
+                                         
+                                         <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Number' && wrapInstance.objCmsQuestion.pepSequence__c == 3),true,false)}">
+
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                                <apex:outputLabel value="{!strAccountNumber}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                                    <apex:inputText rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}" value="{!strAccountNumber}" onblur="checkFieldValidation(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.pepSequence__c == 3, ' isAccountNo', '')}" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}" id="InputAccountNo"/>
+                                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>                                                        
+                                                </div>
+                                                    </div>  
+                                                    
+                                        </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 4),true,false)}">
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                                <apex:outputLabel value="{!strBSB}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                <apex:inputText rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}" value="{!strBSB}" onblur="checkFieldValidation(this.id);hidebsbMsg(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.pepSequence__c == 4, ' isBsb', '')}" id="InputBSB" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}"/>
+                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                <span class="bsbValidationErrorMsg" style="{!IF(boolBSCallBWebserviceError== true,'display: block;','display:none;')}">{!$Label.pepBSB_validation_Msg}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                            </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 5),true,false)}">
+
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                                <apex:outputLabel value="{!strselectedBankName}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                                    <apex:selectList value="{!strselectedBankName}" multiselect="false" size="1" styleClass="frequencyClass" rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}"> 
+                                                                        <apex:selectOptions value="{!lstBankName}" /> 
+                                                                    </apex:selectList> 
+                                                        </div>
+                                                    </div> 
+                                                    
+                                            </apex:outputPanel>
+                                            
+                                            
+                                        </apex:repeat>
+                                        </apex:outputPanel> 
+                                        
+                                        <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idthirdRpt">
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Date' && wrapInstance.objCmsQuestion.pepSequence__c == 6),true,false)}">
+
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                                <apex:inputText value="{!inputDate}" id="asDate" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired inputDate', '')}"/>
+                                                                
+                                                                    <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                                
+                                                        </div>
+                                                    </div> 
+                                                    
+                                            </apex:outputPanel> 
+                                        </apex:repeat>
+
+                                                    
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">&nbsp;</label>
+                                                        <div class="form-dcntrls">
+                                                            <apex:commandButton id="idCalculate" value="Calculate" action="{!Calculate}" styleClass="button primaryBtn small" reRender="temp" status="counterStatus" oncomplete="enablepaynow();"/>
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                    <hr class="pepperHR" />
+                                                    <apex:outputPanel id="temp">
+                                                        <div class="page-row">
+                                                            <apex:outputlabel styleclass="form-dcntrls" value="Total Amount" rendered="{!if(payoffAmount != null,true,false)}"></apex:outputlabel>
+                                                            <div class="form-dcntrls-lg amt">
+                                                                    <strong><apex:outputlabel value="$ {!payoffAmount}" id="idAmount" rendered="{!if(payoffAmount != null,true,false)}" ></apex:outputlabel></strong>
+                                                            </div>
+                                                        </div>
+                                                    </apex:outputPanel>
+                                            
+                                               </apex:outputPanel>  
+                                            </div>
+                                        
+                                       <div>
+                                            <p class="custom-chkBox">   
+                                                <c:pepcmscomponent_Text pageNameTest="Pay Off Your Loan" sectionName="Payoff Section 4"></c:pepcmscomponent_Text>
+                                            </p>
+                                        </div>
+
+        
+                                        <div class="loanSetBotSec">
+                                            <div class="colA"><apex:commandButton value="Cancel" action="{!CancelMethod}" styleclass="button secondaryBtn"/></div>
+                                             <div class="colB"><apex:commandButton id="idAcceptandContinueButton" styleClass="button primaryBtn temp" value="Pay now" action="{!CreateBankAccount}" reRender="rerenderModal,rerenderMsg,idMainout,idMainRpt" status="counterStatus" oncomplete="showModal();" onclick=" if(!checkData('pageId:idPage:myForm')) return false;"/></div>
+                                        </div>
+                                        
+                                    </div>  
+                                </div>
+                                </div>
+                                </div>
+                                
+<div id="pepperModal_error" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="fa fa-question-circle right"></span>
+        Sorry
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>We were unable to complete your payment request.
+                   Please try again.</p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <button class="button secondaryBtn modalOK" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+     
+<apex:outputPanel id="rerenderMsg">
+     <div id="pepperModal_success" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="fa fa-check-circle right"></span>
+        Your payment has been scheduled
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>Payment:<apex:outputText value="${0,number,###,###,###,##0.00}">
+                                    <apex:param value="{!strAPSTxnAmt }"/>
+                              </apex:outputText>
+                </p>
+                <p>Payment Date:&nbsp;<apex:outputText value="{0,date,dd/MM/yyyy}">
+                                        <apex:param value="{!strAPSDebitDt}"/>
+                                      </apex:outputText>
+                </p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <apex:commandButton id="idOK" action="{!redirectOK}" value="Continue" styleClass="button secondaryBtn modalOK"/>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</apex:outputPanel> 
+
+                                         </apex:define> 
+                             </apex:composition>
+    <script>
+    DisableAcceptandContinueButton();
+    </script>
+    <script>
+  
+     $('.inputDate').change(function()
+    {
+       
+       checkFrequencyInFR();
+    });
+    
+    
+    
+    function checkFrequencyInFR()
+    {
+           
+           
+            var diffDays = 'null';
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var dateValue = $('.inputDate').val();
+            var dateValueErrorMsg = $('.inputDate');
+            var oneDay = 24*60*60*1000;
+            if(dateValue !='')
+            {
+                var arr1 = dateValue.split('/');
+                var inputDate = new Date(arr1[2], arr1[1] - 1, arr1[0]);
+                var diffDays = Math.round((inputDate.getTime() - today.getTime())/(oneDay))+1;
+            }
+               
+                
+               
+          if((!isValidDate(dateValue)) || inputDate<=today || diffDays<0 || isNaN(diffDays) || diffDays =='null' || diffDays>31)
+           {
+
+              $(dateValueErrorMsg).siblings('.errorMsg').show();
+              $('.tempSaveClass').removeAttr("disabled");
+               $('.small').attr("disabled","disabled"); 
+           
+           }
+           
+           else
+           {
+               $(dateValueErrorMsg).siblings('.errorMsg').hide();
+               $('.tempSaveClass').attr("disabled","disabled");
+               $('.small').removeAttr("disabled");
+           }
+        
+          
+   
+  }
+    
+  function isValidDate(comingDate) 
+  {
+      var bits = comingDate.split('/');
+      var buildDate = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
+      return !!(buildDate && (buildDate.getMonth() + 1) == bits[1] && buildDate.getDate() == Number(bits[0]));
+  }
+  
+  function enablepaynow() 
+   {
+       $('.temp').removeAttr("disabled"); 
+   }
+  </script>
+  
+  <script>
+  $(document).ready(function()
+            {
+                if($( "[id$='asDate']" ).length){
+                    datepicker();
+                      //$(".inputDate").change();  
+                      $('.showButton').attr("disabled","disabled");
+                      if ($('.primaryBtn').hasClass("tempClass")) 
+                      {
+                         $('.primaryBtn').removeClass("tempClass");
+                         $('.primaryBtn').removeAttr("disabled");
+                      }
+                        }
+            });
+        
+           function datepicker(){
+          
+               $( "[id$='asDate']" ).datepicker({dateFormat:'dd/mm/yy',minDate: 0,changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+               
+           }
+           
+   </script>
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <apex:includeScript value="//code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+    <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+    function hidebsbMsg(selector)
+    {
+        var $this = $(document.getElementById(selector));
+        
+        if('{!boolBSCallBWebserviceError}'=='false')
+        {
+               
+               $('.bsbValidationErrorMsg').hide();
+        }
+            
+        else
+        {
+            $('.bsbValidationErrorMsg').show();
+        }
+        
+        if(!$.trim($this.val()) || $this.val() =='null' || $this.val() ==null || $this.val().length < 6)
+        {
+            $('.bsbValidationErrorMsg').hide();
+        }
+        
+    } 
+   </script>
+  
+</apex:page>

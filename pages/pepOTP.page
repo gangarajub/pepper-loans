@@ -1,0 +1,203 @@
+<apex:page controller="pepOTPController" standardStylesheets="false"  showHeader="false" docType="html-5.0" id="idPage" action="{!checkcookie}"  cache="{!$Label.Cache_Settings}">
+ 
+<html lang="en">
+<head>
+
+    <!-- Google Tag Manager -->
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP</title>
+    
+    
+    <script>
+        
+        function DisableGetMyOfferButton()
+        {
+            $('.getmyoffer').attr('disabled',true);
+            //document.getElementById('idPage:IdForm:IdGetMyOffer').disabled = true;
+        }
+        
+        function EnableGetMyOfferButton()
+        {
+              $('.getmyoffer').attr('disabled',false);
+            //document.getElementById('idPage:IdForm:IdGetMyOffer').disabled = false;
+        }
+        function callGetmyOfffer(){
+        getmyofferactionfunction();
+        }
+        function callresendnow(){
+        callresendnowactionfunction();
+        }
+    </script>
+</head>
+
+<body> 
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!PageName}" />
+    <!-- Google Tag Manager (noscript) -->
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- End Google Tag Manager (noscript) -->
+
+<apex:form ID="IdForm">
+    <apex:actionfunction name="getmyofferactionfunction" action="{!GetMyOffer}" rerender="out"/>
+    <apex:actionfunction name="callresendnowactionfunction" action="{!Resendnow}" rerender="out"/>
+    <div class="headerCont">
+    <div class="pepperContainer">
+        <header class="page-row">
+            <div class="pageLogo">
+                <a href="#logo"><apex:image url="{!URLFOR($Resource.ResourceZip,'assets/common/images/logo.png')}" alt="Pepper"/></a>
+            </div>
+            <div class="callAssist">   
+                <span><c:pepcmscomponent_Text pageNameTest="Header" sectionName="Need help" ></c:pepcmscomponent_Text>&nbsp;<strong><c:pepcmscomponent_Text pageNameTest="Header" sectionName="Call" ></c:pepcmscomponent_Text></strong></span>
+            </div>
+        </header>
+    </div>
+    </div>
+
+    <!-- mid sectin  start here -->
+    <div class="pepperContainer">
+        <div class="page-row">
+            <div class="otpApp">
+                <h3 class="heading"><c:pepcmscomponent_Text pageNameTest="First OTP" sectionName="OTP Section 3"></c:pepcmscomponent_Text></h3>
+                
+                <div class="page-row">
+                    <div class="form-cntrl">
+                        <div class="boxInfo">
+                        
+                        <p><apex:inputSecret value="{!password}" redisplay="true" onclick="EnableGetMyOfferButton();" id="IdPassword"/>
+                        
+                       
+                        <apex:outputpanel id="out">
+                        <apex:outputPanel id="IdOutputPanel" rendered="{!boolEnable == false}" >
+                            <span class = "errorMsg" style="display:block;"> Password does not match. </span>
+                        </apex:outputPanel>
+                        </apex:outputpanel>    
+                        <div class="page-row">
+                            <div class="form-cntrl">
+                                <!--<apex:commandButton id="IdGetMyOffer" value="Get my offer" action="{!GetMyOffer}" styleClass="button primaryBtn foo out"/>-->
+                                <input type="button" value="Get my Offer" onclick="show=false;callGetmyOfffer();" Class="getmyoffer button primaryBtn out"/>
+                            </div>
+                        </div>
+                        </p>
+                        </div>
+                    </div>
+                </div>  
+
+                <div class="page-row">
+                    <div class="form-cntrl">
+                    
+                        <span>Haven’t received your code? </span><a href="javascript:void(0);"   id="IdSave" onclick ="show=false;callresendnow();" style="color:#000000;text-decoration: underline;">Resend now</a>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br/ >
+      <br/ >
+      <br/ >
+   <br />
+    <!-- mid section end here -->
+    <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent> 
+
+    
+    <script>
+    DisableGetMyOfferButton();
+        var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+    </script>
+</apex:form>
+
+
+</body>
+        <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+</html>  
+ <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+   <script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+   
+</apex:page>

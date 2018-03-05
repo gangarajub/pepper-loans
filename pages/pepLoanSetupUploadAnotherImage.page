@@ -1,0 +1,147 @@
+<apex:page sidebar="false"  id="idPage"  controller="pepLoanSetupUploadAnotherImageController" standardStylesheets="false" showHeader="false"  docType="html-5.0" cache="{!$Label.Cache_Settings}"   action="{!checkcookie}" >
+        <apex:composition template="pepSideBarTemplate" >
+            <apex:define name="body" >
+            <apex:form id="idForm">
+                <apex:inputHidden id="idAttachment" value="{!IdAttachment}"/>
+                <apex:actionFunction action="{!upload}" name="UploadDocument" status="counterStatus" />
+                <apex:actionFunction action="{!deleteAttachment}" name="callActionFunction" status="counterStatus">  
+
+                            
+                </apex:actionFunction>
+                
+                <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+
+                 <apex:actionfunction name="callrerender" action="{!continueToNextPage}" />             
+                <div class="uploadDoc">
+                <div class="loanSetTopSec">
+                    <h3 class="colA">Verify your ID</h3>
+                    <div class="saveLater colB">
+                         <button class="button primaryBtn">Save for later</button>
+                    </div>
+                </div>
+
+                 <div class="innerCont">
+                      <c:pepcmscomponent_Text pageNameTest="Loan Setup(upload another Image)" sectionName="PSection1"></c:pepcmscomponent_Text>
+                    
+                   <div>
+                        <div class="page-form">
+                            
+                                    <div class="form-section">  
+                                    <p>
+                                         <c:pepcmscomponent_Text pageNameTest="Loan Setup(upload another Image)" sectionName="PSection2"></c:pepcmscomponent_Text>
+                                    </p>
+
+                                    <div class="page-row">
+                                     <apex:repeat value="{!lstAttachment}" var="objAttach">
+                                            <div class="sectionA">
+                                               {!objAttach.name}
+                                            </div>
+                                            
+                                            
+                                            <div class="sectionB">
+                                                    <!--<apex:outputLink styleClass="status-icon remove" value="" onclick="deleteAttachments('{!objAttach.Id}');">remove</apex:outputLink>-->
+                                                    <a class="status-icon remove" href="#"  onclick ="deleteAttachments('{!objAttach.Id}');">Remove</a>                                 
+                                                    <a href="{!URLFOR($Action.Attachment.Download, objAttach.Id)}" target="_blank" class="status-icon view" >View</a>
+                                            </div>
+                                     </apex:repeat>       
+                                    </div>  
+
+                                    <div class="page-row">
+                                            <div class="form-cntrl">
+                                                <button class="button ternaryBtn" type="button" onclick="uploadDoc()">Upload another Image</button>
+                                                <apex:inputFile value="{!objAttachment.body}"  fileName="{!objAttachment.name}" contentType="{!objAttachment.contentType}"  id="inptFileUpload" style="position: absolute; left:-1000px" onchange="UploadDocument();"> </apex:inputFile>
+                                            </div>
+                                    </div>
+
+                                    </div>
+                            </div>
+                        </div>
+    
+                  </div>
+                    
+                     <div class="description">
+                     <c:pepcmscomponent_Text pageNameTest="Loan Setup(upload another Image)" sectionName="PSection4"></c:pepcmscomponent_Text>                        
+                    </div>   
+
+                    <div class="page-row loanSetBotSec">                        
+                            <div class="colA"><button class="button secondaryBtn">Save</button></div>
+
+
+                            
+                            <div class="colB"><apex:commandButton value="Continue" action="{!continueToNextPage}" styleClass="button primaryBtn" disabled="{!if(lstAttachment.size>0,false,true)}"/></div>                
+
+
+
+
+                            
+                    </div>  
+                                
+                </div>
+            </apex:form>
+         </apex:define>
+     </apex:composition>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+     <script>
+     
+     function deleteAttachments(attachmentId)
+     { 
+         //alert(attachmentId);       
+         $('[Id$=idAttachment]').val(attachmentId);   
+         callActionFunction(attachmentId);
+     }
+     
+        function uploadDoc(){
+            var inputFile = $(document.getElementById("idPage:j_id0:idForm:inptFileUpload"));
+            inputFile.trigger("click");
+        }
+  
+
+
+
+
+
+
+function directcallingformselenium(){
+
+callrerender();
+}
+     </script> 
+
+<!-- ADDED BY COE 061220160915 -->
+
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+
+     
+</apex:page>

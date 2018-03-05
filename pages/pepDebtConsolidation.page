@@ -1,0 +1,280 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" id="idPage" controller="pepDebtConsolidationController" cache="{!$Label.Cache_Settings}" action="{!checkcookie}">
+  <apex:composition template="pepSideBarTemplate"  >
+    <apex:define name="body">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    
+    
+    <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+    <script type="text/javascript"> 
+            
+            
+            
+            function OnClickCheckbox()
+            {
+                 var vr = document.getElementById('terms').checked;
+                 document.getElementById('idPage:j_id0:idForm:idHdnAccept').value = vr;
+                 var vrR = document.getElementById('requestInfo').checked;
+                 document.getElementById('idPage:j_id0:idForm:idHdnRequest').value = vrR ;
+                //alert(document.getElementById('terms').value );
+                if(document.getElementById('terms').checked && document.getElementById('requestInfo').checked){
+                   
+                    document.getElementById('idPage:j_id0:idForm:idBtn').disabled = false;
+                    
+                }
+                
+                else
+                {
+                    document.getElementById('idPage:j_id0:idForm:idBtn').disabled = true;
+                }
+                
+            } 
+    </script>
+     <style>   
+        .bsbValidationErrorMsg
+        {
+            color:#DF0024; 
+            font-size: 14px; 
+            display:none; 
+            line-height: 20px;
+            text-align: left;
+            float:left;
+            margin-top:0 !important;
+            font-weight:normal;
+        }  
+    
+    </style>
+    <apex:form id="idForm">
+    
+                <div class="debtPayment">
+                <div class="loanSetTopSec">
+                    <h3 class="colA"><c:pepcmscomponent_Text pageNameTest="Debt Consolidation" sectionName="DebtConsolidationHeader"></c:pepcmscomponent_Text></h3>
+                                            <div class="saveLater colB">
+                                  <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                             </div>
+                             </div>
+                    <apex:outputpanel layout="block" styleclass="innerCont" id="idMainout">
+                        <p> <c:pepcmscomponent_Text pageNameTest="Debt Consolidation" sectionName="DebtConsolidationSubHeader"></c:pepcmscomponent_Text>
+                        </p>
+                
+                     <apex:repeat value="{!lstExpenseWrapper}" var="wrap" id="idMainRpt">
+                        <div class="page-form">                           
+                                <div class="page-row">                                
+                                    <div class="form-section">  
+                                        <p><strong>{!wrap.strSectionHeader}</strong></p>
+                                        <div class="form-elements">                                        
+
+                                            <apex:repeat value="{!wrap.lstQAWrap}" var="innerWrap">
+                                           
+                                                <apex:outputPanel rendered="{!if((innerWrap.objQues.pepLabelPriorQuestion__c =='Amount' && innerWrap.objQues.pepType__c == 'Text'), true, false)}">                                          
+                                                     <div class="page-row">
+                                                     <apex:outputLabel styleClass="form-cntrls loan" value="{!innerWrap.objQues.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                                     <div class="form-cntrls-lg textInfo"><strong>{!wrap.strAmountRemaining}</strong>
+                                                     </div>
+                                                     </div> 
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!if((innerWrap.objQues.pepLabelPriorQuestion__c !='Amount' && innerWrap.objQues.pepType__c == 'Text'), true, false)}">  
+                                                    <div class="page-row">
+                                                        <apex:outputLabel styleClass="form-cntrls loan" value="{!innerWrap.objQues.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                                      <div class="form-cntrls-lg">  <apex:inputText id="idText" value="{!innerWrap.objInputValue}" onblur="checkFieldValidation(this.id);hidebsbMsg(this.id,{!innerWrap.boolBSCallBWebserviceError});" 
+                                                       styleClass="{!IF(innerWrap.objQues.pepIsRequired__c, 'isrequired', '')} {!If(innerWrap.objQues.pepLabelPriorQuestion__c = 'Account Number', ' isAccountNo', '')} {!If(innerWrap.objQues.pepLabelPriorQuestion__c = 'BSB', ' isBsb', '')}"
+                                                       onkeypress="{!if(innerWrap.objQues.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}"/>
+                                                       <span class="errorMsg">{!innerWrap.objQues.pepGenericErrorMessage__c}</span>
+                                                       <span class="bsbValidationErrorMsg" style="{!IF(innerWrap.boolBSCallBWebserviceError == true && innerWrap.objQues.pepFieldApiName__c=='BSB__c','display: block;','display:none;')}">{!$Label.pepBSB_validation_Msg}</span>
+                                                      </div>
+                                                    </div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!if(innerWrap.objQues.pepType__c == 'Picklist', true, false)}">
+                                                      <div class="page-row">
+                                                        <apex:outputLabel styleClass="form-cntrls loan" value="{!innerWrap.objQues.pepLabelPriorQuestion__c}"></apex:outputLabel>
+                                                        <div class="form-cntrls-lg">
+                                                         <apex:selectList id="idSelect1" value="{!innerWrap.objInputValue}" multiselect="false" size="1" 
+                                                            rendered="{!if(innerWrap.objQues.pepType__c == 'Picklist',true,false)}" 
+                                                            onblur="checkFieldValidation(this.id);"
+                                                            onchange="checkFieldValidation(this.id);"                                            
+                                                            styleclass="{!IF(innerWrap.objQues.pepIsRequired__c, 'isrequired', '')}" > 
+                                                            
+                                                                 <apex:selectOptions value="{!innerWrap.lstOptions}" />
+                                                    
+                                                        </apex:selectList>
+                                                        <span class="errorMsg">{!innerWrap.objQues.pepGenericErrorMessage__c}</span>
+                                                        </div>
+                                                     </div>
+                                                </apex:outputPanel>
+                                                
+                                            </apex:repeat>
+                                           <!-- <div class="page-row">
+                                                 <apex:outputLabel styleClass="form-cntrls loan" value="BSB"></apex:outputLabel>
+                                                <div class="form-cntrls-lg"><apex:inputText /></div>
+                                            </div>
+
+                                            <div class="page-row">
+                                                 <apex:outputLabel styleClass="form-cntrls loan" value="Financial Institution"></apex:outputLabel>
+                                                <div class="form-cntrls-lg"><apex:inputText /></div>
+                                            </div>-->
+
+                                        </div>
+                                    </div>
+                                </div>                            
+                        </div>
+                        </apex:repeat>
+
+                        <apex:outputPanel layout="block" Styleclass="page-form" rendered="{!dcmlCreditCardAmountRemaining !=null && dcmlCreditCardAmountRemaining > 0}">
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                        <p><strong>{!strCCDesc}</strong></p>
+                                        <div class="form-elements">
+                                            <div class="page-row">
+                                            
+                                            <apex:outputLabel styleClass="form-cntrls loan" value="Amount"></apex:outputLabel>
+                                            
+                                            <div class="form-cntrls-lg textInfo"><strong>{!strCreditCardAmount}</strong></div>
+                                            </div>
+
+                                            <p class="page-row">
+                                            <c:pepcmscomponent_Text pageNameTest="Debt Consolidation" sectionName="CreditCardNotice"></c:pepcmscomponent_Text>
+                                            </p>
+                                         
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </apex:outputPanel>  
+                        
+                    
+                        <apex:inputHidden id="idHdnRequest" value="{!IsRequest}"/>
+                        <div class="page-row">                      
+                        <!--<p class="custom-chkBox">   
+                             <input type="checkbox" id="requestInfo" name="debt" value="{!IsRequest}" onclick = "OnClickCheckbox();" />
+                            
+                            <label for="requestInfo">
+                            <c:pepcmscomponent_Text pageNameTest="Debt Consolidation" sectionName="I request"></c:pepcmscomponent_Text>
+                           
+                            </label>
+                        </p>-->
+                        </div>
+                        <apex:inputHidden id="idHdnAccept" value="{!IsAccept}"/>
+                       <div class="page-row">
+                        <!--<p class="custom-chkBox">   
+                            <input type="checkbox" id="terms" name="debt" value="{!IsAccept}" onclick = "OnClickCheckbox();"/>
+                            
+                            <label for="terms">
+                                <c:pepcmscomponent_Text pageNameTest="Debt Consolidation" sectionName="I accept"></c:pepcmscomponent_Text>
+                            <!-- I accept that I have understood and agreed to the <a href="">terms and conditions</a> governing the debit arrangements between me and Pepper as set out your <a href="">Direct Debit Request Service Agreement.</a> 
+                            </label>
+                        </p>-->
+                        </div>
+
+                    </apex:outputpanel>
+                      <div class="loanSetBotSec page-row">
+                          <div class="colA"><apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div>
+                          <div class="colB"><apex:commandButton id="idBtn"  action="{!saveData}" value="Accept and continue" styleClass="button primaryBtn " onclick="if(!checkData('idPage:j_id0:idForm')) return false;show=false;" reRender="idMainRpt,idMainout" status="counterStatus"/></div>
+                       </div>
+                  <!--  <div class="page-row">
+                        <div class="form-cntrl">
+                             <apex:commandButton id="idBtn"  action="{!saveData}" value="Accept and continue" styleClass="button primaryBtn" onclick="return checkData('idPage:j_id0:idForm');"/>                           
+                        </div>
+                    </div> -->
+                                
+                </div>
+
+                
+   
+    </apex:form>
+    <script>
+        OnLoadCheckbox();  
+     /*   $(document).ready(function(){   
+            $(".isDigit").keypress(function(e){        
+            var count =  $(this).val().length;
+            if(count>='0' && count< '9' )
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+            alert(count);
+        });
+        }); */
+       
+    </script>
+      <apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+            var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }
+    function hidebsbMsg(selector,strError)
+    {
+        var $this = $(document.getElementById(selector));     
+        
+        if(strError ==false)
+        {               
+               
+               $this.siblings('.bsbValidationErrorMsg').hide();
+        }
+            
+        else
+        {
+            
+            $this.siblings('.bsbValidationErrorMsg').show();
+        }
+        
+        if(!$.trim($this.val()) || $this.val() =='null' || $this.val() ==null || $this.val().length < 6)
+        {
+            
+            $this.siblings('.bsbValidationErrorMsg').hide();
+        }
+        
+    }      
+ </script>
+
+ 
+ </apex:outputPanel>
+    </apex:define>
+</apex:composition>
+</apex:page>

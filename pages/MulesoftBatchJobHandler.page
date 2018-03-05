@@ -1,0 +1,11 @@
+<apex:page controller="MulesoftBatchJobHandler" cache="false" >
+<apex:form >
+    <br/><br/><br/>
+    <h3>Mulesoft Batch Job Manual Process Handler</h3>
+    <br/><br/><br/>
+    <p><span style="color:red;">{!strPageErrors}</span>{!strPageMessage}</p>
+    <br/><br/><br/>
+    <h1><apex:commandbutton value="Start data sync process " action="{!initMulesoftProcess}" /></h1>
+    <h1><apex:commandbutton value="Process results " action="{!processResult}" /></h1>
+</apex:form>
+</apex:page>

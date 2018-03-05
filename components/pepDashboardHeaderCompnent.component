@@ -1,0 +1,21 @@
+<apex:component >
+  <header class="page-row">
+        <div class="hamBurger_menu text-center">
+            <span class="menu"></span>
+        </div>
+        <div class="pageLogo">
+        <!-- <a href="#logo"><img src="assets/common/images/logo.png" alt="Pepper" /></a>-->
+         <a href="#logo"><img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pepperlogo.svg' )}" /></a>
+        </div>
+        <div class="callPhone text-center">
+            <a class="phone" href="tel:1300659430"></a>
+        </div>
+        <div class="callAssist">
+          <span><c:pepcmscomponent_Text pageNameTest="Dashboard Header" sectionName="SectionOne(DH)"></c:pepcmscomponent_Text></span>
+        <!-- <span class="logOut"><a href="/apex/pepLoginPage" styleclass="button primaryBtn">Logout</a></span> -->
+        <span class="logOut">
+        <apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" styleclass="button" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink>
+        </span>
+        </div>
+</header>
+</apex:component>

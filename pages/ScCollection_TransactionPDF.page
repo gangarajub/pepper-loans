@@ -1,0 +1,362 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the showing transaction pdf.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 08-JULY-2016    Created By: Pawan Mudgal   Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page renderAs="pdf" controller="ScCollection_PaymentTransactions" applyBodyTag="false"> 
+  <head> 
+        <style media="print">
+            @page 
+            {
+                @top-center 
+                {
+                    content: element(header);
+                }
+                @bottom-right
+                {
+                    content: element(footer);
+                }
+            }
+           
+            @page{
+               margin-top: 9cm ;
+               margin-bottom:2cm
+            }
+            
+            div.header 
+            {
+                display:block;
+                padding: 3px;
+                position: running(header);
+            }
+            div.footer 
+            {
+                display: block;
+                padding: 0px;
+                position: running(footer);
+                page-break-after:always;
+            }
+            div.content
+            {
+                display:block;
+                padding-top:220px;
+                position:relative;
+            }
+            .pagenumber:before 
+            {
+                content: counter(page);
+            }
+            .pagecount:before 
+            {
+                content: counter(pages);
+            }
+            table 
+            {
+                -fs-table-paginate: paginate;
+            }
+        </style>
+    </head>   
+    
+    <apex:outputPanel rendered="{!If(responseFromApi != '' && responseFromApi.transactions.size > 0 ,true,false)}">
+     
+        <apex:outputPanel rendered="{!If(sourceSystem == 'mortgage',true,false)}" >
+            <div class="header">
+                <center> <h3>Interim Statement</h3></center>
+                <table style="width:100%;border: 1px solid black; border-collapse: collapse">
+                    <tr style="height:50px" >
+                        <th colspan="4" style="border:1px solid black;padding: 5px; align:right">
+                            <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/pepperlogo.png')}" style="width:40%;height:45px;float:right" />
+                        </th>
+                    </tr>
+                    <tr style="height:30px">
+                        <td colspan="4"  style="border:1px solid black;padding: 5px;">
+                            Please advice this office if your postal address has changed
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="8" colspan="3" style="border:1px solid black; padding: 30px;">
+                            <span><b>Borrowers:</b></span>
+                            <span style="margin-left:5px">
+                                {!If(Var_Contract != '' && Var_Contract.size > 0, BorrowerName,'')}<br/>
+                                {!If(Var_Contract != '' && Var_Contract.size > 0, BorrowerAddress,'')}<br/>
+                            </span>
+                        </td>
+                        <td style="border:1px solid black; background-color:#bdbdbd; width:35%;">
+                            <span>Loan Number:</span>
+                            <span style="float:right">{!If(Var_Contract != '' && Var_Contract.size > 0, Var_Contract[0].Name,'')}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; background-color:#bdbdbd;">
+                            <span>Reference</span>
+                            <span style="float:right">{!inputApi.loanAccountNumber}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; background-color:#bdbdbd;">
+                            <span>Page Number</span>
+                            <span style="float:right"><span class="pagenumber"/> of <span class="pagecount"/></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; background-color:#bdbdbd;">
+                            <span>Statement From</span>
+                            <span style="float:right">                                            
+                                <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                    <apex:param value="{!startTask.ActivityDate}" /> 
+                                </apex:outputText>  
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; background-color:#bdbdbd;">
+                            <span>Statement To</span>
+                            <span style="float:right">
+                                <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                    <apex:param value="{!endTask.ActivityDate}" /> 
+                                </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; background-color:#bdbdbd;">
+                            <span>Statement Issued</span>
+                            <span style="float:right">                                            
+                                <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                    <apex:param value="{!NOW()}" /> 
+                                </apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black; background-color:#bdbdbd; height:15px;">
+                            <span></span>
+                            <span style="float:right"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="margin-top:20px;">
+                <table style="width:100%;border: 1px solid black; border-collapse: collapse">
+                    <thead style="background-color:#bdbdbd;text-align:center;">
+                        <tr style="height:30px;">
+                            <th style="border:1px solid black;padding:5px; width:10%;">Date</th>
+                            <th style="border:1px solid black;padding:5px; width:25%;">Transaction Details</th>
+                            <th style="border:1px solid black;padding:5px; width:10%;">Rate %</th>
+                            <th style="border:1px solid black;padding:5px; width:15%;">Debit</th>
+                            <th style="border:1px solid black;padding:5px; width:15%;">Credit</th>
+                            <th style="border:1px solid black;padding:5px; width:25%;">Balance</th>
+                        </tr>
+                    </thead>
+                    <apex:repeat value="{!responseFromApi.transactions}" var="obj">
+                        <tr>
+                            <td style="padding:5px;font-size:12px;">{!obj.str_transactionDate}</td>    
+                            <td style="padding:5px;font-size:12px;">{!obj.transactionTypeDescription}</td>    
+                            <td style="padding:5px;font-size:12px;">{!If(obj.interestRate > 0 ,obj.interestRate,'')}</td> 
+                            <td style="padding:5px;font-size:12px;">
+                                 <apex:outputText value="{0, number, $ ###,##0.00}">
+                                    <apex:param value="{!IF(AND(NOT(ISBLANK(obj.Debit)),obj.Debit>0),obj.Debit,'')}" />
+                                 </apex:outputText>
+                            </td> 
+                            <td style="padding:5px;font-size:12px;">
+                                  <apex:outputText value="{0, number,  $ ###,##0.00}">
+                                    <apex:param value="{!IF(AND(NOT(ISBLANK(obj.Credit)),obj.Credit>0),obj.Credit,'')}" />
+                                 </apex:outputText>
+                            </td> 
+                            <td style="padding:5px;font-size:12px;">
+                                  <apex:outputText value="{0, number, $ ###,##0.00}">
+                                    <apex:param value="{!obj.INT_transactionBalance}" />
+                                 </apex:outputText>
+                            </td> 
+                         </tr>
+                    </apex:repeat>
+                    <tr style="background-color:#bdbdbd;text-align:center;">
+                        <th rowspan="2" style="border:1px solid black; ">
+                            Statements<br /> Total
+                        </th>
+                        <th colspan="2" style="border:1px solid black;">Opening Balance</th>
+                        
+                        <th style="border:1px solid black;">Total Debits</th>
+                        <th style="border:1px solid black;">Total Credits</th>
+                        <th style="border:1px solid black;">Closing Balance</th>
+                    </tr>
+                    <tr style="text-align:center;">
+                        <td  colspan="2" style="border:1px solid black;">
+                            <apex:outputText value="{0, number, $ ###,##0.00}">
+                                <apex:param value="{!openingBalance}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <apex:outputText value="{0, number, $ ###,##0.00}">
+                                <apex:param value="{!totalDebits}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <apex:outputText value="{0, number, $ ###,##0.00}">
+                                <apex:param value="{!totalCredits}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <apex:outputText value="{0, number, $ ###,##0.00}">
+                                <apex:param value="{!closingBalance}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="margin-top:20px; margin-bottom:50px;">
+                <p>
+                    Credit entries are shown subject to clearance in full. Any unpaid items or withdrawals will be reversed and shown on a later statement.<br />
+                    Please verify all entries and promptly report any discrepancies.
+                </p>
+                <hr />
+                <p style="width:100%;text-align:center">
+                    <b>Pepper Group Limited</b>
+                </p>
+                <p style="width:100%;text-align:center">
+                    ABN 55 094 317 665, PO BOX 244 Parramatta CBD NSW 2124,Australia. Phone 1300 650 924 pepper.com.aus
+                </p>
+            </div>
+            <div class="footer">
+             .   
+            </div>
+        </apex:outputPanel> 
+    
+        <apex:outputPanel rendered="{!If(sourceSystem == 'paf',true,false)}" > 
+
+            <div class="header">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:sans-serif;font-size:11px;">
+                
+                    <tr>
+                        <td width="50%">&nbsp;</td>
+                        <td width="50%" valign="top" style="color: #000; line-height: 20px; text-align: right;">
+                            <table width="100%" cellspacing="0" cellpadding="0">
+                                <tbody>
+                                    <tr>
+                                        <td valign="top" width="50%" style="text-align:center;">Printed On</td>
+                                        <td valign="top" width="25%" style="text-align:center;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!NOW()}" /> 
+                                            </apex:outputText>
+                                            <br/>Page
+                                        </td>
+                                        <td valign="top" width="25%" style="text-align:right;">
+                                            <apex:outputText value="{0,date,HH:mm:ss}">
+                                                <apex:param value="{!NOW()}" /> 
+                                            </apex:outputText>
+                                            <br/><span class="pagenumber"/> of <span class="pagecount"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="color: #000; font-weight:bold; line-height: 20px;">
+                            Pepper Asset Finance Pty Ltd &nbsp;&nbsp;&nbsp;&nbsp; ACN 165 183 317<br/>
+                            Level 9, 146 Arthur Street,<br/>
+                            North Sydney &nbsp;&nbsp; NSW &nbsp;&nbsp; 2060<br/>
+                            Phone: 1300 308 738<br/>
+                            ACL Number: 286655<br/>
+                        </td>
+                        <td width="50%" valign="middle" align="right">
+                            <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/pepperlogo.png')}" style="width:70%;height:45px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="100%" height="10"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" width="100%" valign="top" align="left" style="color: #000; line-height: 20px;">
+                            <table width="100%" cellspacing="5" cellpadding="0">
+                                <tr>
+                                    <td colspan="4" width="100%" align="center" style="color: #000; font-size: 16px; font-weight: bold; padding:10px;">Statement of Account</td>
+                                </tr>
+                                <tr>
+                                    <td width="40%">Contract No. <span style="margin-left:15px;">{!If(Var_Contract != '' && Var_Contract.size > 0,Var_Contract[0].Name,'')}</span></td>
+                                    <td width="20%">&nbsp;</td>
+                                    <td width="20%">Annual Percentage Rate:</td>
+                                    <td width="20%" align="right">{!If(Var_Contract != '' && Var_Contract.size > 0,Var_Contract[0].ScCollection_Interest_Rate__c,'')}</td>
+                                </tr>
+                                <tr>
+                                    <td width="40%" valign="top" style="line-height: 20px;">
+                                        {!If(Var_Contract != '' && Var_Contract.size > 0, Var_Contract[0].ScCollection_Customer_Name__c,'')}<br/>
+                                        {!If(Var_Contract != '' && Var_Contract.size > 0, Var_Contract[0].ScCollection_Customer_Mailing_Address__c,'')}<br/>
+                                    </td>
+                                    <td width="20%" valign="top" align="center">Statment Period:</td>
+                                    <td width="20%" valign="top" align="center">From 
+                                        <span style="float:right;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!startTask.ActivityDate}" /> 
+                                            </apex:outputText>
+                                        </span>
+                                    </td>
+                                    <td width="20%" valign="top" align="center">to 
+                                        <span style="float:right;">
+                                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                                <apex:param value="{!endTask.ActivityDate}" /> 
+                                            </apex:outputText>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                
+                </table>        
+            </div>
+            <div class="footer">
+             .   
+            </div>
+       
+            <div class="">
+                <table width="100%" cellpadding="0" cellspacing="0" style="font-family:sans-serif; font-size:11px; text-align:center;">
+                    <thead>
+                        <tr>
+                            <td style="width:20%; padding:10px; border:1px solid #000; border-right:0px; font-size: 11px; font-weight: bold;">Date</td>    
+                            <td style="width:20%; padding:10px; border:1px solid #000; border-right:0px; font-size: 11px; font-weight: bold;">Detail</td>    
+                            <td style="width:12%; padding:10px; border:1px solid #000; border-right:0px; font-size: 11px; font-weight: bold;">Debit</td> 
+                            <td style="width:12%; padding:10px; border:1px solid #000; border-right:0px; font-size: 11px; font-weight: bold;">Credit</td> 
+                            <td style="width:12%; padding:10px; border:1px solid #000; border-right:0px; font-size: 11px; font-weight: bold;">Balance</td> 
+                            <td style="width:12%; padding:10px; border:1px solid #000; border-right:0px; font-size: 11px; font-weight: bold;">Payment Due</td> 
+                            <td style="width:12%; padding:10px; border:1px solid #000; font-size: 11px; font-weight: bold;">Total Arrears</td> 
+                        </tr>
+                    </thead>
+                    <apex:repeat value="{!responseFromApi.transactions}" var="obj">
+                        <tr>
+                            <td style="padding:5px;">{!obj.str_transactionDate}</td>    
+                            <td style="padding:5px;">{!obj.transactionTypeDescription}</td>    
+                            <td style="padding:5px;">
+                                  <apex:outputText value="{0, number, $ ###,##0.00}">
+                                    <apex:param value="{!IF(AND(NOT(ISBLANK(obj.Debit)),obj.Debit>0),obj.Debit,'')}" />
+                                 </apex:outputText>
+                            </td> 
+                            <td style="padding:5px;">
+                                 <apex:outputText value="{0, number,  $ ###,##0.00}">
+                                    <apex:param value="{!IF(AND(NOT(ISBLANK(obj.Credit)),obj.Credit>0),obj.Credit,'')}" />
+                                 </apex:outputText>
+                            </td> 
+                            <td style="padding:5px;">
+                                  <apex:outputText value="{0, number, $ ###,##0.00}">
+                                    <apex:param value="{!obj.INT_transactionBalance}" />
+                                 </apex:outputText>
+                            </td> 
+                            <td style="padding:5px;">
+                                <apex:outputText value="{0, number, $ ###,##0.00}">
+                                    <apex:param value="{!obj.paymentDue}" />
+                                 </apex:outputText>
+                            </td> 
+                            <td style="padding:5px;">
+                                <apex:outputText value="{0, number, $ ###,##0.00}">
+                                    <apex:param value="{!obj.totalArrears}" />
+                                 </apex:outputText>
+                            </td> 
+                        </tr>
+                    </apex:repeat>
+                </table> 
+            </div>
+        </apex:outputPanel>
+    </apex:outputPanel>
+</apex:page>

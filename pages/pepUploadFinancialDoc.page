@@ -1,0 +1,168 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" controller="pepUploadFinancialDocController" id="idPage"  cache="{!$Label.Cache_Settings}"  action="{!checkcookie}">
+  <apex:composition template="pepSideBarTemplate">
+  <apex:define name="body">   
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+  <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+            <div class="uploadDoc" id="uDocId">
+             <apex:form id="frmdocId">
+              
+                <div class="loanSetTopSec">
+                        <h3 class="colA">Upload financial documents</h3>
+                        <div class="saveLater colB"> 
+                           <!--  <button class="button primaryBtn">Save for later</button>-->
+                          
+                             <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="frmdocId,renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                        </div>
+                </div>
+           <!--    commented by IJ <div class="innerCont">
+                    <p><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements19"></c:pepcmscomponent_Text>
+                    </p>
+                    <p style="margin-bottom:10px;">
+                    <c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements20"></c:pepcmscomponent_Text>
+                    </p>
+                    <p/>
+                </div> -->
+                <c:pepBankInformationDetails id="cmpId"/> 
+               </apex:form>
+                <div class="page-form" id="upldId">
+                <div class="page-row">
+                    <div class="form-cntrl or">
+                        Or
+                    </div>
+                </div> 
+                
+                 <div class="page-form uploadInfo">
+                                <div class="page-row">
+                                    <div class="form-section equalCol font-cont">   
+                                         <div class="form-cntrl">
+                                             <b><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements"></c:pepcmscomponent_Text></b>
+                              
+                                        </div>
+                                        
+                                        <div class="form-cntrl">
+                                        <c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements2"></c:pepcmscomponent_Text>
+                                        </div>  
+                                        
+                                        <div class="form-cntrl">
+                                        <c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements3"></c:pepcmscomponent_Text>
+                                        </div> 
+                                        <apex:form id="uploadDocFrmId">
+                                        
+                                        <div class="btnInfo">
+                                        <div class="form-cntrl">
+                                        <div class="button primaryBtn foo" type="button" onclick="uploadDoc()">Upload statements</div>
+                                        <apex:actionFunction action="{!uploadFile}" name="UploadDocument" status="ProcessStatus"/>
+                                       <apex:inputFile value="{!attachDoc.body}" fileName="{!attachDoc.name}" contentType="{!attachDoc.contentType}" accept="image/*"  id="inptFileUpload" style="position: absolute; left:-1000px" onchange="UploadDocument();"> </apex:inputFile>
+                                       
+                                        </div>
+                                        <center>
+                                        <apex:outputPanel rendered="{!if(strErrorMesg<>null && strErrorMesg <> '',true,false)}" style="color:red;">{!strErrorMesg}</apex:outputPanel>
+                                        </center>
+                                        <div class="botInfo form-cntrl"><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements4"></c:pepcmscomponent_Text></div>
+                                    </div> 
+                                     </apex:form>
+                                    </div>
+                                    <div class="form-section equalCol font-cont" >   
+                                             <div class="form-cntrl"><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements5"></c:pepcmscomponent_Text></div>
+                                            <p>
+                                                <c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements6"></c:pepcmscomponent_Text>
+                                            </p>
+                                            
+                                            <ul>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements7"></c:pepcmscomponent_Text></li>
+                                            <li class="bulletList"><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements8"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements9"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements10"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements11"></c:pepcmscomponent_Text></li>
+                                            <li class="bulletList"><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements12"></c:pepcmscomponent_Text></li>
+                                            </ul>
+                                            
+                                            <ul>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements13"></c:pepcmscomponent_Text></li>
+                                            <li class="bulletList"><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements14"></c:pepcmscomponent_Text></li>
+                                            <li class="bulletList"><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements15"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements16"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements17"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements18"></c:pepcmscomponent_Text></li>
+                                            </ul>                                            
+                                    </div>
+                                </div>
+                            </div>
+                    
+               </div>
+               <div class="page-row loanSetBotSec">
+               <apex:form >
+                  <div class="colA"><apex:commandButton action="{!saveForLater}" value="Save for later"  Styleclass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div> 
+                  </apex:form>
+                  </div>
+               </div>                                                                                          
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <script>
+        function uploadDoc(){
+            var inputFile = $(document.getElementById("idPage:j_id0:uploadDocFrmId:inptFileUpload"));
+            inputFile.trigger("click");          
+        }
+    </script>
+    <apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+            var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }   
+</script>
+
+
+
+
+ </apex:outputPanel>
+  </apex:define>
+</apex:composition>
+</apex:page>

@@ -1,0 +1,455 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for sending sms from service console
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 21-JAN-2017    Created By: Pawan Mudgal   Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="ScCollection_SendSmsController" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head> 
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+            <apex:includeScript value="{!URLFOR($Resource.bootstrap, 'js/bootstrap.min.js')}" />
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+            
+            <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap-theme.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/tooltip-bloated.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/tooltip-demo.css')}" />
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    $('.txtarea').attr('maxlength','700');
+                    var lettersent = '{!showLetterSent}';
+                    
+                    if(lettersent == 'true' && '{!strTabId}' != '')
+                    {
+                        //close tab after 3 secs
+                        setTimeout(function(){ closeSubTabOnLoad(); }, 3000);
+                        
+                        //refresh all other windows
+                        sforce.console.refreshPrimaryTabById('{!strTabId}', true, null);    
+                    }
+                }); 
+                
+                function closeSubTabOnLoad() 
+                {
+                    sforce.console.getEnclosingTabId(closeSubtab);
+                }
+                var closeSubtab = function closeSubtab(result) 
+                {
+                    var tabId = result.id;
+                    sforce.console.closeTab(tabId);
+                };
+                
+                function restrictNumericInput(fieldid)
+                {
+                    document.getElementById(fieldid).addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        console.log(key);
+                        if(!([8, 9, 13, 27, 46, 110].indexOf(key) !== -1 || (key == 65 && (e.ctrlKey || e.metaKey)) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) || (key >= 96 && key <= 105) || (key == 187 && e.shiftKey )))   
+                        e.preventDefault();
+                    });
+                }
+                
+                function ValidateSubmit()
+                {
+                    $('.errorsection').hide();
+                    $('#errortext').html('');
+                                                
+                    $('.requiredField').each(function(index) 
+                    {
+                        $(this).removeClass('errorBorder');
+                        $(this).addClass('normalBorder');
+                    });
+                    
+                    if(validateRequiredFields())
+                    {
+                        SubmitData_AF();
+                    }
+                    else
+                    {
+                        $(window).scrollTop(0);
+                    }
+                }
+                
+                function ValidatePreview()
+                {
+                    $('.errorsection').hide();
+                    $('#errortext').html('');
+                                                
+                    $('.requiredField').each(function(index) 
+                    {
+                        $(this).removeClass('errorBorder');
+                        $(this).addClass('normalBorder');
+                    });
+                    
+                    if(validateRequiredFields())
+                    {
+                        var isSelected = false;
+                        
+                        var isInput = document.getElementById('Page:frm:inputtext').value;
+                        $('.chkbox').each(function() 
+                        {
+                            if($(this).is(':checked')) 
+                            {
+                                isSelected = true;  
+                            }
+                        });
+                        
+                        if(isSelected || isInput == 'false')
+                        {
+                            SubmitLetterPreview_AF();
+                        }
+                        else
+                        {
+                            $('.errorsection').show();
+                            $('#errortext').html('Please select atleast one paragraph for sending the letter.');
+                        }
+                    }
+                    else
+                    {
+                        $(window).scrollTop(0);
+                    }
+                }
+                
+                function ValidateSubmitLetter()
+                {
+                    SubmitLetterData_AF();
+                }
+                
+                function validateRequiredFields()
+                {
+                    var result = true;
+                    
+                    $('.requiredField').each(function(index) 
+                    {
+                        if($(this).val() == '')
+                        {
+                            $('.errorsection').show();
+                            $('#errortext').html('Error : please provide values for all required fields.');
+                            $(this).removeClass('normalBorder');
+                            $(this).addClass('errorBorder');
+                            result = false;
+                        }
+                    });
+                    
+                    return result;
+                }
+                
+                function countMessage()
+                {
+                    var message = document.getElementById('Page:frm:message').value;
+                    
+                    if(message == '')
+                    {
+                        document.getElementById('charinfotext').innerHTML = 700;
+                    }
+                    else
+                    {
+                        document.getElementById('charinfotext').innerHTML = 700 - message.length;
+                    }
+                }
+                
+                function selectAction(option)
+                {
+                    document.getElementById('Page:frm:selectedoption').value = option;
+                    selectOption_AF();
+                }
+                
+                function ClosePopUp()
+                {
+                    ClosePopUp_AF();
+                }
+                
+                
+                function selectAllCheckboxes(obj,receivedInputID){
+                    var inputCheckBox = document.getElementsByTagName("input");                  
+                    for(var i=0; i<inputCheckBox.length; i++){          
+                        if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){                                     
+                            inputCheckBox[i].checked = obj.checked;
+                        }
+                    }
+                }
+            </script>
+            <style>
+                .errorMsg
+                {
+                    display:none !important;
+                }
+                .txtarea
+                {
+                    resize:none;
+                }
+                .creditinfoclass
+                {
+                    float: left;
+                    margin: 5px 15px;
+                    color: rgba(223, 0, 36, 0.9);
+                    font-size: 13px;
+                    font-weight: bold;
+                    font-family: Arial,Helvetica,sans-serif !important;
+                }
+                .charinfoclass
+                {
+                    float: right;
+                    margin: 5px 15px;
+                    color: rgba(223, 0, 36, 0.9);
+                    font-size: 13px;
+                    font-weight: bold;
+                    font-family: Arial,Helvetica,sans-serif !important;
+                }
+            </style>
+        </head>
+        <body>
+            <section id="main-section">
+                <div class="container-fluid">
+                    <apex:form id="frm" style="margin-top:5px;">
+                        
+                        <apex:inputHidden id="selectedoption" value="{!strSelectedOption}" />
+                        <apex:actionStatus id="OutPanelRenderer" layout="block" startStyleClass="customLoading" styleClass="customLoading"/>
+                        <apex:actionFunction action="{!selectOption}" name="selectOption_AF" reRender="body_section" status="OutPanelRenderer" />
+                        
+                        <aside id="create_details" class="col-md-12 col-sm-12" style="padding:0px;">
+                            <section class="cstm-form clearfix">
+                                <fieldset>
+                                    <legend>Select Action</legend>
+                                    
+                                    <div class="col-md-4 col-sm-4 iframe-sm-4 form-group" style="text-align:center;">
+                                        <img id="send_sms" title="Send New SMS" src="{!URLFOR($Resource.scCollectionConsoleResources,'images/send_sms.png')}" style="height: 70px;cursor: pointer;" onclick="selectAction('sms');" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 iframe-sm-4 form-group" style="text-align:center;">
+                                        <a class="tooltip" href="#" style="opacity:1 !important;"><img id="send_email" title="Send New Email" src="{!URLFOR($Resource.scCollectionConsoleResources,'images/send_email.png')}" style="height: 70px;cursor: pointer;" /><span class="tooltip-content">Coming Soon</span></a>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 iframe-sm-4 form-group" style="text-align:center;">
+                                        <apex:outputPanel rendered="{!NOT(checkLetterExecution)}" >
+                                            <a class="tooltip" href="#" style="opacity:1 !important;"><img id="send_letter" title="Send New Letter" src="{!URLFOR($Resource.scCollectionConsoleResources,'images/send_letter.png')}" style="height: 70px;cursor: pointer;" /><span class="tooltip-content">Coming Soon</span></a>
+                                        </apex:outputPanel>
+                                        
+                                        <apex:outputPanel rendered="{!checkLetterExecution}" >
+                                            <img id="send_letter" title="Send New Letter" src="{!URLFOR($Resource.scCollectionConsoleResources,'images/send_letter.png')}" style="height: 70px;cursor: pointer;" onclick="selectAction('letter');" />
+                                        </apex:outputPanel>
+                                        
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </fieldset>
+                            </section>
+                        </aside>
+                        
+                        <apex:outputPanel id="body_section">
+                            
+                            <apex:outputPanel id="success_msg_panel" rendered="{!showLetterSent}">
+                                <div class="alert alert-success fade in alert-dismissable" style="margin-top:18px;">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                                    <strong>Success!</strong> Letter has been sent successfully.
+                                </div>
+                            </apex:outputPanel>
+                            
+                            <apex:outputPanel id="sendsms_Panel" rendered="{!showSmsOption}">
+                                
+                                <apex:actionFunction action="{!SubmitSmsData}" name="SubmitData_AF" />
+                                
+                                <aside id="sms_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+                                    
+                                    <apex:outputPanel rendered="{!showSendSms}">
+                                        <section class="cstm-form" style="text-align:center; margin-top:10px;">
+                                            <a href="#" class="nav-login active" onclick="ValidateSubmit();" style="cursor:pointer;"><span>Send SMS</span></a>
+                                        </section>
+                                        <div class="clearfix"></div>
+                                    </apex:outputPanel>
+                                    
+                                    <div class="col-md-12 col-sm-12 iframe-sm-12 noleftpadding">
+                                        <label class="displayNone errorsection"><i class="fa fa-exclamation-triangle"></i><span id="errortext"></span></label>
+                                        <apex:pageMessages id="servererror" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    
+                                    <section class="cstm-form clearfix">
+                                        <fieldset>
+                                            <legend>Borrower Details</legend>
+                                            
+                                            <apex:outputPanel rendered="{!showMobileError}">
+                                                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group">
+                                                    <label class="errorsection"><i class="fa fa-exclamation-triangle"></i><span>Sorry ! No Mobile Number exist for this Borrower.</span></label>
+                                                </div>
+                                                <div class="clearfix"></div>    
+                                            </apex:outputPanel>
+                                            
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>Select Party</label>
+                                                <apex:selectList id="parties" value="{!strSelectedParty}" styleClass="form-control requiredField" multiselect="false" size="1" >
+                                                    <apex:selectOptions value="{!options}" id="fieldoption"/>
+                                                    <apex:actionSupport action="{!selectParty}" event="onchange" reRender="sendsms_Panel" status="OutPanelRenderer" />
+                                                </apex:selectList>
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                            <apex:outputPanel rendered="{!showSendSms}">
+                                                <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                    <label style="display:block;">Contact Number</label>
+                                                    <apex:inputText id="mobileout" value="{!strMobileNo}" styleClass="form-control requiredField"/>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                    <label style="display:block;">Prefered Contact Method</label>
+                                                    <apex:outputText value="{!strPrefMethod}" />
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                    <label style="display:block;">Prefered Contact Time</label>
+                                                    <apex:outputText value="{!strPrefTime}" />
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group">
+                                                    <label>Templates</label>
+                                                    <apex:selectList id="template" value="{!strSelectedTemplate}" styleClass="form-control" multiselect="false" size="1">
+                                                        <apex:selectOptions value="{!TemplateName}" id="templatefieldoption" />
+                                                        <apex:actionSupport action="{!changeTemplate}" event="onchange" reRender="sendsms_Panel" status="OutPanelRenderer" />
+                                                    </apex:selectList>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-12 col-sm-12 iframe-sm-12">
+                                                    <label>Message Text</label>
+                                                    <apex:inputTextarea id="message" styleClass="form-control requiredField txtarea" rows="8" value="{!strMessage}" onkeyup="countMessage();"/>
+                                                    <div class="requiredMark"></div>
+                                                    <div class="clearfix"></div>
+                                                    <div id="charinfo" class="charinfoclass"><span id="charinfotext">700</span> Characters Remaining</div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </apex:outputPanel>
+                                        </fieldset>
+                                    </section> 
+                                    
+                                    <apex:outputPanel rendered="{!showSendSms}">
+                                        <section class="cstm-form" style="text-align:center; margin-top:10px;">
+                                            <a href="#" class="nav-login active" onclick="ValidateSubmit();" style="cursor:pointer;"><span>Send SMS</span></a>
+                                        </section>
+                                        <div class="clearfix"></div>
+                                    </apex:outputPanel>
+                                                              
+                                </aside>
+                            </apex:outputPanel>
+                            
+                            <apex:outputPanel id="sendemail_Panel" rendered="{!showEmailOption}">
+                                
+                            </apex:outputPanel>
+                            
+                            <apex:outputPanel id="sendletter_Panel" rendered="{!showLetterOption}">
+                                
+                                <apex:actionFunction action="{!SubmitLetterPreview}" name="SubmitLetterPreview_AF" reRender="sendletter_Panel" status="OutPanelRenderer"/>
+                                <apex:actionFunction action="{!ClosePopUp}" name="ClosePopUp_AF" reRender="sendletter_Panel" status="OutPanelRenderer"/>
+                                <apex:actionFunction action="{!SubmitLetterData}" name="SubmitLetterData_AF" status="OutPanelRenderer"/>
+                                <apex:inputHidden value="{!showParagraphs}" id="inputtext" />
+                                <aside id="letter_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+                                    
+                                    <apex:outputPanel rendered="{!showPreviewLetter}">
+                                        <section class="cstm-form" style="text-align:center; margin-top:10px;">
+                                            <a href="#" class="nav-login active" onclick="ValidatePreview();" style="cursor:pointer;"><span>Preview Letter</span></a>
+                                        </section>
+                                        <div class="clearfix"></div>
+                                    </apex:outputPanel>
+                                    
+                                    <div class="col-md-12 col-sm-12 iframe-sm-12 noleftpadding">
+                                        <label class="displayNone errorsection"><i class="fa fa-exclamation-triangle"></i><span id="errortext"></span></label>
+                                        <apex:pageMessages id="servererror1" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    
+                                    <section class="cstm-form clearfix">
+                                        <apex:outputPanel rendered="{!showLetterError}">
+                                            <div class="col-md-12 col-sm-12 iframe-sm-12 form-group">
+                                                <label class="errorsection"><i class="fa fa-exclamation-triangle"></i><span>{!strPdfContent}</span></label>
+                                            </div>
+                                            <div class="clearfix"></div>    
+                                        </apex:outputPanel>
+                                        <fieldset>
+                                            <legend>Template Details</legend>
+                                            
+                                            <apex:outputPanel rendered="{!showHardshipError}">
+                                                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group">
+                                                    <label class="errorsection"><i class="fa fa-exclamation-triangle"></i><span>Sorry ! No Hardship record is In Progress for this Borrower.</span></label>
+                                                </div>
+                                                <div class="clearfix"></div>    
+                                            </apex:outputPanel>
+                                            
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>Select Letter</label>
+                                                <apex:selectList id="letters" value="{!strSelectedLetter}" styleClass="form-control requiredField" multiselect="false" size="1" >
+                                                    <apex:selectOptions value="{!letteroptions}" id="fieldoption1"/>
+                                                    <apex:actionSupport action="{!selectLetter}" event="onchange" reRender="sendletter_Panel" status="OutPanelRenderer" />
+                                                </apex:selectList>
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>Select Borrower</label>
+                                                <apex:selectList id="borrowers" value="{!strSelectedParty}" styleClass="form-control requiredField" multiselect="false" size="1" >
+                                                    <apex:selectOptions value="{!options}" id="fieldoption2"/>
+                                                </apex:selectList>
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </fieldset>
+                                        <apex:outputPanel rendered="{!showParagraphs}">
+                                            <fieldset>
+                                                <legend>Paragraph Details</legend>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><apex:inputCheckbox onclick="selectAllCheckboxes(this,'inputCheckboxId')"/></th>
+                                                            <th>Sequence</th>
+                                                            <th>Paragraph</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <apex:repeat value="{!mapLetterToParagraph[strSelectedLetter].Template_Paragraphs__r}" var="obj">
+                                                            <tr>
+                                                                <td style="vertical-align: middle;text-align: center;"><apex:inputField value="{!obj.ScCollection_Selected__c}" style="height: 15px !important;" styleClass="chkbox" id="inputCheckboxId"/></td>
+                                                                <td style="vertical-align: middle;text-align: center;">{!obj.ScCollection_Sequence__c}</td>
+                                                                <td>{!obj.ScCollection_Paragraph__c}</td>
+                                                            </tr>
+                                                        </apex:repeat>                                                
+                                                    </tbody>
+                                                </table>
+                                            </fieldset>
+                                        </apex:outputPanel>
+                                    </section> 
+                                    
+                                    <apex:outputPanel rendered="{!showPreviewLetter}">
+                                        <section class="cstm-form" style="text-align:center; margin-top:10px; margin-bottom:20px;">
+                                            <a href="#" class="nav-login active" onclick="ValidatePreview();" style="cursor:pointer;"><span>Preview Letter</span></a>
+                                        </section>
+                                        <div class="clearfix"></div>
+                                    </apex:outputPanel>
+                                                              
+                                </aside>
+                                
+                                <apex:outputPanel rendered="{!showPreviewWindow}">
+                                    <div id="myModal" class="modal" style="display: block;padding: 0px;">
+                                        <div class="modal-dialog" style="width: 100% !important;">    
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color: #fff;color: #000 !important;min-height: 0px !important;text-align: center;margin-top: 3px;">
+                                                    <button type="button" class="close" style="outline: none !important;" onclick="ClosePopUp();">&times;</button>
+                                                    <a href="#" class="nav-login active" onclick="ValidateSubmitLetter();" style="cursor:pointer;"><span style="padding: 6px 20px !important;">Send Letter</span></a>
+                                                </div>
+                                                <div class="modal-body" style="max-height: 800px;overflow: auto; padding:0px !important;">
+                                                    <iframe src="data:application/pdf;base64,{!strPdfContent}" style="width:100%; height:715px; border:none;"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>
+                                
+                            </apex:outputPanel>        
+                        </apex:outputPanel>
+                    </apex:form>
+                </div>
+            </section>
+        </body>
+    </html>
+</apex:page>

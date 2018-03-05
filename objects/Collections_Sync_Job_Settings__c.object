@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Check_Sync_Job_Data_Exists__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Enables a validation that ALL Sync Job data has to exist  before SyncJob2 is called</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enables a validation that ALL Sync Job data has to exist  before SyncJob2 is called</inlineHelpText>
+        <label>Check Sync Job Data Exists</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>EmailESBStagingSyncProcess__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>EmailESBStagingSyncProcess</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>EmailStagingActualSyncProcess__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>EmailStagingActualSyncProcess</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>EmailsToGetFilesMissingAlert__c</fullName>
+        <description>Email Addresses that will receive Missing Sync File Notifications</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Email Addresses that will receive Missing Sync File Notifications</inlineHelpText>
+        <label>EmailsToGetFilesMissingAlert</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Email_Alerts__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Enables Email Alert for Sync Job validations</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enables Email Alert for Sync Job validations</inlineHelpText>
+        <label>Enable Email Alerts</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_SMS_Alerts__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Enable SMS Alerts</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Override_Sync_Job_API_Settings__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If this field is ticked these settings are used by the CLCollectionsWebServices.SyncJobService when invoking SyncJob2, if not checked the settings are taken from the @HttpPost method</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If this field is ticked these settings are used by the CLCollectionsWebServices.SyncJobService when invoking SyncJob2, if not checked the settings are taken from the @HttpPost method</inlineHelpText>
+        <label>Override Sync Job API Settings</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Processes_Names_Mortgage__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Processes Names(Mortgage)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Processes_Names_PAF__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Processes Names(PAF)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>SMS_Recipients_For_Sync_Data_Failures__c</fullName>
+        <description>Mobile numbers to receive Sync Job alert</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Mobile numbers to receive Sync Job alert</inlineHelpText>
+        <label>SMS Recipients For Sync Data Failures</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>SMS_Template_AllFilesReceivedProcess__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SMS Template(AllFilesReceivedProcess)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Sync_Job_Batch_Size__c</fullName>
+        <description>Controls the Batch Size that is passed into SyncJob2 when called by the ESB and Override API Settings = true</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Controls the Batch Size that is passed into SyncJob2 when called by the ESB and Override API Settings = true</inlineHelpText>
+        <label>Sync Job Batch Size</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sync_Job_Invokes_Create_Activity_Job__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Controls whether or not the SyncJob2 invokes CreateOtherCollectionsActivityJob on completion, if Override = True</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Controls whether or not the SyncJob2 invokes CreateOtherCollectionsActivityJob on completion, if Override = True</inlineHelpText>
+        <label>Sync Job Invokes Create Activity Job</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Sync_Job_Parent_Table__c</fullName>
+        <description>The first Object to be Sync&apos;d - normally interface__Staging_Bank_Account__c if Override = True</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>The first Object to be Sync&apos;d - normally interface__Staging_Bank_Account__c if Override = True</inlineHelpText>
+        <label>Sync Job Parent Table</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sync_Job_Submit_Next_Job__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Controls whether or not the Staging Objects are chained together or just the Parent is run on its own if Override = True</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Controls whether or not the Staging Objects are chained together or just the Parent is run on its own if Override = True</inlineHelpText>
+        <label>Sync Job Submit Next Job</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Collections Sync Job Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

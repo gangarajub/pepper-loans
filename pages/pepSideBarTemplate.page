@@ -1,0 +1,144 @@
+<apex:page standardStylesheets="false" cache="false" docType="html-5.0" controller="pepSideBarTemplateController" showHeader="false" action="{!checkNavigationStatus}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Setup</title>
+     <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css' )}"/>
+    <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!PageName}" />
+</head>
+<body>
+<div class="pepperCustomFluid">
+<div class="offsetBlkHeight"></div>
+    <div class="offsetBlk">
+      <div class="containerFluid">
+       <header class="page-row">
+        <div class="hamBurger_menu text-center">
+            <span class="menu"></span>
+        </div>
+        <div class="pageLogo">
+         <a href="#logo"><img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/logo.png' )}" /></a>
+        </div>
+        <div class="callPhone text-center">
+            <span class="phone"></span>
+        </div>
+        <div class="callAssist">
+         <span>{!needhelp} <strong>{!Call}</strong></span>
+        </div>
+       </header>
+      </div>
+     </div>
+ 
+<div class="containerFluid posRel">
+    <div class="page-row">
+        <div class="catBlk">
+            <div class="page-row">
+                <!--<div class="mainCat">
+                    <ul>
+                        <li class="mainCat_home"><a href="#">Home</a></li>
+                        <li class="mainCat_money"><a href="#">Loans</a></li>
+                        <li class="mainCat_file active"><a href="#">Application<br/>#12345678</a></li>
+                        <li class="mainCat_share"><a href="#">Refer-a-friend</a></li>
+                        <li class="mainCat_commenting"><a href="#">Contact Center</a></li>
+                    </ul>
+                </div>-->
+                <div class="subCat">
+                    <ul>
+                    <apex:repeat value="{!lstSteps}"  var="stepName">
+                       <li class="{!mpStepName_Class[stepName]}"><a >{!stepName}</a></li>
+                     </apex:repeat>  
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="subCat_xs">
+            <ul>
+             <apex:repeat value="{!lstSteps}"  var="stepName">
+               <!--<li class="done"><span>{!stepName}</span><a href="#"></a></li>-->
+               <li class="{!mpStepName_Class[stepName]}"><span>{!stepName}</span><a ></a></li>
+             </apex:repeat>   
+            </ul>
+        </div>
+        <div class="subCat_xsHeight"></div>
+    <apex:insert name="header"/>
+      <!--Debug[KG]={!pageName1}-->
+      <div class="contentCat">
+           <div class="loanCont"> 
+           <apex:insert name="body"/>   
+           
+       
+      <!--
+      Body of Page
+      
+      
+      -->
+
+    
+       </div>
+       </div>
+    </div>  
+</div>
+<div id="saveApp" class="fade successModalSFR" role="dialog" data-backdrop="static" data-keyboard="false">
+                     <div class="modalDialog">
+                      <div class="modal-content">
+                       <div class="modal-header">
+                        <span  class="times right" data-dismiss="modal">×</span>
+                        <h4 class="modal-title left">Save your application</h4>
+                       </div>
+                       <div class="page-form">
+                       <div class="form-elements">
+                        <div class="page-row">
+                       <p>Your Application has been succesfully saved.</p>
+                       <p class="text-center">
+                      <apex:outputLink html-data-dismiss="modal" styleClass="button primaryBtn  wAuto">Ok</apex:outputLink>
+                       </p>
+                      </div>                        
+                      </div>
+                      </div>              
+     </div>
+      </div>
+     </div>   
+     
+  <div id="pepperModal_error" class="modal fade errorModalSFR" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="fa fa-question-circle right"></span>
+        Oh no!
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>Hmm it looks like we’ve hit a technical problem and your [service] was not processed.
+                   Please try again.</p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <button class="button primaryBtn  modalOK" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>               
+                     
+<!--<footer>
+    Page Footer
+</footer>-->
+</div>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+
+
+</body>
+</html>
+<script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+</apex:page>

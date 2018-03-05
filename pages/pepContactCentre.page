@@ -1,0 +1,361 @@
+<apex:page controller="pepContactCentreController" standardStylesheets="false" showHeader="false" docType="html-5.0" id="idPage" cache="{!$Label.Cache_Settings}">
+<script src="/soap/ajax/32.0/connection.js" type="text/javascript"></script>
+<apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>  
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper Contact Centre</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>  
+    
+</head>
+<script>
+             function callfun(IdloanContract)
+             {
+                
+                 $('[Id$=IdinputHidden]').val(IdloanContract);               
+                 callActionfunc(IdloanContract);
+             }
+</script>
+<body>
+<apex:form id="idForm">
+ <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+<apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+<apex:inputHidden id="IdPC" value="{!strPreferredContact}"/>
+         <apex:actionFunction name="callActionfunc"  action="{!updateAccount}" reRender="none">
+           <apex:param name="loanContractid" value="" />
+           
+         </apex:actionFunction>
+         
+         <apex:actionFunction action="{!RetrieveLoanAccounts}" name="CallActionFunction" reRender="renderBlock" status="counterStatus"/> 
+         <apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction> 
+<div class="pepperCustomFluid">
+      <div class="offsetBlkHeight"></div>
+    <div class="offsetBlk">
+      <div class="containerFluid">
+          <c:pepDashboardHeaderCompnent ></c:pepDashboardHeaderCompnent>
+      </div>
+     </div>
+ 
+<div class="containerFluid posRel dashBoard">
+    <div class="page-row">
+        <div class="catBlk">
+                        <div class="page-row">
+                        <div class="mainCat">
+                    
+                        <apex:outputPanel rendered="{!if( lstLeftSideBarSections.size > 0,true,false)}">
+                          <ul>      
+                          <li class="{!if(step ==-1 ,'mainCat_home active','mainCat_home')}"><a href="javascript:void(0)" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                    <li class="mainCat_money more"><a href="#">Loans</a>
+                                    <ul class="test">
+                                      <apex:repeat value="{!sideBarList}" var="loan">
+                                         
+                                            <apex:outputPanel rendered="{!IF(loan.loanId == loanaccountid,true,false)}">
+                                            <li class="mainCat_money">
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId }');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!IF(loan.loanId != loanaccountid,true,false)}">
+                                            <li class="mainCat_money"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId }');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            
+                                          
+                                        </apex:repeat> 
+                                    </ul>
+                                </li>
+                                
+                               <!-- <apex:repeat value="{!lstLeftSideBarSections}" var="sidebar">
+                                    <apex:outputPanel rendered="{!if(sidebar.pepHeader__c=='Refer-a-friend',true,false)}">
+                                        <li class="{!if(step ==-2 ,' mainCat_share active','mainCat_share')}"><a href="javascript:void(0)" onclick="passPageName('pepreferafriend');">Refer-a-friend</a></li>
+                                    </apex:outputpanel>
+                                </apex:repeat>  -->
+                                
+                                <li class="{!if(step ==-4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="javascript:void(0)" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                                <li class="{!if(step ==-3 ,'mainCat_profile active','mainCat_profile')}"><a href="javascript:void(0)" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                                <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp"  rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+                            </ul>
+                            </apex:outputPanel>
+
+                    
+                </div>
+                        </div>
+                    </div>
+        
+        
+        <div class="contentCat">                
+            <div class="loanCont">
+                <div class="page-row">
+                    <div class="dashboard_lhs dashboard_hardship dashboard_commCenter">
+                        
+                            <div class="myLoan" >
+                                <div class="loanHead" >
+                                    <h1><center><span><c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 1"></c:pepcmscomponent_Text></span></center></h1>
+                                    <apex:image url="{!URLFOR($Resource.ResourceZip, 'assets/common/images/communication_center.png')}"/>
+                                    <p class="headerPara"><c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 2"></c:pepcmscomponent_Text></p>
+                                </div>  
+                                
+                    <apex:outputPanel id="renderBlock">
+                    <div class="page-form paymentHoliday" >                          
+                        <div class="page-row">                              
+                            <div class="form-section">
+                                <div class="form-elements">                                             
+                                    <div class="form-section innerForm">    
+                                        <div class="form-elements">                                                     
+                                            
+                                            <div class="text-center">
+                                                <p><c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 3"></c:pepcmscomponent_Text></p>
+                                                <p class="contactNo"><c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 5"></c:pepcmscomponent_Text></p>
+                                                <p>
+                                                <!--<apex:outputtext value="{!strsectionstory}" escape="false"/>-->
+                                                <c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 6"></c:pepcmscomponent_Text>
+                                                </p>
+                                                <p><c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 7"></c:pepcmscomponent_Text></p>
+
+                                                
+                                                <hr/>
+                                            </div>
+                                            <div>   
+                                                <p class="text-center"><c:pepcmscomponent_Text pageNameTest="Contact Centre" sectionName="Contact Centre Section 4"></c:pepcmscomponent_Text></p>
+                                                 
+                                 <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idMainRpt">
+                                        
+                                        
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 1),true,false)}">
+                                                      
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls" for="firstName">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg">                                               
+                                                        <apex:outputText id="IdFirstName" value="{!strFirstName}"></apex:outputText>
+                                                    </div>
+                                                </div>
+                                            </apex:outputpanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 2),true,false)}">
+                                            
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls" for="lastName">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg">                                               
+                                                        <apex:outputText id="IdLastName" value="{!strLastName}"></apex:outputText>
+                                                    </div>
+                                                </div>
+                                            </apex:outputpanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 3 && selectedEnquiryIssue!= 'Other'),true,false)}" id="IDLoanNameOut">
+                                            
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls" for="loanNo">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg">                                               
+                                                        <apex:selectList value="{!selectedLoanAccount}" multiselect="false" size="1" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="sel3" > 
+                                                            <apex:selectOptions value="{!lstOptions}" /> 
+                                                         <apex:actionSupport action="{!removeEnquiryOptions}" event="onchange" reRender="renderBlock" status="counterStatus"/>
+                                                  </apex:selectList>
+                                                        <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+
+                                                    </div>
+                                                </div>
+                                                
+                                            </apex:outputpanel>
+                                            
+                                                          <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 4),true,false)}" id="idEIOut">
+                                               
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls" for="enquiry">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg">                                               
+                                                        <apex:selectList value="{!selectedEnquiryIssue}" multiselect="false" size="1" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" onchange="CallActionFunction();"> 
+                                                            <apex:selectOptions value="{!lstEnquiryOptions}" />                                      
+                                                        </apex:selectList>
+                                                        <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                    </div>
+                                                </div>
+                                             </apex:outputpanel>   
+                                            
+                                            
+                                            
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Button' && wrapInstance.objCmsQuestion.pepSequence__c == 5),true,false)}">
+                                                
+                                                <div class="page-row">
+                                                
+                                                
+                                                    <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                   
+                                                 
+                                                   
+                                                   <div class="form-dcntrls radioBtns" >
+                                                        
+                                                            <input type="radio" name="contact" id="emails" class="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}"  onclick=" $('.tempClass').hide(); test('Email');" />                                                            
+                                                            <input type="button" value="Emails" class="button" />
+                                                            <span class="errorMsg">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                            
+                                                       
+                                                         
+                                                    </div>
+                                                   
+                                                   <div class="form-dcntrls radioBtns">
+                                                     
+                                                        <input type="radio" name="contact" id="telephone" class="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" onclick="test('Telephone');" /> 
+                                                                                   
+                                                        <input type="button" value="Telephone" class="button"/>
+                                                        
+                                                      
+                                                    </div>
+                                                </div>
+                                            
+                                            </apex:outputpanel>
+                                            
+                                            <apex:outputPanel styleclass="tempClass" rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 6),true,false)}" style="display:none;">                                            
+                                                
+                                            
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls" for="calltime">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg"> 
+                                                    <apex:outputPanel styleClass="BestTimeClass">                                             
+                                                        <apex:selectList value="{!selectedBestTime}" multiselect="false" size="1" id="sel1" styleClass="temp"> 
+                                                            <apex:selectOptions value="{!lstBestTimeOptions}" />                                      
+                                                        </apex:selectList>
+                                                    </apex:outputPanel> 
+                                                        <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                    </div>
+                                                </div>
+                                                
+                                            </apex:outputpanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text area' && wrapInstance.objCmsQuestion.pepSequence__c == 7),true,false)}">
+                                            
+
+                                                <div class="page-row">
+                                                    <label class="form-dcntrls" for="enquiry">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                    <div class="form-dcntrls-lg">                                               
+                                                        <apex:inputtextarea value="{!strDescription}" id="IdDescription" rows="5" onblur="checkFieldValidation(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" />
+                                                        <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                    </div>
+                                                </div>
+                                                
+                                            </apex:outputpanel> 
+                                        </apex:repeat>                                                                                     
+                                                
+                                            <div class="text-right"><apex:commandButton value="Start Conversation" id="IdSaveEnquiry" action="{!Saveenquiry}" styleClass="button primaryBtn wAuto" onclick="if(!checkData('idPage:idForm')) return false;" oncomplete="showModal();" reRender="rerenderModal,rerenderMsg" status="counterStatus"/></div>
+                                        </div>                                                  
+                                    </div>
+                                    
+                                </div>
+                                <br/>
+                                    <br/>
+                                    <div class="text-center"><apex:commandButton value="Back to home" id="IdBack" action="{!Cancel}" styleClass="button secondaryBtn wAuto"  /></div>
+                             
+                            </div>
+                            </div>
+                            
+                           
+                                <div style="padding: 0 40px;">
+                                    <p class="pepperTnC">
+                                    <c:pepTermsConditionFooter />
+                                  </p>
+                                </div>
+                            
+                             
+                        </div>
+                        
+                    </div>
+                    </apex:outputPanel>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+</div>
+
+<apex:outputPanel id="rerenderMsg">
+     <div id="pepperModal_errorpopup" class="modal fade pepperModal_error" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>Your message was successfully submitted.</p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <apex:commandButton id="idOK" action="{!Cancel}"  value="OK" styleClass="button secondaryBtn modalOK" />
+           <!-- <button class="button secondaryBtn modalOK" data-dismiss="modal" onClick="window.location.reload();">OK</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</apex:outputPanel>
+</apex:form>
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    
+    
+    <apex:outputPanel id="rerenderModal">
+           <script>
+            function showModal() 
+            {
+                
+                if(('{!successMsg}')=='true')
+                    
+                {             
+                    $('#pepperModal_errorpopup').modal();
+                }
+                    
+             }   
+           </script>
+   </apex:outputPanel>
+   
+    <script> 
+    
+        function passPageName(APIPageName)
+          { 
+               var i=APIPageName;
+               var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+               window.location.href = $mapParentChildren[APIPageName];
+          }    
+     
+        function test(strVal)
+        {
+         
+            if(strVal=='Telephone')
+               $('.tempClass').show();
+            $('[Id$=IdPC]').val(strVal);
+       
+        }
+        
+    </script>
+    
+    <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script> 
+    
+    
+</body>
+</html>
+</apex:page>

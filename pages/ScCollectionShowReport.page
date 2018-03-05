@@ -1,0 +1,49 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles the UI for showing report chart in the console bottom component.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 19-JUN-2016    Created By: Pawan Mudgal    Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+    User Story: 
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="ScCollection_ContractListHandler" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <script>
+                setInterval(function()
+                { 
+                    <apex:repeat value="{!mapwrapperForActivityList}" var="mapact">
+                        <apex:repeat value="{!mapwrapperForActivityList[mapact]}" var="obj">
+                            var timeelapsed = '{!obj.strActivityDate}' - (Date.parse(new Date()));
+                            if(timeelapsed > 0 && timeelapsed < 3000)
+                            {
+                                //window.open('/apex/ActivityReminder?id={!obj.strLogId}',name,'toolbar=no,scrollbars=no,resizable=no,top=0,left=0,width=400,height=400')
+                            }
+                        </apex:repeat>
+                    </apex:repeat>
+                }, 3000);
+            </script>
+            <style>
+                .disableclick
+                {
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    z-index:1000;
+                    width:100%;
+                    background:transparent;
+                    height:560px;
+                }
+                .asOfDate
+                {
+                    display:none;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="disableclick"></div>
+            <analytics:reportChart reportId="00O2800000883zi" showRefreshButton="false" cacheResults="false" size="small" filter="[{column:'collect__Queue_User__c.collect__User__c.Id',operator:'equals', value:'{!$User.Id}'}]"></analytics:reportChart>
+        </body>
+    </html>
+</apex:page>

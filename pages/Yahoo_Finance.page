@@ -1,0 +1,108 @@
+<apex:page controller="PepperChartcontroller" action="{!getdata}" showHeader="false" >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<style>
+#div1 
+{
+width:50px;
+height:15px;
+border:1px solid black;
+margin-Left:154px;
+    margin-top:-17px;
+}
+    #div23 
+{
+width:150px;
+height:15px;
+border:1px solid black;
+}
+       #div24 
+{
+width:150px;
+height:15px;
+border:1px solid black;
+}
+       #div25 
+{
+width:150px;
+height:15px;
+border:1px solid black;
+}
+#div2 
+{
+width:50px;
+height:15px;
+border:1px solid black;
+margin-Left:154px;
+margin-top:-17px;
+}
+#div3
+{
+width:50px;
+height:15px;
+border:1px solid black;
+    margin-Left:154px;
+    margin-top:-17px;
+}
+</style>
+   
+<html>
+  <head>
+  
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type='text/javascript'>
+         
+      google.charts.load('current', {'packages':['annotationchart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+      
+        
+        var string = '{!strJSONData}';
+        var parsed = JSON.parse(string);
+        var data1 = parsed[0];
+        
+       document.getElementById('div1').innerText=data1.l;
+       document.getElementById('div2').innerText=data1.c;
+        document.getElementById('div3').innerText=data1.cp;
+       
+        
+       console.log(parsed);
+        
+      }
+    </script>
+    <script>
+    $(document).ready(function() {  
+        
+        
+        $('#chart_div').click(function(){
+           location.href = 'http://finance.yahoo.com/q?s=pep.ax&d=t';
+        });
+    });
+    </script>
+
+  </head>
+
+  <body>
+   <br/>
+   <br/>
+      <div id="div23">
+          Today's Prices
+      </div>
+   <div id="div1"></div>
+      <div id="div24">
+        Today's Change  
+      </div>
+   <div id="div2"></div>
+      <div id="div25">
+         %Change
+      </div>
+   <div id="div3"></div>
+  
+   <br/>
+   <br/>
+    <a id='chart_div' style=' height: 400px;' target="_blank" href = 'http://finance.yahoo.com/q?s=pep.ax&d=t'>
+       <img src="httpS://chart.finance.yahoo.com/z?s=PEP.AX&t=3m&q=l&l=on&z=s&p=m50,m200"/>
+    </a>
+     
+  </body>
+</html>
+</apex:page>

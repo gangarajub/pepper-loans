@@ -1,0 +1,124 @@
+<apex:page standardStylesheets="false" standardController="PL_Broker_Accreditation__c" extensions="PLBrokerAccreditationController" action="{!Router}" sidebar="false" showHeader="false">
+<apex:stylesheet value="https://ui.pepper.com.au/SalesForceForm/css/salesforce-forms.min.css"/>
+    
+    <apex:outputPanel rendered="{!refreshPage}">
+        <script>
+            window.top.location='https://epi-int.pepper.com.au/iframe-with-dynamic-query-strings/thank-you';
+        </script>
+    </apex:outputPanel>
+    
+    <apex:form styleClass="SF-Form form-cntrls">
+ <!--   <apex:pageBlock title="Personal Loans Opt In"> -->
+        
+            
+
+        <p>
+            Update and submit your details below to become accredited for Pepper Money Personal Loans.
+        </p>
+        
+        <table cellpadding="10" cellspacing="10">
+                    <tr>
+                        <td>
+                            First Name         
+                        </td>
+                        <td>
+                            <apex:inputField value="{!Broker.First_Name__c }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Last Name
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Last_Name__c }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Street Address
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Street__c }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            City/Suburb/Town
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.City__c }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            State/Territory
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.State__c }"/>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            Postcode
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Postcode__c }"/>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            Country
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Country__c }"/>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            Mobile
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Phone__c }"/>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            Aggregator
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Aggregator__c }"/>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td>
+                            Have you submitted Personal Loans applications before?
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Submitted_PL_Before__c }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            If Yes, with whom?
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.If_so_with_who__c }"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            On average how many Personal Loan submissions would you do a month?
+                        </td>
+                        <td>
+                            <apex:inputField value="{! Broker.Estimated_Submissions_Per_Month__c }"/>
+                        </td>
+                    </tr>
+                    
+                    
+                </table>
+    
+            <apex:commandButton action="{! SaveBrokers }" value="Submit" /> 
+        
+    <!--</apex:pageBlock>-->
+    </apex:form>
+</apex:page>

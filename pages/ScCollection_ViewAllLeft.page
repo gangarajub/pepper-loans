@@ -1,0 +1,238 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles the UI for displaying view all functionality for the left component objects
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 03-JULY-2016    Created By: Pawan Mudgal  Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="ScCollection_ViewAllLeftController" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+            <apex:includeScript value="{!URLFOR($Resource.bootstrap, 'js/bootstrap.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-datatable.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquerydataTables.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/dataTablesjqueryui.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/moment.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/datetime-moment.js')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-ui.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/dataTablesjqueryui.min.css')}" />
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    $.fn.dataTable.moment('D/MM/YYYY h:mm A');
+                    $.fn.dataTable.moment('DD/MM/YYYY h:mm A');
+                    
+                    // added new formats for JIRA COL-1589
+                    $.fn.dataTable.moment('D/MM/YYYY');
+                    $.fn.dataTable.moment('DD/MM/YYYY');
+                    loadwidget();
+                }); 
+                
+                function openPTP(recordId,recordName)
+                {
+                    // open the selected article and focus
+                    sforce.console.getFocusedPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id,'/apex/ScCollection_CreatePTP?id={!strContractId}&ptpid=' + recordId + '&tabid=' + result.id, true, recordName, null);
+                    });
+                    
+                    var openSuccess = function openSuccess(result) 
+                    {
+                        //Report whether opening the new tab was successful
+                        if (result.success == true) 
+                        {
+                        } 
+                        else 
+                        {
+                            sforce.console.focusPrimaryTabByName(recordName);
+                        }
+                    };
+                }
+                
+                function loadwidget()
+                {
+                    $.extend(true, $.fn.dataTable.defaults, 
+                    {
+                        "searching": false
+                    });
+                    
+                    $('#ptpnewtable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": null},
+                           {"type": "num-fmt"},
+                           {"type": "html"},
+                           {"type": "html"},
+                           {"type": null},
+                           {"type": null}
+                        ],
+                        "order": [[ 1, "asc" ]],
+                        "pageLength": 50
+                    });
+                    
+                    $('#ptpoldtable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": null},
+                           {"type": "num-fmt"},
+                           {"type": "html"},
+                           {"type": "html"},
+                           {"type": null},
+                           {"type": null}
+                        ],
+                        "order": [[ 1, "desc" ]],
+                        "pageLength": 50
+                    });
+                }
+            </script>
+            <style>
+                .dataTables_length
+                {
+                    float: right !important;
+                }
+                .dataTables_info
+                {
+                    float: left !important;
+                }
+                .dataTables_paginate
+                {
+                    float: right !important;
+                }
+                .pagination>li 
+                {
+                    display: inline-block;
+                    margin-left:0px;
+                }
+                .nav-tabs>li.active>a
+                {
+                    background:rgba(223, 0, 36, 0.8);
+                    color:#fff;
+                    font-weight:bold;
+                }
+                .nav-tabs>li.active>a:hover
+                {
+                    background:rgba(223, 0, 36, 0.8);
+                    color:#fff;
+                    font-weight:bold;
+                }
+                .nav-tabs>li.active>a:focus
+                {
+                    background:rgba(223, 0, 36, 0.8);
+                    color:#fff;
+                    font-weight:bold;
+                }
+                .table-bordered>tbody>tr>td
+                {
+                    border-left:0px !important;
+                    border-right:0px !important;
+                    border-top:1px solid rgb(221, 221, 221) !important;
+                    border-bottom:0px !important;
+                }
+            </style>
+        </head>    
+        <body>
+            <div class="container" style="margin-bottom:15px;">
+                <apex:outputPanel rendered="{!showPtp}">
+                    <ul class="nav nav-tabs">
+                        <li class="active" style="margin-left: 0px;margin-top: 10px;"><a data-toggle="tab" href="#upcoming">Upcoming PTP Details</a></li>
+                        <li style="margin-left: 0px;margin-top: 10px;"><a data-toggle="tab" href="#history">Historical PTP Details</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="upcoming" class="tab-pane fade in active">
+                            <aside class="col-md-12 col-sm-12 noleftpadding norightpadding">
+                                <section class="cstm-form clearfix">
+                                    <div class="col-md-12 col-sm-12" style="padding:0px;font-size:13px;">
+                                        <table id="ptpnewtable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>PTP No</th>
+                                                    <th>PTP Date</th>
+                                                    <th>PTP Amount</th>
+                                                    <th>Kept</th>
+                                                    <th>Broken</th>
+                                                    <th>PTP Type</th>
+                                                    <th>Made On</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!lstNewPtp}" var="obj">
+                                                    <tr>
+                                                        <td><a href="#" style="cursor:pointer;" onclick="openPTP('{!obj.Id}','{!obj.Name}');">{!obj.ScCollection_PTP_AutoNumberFormula__c}</a></td>
+                                                        <!-- Modified the below column for JIRA COL-1589 -->
+                                                        <!--<td><apex:outputField value="{!obj.collect__Promise_To_Pay_Date__c}" /></td>-->
+                                                        <td>
+                                                            <apex:outputText value="{0, date, dd/MM/yyyy}">
+                                                                <apex:param value="{!obj.collect__Promise_To_Pay_Date__c}" /> 
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td><apex:outputText value="{0, number,  $ ###,##0.00}"><apex:param value="{!obj.collect__Promise_To_Pay_Amount__c}" /></apex:outputText></td>
+                                                        <td><apex:image rendered="{!obj.collect__Promise_Kept__c}" value="{!URLFOR($Resource.scCollectionConsoleResources, 'images/kept.png')}"/></td>
+                                                        <td><apex:image rendered="{!obj.collect__Promise_Broken__c}" value="{!URLFOR($Resource.scCollectionConsoleResources, 'images/broken.png')}"/></td>
+                                                        <td><apex:outputField value="{!obj.ScCollection_Payment_Method__c}" /></td>
+                                                        <td><apex:outputField value="{!obj.collect__Promise_Made_On__c}" /></td>
+                                                    </tr>
+                                                </apex:repeat>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                            </aside>        
+                        </div>
+    
+                        <div id="history" class="tab-pane fade">
+                            <aside class="col-md-12 col-sm-12 noleftpadding norightpadding">
+                                <section class="cstm-form clearfix">
+                                    <div class="col-md-12 col-sm-12" style="padding:0px;font-size:13px;">
+                                        <table id="ptpoldtable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>PTP No</th>
+                                                    <th>PTP Date</th>
+                                                    <th>PTP Amount</th>
+                                                    <th>Kept</th>
+                                                    <th>Broken</th>
+                                                    <th>PTP Type</th>
+                                                    <th>Made On</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <apex:repeat value="{!lstOldPtp}" var="obj">
+                                                    <tr>
+                                                        <td><a href="#" style="cursor:pointer;" onclick="openPTP('{!obj.Id}','{!obj.Name}');">{!obj.ScCollection_PTP_AutoNumberFormula__c}</a></td>
+                                                        <!-- Modified the below column for JIRA COL-1589 -->
+                                                        <!--<td><apex:outputField value="{!obj.collect__Promise_To_Pay_Date__c}" /></td>-->
+                                                        <td>
+                                                            <apex:outputText value="{0, date, dd/MM/yyyy}">
+                                                                <apex:param value="{!obj.collect__Promise_To_Pay_Date__c}" /> 
+                                                            </apex:outputText>
+                                                        </td>
+                                                        <td><apex:outputText value="{0, number,  $ ###,##0.00}"><apex:param value="{!obj.collect__Promise_To_Pay_Amount__c}" /></apex:outputText></td>
+                                                        <td><apex:image rendered="{!obj.collect__Promise_Kept__c}" value="{!URLFOR($Resource.scCollectionConsoleResources, 'images/kept.png')}"/></td>
+                                                        <td><apex:image rendered="{!obj.collect__Promise_Broken__c}" value="{!URLFOR($Resource.scCollectionConsoleResources, 'images/broken.png')}"/></td>
+                                                        <td><apex:outputField value="{!obj.ScCollection_Payment_Method__c}" /></td>
+                                                        <td><apex:outputField value="{!obj.collect__Promise_Made_On__c}" /></td>
+                                                    </tr>
+                                                </apex:repeat>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </section>
+                            </aside>       
+                        </div>
+                    </div>
+                </apex:outputPanel>
+            </div>
+        </body>
+    </html>
+</apex:page>

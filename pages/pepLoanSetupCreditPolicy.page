@@ -1,0 +1,172 @@
+<apex:page standardStylesheets="false" showHeader="false"  sidebar="false" docType="html-5.0" controller="pepCreditPolicyController"  cache="{!$Label.Cache_Settings}"  action="{!checkcookie}" id="idPage">
+<html lang="en">
+<head>
+
+    <!-- Google Tag Manager -->
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    
+    <!-- End Google Tag Manager -->
+    
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LoanSetupCreditPolicy</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>    
+</head>
+<body>
+
+    <!-- Google Tag Manager (noscript) -->
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- End Google Tag Manager (noscript) -->
+    
+
+<style>
+.confirmation a,.confirmation a:hover{
+    color: #000;
+    text-decoration: underline;
+}
+</style>
+<apex:composition template="pepSideBarTemplate" >
+ <apex:define name="body" >
+ <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+ <script type="text/javascript"> 
+                
+                function DisableAcceptandContinueButton()
+                    {            
+                        document.getElementById('idPage:j_id3:idForm:idAcceptandContinueButton').disabled = true; 
+                        
+                    }
+                    
+                function EnableAcceptandContinueButton()
+                    {
+                    
+                        if(document.getElementById('debt').checked && document.getElementById('debt1').checked) 
+                        {           
+                            document.getElementById('idPage:j_id3:idForm:idAcceptandContinueButton').disabled = false; 
+                        }
+                        
+                        else
+                        {           
+                            document.getElementById('idPage:j_id3:idForm:idAcceptandContinueButton').disabled = true; 
+                        }
+                    }
+    </script>
+ <apex:form id="idForm">
+  <div class="pepperCustomFluid">
+  <div class="containerFluid posRel">
+               
+            <div class="loanCont">
+                <div class="confirmation">
+                    <div class="loanSetTopSec">
+                    <h3 class="colA"><c:pepcmscomponent_Text pageNameTest="Loan Setup (Credit-Policy)" sectionName="CreditPolicySection2"></c:pepcmscomponent_Text></h3>
+                    <div class="colB"><apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div>
+                    </div>                      
+                    <div class="innerCont">
+                        <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Credit-Policy)" sectionName="CreditPolicySection1"></c:pepcmscomponent_Text></p>
+                    </div>                    
+                    <div class="custom-chkBox"> 
+                                        <input type="checkbox" id="debt" name="debt" onclick = "EnableAcceptandContinueButton();"/>
+                                        <label for="debt">
+                                        <strong>
+                                         <c:pepcmscomponent_Text pageNameTest="Loan Setup (Credit-Policy)" sectionName="CreditPolicySection3"></c:pepcmscomponent_Text>
+                                         
+                                        </strong></label>
+                    </div>
+                    <div class="custom-chkBox"> 
+                                        <input type="checkbox" id="debt1" name="debt1" onclick = "EnableAcceptandContinueButton();"/>
+                                        <label for="debt1">
+                                        <strong>
+                                         <c:pepcmscomponent_Text pageNameTest="Loan Setup (Credit-Policy)" sectionName="CreditPolicySection4"></c:pepcmscomponent_Text>
+                                         
+                                        </strong></label>
+                    </div>
+                   <!-- <div class="page-row">
+                        <div class="form-cntrl">
+                            
+                            <div class="colB">
+                              <apex:commandButton action="{!saveAndRedirect}" value="Confirm and Continue" onclick="show=false;" styleClass="button primaryBtn"/>
+                           </div>
+                        </div>
+                    </div>-->
+                    <div class="loanSetBotSec">
+                    
+                 <!--  <div class="colA"><button class="button secondaryBtn">Save</button></div>
+                   <div class="colB"><button class="button primaryBtn">Set up your loan</button></div>-->
+                    <div class="colA"><apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div>
+                     <div class="colB"><apex:commandButton action="{!saveAndRedirect}" value="Confirm and Continue" styleClass="button primaryBtn" onclick="show=false;" id="idAcceptandContinueButton"/></div>
+     
+              </div>
+           </div>
+            
+        </div>
+    </div>  
+
+</div>
+    
+    <script>
+    DisableAcceptandContinueButton();
+    </script>
+    </apex:form>
+    <apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+            var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }   
+ </script>
+ </apex:outputPanel>
+    </apex:define>
+</apex:composition>
+
+
+
+</body>
+</html>
+</apex:page>

@@ -1,0 +1,44 @@
+<apex:page standardStylesheets="false" cache="{!$Label.Cache_Settings}"  showHeader="false" sidebar="false" docType="html-5.0" controller="pepEmbedToDocuSignController" action="{!configure}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->    
+</head>
+
+ <apex:composition template="pepSideBarTemplate">
+ <apex:define name="body">
+ <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+                <div class="uploadDoc">
+
+                <div class="loanSetTopSec">
+                    <h3 class="colA">{!lstQuestions[0].pepSection__r.pepHeader__c}!</h3>
+                    
+                </div>
+
+                <div class="innerCont">
+                <c:pepcmscomponent_Text pageNameTest="Application Complete" sectionName="Application complete"></c:pepcmscomponent_Text>
+                
+                </div>     
+                </div>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+
+ </apex:define>
+ </apex:composition>
+</html>
+
+
+
+</apex:page>

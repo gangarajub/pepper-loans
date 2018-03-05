@@ -1,0 +1,161 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" Controller="pepCongratulations" cache="{!$Label.Cache_Settings}" action="{!checkcookie}">
+             
+              <apex:composition template="pepSideBarTemplate">
+                 <apex:define name="body">
+                 <!-- Google Tag Manager -->
+
+                <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':      
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],                
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=                
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);               
+                })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>               
+                <!-- End Google Tag Manager -->
+                <!-- Google Tag Manager (noscript) -->                
+                <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"                
+                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>                
+                <!-- End Google Tag Manager (noscript) -->
+
+                 
+                 <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+                 <apex:form id="theForm"> 
+  
+
+             <div class="confirmation">
+                    <div class="loanSetTopSec">
+                  <!-- <h3 class="colA">Congratulations <span>Name</span>!</h3>-->
+                  <h3 class="colA"> <apex:outputText id="idSectionBodyOne"  escape="false" value="{!section1}" styleClass="colA"/></h3>
+                  <div class="saveLater colB">
+                       <!--  <button class="button primaryBtn">Save for later</button> -->
+                       <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                    </div>
+                    
+                   </div>
+                   
+                    <div class="innerCont">
+                   <c:pepcmscomponent_Text pageNameTest="Congratulations" sectionName="Section Second"></c:pepcmscomponent_Text>
+                    <div>
+                        <div class="page-form">
+                                <div class="page-row">
+
+                                    <div class="form-section">  
+
+                                    <div class="form-cntrl">
+                                        <span class="money fa fa-rocket"></span> 
+                                      <!--  <span class="fa fa-money"></span>-->
+                                        
+                                    </div>
+
+                                        <div class="form-cntrl">
+                                   <!-- <h2>$XX,XXX.XX <br/>
+                                    at an interest rate of XX.XX%p.a.<br/>
+                                    over X years<br/></h2>-->
+                                  <h2><apex:outputText id="idSectionBodyTwo"  escape="false" value="{!section2}"/></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  <!-- <c:pepcmscomponent_Text pageNameTest="Congratulations" sectionName="Section Four"></c:pepcmscomponent_Text>-->
+                        <apex:outputText id="idSectionBodyThree"  escape="false" value="{!Section4}"/>
+                   
+                    </div>
+                    <div class="page-row loanSetBotSec">
+                        
+                            <div class="colA">
+                          <!--  <button class="button secondaryBtn">Save</button>-->
+                             <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                            </div>
+
+                           <!--<button class="button primaryBtn">Set up your loan</button> -->
+                           <div class="colB">
+                              <apex:commandButton action="{!redirectToNextPage}" value="Set up your loan" styleClass="button primaryBtn foo"/>
+                           </div>
+                   
+                    </div>
+                                
+                </div>
+                
+                
+        </apex:form>
+        <apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+                var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+ </script>
+
+<!-- ADDED BY COE 061220160915 -->
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+ 
+ </apex:outputPanel>
+    </apex:define>
+ </apex:composition>
+ 
+</apex:page>

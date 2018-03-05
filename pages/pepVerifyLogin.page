@@ -1,0 +1,232 @@
+<apex:page docType="html-5.0" standardStylesheets="false" sidebar="false" id="pageId" showHeader="false" cache="{!$Label.Cache_Settings}"  controller="pepVerifyLoginController" action="{!RedirectToLoginPage}">        
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PFA - Landing Page</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <link href="assets/common/stylesheets/main.css" rel="stylesheet" type="text/css" />-->
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>  
+    <apex:stylesheet value="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/> 
+    <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+    <style>
+   #termsInfo + label > span{
+       margin-top: 0 !important;
+   }
+   @media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+.pageFooter
+    {
+
+              position:absolute;
+              bottom:0px;
+              width:100%;
+
+        }
+}
+   
+   </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <div class="pepperCustomFluid">
+        <!-- PFA Header part starts --> 
+        <div class="offsetBlkHeight"></div>
+        <div class="offsetBlk">
+            <div class="containerFluid">
+                <header class="page-row">
+                    <div class="hamBurger_menu text-center">
+                        <span class="menu"></span>
+                    </div>
+                    <div class="pageLogo">
+                        <a href="#logo" tabindex="1"><apex:image url="{!URLFOR($Resource.ResourceZip,'assets/common/images/logo.png')}" alt="Pepper"/></a>
+                    </div>
+                    <div class="callPhone text-center">
+                        <a class="phone" href="tel:1300659430" tabindex="2"></a>
+                    </div>
+                    <div class="callAssist">                    
+                        <span><c:pepcmscomponent_Text pageNameTest="Dashboard Header" sectionName="SectionOne(DH)"></c:pepcmscomponent_Text></span>
+                        
+                    </div>
+                </header>
+            </div>
+        </div>
+        <!-- PFA Header ends -->
+        <apex:outputPanel id="rerenderDateScript">
+        <script type="text/javascript">
+            
+            $(document).ready(function()
+            {
+                if($( "[id$='asDate']" ).length){
+                    datepicker();
+                }
+                
+     
+            });
+        
+           function datepicker(){
+          
+               $( "[id$='asDate']" ).datepicker({dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+               
+           } 
+       </script>
+       </apex:outputPanel>   
+       <apex:actionStatus id="counterStatus" startStyleClass="spinner"/> 
+     <apex:form id="idForm">
+    
+        <!-- PFA Content starts -->
+        <div class="pepperContainer PFA">
+        <apex:pageMessages /> 
+            <div class="page-row">
+                <div class="personalDetVerification">
+                    <h3 class="heading">
+                        <c:pepcmscomponent_Text pageNameTest="Verify Login" sectionName="Verify Login Section 1"></c:pepcmscomponent_Text>
+                    </h3>
+                    <div>
+                         <c:pepcmscomponent_Text pageNameTest="Verify Login" sectionName="Verify Login Section 2"></c:pepcmscomponent_Text>
+                    </div>
+                    <br/>
+                    <div class="clear">
+                        <div class="form-cntrl negAppForm">
+                            <div class="boxInfo">
+                                <div class="appinfo">
+                               
+                                <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idMainRpt">                                                      
+                                   <apex:outputPanel layout="block" id="dateId" rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Date' && wrapInstance.objCmsQuestion.pepSequence__c == 1),true,false)}">
+                                    <div class="page-row">
+                                        <label class="form-cntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                        <div class="form-cntrls">
+                                            <apex:inputtext id="asDate" value="{!strDOB}" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.Is_Date_to_Birth__c, ' isDob', '')}" onblur="if(!checkFieldValidation(this.id)){$('.dbMsg').hide();}" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}"/>
+                                              <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                              <apex:outputPanel rendered="{!boolWrongDOB == false}" style="float:left;" id="dId">
+                                               <span class = "errorMsg dbMsg" style="display:block;"> Invalid Date of birth! </span>
+                                        </apex:outputPanel>                                         
+                                        </div>                          
+                                    </div>
+                                    </apex:outputPanel>
+                                     <apex:outputPanel layout="block" id="postalId" rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 2),true,false)}">    
+
+                                    <div class="page-row">
+                                        <label class="form-cntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                        <div class="form-cntrls">
+                                             <apex:inputtext styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="IdSecondAnswer" value="{!strPostCode}" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}" onblur="if(!checkFieldValidation(this.id)){$('.postMsg').hide();}"/>
+                                               <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                        
+                                        <apex:outputPanel rendered="{!boolWrongPostcode == false}" style="float:left;">
+                                            <span class = "errorMsg postMsg" style="display:block;"> Invalid PostCode! </span>
+                                        </apex:outputPanel>
+                                        </div>                          
+                                    </div>
+                                     </apex:outputPanel>
+                                      </apex:repeat>
+                                      
+                                    <div class="page-row">
+                                        <div class="col-xs-12">
+                                            <div class="custom-chkBox"> 
+                                                <input type="checkbox" id="termsInfo" name="debt" tabindex="31"/>
+                                                <label for="termsInfo"><c:pepcmscomponent_Text pageNameTest="Verify Login" sectionName="Verify Login Section 5"></c:pepcmscomponent_Text> <em class="fa fa-chevron-down"></em></label> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="page-row">
+                                        <div class="col-xs-12 termsInfoPanel">
+                                            <c:pepcmscomponent_Text pageNameTest="Verify Login" sectionName="Verify Login Section 6"></c:pepcmscomponent_Text>
+                                        </div>
+                                    </div>
+                                    <div class="page-row">
+                                        <label class="form-cntrls btncont"></label>
+                                        <div class="form-cntrls-lg text-right">
+                                           <!--<input class="button primaryBtn sendBtn" value="Continue" type="submit" disabled="disabled" onclick="callAction();" />-->
+                                          <apex:commandButton styleClass="button primaryBtn sendBtn" value="Continue" action="{!VerifyMe}" status="counterStatus" reRender="dateId,postalId,rerenderDateScript" onclick="if(checkData('pageId:idForm')) {$('.postMsg').hide();$('.dbMsg').hide();}" oncomplete="if(!checkData('pageId:idForm')) {$('.postMsg').hide();$('.dbMsg').hide();}"/>
+                                        </div>                          
+                                    </div>
+                            
+                            
+
+                                 <!--   <div class="page-row custDet">
+                                        <div class="col-xs-12">
+                                            <c:pepcmscomponent_Text pageNameTest="Verify Login" sectionName="Verify Login Section 4"></c:pepcmscomponent_Text>
+                                        </div>
+                                    </div>-->
+
+                        </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <!-- PFA Content ends -->
+    </apex:form>    
+        
+        <!-- Footer starts -->
+        <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+        <!-- Footer ends -->
+
+    </div>
+    
+<!--    <script src="assets/common/scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" type="text/javascript"></script>
+    <script src="assets/common/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/common/scripts/pepperScript.js" type="text/javascript"></script>-->
+    
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <apex:includeScript value="https://code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+    
+    
+</body>
+</html>
+  
+  <script type="text/javascript">            
+        $(function(){
+           
+            $("#termsInfo").on("change", function(){
+                var boolVal = $(this).is(":checked");
+                if(boolVal){
+                    $(".sendBtn").prop("disabled", false);
+                }else{
+                    $(".sendBtn").prop("disabled", true);
+                }
+
+            });
+
+            $(".custom-chkBox .fa").on("click", function(e){
+                e.preventDefault();
+                $(this).toggleClass("fa-chevron-up");
+                $(".termsInfoPanel").stop().slideToggle();
+            });
+        });
+    </script>
+      
+   <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                        $(".sendBtn").prop("disabled", true);
+                     });
+    });
+   </script>
+   
+
+</apex:page>

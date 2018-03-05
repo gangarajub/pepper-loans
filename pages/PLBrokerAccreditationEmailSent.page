@@ -1,0 +1,8 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false">
+<apex:stylesheet value="https://ui.pepper.com.au/SalesForceForm/css/salesforce-forms.min.css"/>    
+<apex:form styleClass="SF-Form form-cntrls">
+    <p>
+        An email has been sent, please check your inbox.
+    </p>
+</apex:form>    
+</apex:page>

@@ -1,0 +1,19 @@
+<apex:page controller="sendcustomsms">
+<apex:Form >
+<apex:pageMessages >
+
+</apex:pageMessages>
+<apex:Pageblock title="Send Custom SMS" rendered="{!showsmsblock}">
+<apex:pageBlockSection title="Send Custom SMS" columns="2">
+<apex:panelGrid columns="2">
+<apex:outputText style="text:bold;">Write SMS</apex:outputText><apex:inputTextarea value="{!text}"></apex:inputTextarea>
+</apex:panelGrid>
+<apex:panelgrid columns="2">
+<apex:outputText value="Account Mobile Number"></apex:outputText><apex:outputText value="{!accounMobilenumber}"></apex:outputText>
+</apex:Panelgrid>
+<center><apex:commandbutton value="Send SMS" action="{!sendsms}"/></center>
+</apex:pageBlockSection>
+</apex:Pageblock>
+<apex:commandbutton value="Back" action="/{!Applicationid}"/>
+</apex:Form>
+</apex:page>

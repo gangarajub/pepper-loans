@@ -1,0 +1,448 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="pepViewMyLoanController"  cache="{!$Label.Cache_Settings}" >
+ <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+ <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+ <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+ <script>
+          $(document).ready(function() {
+  
+              $(".inputHeaderValue").hide();
+         
+        });
+        
+        function errorpopup()
+           {
+               if(('{!boolOpenPopup}')=='true')
+                    {
+                       $('#pepperModal_errorpopup').modal();
+                    }
+           }
+    </script>
+    
+    
+    
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper Loan Details</title>
+   <!-- <link rel="stylesheet" href="assets/common/stylesheets/main.css" />-->
+  <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css' )}"/> 
+    
+</head>
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+<body>
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+<apex:form id="myForm">
+<apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+         <apex:actionFunction name="callActionfunc"  action="{!updateAccount}"  reRender="none"  >
+           <apex:param name="loanContractid" value="" />
+           </apex:actionFunction>
+           <apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction>  
+<div class="pepperCustomFluid">
+    <div class="offsetBlkHeight"></div>
+    <div class="offsetBlk">
+      <div class="containerFluid">
+       <c:pepDashboardHeaderCompnent />
+      </div>
+     </div>
+ 
+<div class="containerFluid posRel dashBoard">
+    <div class="page-row">
+        <div class="catBlk">
+            <div class="page-row">
+                <div class="mainCat">
+                    <ul>
+                      <li class="{!if(step ==-1 ,'mainCat_home active','mainCat_home')}"><a href="" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                <li class="mainCat_money more"><a href="#">Loans</a>
+                                <ul>
+                                  <apex:repeat value="{!sideBarList}" var="loan">
+                                     
+                                        <apex:outputPanel rendered="{!IF(loan.loanId== loanaccountid,true,false)}">
+                                        <li class="mainCat_money active"  >
+                                        
+                                        
+                                        <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                       
+                                        </li>
+                                        
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!IF(loan.loanId!= loanaccountid,true,false)}">
+                                        <li class="mainCat_money"  >
+                                        
+                                        
+                                        <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                       
+                                        </li>
+                                        
+                                        </apex:outputPanel>
+                                        
+                                      
+                                    </apex:repeat> 
+                                </ul>
+                            </li>
+                            
+                            <apex:repeat value="{!lstLeftSideBarSections}" var="sidebar">
+                                    <apex:outputPanel rendered="{!if(sidebar.pepHeader__c=='Refer-a-friend',true,false)}">
+                                        <li class="{!if(step ==-2 ,' mainCat_share active','mainCat_share')}"><a href="javascript:void(0)" onclick="passPageName('pepreferafriend');">Refer-a-friend</a></li>
+                                    </apex:outputpanel>
+                            </apex:repeat>
+                            
+                            <li class="{!if(step ==-4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                            <li class="{!if(step ==-3 ,'mainCat_profile active','mainCat_profile')}"><a href="" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                            <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp"  rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contentCat">                
+            <div class="loanCont">
+                <div class="page-row">
+                    <div class="dashboard_lhs">                     
+                        <div class="myLoan" >
+                            <div class="loanHead" >
+                           
+                                <h1>
+                                <div class="page-row">
+                                <apex:outputPanel id="rerenderName">
+                                <apex:outputText value="{!headerInput}" styleClass="outputHeaderValue"/><apex:inputText value="{!headerInput}" style="display: none" styleClass="inputHeaderValue">
+                                <apex:actionSupport event="onblur" action="{!changeloanName}" reRender="rerenderName,rerenderMsg,rerenderModal" oncomplete="editHeader1();showModal();" status="counterStatus"/>
+                               </apex:inputtext>
+                               <span class="errorMsg">loan name is required</span>
+                                </apex:outputPanel>
+                               <span>
+                              <!--  <a href="#" class="editamt">edit</a>-->
+                                <apex:commandLink value="edit" reRender="temp" styleClass="editamt" onclick="editHeader();" style="{!IF(closedLoan == true,'display:none;','')}"/>
+                                </span>
+                                </div>                                
+                                <div class="loanNumber">Loan Number : {!headerLoanNo}</div>
+                                </h1>
+                                
+                                <div class="nextPaymentSec">
+                                    <p><apex:outputtext style="display:{!if(closedLoan==True,'none','block')}" value="Next repayment"></apex:outputText></p>
+                                     <p>
+                                        <span class="amount"><apex:outputText value="${!nextRepaymentAmount}"  style="display:{!if(closedLoan==True,'none','block')}"/></span><br/>
+                                        <span><apex:outputText value="due on {!nextRepaymentDate}"  style="display:{!if(closedLoan==True,'none','block')}"/></span> 
+                                    </p>
+                                </div>
+                                <div class="progressBarSec">
+                                      <!--  <div class="innerArrow" style="width:{!progressBarWidth}%;">
+                                            <span class="arrowPos"></span>
+                                        </div>
+                                    
+                                        <div class="progInfo">
+                                            <span>Near Half Way</span>
+                                        </div> -->
+                                        
+                                    <div class="progressBarCont">
+                                        <div class="innerBar" style="width:{!progressBarWidth}%;"></div> 
+                                        <span class="amtpaid">
+                                            ${!amountPaid} paid
+                                        </span>
+                                        <span class="amtremain">
+                                            ${!amountRemaining} remaining
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard_rhs">
+                        <div class="widgetCards">
+                            <h4>Loan Details</h4>
+                            <ul>
+                               <li class="{!if(Step ==1,'active','')}"><a href="javascript:void(0)" class="bank" onclick="passPageName('peppaymentdetails');">Payment Details</a></li>
+                            <!--   <apex:outputtext value="Bank Details" rendered="{!IF(step == 1 ,'false','true')}"/> 
+                               <apex:outputtext value="Payment Details" rendered="{!IF(step == 1 ,'true','false')}"/> -->
+                               
+                               
+                              <li class="{!if(Step ==8,'active ','')}"><a href="javascript:void(0)" class="document" onclick="passPageName('pepdocumentinbox');">Document Inbox</a></li>
+                              <li class="{!if(Step ==2,'active ','')}"><a href="javascript:void(0)" class="history" onclick="passPageName('peptransactionhistory');">Transaction History</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="page-row hideButton">
+                    <div class="loanTxtOuter">
+                                <div class="loanTxtHead">
+                                    <h2><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionOne(VMLP)"></c:pepcmscomponent_Text></h2>
+                                </div>                                          
+
+                                <c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionTwo(VMLP)"></c:pepcmscomponent_Text>
+                            </div>
+                            <div class="home_widgets">
+                                <div class="inner-brdr oneOffPay equalCol">
+                                    <div class="content_pad">
+                                        <h3>
+                                            <span class="fa fa-fa-bars hideIcon"></span>
+                                            <span class="fa fa-money hideIcon"></span>                                       
+                                        </h3>
+                                        <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionThree(VMLP)"></c:pepcmscomponent_Text></strong></p>
+                                        <p class="description"><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionFour(VMLP)"></c:pepcmscomponent_Text></p>
+                                    </div>
+                                  <!--  <button class="btn btn-bar">
+                                        Make a Payment
+                                    </button> -->
+                                    <a href="" class="btn btn-bar" onclick="passPageName('pepmakeoneoffpayments');">{!lstQuestions[0].pepLabelPriorQuestion__c}</a>
+                                 <!--   <apex:commandLink action="{!pageNavigation}" value="{!lstQuestions[0].pepLabelPriorQuestion__c}" styleClass="btn btn-bar">
+                                     <apex:param name="redirectPageName" value="MakeOneOffPayments"/>
+                                     </apex:commandLink>-->
+                                    
+                                </div>                                          
+                            </div>
+                            <div class="home_widgets">
+                                <div class="inner-brdr reduceLoan equalCol">
+                                    <div class="content_pad">
+                                        <h3>
+                                            <span class="fa fa-money hideIcon"></span>
+                                            <span class="fa fa-plus sml-icon hideIcon"></span>
+                                            <span class="fa fa-money hideIcon"></span>                                   
+                                        </h3>
+                                        <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionFive(VMLP)"></c:pepcmscomponent_Text></strong></p>
+                                        <p class="description"><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionSix(VMLP)"></c:pepcmscomponent_Text></p>
+                                    </div>
+                                  
+                                     <a href="" class="btn btn-bar" onclick="passPageName('pepadjustrepayments');">{!lstQuestions[1].pepLabelPriorQuestion__c}</a>
+                                </div>                                          
+                            </div>
+                            <div class="home_widgets">
+                                <div class="inner-brdr changeDates equalCol">
+                                    <div class="content_pad">
+                                        <h3>
+                                            <span class="fa fa-calendar hideIcon"></span>
+                                            <span class="fa fa-exchange sml-icon hideIcon"></span>
+                                            <span class="fa fa-calendar-check-o hideIcon"></span>                                        
+                                        </h3>
+                                        <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionSeven(VMLP)"></c:pepcmscomponent_Text></strong></p>
+                                        <p class="description"><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionEight(VMLP)"></c:pepcmscomponent_Text></p>
+                                    </div>
+                                          <a href="" class="btn btn-bar" onclick="passPageName('pepchangepaymentsfrequency');">{!lstQuestions[2].pepLabelPriorQuestion__c}</a>
+
+                                </div>                                          
+                            </div>
+                           
+                            
+                            
+                            <div class="home_widgets">
+                                <div class="inner-brdr payOffloan equalCol">
+                                    <div class="content_pad">
+                                        <h3>
+                                            <span class="fa fa-sort-amount-desc hideIcon"></span>
+                                        </h3>
+                                        <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionEleven(VMLP)"></c:pepcmscomponent_Text></strong></p>
+                                        <p class="description"><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionTwelve(VMLP)"></c:pepcmscomponent_Text></p>
+                                    </div>
+                                      <a href="" class="btn btn-bar" onclick="passPageName('peppayoutloanpage');">{!lstQuestions[4].pepLabelPriorQuestion__c}</a>
+                                </div>                                          
+                            </div>
+                            
+                            <div class="home_widgets">
+                                <div class="inner-brdr holiday equalCol">
+                                    <div class="content_pad">
+                                        <h3>
+                                            <span class="fa fa-plane hideIcon"></span>
+                                        </h3>
+                                        <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionNine(VMLP)"></c:pepcmscomponent_Text></strong></p>
+                                        <p class="description"><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionTen(VMLP)"></c:pepcmscomponent_Text></p>
+                                    </div>
+                                   
+                                   <a href="" class="btn btn-bar" onclick="passPageName('peppaymentholidaydashboard');">{!lstQuestions[3].pepLabelPriorQuestion__c}</a>
+                                </div>                                          
+                            </div>
+                    </div>
+                    
+                    
+                
+                <div class="page-row">
+                    <div class="homepage_loan_faq hideLink">
+                        <p><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionThirteen(VMLP)"></c:pepcmscomponent_Text></strong><br/>
+                           <c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionFourteen(VMLP)"></c:pepcmscomponent_Text></p>
+                        <p><strong><c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionFifteen(VMLP)"></c:pepcmscomponent_Text></strong><br/>
+                           <c:pepcmscomponent_Text pageNameTest="View My Loan Page" sectionName="SectionSixteen(VMLP)"></c:pepcmscomponent_Text>
+                        </p>
+                         
+                    </div>
+                            
+                </div>
+                <p class="pepperTnC" >
+                <c:pepTermsConditionFooter />
+              </p>
+            </div>
+        </div>
+                            
+    </div>  
+                           
+</div>
+                        
+<footer>
+     <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+</footer>
+
+</div>
+<div id="pepperModal_error" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="fa fa-question-circle right"></span>
+        On no!
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>Hmm it looks like weÃ¢ÂÂve hit a technical problem and your [service] was not processed.
+                   Please try again.</p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <button class="button secondaryBtn modalOK" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<apex:outputPanel id="rerenderMsg">
+    <div id="pepperModal_success" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="fa fa-check-circle right"></span>
+            Your loan name has been updated.
+          </div>
+          <div class="modal-body">
+            <div class="page-row">
+                <div class="modalContent">
+                    <p>New Name: {!headerInput}</p>
+                </div>              
+            </div>
+            <div class="page-row">
+                <button class="button secondaryBtn modalOK" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</apex:outputPanel>
+
+<div id="pepperModal_errorpopup" class="modal fade pepperModal_error" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="fa fa-question-circle right"></span>
+        On no!
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>This action is unavailable as your arrears amount is 0.</p>
+            </div>              
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div> 
+
+</apex:form>
+
+    <apex:outputpanel id="temp">
+    </apex:outputpanel>
+    <script>
+             $(document).ready(function() {
+               if(('{!closedLoan }') =='true')
+                {
+                     $('.hideButton').find('a.btn').attr("disabled","disabled");
+                     $('.hideButton').find('a.btn').css({'background':'#f0f0f0','color':'#253746','cursor':'default','pointer-events':'none'});
+                     $('.hideIcon').css({'color':'#253746'});
+                     $('.editamt').css("display","none");
+                     $('.hideLink').css("display","none");
+               }     
+         }); 
+         
+     /*  $(document).ready(function() {
+              
+                     $('.holiday').find('a.btn').attr("disabled","disabled");
+                     $('.holiday').find('a.btn').css({'background':'#f0f0f0','color':'#253746','cursor':'default','pointer-events':'none'});
+                     $('.holiday').css({'color':'#253746'});
+                     $('.holiday').find('span.hideIcon').css({'color':'#253746'});
+        });  */
+         
+       function editHeader()
+        {
+            $(".outputHeaderValue").hide();
+            $(".inputHeaderValue").css("display","inline-block");
+            $(".inputHeaderValue").focus().select();
+           
+        }
+        
+        function editHeader1()
+        {
+            $(".inputHeaderValue").hide();
+            $(".outputHeaderValue").show();
+        }
+        
+        $(function(){
+                   
+                $(document).on("click", ".plus", function(e){
+                e.preventDefault();
+                $(this).parents("li").find(".toggleBlk").slideToggle();
+                $(this).toggleClass("minus");
+               
+            });
+        });
+        
+         function callfun(IdloanContract)
+          {
+                
+                 $('[Id$=IdinputHidden]').val(IdloanContract);               
+                 callActionfunc(IdloanContract);
+          }
+          
+          function passPageName(APIPageName)
+          {
+               var i=APIPageName;
+               var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+               window.location.href = $mapParentChildren[APIPageName];
+          }
+        
+         
+    </script>
+    
+     <apex:outputPanel id="rerenderModal">
+           <script>
+            function showModal() 
+            {
+                  //  alert(('{!successMsg}'));
+                    if(('{!dontShowAlert}')=='true')
+                    {
+                      
+                    }
+                   else if(('{!successMsg}')=='true')
+                    {
+                       $('#pepperModal_success').modal();
+                    }
+                    else
+                    {
+                       $('#pepperModal_error').modal();
+                    }
+             }   
+           </script>
+   </apex:outputPanel>
+   
+</body>
+</html>
+
+<script>
+    errorpopup();
+</script>
+ <style>
+   
+  
+    </style> 
+</apex:page>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <fields>
+        <fullName>BankEndDayBalance__c</fullName>
+        <externalId>false</externalId>
+        <label>BankEndDayBalance</label>
+        <referenceTo>Bank_DayEndBalances__c</referenceTo>
+        <relationshipLabel>Bank DayEndBalanceRecords Archive Relationship</relationshipLabel>
+        <relationshipName>Bank_DayEndBalanceRecords_Archive_Rel</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>balance__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>balance</label>
+        <length>50</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>datex__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>datex</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Bank_DayEndBalanceRecords_Archive</label>
+    <pluralLabel>Bank DayEndBalanceRecords Archive</pluralLabel>
+</CustomObject>

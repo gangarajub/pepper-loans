@@ -1,0 +1,147 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" standardController="genesis__Applications__c" extensions="pepServiceabilityController"  action="{!checkcookie}" cache="{!$Label.Cache_Settings}">  
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>Pepper Expenses</title>   
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+        <!-- End Google Tag Manager -->
+             
+        <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+        <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+    </head>
+    <body>
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    <script>
+        function redirect(){
+        
+        }
+    </script>
+    
+<apex:form id="idForm"> 
+ <c:pepCmsHeaderComponent getpageName="Header" purposeName="{!lstApp[0].genesis__CL_Purpose__c}" getApplication="{!lstApp[0]}"></c:pepCmsHeaderComponent>
+
+   
+    <div class="pepperContainer">           
+            <div class="form-cntrls-sm">                    
+                 
+                 <!--<button class="button staticBtn" data-toggle="modal" data-target="#postiveService">Go</button> -->
+            </div>
+                                
+                              <!-- Expenses Calculator Modal window starts here -->
+                            <div id="postiveService" class="fade" role="dialog" data-backdrop="static" data-keyboard="false">
+                                <div class="modalDialog modal-lg">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                          <h4 class="modal-title left">{!strSectionHeader}</h4>
+                                        </div>
+                                    <div class="page-form">
+                                        <div class="form-elements">
+                                            <div class="page-row">
+                                                <p class="head"> <c:pepcmscomponent_Text pageNameTest="Serviceability" sectionName="Greeting"/> </p>
+                                                <p> <pepcmscomponent_Text pageNameTest="Serviceability" sectionName="Serviceability Section 1"/> 
+                                                </p>
+                                                <p>
+                                                <strong>
+                                                    <!--  $ {!genesis__Applications__c.genesis__Loan_Amount__c} {!genesis__Applications__c.pep_Loan_Type__c} rate {!genesis__Applications__c.genesis__CL_Purpose__r.Name} loan at an 
+estimated ${!genesis__Applications__c.genesis__Payment_Amount__c} per {!genesis__Applications__c.genesis__Payment_Frequency__c} for {!genesis__Applications__c.Requested_Term__c} year(s) -->
+                                                      <!--   <c:pepCmsComponent3 pageNameTest="Serviceability" sectionName="Serviceability Section 2" /> -->
+                                                        
+                                                        
+                                                        <apex:outputText value="{!strSectionBody}" escape="false"></apex:outputText>
+                                                        <apex:outputText value="{!strSectionBody2}" escape="false"></apex:outputText>
+                                                    </strong>
+                                               </p>
+                                                <span style="font-size:12px">
+                                                    <c:pepcmscomponent_Text pageNameTest="Serviceability" sectionName="Serviceability Section 3"/> 
+                                                   <!-- <c:pepCmsComponent3 pageNameTest="Serviceability" sectionName="Serviceability Section 3" /><br/>
+                                                    <c:pepCmsComponent3 pageNameTest="Serviceability" sectionName="Serviceability Section 4" /> -->
+                                                </span>
+                                                <p>
+                                                    <c:pepcmscomponent_Text pageNameTest="Serviceability" sectionName="Serviceability Section 4"/> 
+                                                   <!-- <c:pepCmsComponent3 pageNameTest="Serviceability" sectionName="Serviceability Section 3" /><br/>
+                                                    <c:pepCmsComponent3 pageNameTest="Serviceability" sectionName="Serviceability Section 4" /> -->
+                                                </p>
+                                            </div>
+                                                <!-- block2 -->
+                                                <div class="page-row">
+                                                    <div class="form-cntrl"> 
+                                                     <apex:commandButton id="idBtn" Styleclass="button primaryBtn " action="{!getRedirect}" value="Ok let's go" onclick="show=false;" />                                              
+                                                      <!--<input type="button" name="btn" id="idBtn" class="button primaryBtn" onclick="" value="Ok lets go"/>-->
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    </div>
+                                </div>                  
+                           
+                            <!-- Expenses Calculator Modal window ends here -->
+</div>
+  
+    <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+
+   <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+ </apex:form>
+ <script>
+$(window).load(function(){
+  $("#postiveService").modal("show");
+});
+ var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }  
+</script>
+
+
+
+
+</body>
+</html>
+<script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+</apex:page>

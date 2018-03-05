@@ -1,0 +1,215 @@
+<apex:page showHeader="false" cache="{!$Label.Cache_Settings}" sidebar="false" standardStylesheets="false" docType="html-5.0" controller="pepContractController" extensions="pepEmbedToDocuSignController" action="{!checkcookie}"> <!--   -->
+ <apex:composition template="pepSideBarTemplate">
+ <apex:define name="body">
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+ 
+ <style>
+ .theme.component-process-ddp{width:100% !important;}
+ #docusignFrame{overflow:visible}
+ </style>
+  <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+   <div class="contract">
+                    <a href="{!$Site.Prefix}/secur/logout.jsp" style="display:none;" class="anchortag"/>
+                    <div class="loanSetTopSec">
+                    <h3 class="colA"><apex:outputField value="{!lstSection[0].pepHeader__c}"/> </h3>
+                    <apex:form >
+                         <div class="saveLater colB">
+                              <apex:commandButton value="Save for later" action="{!saveForLater}" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                         </div>
+                        </apex:form>
+                   </div>
+
+                    <div class="innerCont">
+                    <p> <apex:outputText value="{!lstSection[0].pepSectionBodyRich__c}" escape="false" /> </p>
+                    
+                    <div>
+                        <div class="page-form">
+                                <div class="page-row"> 
+
+                                    <div class="form-section" style="display:{!if(OR(!mobileprocessing,AND(mobileprocessing==True,(processDDP==True||isError==True))),'block','none')}">  
+                                    
+                                    <div class="page-row">
+                                        <div class="form-cntrl">
+                                        <script>
+                                         document.getElementById('loopId').style.display="none";
+                                        </script>
+                                         <apex:form id="DDP_Form">
+                                         <apex:outputpanel id="temp">
+                                         </apex:outputPanel>
+                                         <apex:actionfunction name="updatecontractredirect" action="{!updatecontractredirect}" rerender="temp" oncomplete="logoutornot();" status="progressSpinner">
+                                         <apex:param name="ddpException" value=""/>
+                                         </apex:actionfunction>
+                                         <apex:actionStatus id="progressSpinner" startText="Please Wait..." startStyleClass="spinner"/>
+                                             <script>
+                                             function DDPResponse()
+                                             {
+                                              document.getElementById('loopId').style.display="none";
+                                              
+                                              updatecontractredirect('No');
+                                              
+                                              //callDocusign();
+                                               return false;
+                                             }
+                                            
+                                           </script>                                         
+                                             <apex:actionFunction id="ID_docusign" name="callDocusign" action="{!embedDocuSignOpen}" reRender="Docusign_Panel" status="progressSpinner"/>
+                                             <!-- Docusign Section -->
+                                           <apex:outputPanel id="Docusign_Panel">
+                                            
+                                               <apex:outputPanel rendered="{!!processddp && !isError && !mobileprocessing}">
+                                                   <apex:iframe id="docusignFrame" src="{!tokenURL}" scrolling="true" />
+                                               </apex:outputPanel>
+                                           </apex:outputPanel>
+                                           <!-- Docusign Section -->  
+                                             
+                                         <!-- DDP Section -->
+                                           <div id="loopId">
+                                        <!--<apex:outputPanel rendered="{!isDDP_User_LoggedIn}">
+                                           <script>
+                                          // alert('Hi');
+                                            $('.anchortag')[0].click();
+                                          // callDocusign();
+                                           </script>
+                                           </apex:outputPanel>-->
+                                           
+                                           <div id="error">
+                                          <apex:outputText value="{!lstSection[1].pepSectionBodyRich__c}" escape="false" />
+                                         <center> <apex:CommandButton value="Retry" action="{!retry}" styleClass="button primaryBtn"/></center>
+                                          </div>
+                                           <script>
+                                          document.getElementById('error').style.display="none";   
+                                          </script>
+                                           <apex:outputPanel id="DDP_panel" rendered="{!processDDP}">
+                                           
+                                            <Loop:processDDP id="ID_DDP" parameters="{!DDP}"/>
+                                            </apex:outputPanel>
+                                         </div>
+                                         <!-- DDP Section -->
+                                       </apex:form>
+                                        </div>
+                                    </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+                    <div class="page-row loanSetBotSec">
+                   <apex:form >
+                   <div class="colB"><apex:commandButton rendered="{!mobileprocessing}" action="{!Continuetosign}" value="Continue to Sign" styleClass="button primaryBtn" onclick="show=false;"/></div>
+                  
+                  <div class="colA"><apex:commandButton action="{!saveForLater}" value="Save for later"  Styleclass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div> 
+                   </apex:form>
+                  </div>
+                </div>
+                
+      
+<script>
+if({!isError})
+{
+document.getElementById('error').style.display="block";
+}
+
+function progress()
+{
+ $( ".progress-bar-text" ).replaceWith( "Generating your contract..." );
+ 
+}
+//Function that Drawloop 
+function Error()
+{
+document.getElementById('j_id0:j_id1:DDP_Form:DDP_panel').style.display="block";
+//document.getElementById('error').style.display="block";
+//updatecontractredirect('Yes');
+
+ 
+ 
+}
+
+ </script>
+    <apex:outputPanel id="renderScriptSFR">
+  
+        <script>
+       window.onload = function(){
+            var $ = $.noConflict(true);
+       }
+        function showModal() 
+            { 
+                       
+                    if(('{!successSaveForLater}')=='true')
+                        $('.successModalSFR').modal();
+                    else
+                        $('.errorModalSFR').modal();
+           }
+           function logoutornot(){
+           var y = '{!isDDP_User_LoggedIn}';
+           if(y=='false'){
+           return false;
+           }
+           else{
+           $('.anchortag')[0].click();
+           }
+        }
+      
+ </script>
+
+ <!-- ADDED BY COE 061220160915 -->
+ 
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+
+ 
+
+
+
+
+ 
+ </apex:outputPanel>
+  
+ </apex:define>
+ </apex:composition>
+ 
+</apex:page>

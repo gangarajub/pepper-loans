@@ -1,0 +1,180 @@
+<apex:page controller="pepRetrieveApplication" id="pageId"  standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper App Income</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+</head>
+<body>
+    <div class="pepperContainer">
+    <apex:form id="idForm">
+    <apex:pageMessages />
+        <!-- Expenses Calculator Modal window starts here -->
+                           <div id="retrieveApp2" class="fade modalBase modalBaseSmall" role="dialog">
+                                <div class="modalDialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                          <span  class="times right" data-dismiss="modal">×</span>
+                                          <h4 class="modal-title left">Retrieve your application</h4>
+                                        </div>
+                                    <div class="page-form">
+                                        <div class="form-elements">
+                                            <div class="page-row">
+                                                <p>
+                                                Retrieve your application by inputting the code sent to you via email or sms below.
+                                                </p>
+                                                
+                                            </div>
+                                                
+                                                    <p>
+                                                        <apex:inputtext value="{!strRetrieveCode}" id="retrieveCode2" onblur="pepperApp.validation.isRequired(this.id);"/>
+                                                        <span class="errorMsg">No Application found for this retrieval code.</span>
+                                                    </p>
+                                            
+                                                <apex:outputPanel id="idfuncCallRet2">
+                                                <script>
+                                                    function CallrenderFunc2(){
+                                                        var isDisplayRet={!isError};
+                                                         if(isDisplayRet==true)
+                                                         {                                                    
+                                                            $("#retrieveApp2").find(".errorMsg").show();
+                                                         }
+                                                         else
+                                                         {
+                                                            $("#retrieveApp2").modal("hide");
+                                                         }                                 
+                                                    }
+                                                </script>
+                                                <apex:actionStatus id="retrieveStatus" startStyleClass="spinner"/>
+                                                <p class="form-cntrl">
+                                                <apex:commandButton action="{!retrieveApplication}" value="Retrieve" id="theButton5R" styleClass="button primaryBtn" rerender="idfuncCallRet2" oncomplete="CallrenderFunc2();" status="retrieveStatus"/>
+                                                
+                                                </p>    
+                                                </apex:outputPanel>
+                                                <p>
+                                                    Cant find your code? <a href="javascript:void(0)" onclick="$('#retrieveApp2').modal('hide');$('#Resend2').modal('show')">Resend your code now.</a>
+                                                </p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    </div>
+                                </div> 
+                                
+                                <!--start of last modal-->
+                                
+                                <!-- Expenses Calculator Modal window ends here -->
+                            <div id="Resend2" class="fade modalBase modalBaseSmall" role="dialog">
+                            <div class="modalDialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                      <span  class="times right" data-dismiss="modal">×</span>
+                                      <h4 class="modal-title left">Save your application</h4>
+                                    </div>
+                                <div class="page-form">
+                                    <div class="form-elements">
+                                        <div class="page-row">
+                                            
+                                            <p>
+                                            We will send you a individual and secure code which you can use to save and access your application.
+                                            </p>
+                                            <p>
+                                            How would you like to receive your code?
+                                            </p>
+                                            
+                                        </div>
+                                            <div class="page-row">
+                                            
+                                                <div class="form-cntrls">
+                                                    <label class="radioBtns">
+                                                        <input type="radio" name="repayloan" id="repayloan_yes"/>
+                                                     <span class="button staticBtn radio_yes" onclick="$('#tellusabout3').collapse('show'); $('#tellusabout4').collapse('hide')">Email</span>
+                                                    </label>
+                                                </div>
+                                                <div class="form-cntrls">
+                                                    <label class="radioBtns">
+                                                        <input type="radio" name="repayloan" id="repayloan_no"/>
+                                                        <span class="button staticBtn radio_no" onclick="$('#tellusabout4').collapse('show'); $('#tellusabout3').collapse('hide')">SMS</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div id="tellusabout3" class="collapse">
+                                                <div class="page-row">
+                                                
+                                                    <label class="form-cntrls custom_sml_label">
+                                                            Email
+                                                    </label>
+                                                    <div class="form-cntrls custom_sml_cntrl">
+                                                        <apex:inputtext value="{!retrieveEmail}" id="newEmailR" styleClass="isEmail"  onblur="pepperApp.validation.isRequired(this.id);pepperApp.validation.isEmail(this.id);"/>
+                                                        <span class="errorMsg ">Please enter valid Email.</span>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            <div id="tellusabout4" class="collapse">
+                                                <div class="page-row">
+                                                
+                                                    <label class="form-cntrls">
+                                                            Mobile Number
+                                                    </label>
+                                                    <div class="form-cntrls">
+                                                        <apex:inputtext value="{!retrievePhone}" id="newPhoneR" styleClass="isPhone" onblur="pepperApp.validation.isRequired(this.id);pepperApp.validation.isPhone(this.id);" 
+                                                        html-placeholder="04XXXXXXXX" onkeypress="javascript:return numbersonly(event)"/>
+                                                        <span class="errorMsg">Please enter 10 digit phone number.</span>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                              
+                                              <apex:actionStatus id="retrieveStatus2" startStyleClass="spinner"/>
+                                            <div class="form-cntrl">
+                                                <apex:commandButton action="{!resendCode}" value="Send" id="theButton6R" styleClass="button primaryBtn" reRender="idfuncCallRet3" onComplete="CallrenderFuncRet3();" status="retrieveStatus2"/>
+                                               <apex:outputPanel id="idfuncCallRet3">
+                                                   <script>
+                                                        function CallrenderFuncRet3(){
+                                                            var resend={!isError};                                                   
+                                                            if(resend==true)
+                                                            {
+                                                                $("#Resend2").find(".errorMsg").show();
+                                                            }
+                                                            else
+                                                            {
+                                                            $("#Resend2").modal("hide");
+                                                            $("#retrieveApp2").modal("show");
+                                                            }
+                                                    }
+                                                    </script>
+                                                     </apex:outputPanel>
+                                            </div>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <!-- Modal window ends here -->                   
+        </apex:form>
+    </div>
+    
+
+    <div class="pageFooter">
+        <footer class="pepperContainer">
+            Pepper Group Limited ABN 55 094 317 665; Australian Finance Services Licence 286655; <br/>
+Australian Credit Licence 286655 Pepper Asset Finance Pty Ltd ACN 165 183 317; Australian Credit Licence 458899 <br/>
+&copy; Copyright 2016 Pepper Group Limited, All rights reserved.
+        </footer>
+    </div>
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+<script>
+$(window).load(function(){
+  $("#retrieveApp2").modal("show");
+});
+
+</script> 
+
+</body>
+</html>
+</apex:page>

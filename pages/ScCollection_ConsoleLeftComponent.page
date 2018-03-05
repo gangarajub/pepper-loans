@@ -1,0 +1,678 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the console left view for pepper collections.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 18-JUN-2016    Created By: Pawan Mudgal    Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+    User Story: 
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="pageId" controller="ScCollection_CnslLeftComponentHandler" showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery.min.js')}"></script> 
+            <script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-accordion-menu.js')}"></script> 
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-accordion-menu.css')}" rel="stylesheet" />
+            <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" rel="stylesheet" />
+            <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" rel="stylesheet" />
+            <style>
+                body
+                {
+                    background: #fff; 
+                    margin:0px;
+                    line-height: normal;
+                    font-size: 12px;
+                    font-family:Arial,Helvetica,sans-serif;
+                }
+                ::-webkit-scrollbar 
+                {
+                    -webkit-appearance: none;
+                }
+                ::-webkit-scrollbar:vertical 
+                {
+                    width: 12px;
+                }
+                ::-webkit-scrollbar:horizontal 
+                {
+                    height: 12px;
+                }
+                ::-webkit-scrollbar-thumb 
+                {
+                    background-color: rgba(0, 0, 0, .5);
+                    border-radius: 10px;
+                    border: 2px solid #ffffff;
+                }
+                ::-webkit-scrollbar-track 
+                {
+                    border-radius: 10px;  
+                    background-color: #ffffff; 
+                }
+            </style>
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    jQuery('#jquery-accordion-menu').jqueryAccordionMenu(); 
+                    
+                    jQuery('.main-menu a').click(function()
+                    {
+                        var newheight;
+                        
+                        if('{!strSourceSystem}' == 'CL Loan')
+                        {
+                            newheight = $(window).height() - 90;
+                        }
+                        else
+                        {
+                            newheight = $(window).height() - 180;
+                        }
+
+                        $('.main-menu ul').css('height',newheight);
+                        $('.main-menu ul').css('max-height',newheight);
+                        $('.main-menu ul').css('overflow','auto');
+                    });
+                    
+                    $(".jquery-accordion-menu-label").click(function(event)
+                    {
+                        event.stopPropagation();
+                    });
+                    
+                    jQuery('.submenu').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.p2p-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.p2p-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.coll-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.coll-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.rec-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.rec-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.hdsp-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.hdsp-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.no-record-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.view-all-link').click(function()
+                    {
+                        return false;
+                    });
+                }); 
+                
+                function CreateP2P()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_CreatePTP?id={!strContractId}&tabid=' + result.id, true, 'Promise To Pay', null);
+                    });
+                }
+                
+                function ViewP2P(recordId,recordname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_CreatePTP?id={!strContractId}&ptpid=' + recordId + '&tabid=' + result.id, true, recordname, null);
+                    });
+                }
+                
+                function CreateCollateral()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/{!strCollateralPrefix}/e?CF00Np0000001CJSW={!strContractName}&CF00Np0000001CJSW_lkid={!strContractId}&RecordType={!strCollateralRecordType}', true, 'New Collateral', null);
+                    });
+                }
+                
+                function ViewCollateral(recordId,recordname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/' + recordId + '?refresh=1', true, recordname, null);
+                    });
+                }
+                
+                function CreateRecovery()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/{!strRecoveryPrefix}/e?CF00N2800000EOFJT={!strContractName}&CF00N2800000EOFJT_lkid={!strContractId}&RecordType={!strRecoveryRecordType}', true, 'New Recovery', null);
+                    });
+                }
+                
+                function ViewRecovery(recordId,recordname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/' + recordId + '?refresh=1', true, recordname, null);
+                    });
+                }
+                
+                function DeleteRecovery_JS(recordIndex)
+                {
+                    var resultvalue = window.confirm('Do you want to delete this record?');
+                    
+                    if(resultvalue == true)
+                    {
+                        document.getElementById('pageId:frm:recovery').value = recordIndex;
+                        DeleteRecovery_AF();
+                        
+                        sforce.console.getEnclosingPrimaryTabId(function(result) 
+                        {
+                            sforce.console.refreshPrimaryTabById(result.id,false);
+                        });
+                    }
+                }
+                
+                function CreateHardship()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_newHardhip?contractid={!strContractId}&view=edit',true,'New Hardship', null);
+                    });
+                }
+                
+                function ViewHardship(recordId,view,recordname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_newHardhip?contractid={!strContractId}&id=' + recordId + '&view=' + view, true,recordname, null);
+                    });
+                }
+                
+                function DeleteHardship_JS(recordIndex)
+                {
+                    var resultvalue = window.confirm('Do you want to delete this record?');
+                    
+                    if(resultvalue == true)
+                    {
+                        document.getElementById('pageId:frm:hardship').value = recordIndex;
+                        DeleteHardship_AF();
+                        
+                        sforce.console.getEnclosingPrimaryTabId(function(result) 
+                        {
+                            sforce.console.refreshPrimaryTabById(result.id,false);
+                        });
+                    }
+                } 
+                
+                function ViewAll(objectname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_ViewAllLeft?id={!strContractId}&display=' + objectname, true, 'All ' + objectname, null);
+                    });
+                }  
+                
+                function EditHold()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_HoldDirectDebit?id={!objStatus.Id}&conId={!strContractId}' + '&tabid=' + result.id, true, 'Edit dates', null);
+                    });
+                }
+            </script> 
+        </head>
+        <body>
+            <div class="content">
+                <div id="jquery-accordion-menu" class="jquery-accordion-menu">
+                    <ul>
+                        <apex:form id="frm">
+                            <apex:inputHidden id="collateral" value="{!strCollateralIndex}"/>
+                            <apex:inputHidden id="recovery" value="{!strRecoveryIndex}"/>
+                            <apex:inputHidden id="hardship" value="{!strHardshipIndex}"/>
+                            <apex:actionFunction action="{!DeleteCollateral}" name="DeleteCollateral_AF" />
+                            <apex:actionFunction action="{!DeleteRecovery}" name="DeleteRecovery_AF" />
+                            <apex:actionFunction action="{!DeleteHardship}" name="DeleteHardship_AF" />
+                            
+                            <li class="main-menu" style="display: {!If(p2pRead == true,'block','none')};">
+                                <a href="#"><span class="pay"></span>Promise To Pay (Upcoming)<span class="jquery-accordion-menu-label" style="margin-right: 30px;display:{!If(p2pCreate == true,'block','none')};" onclick="CreateP2P();">New</span><span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li class="p2p-summary" style="margin-bottom: 5px;">
+                                    
+                                        <table class="p2p-data">
+                                            <tr>
+                                                <td>
+                                                    <div class="p2p-label-div">
+                                                        <label>Promises Total :</label>
+                                                    </div>
+                                                    <div class="p2p-value-div">
+                                                        <span><i class="fa fa-usd" aria-hidden="true"></i> {!objStatus.ScCollection_PromiseToPayAmount__c}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="view-all-link">
+                                                        <span style="cursor:pointer;" onclick="ViewAll('PTP');">View All</span>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td colspan="2">
+                                                     <div class="p2p-label-div">
+                                                        <label>Promises Taken :</label>
+                                                    </div>
+                                                    <div class="p2p-value-div">
+                                                        <span>{!objStatus.ScCollection_NumberofPromiseTaken__c}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="p2p-label-div">
+                                                        <label>Promises Broken :</label>
+                                                    </div>
+                                                    <div class="p2p-value-div">
+                                                        <span>{!objStatus.ScCollection_CountPromiseBroken__c}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="p2p-label-div">
+                                                        <label>Promises Kept Rate :</label>
+                                                    </div>
+                                                    <div class="p2p-value-div">
+                                                        <span>{!objStatus.ScCollection_PromiseKeptRate__c} %</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <div class="p2p-label-div" style="display:{!If(strSourceSystem  == 'PAF','','none')};">
+                                                        <label>Hold From :</label>
+                                                    </div>
+                                                    <div class="p2p-value-div" style="display:{!If(strSourceSystem  == 'PAF','','none')};">
+                                                        <span>
+                                                            <apex:outputText value="{0,date,dd-MM-yyyy}">
+                                                            <apex:param value="{!objStatus.ScCollection_Promise_Hold_From__c}" />
+                                                            </apex:outputText>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td class="view-all-link">
+                                                        <span style="cursor:pointer;display:{!If(strSourceSystem  == 'PAF','','none')};" onclick="EditHold()">Edit dates</span>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="p2p-label-div" style="display:{!If(strSourceSystem  == 'PAF','','none')};">
+                                                        <label>Hold To :</label>
+                                                    </div>
+                                                    <div class="p2p-value-div" style="display:{!If(strSourceSystem  == 'PAF','','none')};">
+                                                        <span>
+                                                            <apex:outputText value="{0,date,dd-MM-yyyy}">
+                                                            <apex:param value="{!objStatus.ScCollection_Promise_Hold_To__c}" />
+                                                            </apex:outputText>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                        </table>
+                                        <!-- <div class="p2p-data">
+                                            
+                                            <div class="clearfix"></div>
+                                           
+                                            <div class="clearfix"></div>
+                                            
+                                            <div class="clearfix"></div>
+                                            
+                                            <div class="clearfix"></div>
+                                            
+                                            <div class="clearfix"></div>
+                                            
+                                            <div class="clearfix"></div>
+                                        </div> 
+                                        <div class="view-all-link">
+                                            <span style="cursor:pointer;" onclick="ViewAll('PTP');">View All</span>
+                                            <div class="clearfix"></div>
+                                            <span style="cursor:pointer;display:{!If(strSourceSystem  == 'PAF','','none')};" onclick="EditHold()">Edit dates</span>
+                                        </div>-->
+                                        
+                                    </li>
+                                    <li style="display:{!If(lstPtp.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:repeat value="{!lstPtp}" var="obj">
+                                        <li>
+                                            <div class="p2p-data">
+                                                <div class="p2p-label-div">
+                                                    <label>Sequence No :</label>
+                                                </div>
+                                                <div class="p2p-value-div">
+                                                    <span>{!obj.ScCollection_PTP_AutoNumberFormula__c}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="p2p-label-div">
+                                                    <label>Promise To Pay Date :</label>
+                                                </div>
+                                                <div class="p2p-value-div">
+                                                    <span><apex:outputField value="{!obj.collect__Promise_To_Pay_Date__c}" /></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="p2p-label-div">
+                                                    <label>Promise To Pay Amount :</label>
+                                                </div>
+                                                <div class="p2p-value-div">
+                                                    <span><apex:outputText value="{0, number,  $ ###,##0.00}"><apex:param value="{!obj.collect__Promise_To_Pay_Amount__c}" /></apex:outputText></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="p2p-label-div">
+                                                    <label>Payment Method :</label>
+                                                </div>
+                                                <div class="p2p-value-div">
+                                                    <span>{!obj.ScCollection_Payment_Method__c}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="p2p-label-div">
+                                                    <label>Promise Kept :</label>
+                                                </div>
+                                                <div class="p2p-value-div">
+                                                    <span><img src="{!If(obj.collect__Promise_Kept__c,URLFOR($Resource.scCollectionConsoleResources,'images/kept.png'),If(obj.collect__Promise_Broken__c,URLFOR($Resource.scCollectionConsoleResources,'images/broken.png'),URLFOR($Resource.scCollectionConsoleResources,'images/unchecked.png')))}" /></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="p2p-link">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewP2P('{!obj.Id}','{!obj.Name}');" title="click to view record in new sub tab"/>
+                                            </div>
+                                        </li>
+                                    </apex:repeat>
+                                </ul>
+                            </li>
+                            <li class="main-menu" style="display: {!If(recoveryRead == true && strSourceSystem != 'CL Loan','block','none')};">
+                                <a href="#"><span class="recovery"></span>Recovery/Legal Information<span class="jquery-accordion-menu-label" style="margin-right: 30px;display:{!If(recoveryCreate == true,'block','none')};" onclick="CreateRecovery();">New</span><span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li style="display:{!If(lstRecovery.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:variable value="{!0}" var="counter1"/>
+                                    <apex:repeat value="{!lstRecovery}" var="obj">
+                                        <li>
+                                            <apex:outputpanel rendered="{!If(obj.RecordType.DeveloperName == 'ScCollection_PAF_Recovery' ,true,false)}" >
+                                                <div class="rec-data">
+                                                    <div class="rec-label-div">
+                                                        <label>Agent Appointed :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span>{!obj.ScCollection_Agent_Appointed__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Date Appointed :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><apex:outputField value="{!obj.ScCollection_Date_Appointed__c}" /></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Auction House :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span>{!obj.ScCollection_Auction_House__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Issue Date(Form 14) :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><apex:outputField value="{!obj.ScCollection_Form_14_Issue_Date__c}"/></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Expiry Date(Form 14) :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><apex:outputField value="{!obj.ScCollection_Form_14_Expiry_Date__c}"/></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Provision Amount :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><apex:outputText value="{0, number,  $ ###,##0.00}"><apex:param value="{!obj.ScCollection_Provision_Amount__c}" /></apex:outputText></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="rec-link">
+                                                    <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewRecovery('{!obj.Id}','{!obj.Name}');" style="display:{!If(recoveryRead == true,'','none')};" title="click to view record in new sub tab"/>
+                                                    <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/delete-icon.png')}" onclick="DeleteRecovery_JS('{!counter1}');" style="margin-top:10px;display:{!If(recoveryDelete == true,'','none')};" title="click to delete this record"/>
+                                                </div>
+                                            </apex:outputpanel>
+                                            <apex:outputpanel rendered="{!If(obj.RecordType.DeveloperName == 'ScCollection_Mortgage_Recovery',true,false)}" >
+                                                <div class="rec-data">
+                                                    <div class="rec-label-div">
+                                                        <label>Solicitor Appointed :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span>{!obj.ScCollection_Solicitor_Appointed__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Valuation Amount :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><i class="fa fa-usd" aria-hidden="true"></i> {!obj.ScCollection_Valuation_Amount__c}</span>
+                                                    </div>
+                                                    <div class="rec-label-div">
+                                                        <label>Provision Amount :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><apex:outputText value="{0, number,  $ ###,##0.00}"><apex:param value="{!obj.ScCollection_Provision_Amount__c}" /></apex:outputText></span>
+                                                    </div>                                                         
+                                                    <div class="clearfix"></div>
+                                                    <div class="rec-label-div">
+                                                        <label>Judgement Obtained :</label>
+                                                    </div>
+                                                    <div class="rec-value-div">
+                                                        <span><apex:outputField value="{!obj.ScCollection_Judgement_Obtained__c}"/></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="rec-link">
+                                                    <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewRecovery('{!obj.Id}','{!obj.Name}');" style="display:{!If(recoveryRead == true,'','none')}" title="click to view record in new sub tab" />
+                                                    <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/delete-icon.png')}" onclick="DeleteRecovery_JS('{!counter1}');" style="margin-top:10px;display:{!If(recoveryDelete == true,'','none')}" title="click to delete this record" />
+                                                </div>
+                                            </apex:outputpanel>
+                                        </li>
+                                        <apex:variable value="{!counter1 + 1}" var="counter1"/>
+                                    </apex:repeat> 
+                                </ul>
+                            </li>
+                            <li class="main-menu" style="display: {!If(hardshipRead == true,'block','none')};">
+                                <a href="#"><span class="pay"></span>Hardship Information<span class="jquery-accordion-menu-label" style="margin-right: 30px;display:{!If(hardshipCreate,'block','none')}" onclick="CreateHardship();">New</span><span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li class="hdsp-summary">
+                                        <div class="hdsp-data">
+                                            <div class="hdsp-label-div">
+                                                <label>Hardship Requests # :</label>
+                                            </div>
+                                            <div class="hdsp-value-div">
+                                                <span>{!objStatus.ScCollection_hardship_Request_counter__c}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="hdsp-label-div">
+                                                <label>Hardship Accepts # :</label>
+                                            </div>
+                                            <div class="hdsp-value-div">
+                                                <span>{!objStatus.ScCollection_hardship_Acceptance_Counter__c}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="hdsp-label-div">
+                                                <label>Hardship Declines # :</label>
+                                            </div>
+                                            <div class="hdsp-value-div">
+                                                <span>{!objStatus.ScCollection_harship_Decline_Counter__c}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </li>
+                                    <li style="display:{!If(lstHardship.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:variable value="{!0}" var="counter2"/>
+                                    <apex:repeat value="{!lstHardship}" var="obj">
+                                        <li>
+                                            <div class="hdsp-data">
+                                                <div class="hdsp-label-div">
+                                                    <label>Hardship Reason :</label>
+                                                </div>
+                                                <div class="hdsp-value-div">
+                                                    <span>{!obj.ScCollection_Reason_for_Hardship__c}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <apex:outputPanel rendered="{!If(obj.ScCollection_Hardhsip_Decision__c == 'Approved',true,false)}">
+                                                    <div class="hdsp-label-div">
+                                                        <label>Hardship Approve Date :</label>
+                                                    </div>
+                                                    <div class="hdsp-value-div">
+                                                        <span><apex:outputField value="{!obj.ScCollection_Hardship_Approval_Date__c}" /></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </apex:outputPanel>
+                                                <apex:outputPanel rendered="{!If(obj.ScCollection_Hardhsip_Decision__c == 'Declined',true,false)}">
+                                                    <div class="hdsp-label-div">
+                                                        <label>Hardship Decline Date :</label>
+                                                    </div>
+                                                    <div class="hdsp-value-div">
+                                                        <span><apex:outputField value="{!obj.ScCollection_Hardship_Decline_Date__c}" /></span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </apex:outputPanel>
+                                                <div class="hdsp-label-div">
+                                                    <label>Hardship Request Date :</label>
+                                                </div>
+                                                <div class="hdsp-value-div">
+                                                    <span><apex:outputField value="{!obj.ScCollection_HardshipRequestedDate__c}" /></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="hdsp-label-div">
+                                                    <label>Hardship Decision :</label>
+                                                </div>
+                                                <div class="hdsp-value-div">
+                                                    <span>{!obj.ScCollection_Hardhsip_Decision__c}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="hdsp-link">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewHardship('{!obj.Id}','{!If(obj.ScCollection_Hardhsip_Decision__c == 'In Progress' && hardshipedit,'edit','view')}','{!obj.Name}');" style="display:{!If(hardshipRead == true,'','none')};" title="click to view record in new sub tab"/>
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/delete-icon.png')}" onclick="DeleteHardship_JS('{!counter2}');" style="margin-top:10px;display:{!If(hardshipDelete,'','none')}" title="click to delete this record" />
+                                            </div>
+                                        </li>
+                                        <apex:variable value="{!counter2 + 1}" var="counter2"/>
+                                    </apex:repeat>    
+                                </ul>
+                            </li>
+                            <li class="main-menu" style="display: {!If(collateralRead == true && strSourceSystem != 'CL Loan','block','none')};">
+                                <a href="#"><span class="collateral"></span>Collateral Information<span class="jquery-accordion-menu-label" style="margin-right: 30px;display:{!If(collateralCreate == true,'block','none')};" onclick="CreateCollateral();">New</span><span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li style="display:{!If(lstCollateral.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:variable value="{!0}" var="counter"/>
+                                    <apex:repeat value="{!lstCollateral}" var="obj">
+                                        <li>
+                                            <apex:outputpanel rendered="{!If(obj.Property__r.RecordType.DeveloperName == 'PAF_Property' ,true,false)}">
+                                                <div class="coll-data">
+                                                    <div class="coll-label-div">
+                                                        <label>Asset Make</label>
+                                                    </div>
+                                                    <div class="coll-value-div">
+                                                        <span>{!obj.Property__r.Asset_Make_Description__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="coll-label-div">
+                                                        <label>Asset Model</label>
+                                                    </div>
+                                                    <div class="coll-value-div">
+                                                        <span>{!obj.Property__r.Asset_Model_Description__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="coll-label-div">
+                                                        <label>Reg No</label>
+                                                    </div>
+                                                    <div class="coll-value-div">
+                                                        <span>{!obj.Property__r.Vehicle_Registration_Number__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="coll-link">
+                                                    <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewCollateral('{!obj.Property__c}','{!obj.Property__r.Name}');" style="display:{!If(collateralRead == true,'','none')};" title="click to view record in new sub tab" />
+                                                </div>
+                                            </apex:outputpanel>
+                                            <apex:outputpanel rendered="{!If(obj.Property__r.RecordType.DeveloperName == 'Mortgage_Property',true,false)}" >
+                                                <div class="coll-data">
+                                                    <div class="coll-label-div">
+                                                        <label>Property Type</label>
+                                                    </div>
+                                                    <div class="coll-value-div">
+                                                        <span>{!obj.Property__r.Property_Type__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="coll-label-div">
+                                                        <label>OccupancyType</label>
+                                                    </div>
+                                                    <div class="coll-value-div">
+                                                        <span>{!obj.Property__r.OccupancyType__c}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="coll-label-div">
+                                                        <label>Property Address</label>
+                                                    </div>
+                                                    <div class="coll-value-div">
+                                                        <span title="{!If(LEN(obj.Property__r.Property_Address__c) > 22,obj.Property__r.Property_Address__c,'')}">{!If(LEN(obj.Property__r.Property_Address__c) > 22,LEFT(obj.Property__r.Property_Address__c, 22),obj.Property__r.Property_Address__c)}{!If(LEN(obj.Property__r.Property_Address__c) > 22,'...','')}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="coll-link">
+                                                    <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewCollateral('{!obj.Property__c}','{!obj.Property__r.Name}');" style="display:{!If(collateralRead == true,'','none')};" title="click to view record in new sub tab"/>
+                                                </div>
+                                            </apex:outputpanel>
+                                        </li>
+                                        <apex:variable value="{!counter + 1}" var="counter"/>
+                                    </apex:repeat> 
+                                </ul>
+                            </li>
+                        </apex:form>
+                    </ul>
+                </div>
+            </div>   
+        </body>
+    </html>
+</apex:page>

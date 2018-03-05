@@ -1,0 +1,391 @@
+<apex:page controller="pepPaymentSetupController" standardStylesheets="false" showHeader="false" docType="html-5.0" id="idPage" cache="{!$Label.Cache_Settings}"  action="{!checkcookie}">
+<apex:composition template="pepSideBarTemplate"> 
+<apex:define name="body" >
+    
+    <!-- Google Tag Manager -->
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    
+    <!-- End Google Tag Manager -->
+    
+    <!-- Google Tag Manager (noscript) -->
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- End Google Tag Manager (noscript) -->
+
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+    <script type="text/javascript"> 
+                
+                function DisableAcceptandContinueButton()
+                    {            
+                        document.getElementById('idPage:j_id0:idForm:idAcceptandContinueButton').disabled = true; 
+                        
+                    }
+                    
+                function EnableAcceptandContinueButton()
+                    {
+                        
+                        
+                        if(document.getElementById('requestInfo').checked) 
+                        {           
+                            document.getElementById('idPage:j_id0:idForm:idAcceptandContinueButton').disabled = false; 
+                                                        
+                        }
+                        
+                        else
+                        {           
+                            document.getElementById('idPage:j_id0:idForm:idAcceptandContinueButton').disabled = true; 
+                        }
+                    }
+    </script>
+    <style>   
+        .bsbValidationErrorMsg
+        {
+            color:#DF0024; 
+            font-size: 14px; 
+            display:none; 
+            line-height: 20px;
+            text-align: left;
+            float:left;
+            margin-top:0 !important;
+            font-weight:normal;
+        }  
+    
+    </style>    
+<apex:form id="idForm">
+<apex:actionFunction action="{!RetrieveBankAccountData}" name="CallActionFunction" reRender="idForm" />  
+            <div class="paymentSetup">
+            
+                <div class="loanSetTopSec">
+                    <div class="page-row">
+                    <div class="colA col-xs-8"><c:pepcmscomponent_Text pageNameTest="Payment Setup" sectionName="Payment Setup Section 1"></c:pepcmscomponent_Text></div>
+                    <div class="saveLater colB col-xs-4">
+                            <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                    </div>
+                    </div>
+               </div>
+
+                
+                    <div class="innerCont">
+                    <p><c:pepcmscomponent_Text pageNameTest="Payment Setup" sectionName="Payment Setup Section 2"></c:pepcmscomponent_Text>
+                    </p>
+                
+                    
+                        <div class="page-form">
+                                <div class="page-row">
+
+                                    <apex:outputPanel layout="block" styleclass="form-section" id="idMainDiv">  
+                                        <div class="form-elements">
+                                        
+                                        <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idMainRpt">
+                                        
+                                        
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 1),true,false)}">
+                                               
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg">
+                                                    <apex:selectList value="{!selectedAccount}" multiselect="false" size="1" styleClass="frequencyClass" onchange="CallActionFunction();"> 
+                                                        <apex:selectOptions value="{!lstOptions}" />                                      
+                                                    </apex:selectList>
+                                                    <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                </div>
+                                                </div>
+                                           </apex:outputPanel>
+                                           
+                                           <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 2),true,false)}">     
+
+                                            <div class="page-row">
+                                            <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                            <div  class ="form-cntrls-lg" ><apex:outputLabel value="{!lstFetchedBankAccounts[0].Account_Holder_Name__c}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                            <apex:inputText rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}" value="{!strAccountHolderName}" onblur="checkFieldValidation(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="InputAccountHolderName"/>
+                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                            </div>
+                                            </div>
+                                            
+                                            </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Number' && wrapInstance.objCmsQuestion.pepSequence__c == 3),true,false)}">
+
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg "><apex:outputLabel value="{!lstFetchedBankAccounts[0].Bank_Account_number__c }" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                <apex:inputText rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}" value="{!strAccountNumber}" onblur="checkFieldValidation(this.id);" style="float:left;" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.pepSequence__c == 3, ' isAccountNo', '')}" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}" id="InputAccountNo"/>
+                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 4),true,false)}">
+
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg "><apex:outputLabel value="{!lstFetchedBankAccounts[0].BSB__c}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                <apex:inputText rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}" value="{!strBSB}" onblur="checkFieldValidation(this.id);hidebsbMsg(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.pepSequence__c == 4, ' isBsb', '')}" id="InputBSB" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"/>
+                                                <span class="errorMsg paymentPage" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                 <span class="errorMsg bsbValidationErrorMsg" style="{!IF(boolBSCallBWebserviceError== true,'display: block;','display:none;')}"><script>show=true;</script>{!$Label.pepBSB_validation_Msg}</span>
+                                                </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Picklist' && wrapInstance.objCmsQuestion.pepSequence__c == 5),true,false)}">
+                                            
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg "><apex:outputLabel value="{!lstFetchedBankAccounts[0].loan__Bank_Name__c}" rendered="{!if((lstFetchedBankAccounts.size > 0 && boolCreateNew == false),true,false)}" ></apex:outputLabel>
+                                                <apex:selectList value="{!strselectedBankName}" multiselect="false" size="1" styleClass="frequencyClass" rendered="{!IF((boolCreateNew == true || lstFetchedBankAccounts.size == 0),true,false)}"> 
+                                                        <apex:selectOptions value="{!lstBankName}" />                                      
+                                                    </apex:selectList>                                                
+                                                </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>    
+                                        
+                                        </apex:repeat>
+                                        </div>
+                                    </apex:outputpanel>
+                                </div>
+                            </div>
+     <apex:outputPanel rendered="{!if((dealerCheck == true),true,false)}">
+     
+               
+                            <div class="page-form">
+                                <div class="page-row">
+
+                                    <apex:outputPanel layout="block" styleclass="form-section" id="idMainDivDealer">
+                                    <p><strong>Dealer payment details</strong></p>  
+                                        <div class="form-elements">
+                                        
+                                        <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idMainRptDealer">
+                                        
+                                        
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 5),true,false)}">
+                                               
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg">
+                                                 <apex:inputText value="{!dealerName}" onblur="checkFieldValidation(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="dealerName"/>
+                                                  <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                </div>
+                                                </div>
+                                           </apex:outputPanel>
+                                           
+                                           <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 6),true,false)}">     
+
+                                            <div class="page-row">
+                                            <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                            <div  class ="form-cntrls-lg">
+                                            <apex:inputText value="{!dealerAccountName}" onblur="checkFieldValidation(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" id="dealerAccountName"/>
+                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                            </div>
+                                            </div>
+                                            
+                                            </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Number' && wrapInstance.objCmsQuestion.pepSequence__c == 7),true,false)}">
+
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg ">
+                                                <apex:inputText value="{!dealerAccountNumber}" onblur="checkFieldValidation(this.id);" style="float:left;" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.pepSequence__c == 7, ' isAccountNo', '')}" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}" id="dealerAccountNo"/>
+                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>
+                                            
+                                            <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Text' && wrapInstance.objCmsQuestion.pepSequence__c == 8),true,false)}">
+
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg ">
+                                                <apex:inputText value="{!dealerBSB}" onblur="checkFieldValidation(this.id);hidebsbMsgDealer(this.id);" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')} {!If(wrapInstance.objCmsQuestion.pepSequence__c == 8, ' isBsb', '')}" id="InputBSB" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}"/>
+                                                <span class="errorMsg dealerPage" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                 <span class="errorMsg bsbValidationErrorMsgDealer" style="{!IF(boolBSCallBWebserviceErrorDealer== true,'display: block;','display:none;')}">{!$Label.pepBSB_validation_Msg}</span>
+                                                </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>
+                                            
+                                           <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Number' && wrapInstance.objCmsQuestion.pepSequence__c == 9),true,false)}">
+
+                                                <div class="page-row">
+                                                <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                <div class="form-cntrls-lg ">
+                                                <apex:inputText value="{!dealerAmount}" onblur="checkFieldValidation(this.id);hideDealerAmount(this.id);" style="float:left;" styleclass="{!IF(wrapInstance.objCmsQuestion.pepIsRequired__c, 'isrequired', '')}" onkeypress="{!if(wrapInstance.objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event,this.id)','')}" id="dealerAmount"/>
+                                                <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                <span class="errorMsg dealerAmountMsg" style="{!IF(dealerAmountError == true,'display: block;','display:none;')}">{!$Label.DealerAmountError}</span>
+                                                </div>
+                                                </div>
+                                                
+                                            </apex:outputPanel>  
+                                            
+                                              
+                                        
+                                        </apex:repeat>
+                                        </div>
+                                    </apex:outputpanel>
+                                </div>
+                            </div>
+                 </apex:outputPanel>        
+                        <div class="clearfix pepperLH">
+                        <p class="custom-chkBox">   
+                            <input type="checkbox" id="requestInfo" name="debt" onclick = "EnableAcceptandContinueButton();"/>
+                            <label for="requestInfo"><c:pepcmscomponent_Text pageNameTest="Payment Setup" sectionName="Payment Setup Section 4"></c:pepcmscomponent_Text></label>
+                        </p>
+                        </div>
+
+                        <div class="clearfix pepperLH">
+                            <c:pepcmscomponent_Text pageNameTest="Payment Setup" sectionName="Payment Setup Section 5"></c:pepcmscomponent_Text>                        
+                        </div>
+
+                    </div>
+                    <div class="loanSetBotSec clearfix">
+                        <div class="colA">
+                       <!-- <button class="button secondaryBtn">Save</button>-->
+                        <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                        </div>
+                        <div class="colB"><apex:commandButton id="idAcceptandContinueButton" styleClass="button primaryBtn" value="Accept and Continue" onclick="if(!checkData('idPage:j_id0:idForm')) {$('.bsbValidationErrorMsgDealer').hide();$('.bsbValidationErrorMsg').hide();return false;}else{show=false;}" action="{!CreateBankAccount}" reRender="idMainDiv,idMainRpt,idMainDivDealer,idMainRptDealer" status="counterStatus" />
+                        </div>
+                    </div>
+
+                                
+                </div>
+                
+    <script>
+    DisableAcceptandContinueButton();
+    </script> 
+    
+
+        
+</apex:form>
+<apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                       $('.errorModalSFR').modal();
+                       
+                     
+            }
+ </script>
+ </apex:outputPanel>
+
+</apex:define>
+</apex:composition>
+<script>
+var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }
+    
+    
+     function hidebsbMsg(selector)
+    {
+        var $this = $(document.getElementById(selector));
+        
+        if('{!boolBSCallBWebserviceError}'=='false')
+        {
+               
+               $('.bsbValidationErrorMsg').hide();
+        }
+            
+        else
+        {
+            $('.bsbValidationErrorMsg').show();
+        }
+        
+        if(!$.trim($this.val()) || $this.val() =='null' || $this.val() ==null || $this.val().length < 6)
+        {
+            $('.bsbValidationErrorMsg').hide();
+        }
+        
+    } 
+    
+     function hidebsbMsgDealer(selector)
+    {
+        var $this = $(document.getElementById(selector));
+        
+        if('{!boolBSCallBWebserviceErrorDealer}'=='false')
+        {
+               
+               $('.bsbValidationErrorMsgDealer').hide();
+        }
+            
+        else
+        {
+            $('.bsbValidationErrorMsgDealer').show();
+        }
+        
+        if(!$.trim($this.val()) || $this.val() =='null' || $this.val() ==null || $this.val().length < 6)
+        {
+            $('.bsbValidationErrorMsgDealer').hide();
+        }
+        
+    } 
+    
+    function hideDealerAmount(selector)
+    {
+        var $this = $(document.getElementById(selector));
+        
+        if('{!dealerAmountError}'=='false')
+        {
+               
+               $('.dealerAmountMsg').hide();
+        }
+            
+        else
+        {
+            $('.dealerAmountMsg').show();
+        }
+        
+        if(!$.trim($this.val()) || $this.val() =='null' || $this.val() ==null)
+        {
+            $('.dealerAmountMsg').hide();
+        }
+        
+    }  
+   
+     
+</script>
+</apex:page>

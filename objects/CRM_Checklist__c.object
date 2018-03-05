@@ -1,0 +1,3397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Checklist_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CRM_ABN_Registered_for_past_24_months__c</fullName>
+        <externalId>false</externalId>
+        <label>ABN Registered for past 24 months</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_ASIC_Banned_Disqualified__c</fullName>
+        <externalId>false</externalId>
+        <label>ASIC Banned &amp; Disqfld. Register Search</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Clear B&amp;D on Director/s</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>B&amp;D Listing on Director/s*</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Australian_Credit_Licence_ACL__c</fullName>
+        <externalId>false</externalId>
+        <label>Australian Credit Licence (ACL)</label>
+        <picklist>
+            <picklistValues>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No ACL - (Make approving Mgrs aware)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Australian_Credit_Representive_ACR__c</fullName>
+        <externalId>false</externalId>
+        <label>Australian Credit Representive (ACR)</label>
+        <picklist>
+            <picklistValues>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ACR only - Directors on file - Auth not required</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Checklists</relationshipLabel>
+        <relationshipName>Checklists</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Comprehensive_Veda_Check__c</fullName>
+        <externalId>false</externalId>
+        <label>Comprehensive Veda Check</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Department_of_Foreign_Affairs__c</fullName>
+        <externalId>false</externalId>
+        <label>Department of Foreign Affairs and Trade</label>
+        <picklist>
+            <picklistValues>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Deposit_Slip__c</fullName>
+        <externalId>false</externalId>
+        <label>Deposit Slip</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_Comprehensive_Veda_Check__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Comprehensive Veda Check</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_External_EDR__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception External EDR</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_Industry_Membership__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Industry Membership</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_Introducer_Agreement__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Introducer Agreement</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_Motor_Dealer_Licence__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Motor Dealer Licence</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_Police_Check_Director_Only__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Police Check**(Directors Only)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Exception_Training_Evidence__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Training Evidence**</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_External_Dispute_Resolution_EDR__c</fullName>
+        <externalId>false</externalId>
+        <label>External Dispute Resolution Evidence-EDR</label>
+        <picklist>
+            <picklistValues>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_GST_Registered__c</fullName>
+        <externalId>false</externalId>
+        <label>GST Registered</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_General_Comments__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>General Comments</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>CRM_Industry_Membership__c</fullName>
+        <externalId>false</externalId>
+        <label>Industry Membership</label>
+        <picklist>
+            <picklistValues>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Introducer_Agreement__c</fullName>
+        <externalId>false</externalId>
+        <label>Introducer Agreement</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Motor_Dealer_Licence__c</fullName>
+        <externalId>false</externalId>
+        <label>Motor Dealer Licence</label>
+        <picklist>
+            <picklistValues>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_ASIC_Verification_Exception__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>ASIC Verification Exception</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_ASIC_Verification__c</fullName>
+        <externalId>false</externalId>
+        <label>ASIC Verified</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Aggregator_Confirm_Exception__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>New Aggregator Confirmation Exception</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Aggregator_Confirmation_Received__c</fullName>
+        <externalId>false</externalId>
+        <label>New Aggregator Confirmation Received</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Blacklist_Verification_Exception__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Blacklist Verification Exception</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Blacklist_Verification__c</fullName>
+        <externalId>false</externalId>
+        <label>Blacklist Verified</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Case_Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>TRIM(TEXT(CRM_Case__r.Status))</formula>
+        <label>Case Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_DFAT_Verification_Exception__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>DFAT Verification Exception</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_DFAT_Verification__c</fullName>
+        <externalId>false</externalId>
+        <label>DFAT Verified</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Old_Aggregator_Release_Exception__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Old Aggregator Release Exception</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Old_Aggregator_Release_Provided__c</fullName>
+        <externalId>false</externalId>
+        <label>Old Aggregator Release Provided</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_PAF_Black_List_Check__c</fullName>
+        <externalId>false</externalId>
+        <label>PAF Black List Check</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Personal_Indemnity_Insurance__c</fullName>
+        <externalId>false</externalId>
+        <label>Personal Indemnity Insurance</label>
+        <picklist>
+            <picklistValues>
+                <fullName>On file - Minimum $5 million:</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not Received - Email to BDM:</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Police_Check_Directors_Only__c</fullName>
+        <externalId>false</externalId>
+        <label>Police Check** (Directors Only)</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Police_Check_Users__c</fullName>
+        <externalId>false</externalId>
+        <label>Police Check (Users Only)</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Training_Evidence__c</fullName>
+        <externalId>false</externalId>
+        <label>Training Evidence**</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Website_Search__c</fullName>
+        <externalId>false</externalId>
+        <label>Website Search</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other:</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Exception_ABN_Registered_for_past_24_mth__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception ABN Registered for past 24 mth</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_ASIC_Banned_Disqualified__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception ASIC Banned &amp; Disqualified</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_Australian_Credit_Licence_ACL__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Australian Credit Licence(ACL)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_Australian_Credit_Representive__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Australian Credit Representive</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_Department_of_Foreign_Affairs__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Department of Foreign Affairs</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_Deposit_Slip__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Deposit Slip</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_GST_registered__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception GST registered</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_PAF_Black_List_Check__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception PAF Black List Check</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_Personal_Indemnity_Insurance__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Personal Indemnity Insurance</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exception_Website_Search__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Exception Website Search</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <label>Checklist</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>CRM_Status__c</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>CRM_Mtg_ASIC_Verification_Exception__c</columns>
+        <columns>CRM_Mtg_ASIC_Verification__c</columns>
+        <columns>CRM_Mtg_Blacklist_Verification_Exception__c</columns>
+        <columns>CRM_Mtg_Blacklist_Verification__c</columns>
+        <columns>CRM_Mtg_Case_Status__c</columns>
+        <columns>CRM_Mtg_DFAT_Verification_Exception__c</columns>
+        <columns>CRM_Mtg_DFAT_Verification__c</columns>
+        <columns>CRM_Mtg_Aggregator_Confirm_Exception__c</columns>
+        <columns>CRM_Mtg_Aggregator_Confirmation_Received__c</columns>
+        <columns>CRM_Mtg_Old_Aggregator_Release_Exception__c</columns>
+        <columns>CRM_Mtg_Old_Aggregator_Release_Provided__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>CN-{00000000}</displayFormat>
+        <label>Checklist Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Checklists</pluralLabel>
+    <recordTypes>
+        <fullName>Auto_Broker_via_Aggregator</fullName>
+        <active>true</active>
+        <description>CRM Auto Broker via Aggregator</description>
+        <label>Auto Broker via Aggregator</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>CRM_Mortgage_Broker_Accreditation</fullName>
+        <active>true</active>
+        <description>This record type is used for Mortgage Broker Accreditation process.</description>
+        <label>Mortgage Broker Accreditation</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Directors on file - Auth not required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_ASIC_Verification__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_Aggregator_Confirmation_Received__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_Blacklist_Verification__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_DFAT_Verification__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_Old_Aggregator_Release_Provided__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>CRM_Mortgage_Broker_Transfer</fullName>
+        <active>true</active>
+        <label>Mortgage Broker Transfer</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Directors on file - Auth not required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_ASIC_Verification__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_Aggregator_Confirmation_Received__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_Blacklist_Verification__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_DFAT_Verification__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Mtg_Old_Aggregator_Release_Provided__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Commercial_Broker_Direct</fullName>
+        <active>true</active>
+        <label>Commercial Broker Direct</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Commercial_Broker_via_Aggregator</fullName>
+        <active>true</active>
+        <label>Commercial Broker via Aggregator</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Dealer_channel</fullName>
+        <active>true</active>
+        <label>Dealer channel</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Direct_Auto_Broker</fullName>
+        <active>true</active>
+        <label>Direct Auto Broker</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Mortage_Broker_via_Aggregator</fullName>
+        <active>true</active>
+        <label>Mortage Broker via Aggregator</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Directors on file - Auth not required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Mortgage_Broker_Direct</fullName>
+        <active>true</active>
+        <label>Mortgage Broker Direct</label>
+        <picklistValues>
+            <picklist>CRM_ABN_Registered_for_past_24_months__c</picklist>
+            <values>
+                <fullName>No -*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_ASIC_Banned_Disqualified__c</picklist>
+            <values>
+                <fullName>B%26D Listing on Director%2Fs*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clear B%26D on Director%2Fs</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Licence_ACL__c</picklist>
+            <values>
+                <fullName>ACL details saved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No ACL - %28Make approving Mgrs aware%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Australian_Credit_Representive_ACR__c</picklist>
+            <values>
+                <fullName>ACL on file - NO ACR REQUIRED</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Directors on file - Auth not required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ACR only - Sub Authorisation on file for employees via BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sub Authorisation via ASIC on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Comprehensive_Veda_Check__c</picklist>
+            <values>
+                <fullName>Adverse history*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nil Adverse history</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Department_of_Foreign_Affairs__c</picklist>
+            <values>
+                <fullName>No Listing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listing*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Deposit_Slip__c</picklist>
+            <values>
+                <fullName>Not received - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received - on file</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_External_Dispute_Resolution_EDR__c</picklist>
+            <values>
+                <fullName>CIO Membership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOS Membership</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_GST_Registered__c</picklist>
+            <values>
+                <fullName>Not Registered*</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Registered</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Industry_Membership__c</picklist>
+            <values>
+                <fullName>CAFBA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FBAA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MFAA</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Introducer_Agreement__c</picklist>
+            <values>
+                <fullName>Not Completed - Email sent to BDM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received complete full version</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Motor_Dealer_Licence__c</picklist>
+            <values>
+                <fullName>MDL - Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MDL - No Listing - Email to BDM</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_PAF_Black_List_Check__c</picklist>
+            <values>
+                <fullName>Nil Listings</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Show Listings*</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Personal_Indemnity_Insurance__c</picklist>
+            <values>
+                <fullName>Not Received - Email to BDM%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On file - Minimum %245 million%3A</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Directors_Only__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Police_Check_Users__c</picklist>
+            <values>
+                <fullName>Not Received**</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Received for Each User</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Training_Evidence__c</picklist>
+            <values>
+                <fullName>Evidence Not Supplied</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Evidence Supplied</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRM_Website_Search__c</picklist>
+            <values>
+                <fullName>Google Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other%3A</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>White Pages Match</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yellow Pages Match</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>CRMOnCompleteAuto_Broker_via_Aggregator</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed for record type Auto_Broker_via_Aggregator</description>
+        <errorConditionFormula>IF( 
+AND( 
+RecordType.Name = &quot;Auto Broker via Aggregator&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR( 
+ISBLANK(TEXT( CRM_Deposit_Slip__c )), 
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )), 
+ISBLANK(TEXT( CRM_GST_Registered__c )), 
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) , 
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) ,
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) ,
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) , 
+ISBLANK(TEXT( CRM_Website_Search__c )) , 
+ISBLANK(TEXT(CRM_Australian_Credit_Licence_ACL__c)) , 
+ISBLANK(TEXT( CRM_Australian_Credit_Representive_ACR__c )) , 
+ISBLANK(TEXT( CRM_External_Dispute_Resolution_EDR__c )) 
+) 
+) , True ,False 
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRMOnCompleteCommercial_Broker_Direct</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed for record type Commercial_Broker_Direct</description>
+        <errorConditionFormula>IF( 
+AND( 
+RecordType.Name = &quot;Commercial Broker Direct&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR( 
+ISBLANK(TEXT( CRM_Introducer_Agreement__c )) , 
+ISBLANK(TEXT( CRM_Deposit_Slip__c )), 
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )), 
+ISBLANK(TEXT( CRM_GST_Registered__c )),
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) ,
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) , 
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) ,
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) , 
+ISBLANK(TEXT( CRM_Website_Search__c )) , 
+ISBLANK(TEXT( CRM_Personal_Indemnity_Insurance__c )) 
+) 
+) , True ,False 
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRMOnCompleteCommercial_Broker_via_Aggre</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed for record type Commercial_Broker_via_Aggre</description>
+        <errorConditionFormula>IF( 
+AND( 
+RecordType.Name = &quot;Commercial Broker via Aggregator&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR( 
+
+ISBLANK(TEXT( CRM_Deposit_Slip__c )), 
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )), 
+ISBLANK(TEXT( CRM_GST_Registered__c )),
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) ,
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) , 
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) ,
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) , 
+ISBLANK(TEXT( CRM_Website_Search__c )) , 
+ISBLANK(TEXT(CRM_Industry_Membership__c))  
+) 
+) , True ,False 
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRMOnCompleteDealer_channel</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed for record type Dealer_channel</description>
+        <errorConditionFormula>IF( 
+AND( 
+RecordType.Name = &quot;Dealer channel&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR( 
+ISBLANK(TEXT( CRM_Introducer_Agreement__c )) , 
+ISBLANK(TEXT( CRM_Deposit_Slip__c )),
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )), 
+ISBLANK(TEXT( CRM_GST_Registered__c )), 
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) , 
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) , 
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) , 
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) , 
+ISBLANK(TEXT( CRM_Website_Search__c )) ,
+ISBLANK(TEXT( CRM_Motor_Dealer_Licence__c )) ,
+ISBLANK(TEXT(CRM_Training_Evidence__c)) ,
+ISBLANK(TEXT( CRM_Police_Check_Directors_Only__c )) 
+) 
+) , True ,False 
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRMOnCompleteMortage_Broker_via_Aggregat</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed for record type Mortage_Broker_via_Aggregator</description>
+        <errorConditionFormula>IF( 
+AND( 
+RecordType.Name = &quot;Mortage Broker via Aggregator&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR( 
+ISBLANK(TEXT( CRM_Deposit_Slip__c )), 
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )), 
+ISBLANK(TEXT( CRM_GST_Registered__c )), 
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) ,
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) , 
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) ,
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) ,
+ISBLANK(TEXT( CRM_Website_Search__c )) ,
+ISBLANK(TEXT(CRM_Australian_Credit_Licence_ACL__c)) , 
+ISBLANK(TEXT( CRM_Australian_Credit_Representive_ACR__c )) ,
+ISBLANK(TEXT( CRM_External_Dispute_Resolution_EDR__c )) ,
+ISBLANK(TEXT( CRM_Industry_Membership__c )) 
+) 
+) , True ,False 
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRMOnCompleteMortgage_Broker_Direct</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed for record type Mortgage_Broker_Direct</description>
+        <errorConditionFormula>IF( 
+AND( 
+RecordType.Name = &quot;Mortgage Broker Direct&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR( 
+ISBLANK(TEXT( CRM_Introducer_Agreement__c )),
+ISBLANK(TEXT( CRM_Deposit_Slip__c )), 
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )), 
+ISBLANK(TEXT( CRM_GST_Registered__c )),
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) ,
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) ,
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) ,
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) ,
+ISBLANK(TEXT( CRM_Website_Search__c )) ,
+ISBLANK(TEXT(CRM_Australian_Credit_Licence_ACL__c)) , 
+ISBLANK(TEXT( CRM_External_Dispute_Resolution_EDR__c )) ,
+ISBLANK(TEXT( CRM_Industry_Membership__c )) ,
+ISBLANK(TEXT( CRM_Personal_Indemnity_Insurance__c )) 
+) 
+) , True ,False 
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRMValidateOnCompleteOnDirectAutobroker</fullName>
+        <active>true</active>
+        <description>All Picklist mandatory is status changes to completed</description>
+        <errorConditionFormula>IF(
+AND(
+RecordType.Name = &quot;Direct Auto Broker&quot; , ISPICKVAL( CRM_Status__c , &quot;Completed&quot;) , 
+OR(
+ISBLANK(TEXT( CRM_Introducer_Agreement__c )) ,
+ISBLANK(TEXT( CRM_Deposit_Slip__c )),
+ISBLANK(TEXT( CRM_ABN_Registered_for_past_24_months__c )),
+ISBLANK(TEXT( CRM_GST_Registered__c )),
+ISBLANK(TEXT( CRM_Comprehensive_Veda_Check__c )) ,
+ISBLANK(TEXT( CRM_ASIC_Banned_Disqualified__c )) ,
+ISBLANK(TEXT( CRM_Department_of_Foreign_Affairs__c )) ,
+ISBLANK(TEXT( CRM_PAF_Black_List_Check__c )) ,
+ISBLANK(TEXT( CRM_Website_Search__c )) ,
+ISBLANK(TEXT(CRM_Australian_Credit_Licence_ACL__c)) ,
+ISBLANK(TEXT( CRM_Australian_Credit_Representive_ACR__c )) ,
+ISBLANK(TEXT( CRM_External_Dispute_Resolution_EDR__c )) ,
+ISBLANK(TEXT( CRM_Personal_Indemnity_Insurance__c )) ,
+ISBLANK(TEXT( CRM_Police_Check_Directors_Only__c )) 
+) 
+) , True ,False
+)</errorConditionFormula>
+        <errorMessage>All Drop Down is Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateASICPicklist</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(
+RecordType.Name = &quot;Mortgage Broker Accreditation&quot;, 
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;),
+ISPICKVAL(CRM_Mtg_ASIC_Verification__c, &quot;No&quot;),
+ISBLANK(CRM_Mtg_ASIC_Verification_Exception__c))</errorConditionFormula>
+        <errorDisplayField>CRM_Mtg_ASIC_Verification_Exception__c</errorDisplayField>
+        <errorMessage>ASIC Verification Exception is mandatory if selecting No.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateAggReleasePicklist</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(RecordType.Name = &quot;Mortgage Broker Transfer&quot;,
+ISPICKVAL(CRM_Mtg_Old_Aggregator_Release_Provided__c, &quot;No&quot;),
+ISBLANK(CRM_Mtg_Old_Aggregator_Release_Exception__c))</errorConditionFormula>
+        <errorDisplayField>CRM_Mtg_Old_Aggregator_Release_Exception__c</errorDisplayField>
+        <errorMessage>Old Aggregator Release Exception is mandatory if selecting No.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateBlacklistPicklist</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(
+RecordType.Name = &quot;Mortgage Broker Accreditation&quot;,
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;),
+ISPICKVAL(CRM_Mtg_Blacklist_Verification__c, &quot;No&quot;),
+ISBLANK(CRM_Mtg_Blacklist_Verification_Exception__c))</errorConditionFormula>
+        <errorDisplayField>CRM_Mtg_Blacklist_Verification_Exception__c</errorDisplayField>
+        <errorMessage>Blacklist Verification Exception is mandatory if selecting No.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateCaseOwner</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND($Profile.Name == &apos;CRM Mortgage&apos;,
+OR(RecordType.Name = &quot;Mortgage Broker Accreditation&quot;,
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;),
+CRM_Case__r.OwnerId &lt;&gt; $User.Id
+)</errorConditionFormula>
+        <errorMessage>Please assign the case to yourself before working on checklist.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateCaseStatus</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(
+RecordType.Name = &quot;Mortgage Broker Accreditation&quot;,
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;),
+OR(
+ISCHANGED(CRM_Mtg_ASIC_Verification__c),
+ISCHANGED(CRM_Mtg_DFAT_Verification__c),
+ISCHANGED(CRM_Mtg_Blacklist_Verification__c),
+ISCHANGED(CRM_Mtg_Old_Aggregator_Release_Provided__c),
+ISCHANGED(CRM_Mtg_Aggregator_Confirmation_Received__c)
+),
+ISPICKVAL(CRM_Status__c,&apos;Draft&apos;), 
+TRIM(CRM_Mtg_Case_Status__c) != &apos;Verification In Progress&apos;
+)</errorConditionFormula>
+        <errorMessage>Please change the status of case to &apos;Verification In Progress&apos; first.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateConfirmation</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(
+RecordType.Name = &quot;Mortgage Broker Accreditation&quot;,
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;),
+ISPICKVAL(CRM_Mtg_Aggregator_Confirmation_Received__c,&quot;No&quot;),
+ISBLANK(CRM_Mtg_Aggregator_Confirm_Exception__c))</errorConditionFormula>
+        <errorDisplayField>CRM_Mtg_Aggregator_Confirm_Exception__c</errorDisplayField>
+        <errorMessage>New Aggregator Confirmation Received Exception is mandatory if selecting No.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateDFATPicklist</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(
+RecordType.Name = &quot;Mortgage Broker Accreditation&quot;, 
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;), 
+ISPICKVAL(CRM_Mtg_DFAT_Verification__c, &quot;No&quot;),
+ISBLANK(CRM_Mtg_DFAT_Verification_Exception__c))</errorConditionFormula>
+        <errorDisplayField>CRM_Mtg_DFAT_Verification_Exception__c</errorDisplayField>
+        <errorMessage>DFAT Verification Exception is mandatory if selecting No.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidatePicklistValues</fullName>
+        <active>true</active>
+        <description>All Picklist values are mandatory when status changes to completed</description>
+        <errorConditionFormula>AND(RecordType.Name = &quot;Mortgage Broker Accreditation&quot;, ISPICKVAL(CRM_Status__c, &quot;Completed&quot;),
+OR(
+ISBLANK(TEXT(CRM_Mtg_ASIC_Verification__c)),
+ISBLANK(TEXT(CRM_Mtg_DFAT_Verification__c)),
+ISBLANK(TEXT(CRM_Mtg_Blacklist_Verification__c)),
+ISBLANK(TEXT(CRM_Mtg_Aggregator_Confirmation_Received__c))
+))</errorConditionFormula>
+        <errorMessage>All Drop Down values are Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidatePicklistValuesTransfer</fullName>
+        <active>true</active>
+        <description>All Picklist values are mandatory when status changes to completed</description>
+        <errorConditionFormula>AND(RecordType.Name = &quot;Mortgage Broker Transfer&quot;, ISPICKVAL(CRM_Status__c, &quot;Completed&quot;),
+OR(
+ISBLANK(TEXT(CRM_Mtg_ASIC_Verification__c)),
+ISBLANK(TEXT(CRM_Mtg_DFAT_Verification__c)),
+ISBLANK(TEXT(CRM_Mtg_Blacklist_Verification__c)),
+ISBLANK(TEXT(CRM_Mtg_Old_Aggregator_Release_Provided__c)),
+ISBLANK(TEXT(CRM_Mtg_Aggregator_Confirmation_Received__c))
+))</errorConditionFormula>
+        <errorMessage>All Drop Down values are Mandatory.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidateStatus</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND($Profile.Name = &apos;CRM Mortgage&apos;,
+OR(RecordType.Name = &quot;Mortgage Broker Accreditation&quot;,
+RecordType.Name = &quot;Mortgage Broker Transfer&quot;), 
+NOT(ISPICKVAL($User.ScCollection_UserType__c,&apos;TL&apos;)), ISPICKVAL(PRIORVALUE(CRM_Status__c), &quot;Completed&quot;)
+)</errorConditionFormula>
+        <errorMessage>Record cant be modified once status is completed.</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>CRM_Mtg_ASIC_Verification</fullName>
+        <availability>online</availability>
+        <displayType>link</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <hasMenubar>true</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>true</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>ASIC Verification</masterLabel>
+        <openType>newWindow</openType>
+        <position>topLeft</position>
+        <protected>false</protected>
+        <showsLocation>true</showsLocation>
+        <showsStatus>true</showsStatus>
+        <url>http://asic.gov.au/online-services/search-asics-registers/</url>
+        <width>600</width>
+    </webLinks>
+    <webLinks>
+        <fullName>CRM_Mtg_DFAT_Verification</fullName>
+        <availability>online</availability>
+        <displayType>link</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <hasMenubar>true</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>true</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>DFAT Verification</masterLabel>
+        <openType>newWindow</openType>
+        <position>topLeft</position>
+        <protected>false</protected>
+        <showsLocation>true</showsLocation>
+        <showsStatus>true</showsStatus>
+        <url>http://dfat.gov.au/international-relations/security/sanctions/Pages/consolidated-list.aspx</url>
+        <width>600</width>
+    </webLinks>
+    <webLinks>
+        <fullName>CRM_Mtg_Pepper_Blacklist_Database</fullName>
+        <availability>online</availability>
+        <displayType>link</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <hasMenubar>true</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>true</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>Pepper Blacklist Database</masterLabel>
+        <openType>newWindow</openType>
+        <position>topLeft</position>
+        <protected>false</protected>
+        <showsLocation>true</showsLocation>
+        <showsStatus>true</showsStatus>
+        <url>https://www.google.co.in</url>
+        <width>600</width>
+    </webLinks>
+</CustomObject>

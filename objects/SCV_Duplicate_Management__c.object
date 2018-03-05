@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>This includes the settings for Single Customer View</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Duplicate_Records_Limit__c</fullName>
+        <defaultValue>100</defaultValue>
+        <externalId>false</externalId>
+        <label>Duplicate Records Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enable_Custom_Matching__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Enable this to include the custom identification matching to view the duplicates item.</description>
+        <externalId>false</externalId>
+        <label>Enable Custom Matching (Identification)</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_First_Pass_Matching__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>SCV Whether to activate first pass account aggregation matching to limit records</description>
+        <externalId>false</externalId>
+        <label>Enable First Pass Matching</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Page_Size__c</fullName>
+        <externalId>false</externalId>
+        <label>Page Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>SCV Duplicate Management</label>
+    <visibility>Public</visibility>
+</CustomObject>

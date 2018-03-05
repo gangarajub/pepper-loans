@@ -1,0 +1,229 @@
+<apex:page id="pageId" standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" standardController="genesis__Applications__c" extensions="pepServiceabilityResultsController"  action="{!checkcookie}" cache="{!$Label.Cache_Settings}">  
+
+
+<html lang="en">
+ <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Serviceability Decline</title>        
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+        <!-- End Google Tag Manager -->
+        
+         <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>    
+         
+
+         
+    </head>
+    
+    <style type="text/css">
+    .displaynone
+    {
+        display:none;
+    }
+    
+    .brdbacknone { background:none!important; border:none!important; }
+
+</style>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+<apex:form id="idForm"> 
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+
+    <div class="headerCont">
+    <div class="pepperContainer">
+        <header class="page-row">
+            <div class="pageLogo">
+               <a href="#logo"><apex:image url="{!URLFOR($Resource.ResourceZip,
+                              'assets/common/images/logo.png')}" alt="Pepper"/></a>
+            </div>
+            <div class="callAssist">
+                <span>{!if(lstsectionHeader[0].pepSectionUniqueName__c == 'Need help',lstsectionHeader[0].pepSectionBodyRich__c, '') } <strong>{!if(lstsectionHeader[1].pepSectionUniqueName__c == 'Call',lstsectionHeader[1].pepSectionBodyRich__c, '' )}</strong></span>
+            </div>
+        </header>
+    </div>
+    </div>
+
+    <!-- mid sectin  start here -->
+    <div class="pepperContainer">
+        <div class="page-row">
+            <div class="startNegApp">
+                <h3 class="heading ">
+              
+                <!--  -->
+                <div style="width:100%"> <c:pepcmscomponent_Text id="first" pageNameTest="Decline" sectionName="Decline1"></c:pepcmscomponent_Text></div>
+                </h3>
+                
+                <!--
+                <p>{!lstSection[1].pepSectionBody__c}
+                </p>
+                <p>{!lstSection[2].pepSectionBody__c}
+                </p>
+                
+                 <p>{!strTextReason} {!strDeclineReason}</p>-->
+               <p><c:pepcmscomponent_Text pageNameTest="Decline" sectionName="Decline2" applicationid="{!idApplication}"></c:pepcmscomponent_Text> </p>
+               <!-- <ul>
+                <li>{!strDeclineReason} </li>
+                </ul>
+                </p>
+                <c:pepcmscomponent_Text pageNameTest="Decline" sectionName="Decline4"></c:pepcmscomponent_Text>-->
+                <!--
+                
+                <p>
+                    {!lstSection[3].pepSectionBody__c}   
+                </p>
+                <p>
+                    {!lstSection[4].pepSectionBody__c}
+                </p>
+                <p>                 
+                    {!lstSection[5].pepSectionBody__c}
+                </p> -->
+                
+                <div class="page-row">
+                    <div class="form-cntrl">
+                        <div class="boxInfo brdbacknone">
+                         <div class="appinfo" id="idBox">
+                         <!--   <p><c:pepcmscomponent_Text pageNameTest="Decline" sectionName="Decline7"></c:pepcmscomponent_Text><br/>
+                            <span><strong> <c:pepcmscomponent_Text pageNameTest="Decline" sectionName="Decline8"></c:pepcmscomponent_Text></strong></span></p>
+                            
+                            <p><c:pepcmscomponent_Text pageNameTest="Decline" sectionName="Decline9"></c:pepcmscomponent_Text><br/>
+                            <span><strong>{!SUBSTITUTE(lstSection[6].pepSectionBody__c,'{Name}', lstApp[0].Name)}</strong></span>
+                            </p> -->
+                            
+                            <div class="page-row">
+                    <div class="form-cntrl">
+                        <apex:commandButton id="idBtn" Styleclass="button staticBtn foo" action="{!getRedirectToLandingPage}" value="Back to Pepper" status="counterStatus"/>                         
+                    </div>
+                </div>
+                            
+                         </div>
+                            
+                        <div class="page-row" id="idText">
+                            <p class="thanksMes">{!strThanksMsz}</p>
+                        </div>
+                        </div>
+
+                    </div>
+                </div>  
+
+              <!--  <div class="page-row">
+                    <div class="form-cntrl">
+                        <apex:commandButton id="idBtn" Styleclass="button staticBtn foo" action="{!getRedirectToLandingPage}" value="Back to Pepper" status="counterStatus"/>                         
+                    </div>
+                </div>-->
+            </div>
+
+        </div>
+    </div>
+    <!-- mid section end here -->
+
+      <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+     
+</apex:form>
+
+  <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+     
+     <script >
+
+    $(document).ready(function(){
+    
+      //  $( '.appinfo' ).addClass( 'displaynone' );
+        $( '.thanksMes' ).addClass( 'displaynone' );
+  
+    });
+    function enableText()
+    {       
+     
+       $( '.appinfo' ).addClass( 'displaynone' );
+        $( '.thanksMes' ).removeClass( 'displaynone' );
+        
+        
+       
+    }
+    var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+</script>
+
+
+</body>
+
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+</html>
+<script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+
+</apex:page>

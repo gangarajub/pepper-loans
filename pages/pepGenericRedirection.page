@@ -1,0 +1,176 @@
+<apex:page id="pageId" standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0"   cache="{!$Label.Cache_Settings}" controller="pepgenericredirection" >  
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generic Redirect</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    <!-- End Google Tag Manager -->
+    
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+    <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+    <!--<script src="assets/common/scripts/jquery.min.js" ></script>
+    <script src="assets/common/scripts/bootstrap.min.js" ></script>
+    <script src="assets/common/scripts/pepperScript.js" ></script>
+    <script src="assets/common/scripts/hails.js" ></script>
+      -->
+     
+
+</head>
+
+<style type="text/css">
+    .displaynone
+    {
+        display:none;
+    }
+
+</style>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<apex:form id="idForm">
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+     <div class="offsetBlkHeight"></div>
+        <div class="offsetBlk">
+            <div class="containerFluid">
+                <header class="page-row">
+                    <div class="hamBurger_menu text-center">
+                        <span class="menu"></span>
+                    </div>
+                    <div class="pageLogo">
+                        <a href="#logo" tabindex="1"><img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pepperlogo.svg' )}" /></a>
+                    </div>
+                    <div class="callPhone text-center">
+                        <a class="phone" href="tel:1300659430" tabindex="2"></a>
+                    </div>
+                    <div class="callAssist">                    
+                        <span><c:pepcmscomponent_Text pageNameTest="Dashboard Header" sectionName="SectionOne(DH)"></c:pepcmscomponent_Text>
+                        </span>
+                    </div>
+                </header>
+            </div>
+        </div>
+    <!-- mid sectin  start here -->
+    <div class="pepperContainer">
+        <div class="page-row">
+            <div class="startNegApp">
+                <h3 class="heading ">
+                      <apex:panelGroup >
+       
+        
+        <apex:outputText id="idSectionBody" style="width: 100%" escape="false" value="Sorry! We are unable to complete your application at the moment" />
+    </apex:panelGroup>
+                   
+                </h3>
+                <p>  <apex:panelGroup >
+       
+        <apex:outputText id="idSectionBody1" style="width: 100%" escape="false" value="We are facing some technical issues."/>
+    </apex:panelGroup>                </p>
+                <p>  <apex:panelGroup >
+     
+        
+        <apex:outputText id="idSectionBody2" style="width: 100%" escape="false" value="Our customer service team can assist you." />
+    </apex:panelGroup>                </p>
+                
+                
+                <div class="page-row">
+                    <div class="form-cntrl">
+                        <div class="boxInfo" >
+                            <div class="appinfo" id="idBox">
+                                <p> <apex:panelGroup >
+        
+        
+        <apex:outputText id="idSectionBody3" style="width: 100%" escape="false" value="Call Pepper On"  />
+    </apex:panelGroup> <br/>
+                                <span><strong>  <apex:panelGroup >
+        
+        
+        <apex:outputText id="idSectionBody4" style="width: 100%" escape="false" value="1300 659 430"  />
+    </apex:panelGroup> </strong></span></p>
+                                
+                                <p style="display:{!if(checkcookie==True,'block','none')}">  <apex:panelGroup >
+        
+        
+        <apex:outputText id="idSectionBody5" style="width: 100%" escape="false" value="and quote your application number"  />
+    </apex:panelGroup> <br/>
+                                <span><strong>{!App}</strong></span>
+                                </p>
+                                <p><!--<apex:panelGroup >
+        
+        
+        <apex:outputText id="idSectionBody" style="width: 100%" escape="false" value=""  />
+    </apex:panelGroup>--></p>
+                                <div class="page-row">
+                                    <div class="form-cntrl">
+                                        <!--<apex:commandButton id="idBtnCall" Styleclass="button primaryBtn"  action="{!createTask}" value="Call me back" onComplete="enableText();" status="counterStatus">
+                                         </apex:commandButton>--> 
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="page-row" id="idText">
+                                <!--<p class="thanksMes">{!strThanksMsz}</p>-->
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                </div>  
+
+                <div class="page-row">
+                    <div class="form-cntrl">
+                         <apex:outputlink id="idBtn" Styleclass="button staticBtn" value="{!$Label.LandingPageRedirection}">Back to Pepper</apex:outputlink> 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- mid section end here -->
+
+
+      <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+   
+   
+    
+     </apex:form>
+    
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+     
+     <script >
+
+    $(document).ready(function(){
+    
+      //  $( '.appinfo' ).addClass( 'displaynone' );
+        $( '.thanksMes' ).addClass( 'displaynone' );
+  
+    });
+    function enableText()
+    {       
+     
+       $( '.appinfo' ).addClass( 'displaynone' );
+        $( '.thanksMes' ).removeClass( 'displaynone' );
+        
+        
+       
+    }
+</script>
+<!--<iframe src="{!$Site.Prefix}/secur/logout.jsp" width="0" height="0"/>-->
+</body>
+
+
+</html>
+</apex:page>

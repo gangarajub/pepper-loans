@@ -1,0 +1,11 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false">
+<apex:stylesheet value="https://ui.pepper.com.au/SalesForceForm/css/salesforce-forms.min.css"/>    
+<apex:form styleClass="SF-Form form-cntrls"> 
+    <p>
+        An error has ocurred.
+    </p>
+    <p>
+        Please contact Pepper Accreditations for support via <a href="mailto:accreditations@pepper.com.au">accreditations@pepper.com.au</a>.
+    </p>
+</apex:form>   
+</apex:page>

@@ -1,0 +1,349 @@
+<apex:page controller="pepReferAFriendController" id="ReferPageId" standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" cache="{!$Label.Cache_Settings}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper Loan Details</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+   <style>
+   .refTopInfo a,.refTopInfo a:hover{
+    color: #000;
+    text-decoration: underline;
+}
+
+ label.form-dcntrls{
+ margin-top: 0;
+ line-height: 18px;
+}
+   </style> 
+</head>
+<body onload="OnLoadCheckbox();">
+<apex:form id="idForm">
+    <apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+    <apex:actionFunction name="callActionfunc"  action="{!updateAccount}"  reRender="none"  >
+    <apex:param name="loanContractid" value="" />
+    
+    </apex:actionFunction>
+    
+    <apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+     </apex:actionFunction>
+         
+<div class="pepperCustomFluid">
+<div class="offsetBlkHeight"></div>
+    <div class="offsetBlk">
+      <div class="containerFluid">
+    <c:pepDashboardHeaderCompnent />
+      </div>
+     </div>
+ <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+<div class="containerFluid posRel dashBoard">
+    <div class="page-row">
+        <div class="catBlk">
+            <div class="page-row">
+                 <div class="mainCat">
+                    <ul>
+                        <apex:outputPanel rendered="{!if( lstLeftSideBarSections.size > 0,true,false)}">
+                                
+                          <li class="{!if(step ==-1 ,'mainCat_home active','mainCat_home')}"><a href="javascript:void(0)" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                    <li class="mainCat_money more"><a href="#">Loans</a>
+                                    <ul>
+                                       <apex:repeat value="{!sideBarList}" var="loan">
+                                         
+                                            <apex:outputPanel rendered="{!IF(loan.loanId == loanAccountId,true,false)}">
+                                            <li class="mainCat_money active"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId }');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!IF(loan.loanId != loanaccountid,true,false)}">
+                                            <li class="mainCat_money"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId }');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            
+                                          
+                                        </apex:repeat>
+                                    </ul>
+                                </li>
+                                
+                                <apex:repeat value="{!lstLeftSideBarSections}" var="sidebar">
+                                    <apex:outputPanel rendered="{!if(sidebar.pepHeader__c=='Refer-a-friend',true,false)}">
+                                        <li class="{!if(step ==-2 ,' mainCat_share active','mainCat_share')}"><a href="javascript:void(0)" onclick="passPageName('pepreferafriend');">Refer-a-friend</a></li>
+                                    </apex:outputpanel>
+                                </apex:repeat>
+                                
+                                <li class="{!if(step ==-4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="javascript:void(0)" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                                <li class="{!if(step ==-3 ,'mainCat_profile active','mainCat_profile')}"><a href="javascript:void(0)" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                                <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp"  rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+                            </apex:outputPanel>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+      
+        <div class="contentCat">                
+            <div class="loanCont">
+                <div class="page-row">
+                    <div class="dashboard_lhs referFriend dashboard_center">
+                        
+                            <div class="myLoan" >
+                                
+                    <div class="page-form">
+                            
+                            <div class="topInfo">
+                            
+                            <div class="form-cntrl">
+                                <h1>{!sections1.pepHeader__c}</h1>
+                            </div>
+
+                            <div class="form-cntrl">
+                                <apex:image url="{!URLFOR($Resource.ResourceZip,'assets/common/images/peopleques.png')}" alt="Pepper"/>
+                                
+                            
+                            </div>
+
+                            <div class="form-cntrl refTopInfo">
+                                <c:pepcmscomponent_Text pageNameTest="Refer A Friend" sectionName="ReferAFriendSection1"></c:pepcmscomponent_Text>
+                            </div>
+
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                    
+                                    <div class="loanTxtOuter">
+                                        <div class="loanTxtHead">
+                                            <div class="form-cntrl frmInfotxt">{!lstWrapperQuestionSection2[0].objCmsQuestion.pepLabelPriorQuestion__c}</div>
+
+                                            <div class="form-cntrl charTxt"><strong>{!lstWrapperQuestionSection2[0].objInputValue}</strong></div>
+                                        </div>  
+
+                                            
+                                    </div>
+                                        <div class="form-elements">
+                                                
+                                            <div class="form-section innerForm">    
+                                                <div class="form-elements">
+                                                        
+                                            
+                                                    
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!lstWrapperQuestionSection2[1].objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                            <apex:inputText id="checkReq" 
+                                                    styleclass="{!IF(lstWrapperQuestionSection2[1].objCmsQuestion.pepIsRequired__c, 'plus isrequired', 'plus')} friendname" 
+                                                    onblur="checklength(this.id);"
+                                                    onkeypress="return isAplhaspace(event);"
+                                                    value="{!lstWrapperQuestionSection2[1].objInputValue}" 
+                                                    rendered="{!if(lstWrapperQuestionSection2[1].objCmsQuestion.pepType__c == 'Text',true,false)}" />
+                                                    <span class="errorMsg errorfriendname">{!lstWrapperQuestionSection2[1].objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                        </div>
+                                                    
+                                                    </div>
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!lstWrapperQuestionSection2[2].objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                            <apex:inputText id="id_email" value="{!lstWrapperQuestionSection2[2].objInputValue}" 
+                                                    styleclass="{!IF(lstWrapperQuestionSection2[2].objCmsQuestion.pepIsRequired__c, 'isEmail', 'isEmail')} friendemail" 
+                                                    onblur="checkFieldValidation(this.id);"
+                                                    onkeypress="{!if(lstWrapperQuestionSection2[2].objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}"
+                                                    rendered="{!if(lstWrapperQuestionSection2[2].objCmsQuestion.pepType__c == 'Email',true,false)}"/>
+                                                    <span class="errorMsg">{!lstWrapperQuestionSection2[2].objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                        </div>
+                                                    </div>  
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">{!lstWrapperQuestionSection2[3].objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">
+                                                            <apex:inputtext html-placeholder="04XXXXXXXX" id="id_phone" value="{!lstWrapperQuestionSection2[3].objInputValue}" 
+                                                    styleclass="{!IF(lstWrapperQuestionSection2[3].objCmsQuestion.pepIsRequired__c, 'isPhone', 'isPhone')} friendphone"
+                                                    rendered="{!if(lstWrapperQuestionSection2[3].objCmsQuestion.pepType__c== 'Phone',true,false)}" 
+                                                    onkeypress="{!if(lstWrapperQuestionSection2[3].objCmsQuestion.pepKeyPressNumbersOnly__c,'javascript:return numbersonly(event)','')}"
+                                                    onblur="checkFieldValidation(this.id);" />
+                                                    <span class="errorMsg">{!lstWrapperQuestionSection2[3].objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                                        </div>
+                                                    </div>
+                                            
+                                                </div>  
+                                            </div>
+                                        </div>  
+                                    <div class="clear"></div>
+                                            <div>
+                                    <script>
+                                     function OnClickCheckbox()
+                                    {
+                                        if(document.getElementById('requestInfo1').checked){
+                                            document.getElementById('ReferPageId:idForm:referButton').disabled = false;
+                                        
+                                        }
+                                        
+                                        else
+                                        {
+                                            document.getElementById('ReferPageId:idForm:referButton').disabled = true;
+                                        }
+                                        
+                                    }
+                                    </script>
+                                    <p class="custom-chkBox isrequired">
+                                        <input type="checkbox" id="requestInfo1" name="debt" tabindex="6" value="{!lstWrapperQuestionSection2[4].objInputValue}" onClick="OnClickCheckbox();"/>   
+                                        <label for="requestInfo1">{!lstWrapperQuestionSection2[4].objCmsQuestion.pepLabelPriorQuestion__c}</label>                                        
+                                    </p>
+                                    <span class="errorMsg">{!lstWrapperQuestionSection2[4].objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                </div>
+                                <br/>
+                                <div class="loanSetBotSec">
+                                    <div class="colA"><apex:commandButton action="{!cancel}" value="Cancel" id="theButton1" styleClass="button secondaryBtn"/></div>
+                                    <div class="colB"><apex:commandButton action="{!referFriend}" value="Refer your friend now" id="referButton" title="Please tick the checkbox" alt="Please tick the checkbox" styleClass="button primaryBtn" onclick="return functiontemp();"/></div>
+                                </div>
+
+                                </div>
+
+
+                                </div>
+                                 
+                            
+                                </div>
+                    
+
+                            </div>
+                            <p class="pepperTnC">
+                            <c:pepTermsConditionFooter />
+                          </p>
+                    </div>
+                    
+                    
+            </div>
+            </div>
+        </div>
+    </div>  
+</div>
+</div>
+    <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+</div>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+    <script>
+        $(function(){
+            var validator = $("#myForm").validate({
+                //var $this = $(this);
+                onfocusout: function (element) {
+                    $(element).valid();
+                    //alert(validator.numberOfInvalids());
+                   
+                }
+            });
+        });
+        function OnLoadCheckbox()
+                {            
+                    document.getElementById('ReferPageId:idForm:referButton').disabled = true; 
+                }
+        
+        function passPageName(APIPageName)
+          {
+              var i=APIPageName;
+               var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+               window.location.href = $mapParentChildren[APIPageName];
+          }        
+             
+            
+             
+              function callfun(IdloanContract)
+             {
+                
+                 $('[Id$=IdinputHidden]').val(IdloanContract);               
+                 callActionfunc(IdloanContract);
+             }
+             
+             function functiontemp(){
+             var t=checkData('ReferPageId:idForm');
+             if(t){
+             var isValid = false;
+              var regex = /^[a-zA-Z ]*$/;
+              isValid = regex.test($('.friendname').val());
+              if(!isValid || $('.friendname').val().trim().length<2){
+              $('.errorfriendname').show();
+              return false;
+              }
+             if($(".isEmail").val().trim().length==0 && $(".isPhone").val().trim().length==0){
+             alert("Please specify either your friend's Email or Phone Number");
+             return false;
+             }
+              
+             
+             }
+             else{
+             return false;
+             }
+             
+             }
+               function isAplhaspace(e)
+                {
+                    if(window.event)
+                    { 
+                        var charCode = window.event.keyCode; 
+                    }
+                    else if(e) 
+                    { 
+                        var charCode = e.which; 
+                    }
+                    else 
+                    { 
+                        return true; 
+                    }
+                   
+                    if ((charCode >=97 && charCode<=122) || (charCode>=65 && charCode<=90) || charCode==32 ) {
+                        return true;
+                    }
+                  
+                  
+                    
+                    return false;
+                }
+                $(document).ready(function(){
+                $('.friendname').bind("cut copy paste",function(e) {
+     e.preventDefault();
+ });
+  $('.friendemail').bind("cut copy paste",function(e) {
+     e.preventDefault();
+ });
+  $('.friendphone').bind("cut copy paste",function(e) {
+     e.preventDefault();
+ });
+ });
+    function checklength(id1){
+    var bool=checkFieldValidation(id1);
+    if(bool){
+    if($('.friendname').val().trim().length<2){
+              $('.errorfriendname').show();
+              return false;
+    }
+    }
+    else{
+    return false;
+    } 
+    }   
+    </script>
+    </apex:form>
+    </body>
+    </html>
+    <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+</apex:page>

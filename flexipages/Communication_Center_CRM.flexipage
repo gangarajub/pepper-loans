@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>recordSize</name>
+                <value>20</value>
+            </componentInstanceProperties>
+            <componentName>CommunicationHistoryDisplay</componentName>
+        </componentInstances>
+        <name>column1</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>CommunicationPublisher</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>decorate</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>richTextValue</name>
+                <value>&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;SMS Templates&lt;br /&gt;
+&lt;br /&gt;
+Left a voicemail&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+We tried calling and left you a voicemail. Please call us back on 1373777 and quote your application ID. *Do not reply to this text*&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Conditionally Approved&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+Your loan has been conditionally approved. Please call us on 1373777 and quote your application ID. *Do not reply to this text*&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Approved&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+Congratulations on being a Pepper customer! Please call us back on 1377777.&amp;nbsp;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Referral Campaign&amp;nbsp;&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+You can get a 0.5% discount on your rate if you refer a friend. Please go to&amp;nbsp;&lt;a data-aura-rendered-by=&quot;108:1546;a&quot; href=&quot;http://www.pepper.com.au/&quot; target=&quot;_blank&quot;&gt;www.pepper.com.au&lt;/a&gt;&amp;nbsp;to submit a referral. *Do not reply to this message*&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;b data-aura-rendered-by=&quot;108:1546;a&quot;&gt;Submit docs&lt;/b&gt;&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+&lt;br data-aura-rendered-by=&quot;108:1546;a&quot; /&gt;
+We are still waiting to receive the supporting loan docs. Please send to&amp;nbsp;&lt;a data-aura-rendered-by=&quot;108:1546;a&quot; href=&quot;mailto:homeloans@pepper.com.au&quot;&gt;homeloans@pepper.com.au&lt;/a&gt;&amp;nbsp;at your earliest covenience to finalise your application!&amp;nbsp;</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:richText</componentName>
+        </componentInstances>
+        <name>column2</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Communication Center</masterLabel>
+    <pageTemplate>flexipage:appHomeTemplateTwoColumns</pageTemplate>
+    <type>AppPage</type>
+</FlexiPage>

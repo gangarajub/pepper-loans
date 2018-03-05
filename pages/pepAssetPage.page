@@ -1,0 +1,723 @@
+<apex:page showHeader="false" sidebar="false" id="pageId" standardStylesheets="false" cache="{!$Label.Cache_Settings}" controller="PepAssetPageController">
+  <apex:composition template="pepSideBarTemplate">
+                 <apex:define name="body">
+ <style>
+     #attachmentFile{
+         position: absolute;
+         width:1px;
+         height: 1px;
+         opacity: 0;
+         overflow: hidden;
+         z-index: -1;
+     }
+     .spinner{
+         z-index: 1052;
+     }
+     blockquote.saveApp_list{
+         border: 0;
+         padding: 0;
+     }
+       .fa-search input[type="submit"]{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: transparent;
+                color: transparent;
+                border: 0;
+       }
+       .status-icon:hover{cursor:pointer}
+       a,a:hover {
+    color: #DF0024;
+    text-decoration: underline;
+   }
+   .red{
+         color: #DF0024;
+   }
+   .securedLoanmodal .modal-content .selection_lbl span {
+    min-height: auto;
+    
+}
+
+.securedLoanmodal .modal-content .selection_lbl span{
+margin-bottom: 43px;
+}
+.secLbl { float:none!important; display:inline-block!important;}
+.noThanks{ background: none;
+           border: none;
+           text-decoration: underline;
+           cursor: pointer; 
+           font-size: 12px;}
+   </style>
+
+<apex:form id="formId">
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+<apex:actionFunction action="{!sendChecklist}" name="checkList" status="counterStatus" reRender="formId">
+<apex:param name="btnName" value=""/>
+</apex:actionFunction>
+<apex:actionFunction action="{!callVeda}" name="checkVeda" reRender="false"/>
+<apex:actionFunction name="checkremote" action="{!deleteAttachment}" reRender="rerenderAttachment" status="counterStatus">
+<apex:param name="attachmentId" value=""/>
+</apex:actionFunction>
+<apex:actionFunction name="linkAttachment" action="{!fetchAttachmentId}" reRender="false">
+<apex:param name="idAtt" value=""/>
+</apex:actionFunction>
+<apex:actionFunction name="fetchRedbook" action="{!fetchSeries}" reRender="firstPart" status="counterStatus">
+<apex:param name="selectedValue" value=""/>
+</apex:actionFunction>
+
+                <div class="securedLoan">
+                        <div class="confirmation">
+                            <div class="loanSetTopSec">                  
+                                <h3 class="colA"><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection1"></c:pepcmscomponent_Text></h3>
+                                <div class="saveLater colB">
+                                   <!-- <input class="button primaryBtn" value="Save for later" type="submit" />-->
+                                   <apex:commandButton value="Save for later" action="{!saveForLater}" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal('call');"/>
+                                </div>
+                            </div>
+                            <p><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection2"></c:pepcmscomponent_Text></p>
+                             <p><em class="fa fa-file-pdf-o red"></em> <c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection22"></c:pepcmscomponent_Text></p>
+                            
+                  <apex:outputPanel id="assetDetailYes" rendered="{!IF(checkVehicleDetails == false && noComplete ==false && retreiveApp ==false, true, false)}">
+                         
+                            <div class="page-form">
+                                <div class="page-row">
+                                    <div class="form-section">
+                                        <div class="form-elements custom_frm">
+                                  <apex:outputPanel id="firstPart">     
+                                    <apex:repeat value="{!lstWrapperSection}" var="section">                                                 
+                                      <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c == 'AssetDetailsSection3'}" id="idSection1"> 
+                                        <div class="page-row">
+                                        <apex:outputLabel value="{!ques.objQuestion.pepLabelPriorQuestion__c} " escape="false" styleClass="form-cntrls"/> 
+                                                                                       
+                                           <apex:repeat value="{!ques.lstexpectedAnswers}" var="ans" rendered="{!if(AND( ques.lstexpectedAnswers.size != null, ques.lstexpectedAnswers.size > 0, ques.objQuestion.pepType__c == 'Button', ques.objQuestion.pepSubType__c == 'Yes / No'), true, false)}">
+                                         <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!IF(ans.objCmsAnswer.pepActualValue__c == 'No' && ques.objQuestion.pepFieldApiName__c =='Item Details' && disabledNo == false, true, false)}">
+                                                
+                                                    <label class="radioBtns">
+                                                  <apex:actionSupport event="onclick" action="{!vehicleDetails}"  status="counterStatus" rerender="formId">
+                                                        <input type="radio" id="btn1" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                        <apex:param name="text" value="No"/>
+                                                   </apex:actionSupport>
+                                                    </label>
+                                                
+                                        </apex:outputpanel> 
+                                        
+                                          <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!IF(AND(ans.objCmsAnswer.pepActualValue__c == 'Yes',ques.strAnswer=='Yes',ques.objQuestion.pepFieldApiName__c =='Item Details'),true, false)}">       
+                                             
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn2" checked="checked" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" />
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                    </label>
+                                              
+                                                 </apex:outputPanel>  
+                                                 
+                                                 <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!if(AND(ans.objCmsAnswer.pepActualValue__c == 'Yes',NOT(ques.strAnswer=='Yes'),ques.objQuestion.pepFieldApiName__c =='Item Details'), true, false)}">       
+                                             
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn3" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                         <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span>
+                                                    </label>
+                                               
+                                                 </apex:outputPanel>
+                                                 
+                                                 <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!IF(AND(ans.objCmsAnswer.pepActualValue__c == 'Car',ques.strAnswer=='Car'),true, false)}">       
+                                            
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn4" checked="checked" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" />
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                         
+                                                    </label>
+                                               
+                                                 </apex:outputPanel>  
+                                                 
+                                                 <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!if(AND(ans.objCmsAnswer.pepActualValue__c == 'Car',NOT(ques.strAnswer=='Car')), true, false)}">       
+                                              
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn5" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" onclick="assignVehicleValue('{!ans.strAns}')"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                         <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span> 
+                                                    </label>
+                                               
+                                                 </apex:outputPanel>
+                                                 
+                                                  <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!IF(AND(ans.objCmsAnswer.pepActualValue__c == 'Motorbike',ques.strAnswer=='Motorbike'),true, false)}">       
+                                             
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn6" checked="checked" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" />
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                         
+                                                    </label>
+                                               
+                                                 </apex:outputPanel>  
+                                                 
+                                                 <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!if(AND(ans.objCmsAnswer.pepActualValue__c == 'Motorbike',NOT(ques.strAnswer=='Motorbike')), true, false)}">       
+                                              
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn7" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" onclick="assignVehicleValue('{!ans.strAns}')"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                         
+                                                    </label>
+                                               
+                                                 </apex:outputPanel>
+                                                 
+                                         <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!IF(AND(ans.objCmsAnswer.pepActualValue__c == 'Yes',ques.strAnswer=='Yes',ques.objQuestion.pepFieldApiName__c !='Item Details'),true, false)}">       
+                                             
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn8" checked="checked" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" />
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                    </label>
+                                              
+                                                 </apex:outputPanel>  
+                                                 
+                                                 <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!if(AND(ans.objCmsAnswer.pepActualValue__c == 'Yes',NOT(ques.strAnswer=='Yes'),ques.objQuestion.pepFieldApiName__c !='Item Details'), true, false)}">       
+                                             
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn9" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" onclick="assignDealerValue('{!ans.strAns}')"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                         <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span>
+                                                    </label>
+                                               
+                                                 </apex:outputPanel>                                                 
+                                                
+                                        <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!IF(AND(ans.objCmsAnswer.pepActualValue__c == 'No',ques.strAnswer=='No',ques.objQuestion.pepFieldApiName__c !='Item Details'),true, false)}">
+                                               
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn8" checked="checked" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                    </label>
+                                                
+                                         </apex:outputpanel> 
+                                         
+                                         <apex:outputPanel layout="block" styleClass="form-cntrls"  rendered="{!if(AND(ans.objCmsAnswer.pepActualValue__c == 'No',ques.objQuestion.pepFieldApiName__c !='Item Details',NOT(ques.strAnswer=='No')), true, false)}" >       
+                                             
+                                                    <label class="radioBtns">
+                                                        <input type="radio" id="btn9" name="{!ques.objQuestion.pepLabelPriorQuestion__c}" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ans.strAns}" onclick="assignDealerValue('{!ans.strAns}')" />
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                     
+                                                    </label>
+                                                 </apex:outputPanel>
+                                                                                           
+                                </apex:repeat>
+                        
+                             
+                                      <apex:outputPanel layout="block" styleClass="form-cntrls-lg searchBox" rendered="{!IF(ques.objQuestion.pepType__c == 'Text' && ques.objQuestion.pepFieldApiName__c =='clcommon__Vehicle_ID_Number__c', true, false)}">       
+                                            <em class="fa fa-search"> 
+                                            <apex:commandButton action="{!fetchAssetDetail}" reRender="firstPart" status="counterStatus" onclick="assignedVin();" oncomplete="$('.vinPage').hide();"/> </em> 
+                                            <apex:inputtext id="text1" value="{!ques.strAnswer}" styleClass="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired textClass vin', 'textClass vin')}"/>
+                                           <span class="errorMsg vinPage">{!ques.objQuestion.pepGenericErrorMessage__c}</span>
+                                            <apex:outputPanel rendered="{!errorVin}" id="idVin"> 
+                                             <span class="errorMsg vinLabel"  style="display:block; text-align:center;">{!$label.VinError}</span>
+                                          </apex:outputpanel> 
+                                 </apex:outputpanel> 
+                                  <apex:outputPanel layout="block" id="id1" styleClass="form-cntrls-lg" rendered="{!IF(ques.objQuestion.pepType__c == 'Text' && ques.objQuestion.pepFieldApiName__c !='clcommon__Vehicle_ID_Number__c', true, false)}">       
+                                        <apex:inputtext id="text2" value="{!ques.strAnswer}" styleClass="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired textClass', 'textClass')}" disabled="true"/>
+                                        <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span>
+                                 </apex:outputpanel>       
+                                  
+                              <apex:outputPanel layout="block" styleClass="form-cntrls-lg searchBox"  rendered="{!IF(ques.objQuestion.pepType__c == 'Picklist', true, false)}">       
+                                   <apex:selectList id="IdSelectist1" value="{!ques.strAnswer}" multiselect="false" size="1" styleClass="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" rendered="{!IF(ques.objQuestion.pepFieldApiName__c != 'Red_Book_Vehicle_Series__c', true, false)}" 
+                                   disabled="{!IF((ques.objQuestion.pepFieldApiName__c == 'pep_User_Selected_Make__c' && makeDisabled = true) ||((ques.objQuestion.pepFieldApiName__c == 'pep_User_Selected_Model__c' && modelDisabled = true)) , true, false)}"
+                                   onchange="if(!checkFieldValidation(this.id)) return false; else fetchRedbook('{!ques.objQuestion.pepFieldApiName__c}');">
+                                    <apex:selectOptions value="{!ques.lstSelectOption}"/>
+                                       </apex:selectList>
+                                     
+                                     <apex:selectList id="IdSelectist2" value="{!ques.strAnswer}" multiselect="false" size="1" styleClass="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" rendered="{!IF(ques.objQuestion.pepFieldApiName__c == 'Red_Book_Vehicle_Series__c', true, false)}" onchange="checkFieldValidation(this.id);">
+                                                        <apex:selectOptions value="{!ques.lstSelectOption}"/>
+                                    </apex:selectList>    
+                                    <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span>           
+                           </apex:outputpanel>  
+                         
+                  </div>    
+               </apex:repeat>
+             </apex:repeat>
+                 <apex:inputHidden value="{!selectedVehicle}" id="hiddenVehicle"/>
+                 <apex:inputHidden value="{!selectedDealer}" id="hiddenDealer"/>
+                 <apex:inputHidden value="{!selectedVin}" id="hiddenVin"/>
+         </apex:outputPanel>         
+          </div>
+       </div>
+   </div>
+ </div>
+
+                            <div class="poweredBy clear">
+                                POWERED BY <!--<img src="assets/common/images/redBook.png" align="absmiddle" alt="Red Book" />-->
+                                           <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/redBook.png' )}" align="absmiddle" alt="Red Book" />
+                                           <br/>
+                                           <a href="https://www.pepper.com.au/lending/personal-loans/redbook-disclaimer-notice" target="_blank">Redbook disclaimer</a>
+                            </div>
+                            <div class="page-form uploadDoc">
+                                <div class="page-row">
+                                    <div class="form-section">          
+                                    <div class="col-xs-12 uploadDoc_lbl">
+                                        <c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection14"></c:pepcmscomponent_Text>
+                                    </div>
+                                   
+                                    <br/>   
+                                    <div class="clear text-center">
+                                                <button type="button" class="button secondaryBtn wAuto attachmentFile">Choose file</button>
+                                                <input type="file" id="attachmentFile" accept="application/pdf, image/jpeg" onchange="uploadFile();"/> <br /><br /><br />
+                                     </div>
+                                    
+                                     <apex:outputPanel id="rerenderAttachment">
+                                    <div class="clear documentList">
+                                    <apex:repeat value="{!attachList}" var="att">
+                                            <div class="col-xs-6">
+                                              <em class="fa fa-file-o"> </em>&nbsp;
+                                                {!att.name}
+                                             
+                                            </div>
+                                            
+                                            <div class="col-xs-6">
+                                                
+                                                <span class="status-icon left" value="{!att.id}" onclick="checkremote('{!att.id}');"><em class="fa fa-times-circle"></em></span>
+                                            </div>
+                                            </apex:repeat>
+                                    </div>  
+                                    </apex:outputPanel>
+
+                                    </div>
+                                </div>
+                            </div>
+           </apex:outputPanel>
+           
+            <apex:outputPanel id="assetDetailNo" rendered="{!IF(checkVehicleDetails == true && noComplete ==false && retreiveApp ==false, true, false)}">
+                        <div class="page-form">
+                                <div class="page-row">
+                                    <div class="form-section">
+                                        <div class="form-elements custom_frm">
+                                            <apex:repeat value="{!lstWrapperSection}" var="section">                                                 
+                                      <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c == 'AssetDetailsSection3' }" id="idSection1"> 
+                                        <div class="page-row">
+                                         <apex:outputLabel value="{!ques.objQuestion.pepLabelPriorQuestion__c} " escape="false" styleClass="form-cntrls" rendered="{!IF(ques.objQuestion.pepSequence__c ==1, true, false)}"/>                                                 
+                                            <apex:repeat value="{!ques.lstexpectedAnswers}" var="ans" rendered="{!if(AND( ques.lstexpectedAnswers.size != null, ques.lstexpectedAnswers.size > 0, ques.objQuestion.pepType__c == 'Button', ques.objQuestion.pepSubType__c == 'Yes / No'), true, false)}">
+                                            <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!IF(ans.objCmsAnswer.pepDisplayText__c == 'Yes' && ques.objQuestion.pepSequence__c ==1 , true, false)}">  
+                                             <label class="radioBtns">
+                                                     <apex:actionSupport event="onclick" action="{!vehicleDetails}" status="counterStatus" rerender="formId,renderScriptAttachment">
+                                                           <input type="radio" name="vehicleDetails"  class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ques.strAnswer}"/>
+                                                            <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                             <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span>
+                                                             <apex:param name="text" value="Yes"/>
+                                                     </apex:actionSupport>
+                                                    </label>
+                                               
+                                                </apex:outputPanel>
+                                         <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!IF(ans.objCmsAnswer.pepDisplayText__c == 'No' && ques.objQuestion.pepSequence__c ==1, true, false)}">
+                                                  <label class="radioBtns">
+                                                        <input type="radio" name="vehicleDetails" checked="checked" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ques.strAnswer}"/>
+                                                        <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                  </label>
+                                                
+                                        </apex:outputpanel>
+                            </apex:repeat>
+                            </div>
+                         </apex:repeat>
+                         </apex:repeat>  
+                                        </div>
+                                        <br/><br/>
+                                        <div class="form-section innerFrmSection text-center gryBG">
+                                            <p>
+                                                <c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection4"></c:pepcmscomponent_Text>
+                                            </p>
+                                           <!-- <button  type="button" class="button primaryBtn wAuto" onclick="$('.Loan_overlay').modal({backdrop: 'static',keyboard: false});">Send me a checklist of information I need</button>-->
+                                           <apex:commandButton action="{!sendChecklist}" reRender="formId,renderScriptSFR" styleClass="button primaryBtn wAuto" value="Submit and send me a checklist of information I need" status="counterStatus" oncomplete="showModal('no');"/>
+
+                                        </div>
+
+                                        <div class="form-section innerFrmSection text-center">
+                                            <p class="grnContent"><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDeatilsSection5"></c:pepcmscomponent_Text></p>
+                                            <h2>
+                                                <p><em class="fa fa-rocket grnContent"></em></p>
+                                                <apex:outputText id="idSectionBodyTwo"  escape="false" value="{!loanDetails}"/>
+                                            </h2>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+          </apex:outputPanel>  
+          
+          <!--Content after completion of No functionality -->
+          
+          <apex:outputPanel id="completeNo" rendered="{!IF(noComplete ==true && retreiveApp ==false, true, false)}">
+               <div class="page-form">
+                                <div class="page-row">
+                                    <div class="form-section loanSectionmsg">
+                                        <div class="form-section innerFrmSection text-center">
+                                            <p class="grnContent"><em class="fa fa-check-circle"></em></p>
+                                            <p class="grnContent"><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection16"></c:pepcmscomponent_Text></p>
+                                            <p class="grnContent">
+                                                <c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection17"></c:pepcmscomponent_Text>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                     <script>
+                          checkVeda();
+                     </script>
+          </apex:outputPanel>
+          
+          <!-- End here  --> 
+          
+          <!--Content if app status is awaiting assesment -->
+          
+          <apex:outputPanel id="retrieveApp" rendered="{!IF(retreiveApp ==true, true, false)}">
+               <div class="page-form">
+                                <div class="page-row">
+                                    <div class="form-section loanSectionmsg">
+                                        <div class="form-section innerFrmSection text-center">
+                                            <p class="grnContent"><em class="fa fa-clock-o"></em></p>
+                                            <p><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDetailsSection18"></c:pepcmscomponent_Text></p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+             </apex:outputPanel>
+             
+                 <!-- End here  -->                 
+                            
+                            <p><apex:outputText id="idSectionApp" escape="false" value="{!appNumber}" style="word-spacing:-1px"/></p>
+
+                            <div class="loanSetBotSec">
+                            
+                         <apex:outputPanel id="assetDetailYesBtn" rendered="{!IF(checkVehicleDetails == false && noComplete ==false && retreiveApp ==false, true, false)}">
+                                <div class="colA">
+                                  <apex:commandButton value="Save for later" action="{!saveForLater}" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal('call');"/>
+                               <!--<button class="button secondaryBtn">Save</button>-->
+                                </div>
+
+                                <div class="colB">
+                               <!-- <button class="button primaryBtn">Confirm and Continue</button>-->
+                                <apex:commandButton action="{!confirmAndContinue}" styleClass="button primaryBtn" value="Confirm and Continue" reRender="lvrId,renderScriptSFR" status="counterStatus" oncomplete="showModal('no');" onclick="if(!checkData('pageId:j_id0:formId')) {$('.vinLabel').hide(); return false;}"/>
+                                </div>
+                         </apex:outputPanel> 
+                               
+                     <apex:outputPanel id="assetDetailNoBtn" rendered="{!IF(checkVehicleDetails == true && noComplete ==false && retreiveApp ==false, true, false)}">
+                                <div class="colB">
+                                  <!-- <button  type="button" class="button primaryBtn" onclick="$('.Loan_overlay').modal({backdrop: 'static',keyboard: false});">Save</button>-->
+                                   <apex:commandButton action="{!sendChecklist}" reRender="formId,renderScriptSFR" styleClass="button primaryBtn" value="Save" status="counterStatus" oncomplete="showModal('no');"/>
+
+                               </div>
+                     </apex:outputPanel>  
+                        
+                            </div>
+                        </div>
+                    
+                </div>  
+ 
+        <!-- securedLoan Content ends -->
+    
+   <!-- LVR popup is start here -->
+   
+ <apex:outputPanel id="lvrId">
+ <apex:outputPanel id="lvrOpen" rendered="{!IF(lvrPopup ==true, true, false)}">
+ 
+    <div class="modal fade securedLoanmodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Asset Details - Vehicle
+                </div>
+                <div class="modal-body">
+                    <h3 class="modal_heading"><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDeatilsSection7"></c:pepcmscomponent_Text></h3>
+                     <apex:outputPanel rendered="{!IF(vehicleAgeCheck ==true, true, false)}">
+                         <p><apex:outputText id="idSectionLvr" escape="false" value="{!loanAmountAge}"/></p>
+                     </apex:outputPanel>
+                     <apex:outputPanel rendered="{!IF(vehicleAgeCheck ==false, true, false)}">
+                         <p><apex:outputText id="idSectionLvrAge" escape="false" value="{!loanAmount}"/></p>
+                     </apex:outputPanel>
+                    <div class="page-row">
+                    
+                    <apex:outputPanel rendered="{!IF(securedOffer ==false, true, false)}">
+                       <div class="selection_lbl secLbl  col-xs-12  col-sm-6">
+                           
+                            <p>
+                               <!-- <img src="assets/common/images/loanDoc.png" alt="" />-->
+                                <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/loanDoc.png' )}"/>
+                            </p>
+                            <br/>
+                            <span class="text-left">
+                                 <apex:outputText id="idSectionBodyThree"  escape="false" value="{!securedOfferText}"/>
+                            </span>
+                            <button type="button" class="button secondaryBtn offrBtn securedOffer" onclick="assignedOffer('Secured');">Accept offer</button>
+                            </div>
+                      </apex:outputPanel>
+                      
+                        <div  class="selection_lbl secLbl  col-xs-12 col-sm-6">
+                            
+                            <p>
+                              <!--  <img src="assets/common/images/car.png" alt="" />-->
+                                <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/car.png' )}" />
+                            </p>
+                            <br/>
+                            <span class="text-left"><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDeatilsSection9"></c:pepcmscomponent_Text></span>
+                            <button type="button" class="button secondaryBtn offrBtn" onclick="assignedOffer('Asset');">Change details</button>
+                            
+                        </div>
+                    
+                     <apex:outputPanel rendered="{!IF(unsecuredOffer ==false, true, false)}">
+                        <div   class="selection_lbl secLbl  col-xs-12  col-sm-6">
+                            <p>
+                               <!-- <img src="assets/common/images/loan_percentage.png" alt="" />-->
+                                <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/loan_percentage.png' )}" />
+                            </p>
+                            <br/>
+                            <span class="text-left">
+                                 <apex:outputText id="idSectionBodyFour"  escape="false" value="{!unsecuredOfferText}"/>
+                            </span>
+                            <button type="button" class="button secondaryBtn offrBtn unsecuredOffer" onclick="assignedOffer('Unsecured');">Accept offer</button>
+                            
+                        </div>
+                </apex:outputPanel>
+
+                    <!--    <div  class="selection_lbl col-xs-12  col-sm-6">
+                            
+                            <p>
+                                <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/withdraw_app_lrg.png' )}" />
+                            </p>    
+                            <br/>
+                            <span class="text-left"><c:pepcmscomponent_Text pageNameTest="Asset Details Page" sectionName="AssetDeatilsSection12"></c:pepcmscomponent_Text></span>
+                            <button type="button" class="button secondaryBtn offrBtn" onclick="assignedOffer('Withdraw');">Withdraw application</button> 
+                            
+                        </div> -->
+                    </div>
+                    <br/>
+                    <p><apex:outputText id="idSectionLvrOne" escape="false" value="{!loanPurpose}"/></p>
+                    <br/>
+                    <p>
+                         <apex:commandButton value="Continue with my choice" action="{!applyOffer}" styleClass="button primaryBtn wAuto accptOffr" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal('no');" onclick="show=false;"/>
+                         <br/>
+                         <br/>
+                        <apex:commandButton value="No thanks, I'll withdraw my application" action="{!applyOffer}" styleClass="wAuto noThanks" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal('no');" onclick="show=false;assignedOffer('Withdraw');"/>
+                    </p>
+                    <div>
+                   </div>
+                     <apex:inputHidden value="{!selectedOffer}" id="hiddenOffer"/>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+       <script>
+              $('.securedLoanmodal').modal({backdrop: 'static',keyboard: false});
+              $('.accptOffr').attr('disabled','disabled');
+              
+              $('.offrBtn').on('click',function(){
+                   $('.offrBtn').removeClass('active');
+                   $(this).addClass('active');
+              });
+             $('.securedLoanmodal').on('shown.bs.modal', function(){
+              var maxHeight = Math.max.apply(null, $(".selection_lbl span.text-left").map(function ()
+                {
+                    return $(this).height();
+                }).get());
+                 $(".selection_lbl span.text-left").css('height', maxHeight+'px');
+                //alert(maxHeight);
+                });
+  </script>
+     
+ </apex:outputPanel> 
+ </apex:outputPanel>  
+   <!--End here-->
+    
+             
+  </apex:form>  
+                
+     <script>
+            
+              function assignVehicleValue(inputValue)
+              {
+                  document.getElementById("pageId:j_id0:formId:hiddenVehicle").value = inputValue;
+              }
+              function assignDealerValue(inputValue)
+              {
+                 document.getElementById("pageId:j_id0:formId:hiddenDealer").value = inputValue;
+              }
+              function assignedVin()
+              {
+                  document.getElementById("pageId:j_id0:formId:hiddenVin").value = $('.vin').val(); 
+                  $('.vinPage').hide();
+                  return true;
+             }
+              function assignedOffer(inputValue)
+              {
+                 document.getElementById("pageId:j_id0:formId:hiddenOffer").value = inputValue; 
+                 $('.accptOffr').removeAttr('disabled');
+              }  
+              
+           
+              
+     </script>
+      <apex:outputPanel id="renderScriptSFR">
+     
+        <script>
+           function showModal(success) 
+            { 
+                  
+                    if(('{!successMsg}')=='false')
+                    {
+                       $('.errorModalSFR').modal();
+                       
+                    }   
+                   else if(('{!successMsg}')=='true' && success=='call')
+                    {
+                        $('.successModalSFR').modal();
+                    } 
+                     
+            }
+         </script>
+      </apex:outputPanel>
+         
+      <apex:outputPanel id="renderScriptAttachment">
+     
+        <script>
+           //choose file customization
+              var choose =  document.querySelectorAll('.attachmentFile')[0];
+              choose.addEventListener('click', function(e){
+                  document.getElementById('attachmentFile').click();
+              });
+         </script>
+      </apex:outputPanel>   
+         
+ 
+ 
+  <script type="text/javascript">
+    var maxStringSize = 6000000;    //Maximum String size is 6,000,000 characters
+    var maxFileSize = 4350000;      //After Base64 Encoding, this is the max file size
+    var chunkSize = 950000;         //Maximum Javascript Remoting message size is 1,000,000 characters
+    var attachment;
+    var attachmentName;
+    var fileSize;
+    var positionIndex;
+    var doneUploading;
+    var count;
+//Method to prepare a file to be attached to the Account bound to the page by the standardController
+    function uploadFile() {
+    
+      count = 0;
+      var file = document.getElementById('attachmentFile').files[0];
+      console.log(file);
+      if(file != undefined) {
+        if(file.size <= maxFileSize) {
+          attachmentName = file.name;
+          var fileReader = new FileReader();
+          fileReader.onloadend = function(e) {
+            attachment = window.btoa(this.result);  //Base 64 encode the file before sending it
+            positionIndex=0;
+            fileSize = attachment.length;
+            console.log("Total Attachment Length: " + fileSize);
+            doneUploading = false;
+            if(fileSize < maxStringSize) {
+              uploadAttachment(null);
+            } else {
+              alert("Base 64 Encoded file is too large.  Maximum size is " + maxStringSize + " your file is " + fileSize + ".");
+            }
+             
+          }
+          fileReader.onerror = function(e) {
+            alert("There was an error reading the file.  Please try again.");
+          }
+          fileReader.onabort = function(e) {
+            alert("There was an error reading the file.  Please try again.");
+          }
+         
+          fileReader.readAsBinaryString(file);  //Read the body of the file
+         
+        } else {
+          alert("File must be under 4.3 MB in size.  Your file is too large.  Please try again.");
+        }
+      } else {
+        alert("You must choose a file before trying to upload it");
+      }
+    }
+     
+//Method to send a file to be attached to the Account bound to the page by the standardController
+//Sends parameters: Account Id, Attachment (body), Attachment Name, and the Id of the Attachment if it exists to the controller   
+    function uploadAttachment(fileId) {
+      var attachmentBody = "";
+     
+      if(fileSize <= positionIndex + chunkSize) {
+        attachmentBody = attachment.substring(positionIndex);
+        doneUploading = true;
+      } else {
+        attachmentBody = attachment.substring(positionIndex, positionIndex + chunkSize);
+      }
+      console.log("Uploading " + attachmentBody.length + " chars of " + fileSize);
+      if(count==0)
+        $('.spinner').show();
+      PepAssetPageController.doUploadAttachment(
+      '{!appId}', attachmentBody, attachmentName, fileId, 
+        function(result, event) {
+        
+          console.log(result);
+          if(event.type === 'exception') {
+          $('.spinner').hide();
+            console.log("exception");
+            console.log(event);
+          } else if(event.status) {
+            if(result.substring(0,3) == '00P') { //alert(result+'=='+attachmentName);
+               count++;
+               if(count==1)
+               {
+                    $('.spinner').hide();
+                    var html = '<div class="col-xs-6"> <em class="fa fa-file-o"> </em>&nbsp;&nbsp;' + attachmentName + '</div>' +
+                   '<div class="col-xs-6">' +
+                    '<span class="status-icon left" value="' + result + '" onclick="checkremote(\'' + result + '\');"><em class="fa fa-times-circle"></em></span>' +
+                    '</div>';
+                    $('.documentList').append(html);
+                    $('.spinner').hide();
+               }
+              if(doneUploading == true) {
+                       $('#attachmentFile').val("");
+                       linkAttachment(result);
+              } else {
+                positionIndex += chunkSize;
+                uploadAttachment(result);
+              }
+            }
+          } else {
+            console.log(event.message);
+          }
+        },
+        {buffer: true, escape: true, timeout: 120000}
+      );
+    }
+    var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+  </script>
+
+
+ </apex:define>
+ </apex:composition>
+</apex:page>

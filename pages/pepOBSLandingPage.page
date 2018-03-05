@@ -1,0 +1,411 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false" docType="html-5.0" id="idPage" controller="pepLandingPageOBScontroller" cache="false">
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PepperMoney Homepage</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+    <style>
+        .currencyAppLanding:before{
+            top: 50%;
+            left: 10px;
+            -moz-transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);  
+            transform: translateY(-50%);
+        }
+        .currencyAppLanding input[type="text"]{
+            padding-left: 20px !important;
+        }
+        .posRel{
+            position: relative;
+        }
+        .info-icon{
+          /*  position: absolute !important;
+            top: 1px !important;
+            right: -25px; */
+        }
+        .collapsing {
+    -webkit-transition: none;
+    transition: none;
+}
+    </style>
+  </head>
+<body class="noBg">
+<script>
+           
+            function handleiframeheight(v){
+            if(v != '' && v!=null && v!=0){
+           
+            }
+            else{
+           
+            }
+            }
+            
+            $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+            // Added By Kripa to add cookies from the page
+            function setCookie(fieldName, fieldValue)
+            {
+                document.cookie= "path=/";
+                //document.cookie= "domain=https://dev-pepper.cs6.force.com";
+                document.cookie = "apex__"+fieldName+"="+fieldValue;        
+                //alert(document.cookie);
+            }
+            // On fresh window load clear old cookies.
+            window.onload = deleteAllCookies;
+            function deleteAllCookies() {
+                   var cookies = document.cookie.split(";");
+            
+                   for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";                 
+                }
+            }
+            
+             function deleteAllCookies1() {
+                   var cookies = document.cookie.split(";");
+                   
+                   for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                   
+                    if(name.indexOf('apex__genesis__CL_Purpose__c')<=-1)
+                     {
+                       if(name.indexOf('apex__genesis__CL_Product__c')<=-1)
+                       {
+                             if(name.indexOf('debug_logs')<=-1)
+                             {
+                               document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                             } 
+                        }  
+                     }               
+                }
+            }
+            
+           function deleteAllCookies2() {
+                   var cookies = document.cookie.split(";");
+                   
+                   for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                   
+                    if(name.indexOf('apex__genesis__CL_Purpose__c')<=-1)
+                     {
+                          if(name.indexOf('debug_logs')<=-1)
+                             {
+                               document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                             } 
+                     }               
+                }
+            }
+              
+            </script> 
+             <apex:form id="idForm" forceSSL="true">  
+    <div class="container-fluid loanForm">
+        <div class="col-sm-6 centerBlock">
+            <h2><c:pepcmscomponent_Text pageNameTest="Landing Page OBS" sectionName="LandingPageOBSSection6"></c:pepcmscomponent_Text></h2>
+            <p class="infoTxt"><c:pepcmscomponent_Text pageNameTest="Landing Page OBS" sectionName="LandingPageOBSSection7"></c:pepcmscomponent_Text></p>
+           
+             <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+            
+            <apex:variable var="sec" value="{!1}"/>
+            <apex:repeat value="{!lstWrapperSection}" var="section" id="idRepeatSection">
+            <apex:variable var="quesNo" value="{!1}" id="idRepeatQuestion"/>                               
+            <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c =='LandingPageOBSSection1'}" id="idSection1">  
+          <span id="idSpan" class="{!IF(quesNo == questionNo+1 || (quesNo =1 && questionNo==null) ||( questionNo !=null && quesNo <= questionNo)||(ques.strAnswer!=null && questionNo !=2 ) && isError==false ,'active','')}" >
+ 
+            <div class="form-group">
+
+                    <label for="" class="posRel">{!ques.objQuestion.pepLabelPriorQuestion__c}
+                       <span class="fa fa-info-circle info-icon" data-toggle="collapse" data-target="#collapseExample" style="{!if((quesNo==6),'','display: none')}" onclick="setTimeout(handleiframeheight,200);"></span>
+                    </label>
+                    
+                    <div class="row">  
+                      <div class="col-sm-8 posRel">
+
+                            <!-- <apex:outputText value="{!ques.objQuestion.pepLabelPriorQuestion__c}" rendered="{!IF(OR(ques.objQuestion.pepSequence__c == 3,ques.objQuestion.pepSequence__c == 4),true,false)}" escape="false">  </apex:outputText>-->
+                             <apex:outputPanel rendered="{!if(ques.objQuestion.pepType__c == 'Picklist',true,false)}" id="idOutPurpose">
+                                   <apex:selectList rendered="{!IF(ques.objQuestion.pepFieldApiName__c =='genesis__CL_Purpose__c' || ques.objQuestion.pepFieldApiName__c =='genesis__CL_Product__c',true,false)}"  value="{!ques.strAnswer}" id="slctList1" multiselect="false" size="1" styleclass="form-control" > 
+                                    <apex:selectOptions value="{!ques.lstSelectOption}"/> 
+                                    <apex:actionSupport id="n1"  event="onchange" action="{!fetchAllRateCard}"   status="counterStatus"  reRender="idForm,idSection1,idOutPurpose,idAmount,idIntrstEMI,outsecureLoan,rerenderScript" oncomplete="handleiframeheight();tabIndexing();pepperApp.currencyFormat();" onsubmit="deleteAllCookies2();setCookie('{!ques.objQuestion.pepFieldApiName__c}', this.value);">
+                                                    <apex:param name="sectionName" value="{!sec}"
+                                                        assignTo="{!sectionNumber}" />
+                                                       <apex:param name="questionNo" value="{!quesNo}"
+                                                        assignTo="{!questionNo}"/>
+                                                   </apex:actionsupport> 
+                                </apex:selectList>
+                            <!--  <span style="{!IF(OR(ques.objQuestion.pepSequence__c == 3,ques.objQuestion.pepSequence__c == 4) ,'display:nliine;','display:none;')}">&nbsp;&nbsp;</span>-->
+                                <apex:selectList rendered="{!IF(ques.objQuestion.pepFieldApiName__c !='genesis__CL_Purpose__c' && ques.objQuestion.pepFieldApiName__c !='genesis__CL_Product__c',true,false)}" value="{!ques.strAnswer}" multiselect="false" size="1" styleClass="{!IF(ques.objQuestion.pepFieldApiName__c =='Requested_Term__c','pepW50','')} temp{!quesNo} form-control">
+                                <apex:selectOption itemValue="" itemLabel="--Select--"/>
+                                  <apex:selectOptions value="{!ques.lstSelectOption}"/>
+                                  <apex:actionSupport id="n2"  event="onchange" action="{!querydata}"  status="counterStatus"  reRender="idForm" oncomplete="handleiframeheight();applyBlank();pepperApp.currencyFormat();tabIndexing();function123($(this).attr('tabindex'));" onsubmit="setCookie('{!ques.objQuestion.pepFieldApiName__c}', this.value);">
+                                                    <apex:param name="sectionName" value="{!sec}"
+                                                        assignTo="{!sectionNumber}" />
+                                                       <apex:param name="questionNo" value="{!quesNo}"
+                                                        assignTo="{!questionNo}"/>
+                                                  </apex:actionsupport> 
+                                  </apex:selectList>
+                       
+                   </apex:outputPanel>
+                  <apex:outputPanel rendered="{!if(ques.objQuestion.pepType__c == 'Currency',true,false)}" id="idAmount" styleClass="currencyAppLanding " layout="block" style="display:block;">
+                         <apex:inputText value="{!ques.strAnswer}" id="IdLoanAmount" onkeypress="javascript:return numbersonly(event,this.id);" styleClass="form-control" html-placeholder="{!decAmountPlaceHolder}">
+                         <apex:actionSupport event="onblur"  action="{!querydata}" status="counterStatus"    reRender="idForm,rerenderScript" oncomplete="handleiframeheight();applyBlank(); pepperApp.currencyFormat();setTimeout(function(){tabIndexing();}, 3000);function123($(this).attr('tabindex'));" onsubmit="deleteAllCookies1(); setCookie('{!ques.objQuestion.pepFieldApiName__c}', this.value);"  >
+                                                    <apex:param name="sectionName" value="{!sec}"
+                                                        assignTo="{!sectionNumber}" />
+                                                       <apex:param name="questionNo" value="{!quesNo}"
+                                                        assignTo="{!questionNo}"/>
+                                                  </apex:actionsupport> 
+                            </apex:inputText>
+                   </apex:outputPanel>
+                    <apex:outputPanel layout="block" rendered="{!if(isError == true && StrMinLoanAmount !='' && StrMaxLoanAmount!=''&& quesNo == 3,true,false)}" id="idOutError">                                                   
+                                                   <span class="errorMsg"  style="display:block; text-align:left; width: 100%;">
+                                                   {!SUBSTITUTE(SUBSTITUTE(ques.objQuestion.pepGenericErrorMessage__c,"{minAmount}", StrMinLoanAmount),"{maxAmount}",StrMaxLoanAmount)}
+                                                   </span>
+                                              </apex:outputPanel> 
+                                              
+                                                                                     
+                                       <apex:outputPanel rendered="{!if(OR(ques.objQuestion.pepType__c == 'Text',ques.objQuestion.pepType__c == 'Number'),true,false)}">                                                    
+                                            <apex:inputText value="{!ques.strAnswer}" />                          
+                                       </apex:outputPanel> 
+                                      
+                                <!--   <span style="{!IF(OR(ques.objQuestion.pepSequence__c == 3,ques.objQuestion.pepSequence__c == 4,ques.objQuestion.pepSequence__c == 5) ,'display:nliine;','display:none;')}">&nbsp;&nbsp;</span>
+                                      <apex:outputText value="{!ques.objQuestion.pepLabelAfterQuestion__c}" escape="false"/>-->
+                   
+                    </div>
+                    </div>
+                </div>
+                </span> 
+                                    <apex:variable var="quesNo" value="{!quesNo+1}"/>
+                                </apex:repeat>
+                                <apex:variable var="section" value="{!sec+1}"/>                  
+                            </apex:repeat> 
+                   
+            
+            
+        </div>
+        <div class="customInfoDiv">
+            <div class="infoBanner collapse" id="collapseExample">              
+                <p>
+                <span class="fa fa-info-circle"></span> 
+              <c:pepcmscomponent_Text pageNameTest="Landing Page OBS" sectionName="LandingPageOBSSection8"></c:pepcmscomponent_Text></p>
+            </div>
+    <apex:outputPanel rendered="{!IF(decIndicativeInterestrate !=null  && decEMI != null && decIndicativeInterestrate > 0,true,false)}" id="idIntrstEMI">
+            <script>
+            $('.iframesetter').css('height','1050px');
+      
+            </script>
+            <div class="loanAmountBlk">
+                <div class="col-sm-10 centerBlock">
+                    <div class="row">
+                        <div class="col-sm-6 loanRates">
+                           <c:pepcmscomponent_Text pageNameTest="Landing Page OBS" sectionName="LandingPageOBSSection2"></c:pepcmscomponent_Text>
+                            <h1>{!decIndicativeInterestrate}%</h1>
+                           <c:pepcmscomponent_Text pageNameTest="Landing Page OBS" sectionName="LandingPageOBSSection3"></c:pepcmscomponent_Text>
+                            
+                        </div>
+                        <div class="col-sm-6 loanRates">
+                            <c:pepcmscomponent_Text pageNameTest="Landing Page OBS" sectionName="LandingPageOBSSection4"></c:pepcmscomponent_Text>
+                            <h1>${!decEMI}</h1>
+                           {!intrestSection}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                          <apex:commandLink value="Apply Now"   action="{!applyNow}"  styleClass="btn loanBtn" target="_blank"/>
+                            <!-- <button class="btn loanBtn">Apply Now</button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+             </apex:outputPanel>
+        </div>
+
+    </div>
+    </apex:form>
+     <script>
+                
+            $(document).ready(function(){
+              $(document).on("cut copy paste","#idPage\\:idForm\\:idRepeatSection\\:0\\:idSection1\\:1\\:IdLoanAmount",function(e) {
+                  //console.log('hi');
+                  e.preventDefault();
+              });
+            //  $('[Id$=IdLoanAmount]').attr("type","tel");
+            });
+            </script>
+                   
+                <script type="text/javascript">
+                    (function() {
+                    _satellite.pageBottom();
+                    })();
+                </script>         
+           
+       
+       
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <script>
+          var selectInfoclicked = false;
+          function applyBlank()
+          {
+             
+             $('a.wAuto').attr('target', '_blank'); 
+             if(selectInfoclicked == true)
+             {
+                 $(".creditRating").show();
+             }
+          }
+          
+          
+          
+          
+            $(document).ready(function()
+            {
+               $('a.wAuto').attr('target', '_blank'); 
+            });
+        var tempTabindex;
+        function function123(x){
+       
+        if(x=='2'){
+        tempTabindex=parseInt(x);
+        tempTabindex=tempTabindex + 1;
+        $(".temp"+tempTabindex).focus();
+        }
+         else{
+         if(x==undefined || x=='3'){
+         tempTabindex=parseInt(3);
+         tempTabindex=tempTabindex + 1;
+         }
+         else{
+         var z=parseInt(x);
+         tempTabindex=z + 1;
+         }
+        $(".temp"+tempTabindex).focus();
+         }      
+        }
+       
+            
+        $(document).on("click",".selectInfo",function() 
+        {
+        
+            if(selectInfoclicked ==false)
+            {
+                selectInfoclicked = true;
+            }
+            else if(selectInfoclicked ==true)
+            {
+                selectInfoclicked = false;
+            }
+            
+        });
+           
+       
+        </script>
+        <script>
+           $(function(){
+            Number.prototype.format = function () {
+                return this.toString().split( /(?=(?:\d{3})+(?:\.|$))/g ).join( "," );
+            };
+                
+            $(document).on('keypress keyup', ".currencyAppLanding input", function(evt){
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if(charCode == 0 || charCode == 229){
+                    var str = $(this).val();
+                    charCode = str.charCodeAt(str.length-1);
+                    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                        str = str.slice(0, -1);
+                        $(this).val(str);
+                    }    
+                }
+                if(charCode==13)
+                return false;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }                
+                return true;
+            });
+            
+            
+            $(document).on('blur', ".currencyAppLanding input", function(evt){
+                if(!isNaN(parseInt($(this).val()))){
+                    var num = ($(this).val().replace(/\,/g,""));
+                    $(this).val(num.format());
+                }
+            }); 
+            
+            pepperApp.currencyFormat = function(){
+                $(".currencyAppLanding").each(function(){
+                    var $this = $(this).find("input");                    
+                    if($this.val()){
+                        $this.val(addCommas($this.val()));
+                    }   
+                });
+            }
+
+        });
+         $(document).ready(function() {
+                     handleform();
+                   });   
+           
+            function handleform(){
+            $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+           }
+           
+            </script>
+            
+            <apex:outputPanel id="rerenderScript">
+                    <script>
+                     $(document).ready(function() {
+                            $("option").each(function(){
+                                if($(this).html()=="") $(this).remove();
+                                });
+                              
+                            });
+                            </script>
+            </apex:outputPanel>
+            
+        <!--<script>
+                 
+                  (function(){
+                   iframeHeight();
+                  })();
+       </script>-->
+       <script>
+       function handleiframeheight(){
+       var contentHeight ='';
+       contentHeight = document.body.querySelectorAll('.loanForm')[0].scrollHeight;
+       
+       parent.postMessage(contentHeight ,"{!$Label.Parent_Domain}");
+       
+       }
+        /*function iframeHeight(){
+                   var contentHeight =document.body.querySelectorAll('.loanForm')[0].crollHeight;
+                   //console.log(contentHeight);
+                   return contentHeight;
+                   //parent.document.getElementsByTagName("iframe")[0].style.height = contentHeight+"px";
+                  }*/
+
+                  
+$(document).ready(   function(){
+    // Send the message "Hello" to the parent window
+    // ...if the domain is still "davidwalsh.name"
+    var contentHeight = document.body.querySelectorAll('.loanForm')[0].scrollHeight;
+    parent.postMessage(contentHeight ,"{!$Label.Parent_Domain}");
+
+});
+</script>
+</body>
+
+</html>
+</apex:page>

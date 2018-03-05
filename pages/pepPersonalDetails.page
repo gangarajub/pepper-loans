@@ -1,0 +1,900 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" action="{!checkcookie}"  controller="pepPersonalDetailsController" id="idPage" extensions="SaveAndRetrieveExtensionOnPD"  cache="{!$Label.Cache_Settings}" >  
+
+
+<html lang="en">
+    <head>
+    
+    <!-- Google Tag Manager -->
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    
+    })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+    
+    <!-- End Google Tag Manager -->
+    
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Submit your details</title>        
+       <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>  
+       <apex:stylesheet value="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+       <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" />
+       
+       <style>
+            #saveNowchange .modalDialog .form-cntrls { width:46%!important; }
+            #saveNowchange .modalDialog .form-cntrls{ margin-bottom:15px!important; }
+            #saveNowchange .modalDialog .page-form .form-elements .form-cntrls-lg { margin-bottom:15px!important; }
+            #saveNowchange .modalDialog .page-form { margin-bottom: 0px!important; padding:30px!important; }
+       .spinner_PD:after{
+                content:"We are processing your request.  Please be patient this may take a few minutes.";
+                display: block;
+                position:absolute;
+                left:50%;
+                top:50%;
+                margin-top:30px;
+                padding:10px 5px;
+                border-radius: 5px;
+                text-align:center;
+                background:rgba(255,255,255,0.9);
+                -moz-transform: translateX(-50%);
+                -webkit-transform: translateX(-50%);
+                transform: translateX(-50%);
+            }
+       
+           @media only screen 
+                and (min-device-width : 450px) 
+                and (max-device-width : 768px) {
+                  .form-btns .form-cntrls:first-child 
+                   {
+                    width:auto;
+                   }
+            }
+       
+     
+       </style>
+    </head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- End Google Tag Manager (noscript) -->
+
+
+<apex:form id="idForm">
+<apex:inputHidden value="{!inputValue}" id="theHiddenInput"/>
+<apex:inputHidden value="{!inputValueemail}" id="theHiddenInputemail"/>
+<apex:inputHidden value="{!inputValuephone}" id="theHiddenInputphone"/>
+<apex:inputHidden id="inputHidden" value="{!strRetrieveCode}"/>
+<apex:actionFunction name="CallPDActionFunction" action="{!SaveCallFromHeader}" reRender="temp">
+<apex:param name="paramvalue" value="" assignTo="{!pagetoredirect}"/>
+</apex:actionfunction>
+<apex:outputpanel id="temp">
+
+</apex:outputpanel> 
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+ 
+
+<c:pepCmsHeaderComponent getpageName="Header" purposeName="{!objModelContainer.objApplication.genesis__CL_Purpose__c}" getApplication="{!objModelContainer.objApplication}"
+             currentPage="{!intCurrentPageNumber}" previousPage="{!intPreviousPageNumber}"></c:pepCmsHeaderComponent> 
+
+    <div class="pepperContainer">
+   
+        <c:pepcmscomponent_New id="idC" cmsPageName="{!strPageName}" componentController="{!populateValues}" ></c:pepcmscomponent_New>
+        
+        
+        <div class="page-row">
+            <div class="assessmentTxt">
+                <!--<p>By clicking submit, your finished application will now be submitted to Pepper and we will perform a credit bureau check.</p>
+                <p>By proceeding with this application, you certify, warrant and represent that the information provided in this application is correct and complete.</p>-->
+                <c:pepcmscomponent_Text pageNameTest="Personal Details" sectionName="PersonalDetailsText"></c:pepcmscomponent_Text>
+            </div>
+             <div class="assessmentTxt">
+              <p class="custom-chkBox isrequired ">   
+                <input type="checkbox" id="requestInfo" name="PD"/>
+                <label for="requestInfo"><c:pepcmscomponent_Text pageNameTest="Personal Details" sectionName="PersonalDetailsCheckboxText"></c:pepcmscomponent_Text></label>
+                <span class="errorMsg">{!$Label.PDCheckboxError}</span>
+              </p>
+              </div>
+        </div>
+        
+        <div class="clearfix">
+        <br/><br/>
+           <apex:commandLink action="{!doVerify}" styleClass="display:none;" ></apex:commandLink> 
+                     <div class="hideCaptcha">  
+                     <div class="g-recaptcha" data-sitekey="{!sitekey}" > </div>
+                     <span id="captcha_error" class="errorMsg" style="display:block;"> </span>
+                   <script src='https://www.google.com/recaptcha/api.js'></script> 
+                    </div>
+            <br/><br/>
+        </div>
+
+        <div class="form-btns">
+            <div class="page-row">
+                <div class="form-cntrls right" style="min-width: 21%;">
+                    <apex:commandButton id="idBtn"  action="{!saveOnContinue}" value="Submit Application" reRender="idfuncContinue,pollerOut,pollerPanel,idactionPoller" styleClass="button primaryBtn btn_submit continueBtn submitApplication" onclick="if(!CaptchaValidation() && !switchoffCaptcha)return false;disablePogressBar=true;show=false;disablesaveforlaterbutton();" oncomplete="renderOnContinue();fnAnalytics($('[Id$=idEmail1]').val());" status="counterStatus" />
+                    <!--<apex:commandButton id="idBtn"  action="{!saveData}"    onclick="if(!(checkData('idPage:idForm') && CaptchaValidation())){CaptchaValidation(); return false;}"  value="Submit Application" styleClass="button primaryBtn btn_submit" reRender="pollerOut,pollerPanel,idactionPoller" />-->
+                    <apex:commandButton id="idHeaderBtn"  action="{!saveCallFromHeader}" value="Continue" styleClass="button primaryBtn btn_submit continueBtn" style="display:none;"/>
+                    
+                </div>
+                
+                <div class="form-cntrls left">
+                    <input type="button"  onclick="show=false;$('.expenselink').trigger('click');" value= "Back" Class="backBtn button secondaryBtn" tabindex="25" ></input>
+                </div>
+                
+                <div class="form-cntrls right form-cntrls-sm">
+                
+                <apex:commandButton action="{!save}" value="Save for Later" id="theButton2" styleClass="button secondaryBtn SFLDisable" html-data-toggle="modal" reRender="saveAppPanel" rendered="{!Flag}" immediate="true" status="counterStatus"/>
+                <apex:commandButton value="Save for Later" id="theButtons" styleClass="button secondaryBtn SFLDisable" html-data-target="#saveApp" html-data-toggle="modal" reRender="saveAppPanel" rendered="{!!Flag}" immediate="true"/>
+                
+                </div>
+            </div>  
+            <apex:outputPanel id="saveAppPanel">
+            
+            
+            </apex:outputPanel>
+            
+           
+            
+            
+        </div>
+      <apex:outputPanel id="pollerOut"> 
+         <apex:outputPanel id="pollerPanel" rendered="{!isSaveClicked ==true}">
+               <!-- disablesaveforlaterbutton(); -->
+                 <apex:outputPanel id="idactionPoller">
+               <div class="spinner spinner_PD"> </div>
+                <apex:actionPoller action="{!checkVedaStausAndRedirect}" reRender="pollerPanel,idactionPoller"  interval="5" />
+             
+             </apex:outputPanel>
+            
+       </apex:outputPanel>
+      </apex:outputPanel> 
+        
+        <!-- div- form-btns ends here -->
+        
+        <!-- Save for later modal window -->
+        <div id="saveApp" class="fade modalBase modalBaseSmall" role="dialog">
+            <div class="modalDialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                      <span  class="times right" data-dismiss="modal" onclick ="enableContinueBtn();">×</span>
+                      <h4 class="modal-title left">Save your application</h4>
+                    </div>
+                <div class="page-form">
+                    <div class="form-elements">
+                        <div class="page-row">
+                            
+                            <p>
+                            We will send you a individual and secure code which you can use to save and access your application.
+                            </p>
+                            <p>
+                            How would you like to receive your code?
+                            </p>
+                            
+                        </div>
+                            <div class="page-row">
+                            
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                        <input type="radio" name="repayloan" id="repayloan_yes"/>
+                                     <span class="button staticBtn radio_yes" onclick="show=false;assignhidden('email');temp='email';$('.initialSendButton').attr('disabled',false);automaticVal();$('#tellusabout').collapse('show'); $('#tellusabout2').collapse('hide')">Email</span>
+                                    </label>
+                                </div>
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                        <input type="radio" name="repayloan" id="repayloan_no"/>
+                                        <span class="button staticBtn radio_no" onclick="show=false;assignhidden('mobile');temp='mobile';$('.initialSendButton').attr('disabled',false);automaticPhoneVal();$('#tellusabout2').collapse('show'); $('#tellusabout').collapse('hide')">SMS</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="tellusabout" class="collapse">
+                                <div class="page-row">
+                                
+                                    <label class="form-cntrls custom_sml_label">
+                                            Email
+                                    </label>
+                                    <div class="form-cntrls custom_sml_cntrl">
+                                        <apex:inputtext value="{!email}" id="email" styleClass="isEmail"  onblur="assignhiddenemail(this.value);checkFieldValidation(this.id);"/>
+                                         <span class="errorMsg errorEmail">Either the entered email is invalid or there is no application present in the system for this email.</span>
+                                    </div>
+                                </div>
+                                 <p>
+                                 By clicking 'Save Now' you agree to the Pepper Money <a style="text-decoration:underline;" target="_blank" onclick="show=false" href="https://www.pepper.com.au/lending/personal-loans/privacy-consent">Privacy Consent</a>
+
+                                  </p>
+                                </div>
+                            <div id="tellusabout2" class="collapse">
+                                <div class="page-row">
+                                
+                                    <label class="form-cntrls">
+                                            Mobile Number
+                                    </label>
+                                    <div class="form-cntrls">
+                                        <apex:inputtext value="{!phone}" id="phone" styleClass="isPhone" onblur="assignhiddenphone(this.value);checkFieldValidation(this.id);" 
+                                                        html-placeholder="04XXXXXXXX" onkeypress="javascript:return numbersonly(event)" />
+                                        <span class="errorMsg errorMobile">Either the entered Mobile Number is invalid or there is no application present in the system for this Mobile Number.</span>
+                                    </div>
+                                </div>
+                                  <p>
+                                     By clicking 'Save Now' you agree to the Pepper Money <a style="text-decoration:underline;" target="_blank" onclick="show=false" href="https://www.pepper.com.au/lending/personal-loans/privacy-consent">Privacy Consent</a>
+
+                                  </p>
+                              </div>
+                              <apex:outputPanel id="idfuncCall">
+                                <script>
+                                function CallrenderFunc(){
+                                
+                                var error={!isError};
+                                
+                                var isDisplayRet={!isdisplayRetrieve};                                        
+                                if(error==true)
+                                {
+                                    show=true;
+                                    if(temp=='mobile')
+                                        $(".errorMobile").show();
+                                    else
+                                        $(".errorEmail").show();
+                                }
+                                  
+                                 else if(isDisplayRet==true)
+                                 {
+                                    show=true;
+                                    $("#saveApp").modal("hide");
+                                    $("#saveApp").on("hidden.bs.modal", function(){
+                                        $("#saveNow").modal("show");
+                                    });
+                                                                        
+                                 }
+                                 else 
+                                 {
+                                      $("#saveApp").modal("hide");
+                                 }                                 
+                                }
+                                var switchoffCaptcha=false;
+                                </script>
+                                 </apex:outputPanel> 
+                                <apex:actionStatus id="counterStatus2" startStyleClass="spinner"/>
+                            <div class="form-cntrl">
+                                <!--<apex:commandButton action="{!save}" value="Save Now" id="theButton4" styleClass="button primaryBtn" html-data-toggle="modal" html-data-target="#saveNow" html-data-dismiss="modal" reRender="saveNow" />-->
+                                <apex:commandButton action="{!save}" value="Save Now" id="theButton4" styleClass="button primaryBtn initialSendButton" reRender="idfuncCall" oncomplete="CallrenderFunc();"  onclick="show=false;fnAnalytics($('[Id$=email]').val());" status="counterStatus2"/>
+                            
+                            </div>
+                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal window ends here -->
+        <!-- pop-up Modal window starts here -->
+        <div id="saveNow" class="fade modalBase modalBaseSmall" role="dialog">
+            <div class="modalDialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                      <span  class="times right" data-dismiss="modal" onclick ="enableContinueBtn();">×</span>
+                      <h4 class="modal-title left">Save your application</h4>
+                    </div>
+                <div class="page-form">
+                    <div class="form-elements">
+                        <div class="page-row">
+                            
+                            <p>
+                            Application already exists for your email/phone.
+                            </p>
+                            <p>
+                            Would you like to override the existing application with the new one?
+                            </p>
+                            
+                        </div>
+                            <div class="page-row">
+                            <apex:outputPanel id="idfuncContinue">
+                            <script>
+                            function renderOnContinue(){
+                            var callSaveNowFromContinue={!isCallFromContinue};
+                            var isDisplayRet={!isdisplayRetrieve};
+                            if(isDisplayRet==true)
+                             {
+                                disablePogressBar=false;
+                                show=true;
+                                enablesaveforlaterbutton();
+                                $("#saveNow").modal("show");                                
+                            }
+                            }
+                            </script>
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                    <apex:commandLink action="{!retrieveNoOnContinue}" value="Yes" id="theButtonYes1" styleClass="button staticBtn radio_yes"  html-data-dismiss="modal" rendered="{!isCallFromContinue}" reRender="pollerOut,pollerPanel,idactionPoller" onclick="show=false;$('#retrieveApplication').modal('hide');"/>
+                                    <apex:commandLink action="{!retrieveNo}" value="Yes" id="theButtonYes2" styleClass="button staticBtn radio_yes" html-data-dismiss="modal" rendered="{!!isCallFromContinue}" onclick="show=false;"/>                                 
+                                    
+                                    </label>
+                                </div>                                
+                                </apex:outputPanel>
+                                <div class="form-cntrls">
+                                    <label class="radioBtns">
+                                    <input type="radio" name="repayloan" id="repayloan_no" onClick="show=false;callByRadio();$('#saveNow').modal('hide');$('#retrieveApplication').modal('show');" />
+                                    <span class="button staticBtn radio_no">No</span>
+                                    </label>
+                                  <apex:actionfunction name="callByRadio" action="{!retrieveYes}" rerender="retrieveApplication"/>  
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal window ends here -->
+        <!-- Expenses Calculator Modal window starts here -->
+                <div id="retrieveApplication" class="fade modalBase modalBaseSmall" role="dialog">
+                    <div class="modalDialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                              <span  class="times right" data-dismiss="modal" onclick ="enableContinueBtn();">×</span>
+                              <h4 class="modal-title left">Retrieve your application</h4>
+                            </div>
+                        <div class="page-form">
+                            <div class="form-elements">
+                                <div class="page-row">
+                                    <p>
+                                    Retrieve your application by inputting the code sent to you via email or sms below.
+                                    </p>
+                                    
+                                </div>
+                                    
+                                        <p>
+                                            <apex:inputtext value="{!strRetrieveCode}" id="retrieveCode" styleclass="msgvalidation" onblur="pepperApp.validation.isRequired(this.id);"/>
+                                            <span class="errorMsg">Please enter retrieval code.</span>
+                                        </p>
+                                    <apex:actionStatus id="counterStatus3" startStyleClass="spinner"/>
+                                    <apex:outputPanel id="idfuncCall2">
+                                    <script>
+                                    function CallrenderFunc2(){
+                                     var isDisplayRet={!isError};
+                                     var displaybackendText={!showBlankretrieval}
+                                     
+                                     if(isDisplayRet==true)
+                                     {  
+                                         var x=$('.msgvalidation').val();
+                                         x=$.trim(x);
+                                                                         
+                                        $("#retrieveApplication").find(".errorMsg").show();
+                                        if(x.length>0)
+                                        $("#retrieveApplication").find(".errorMsg").text("No Application found for this retrieval code");
+                                        else
+                                        $("#retrieveApplication").find(".errorMsg").text("Please enter retrieval code.");
+                                     
+                                     }
+                                     else
+                                     {
+                                          $("#retrieveApplication").modal("hide");
+                                     }                                 
+                                    }
+                                    </script>
+                                    <p class="form-cntrl">
+                                    <apex:commandButton onclick="show=false;setVal();" action="{!retrieveApplication}" value="Retrieve" id="theButton5" styleClass="button primaryBtn" rerender="idfuncCall2" oncomplete="CallrenderFunc2();" status="counterStatus3"/>
+                                    
+                                    </p>    
+                                    </apex:outputPanel>
+                                    <p>
+                                        Cant find your code? <u><a href="javascript:void(0)" onclick="$('#retrieveApp2').find('.errorMsg').text('Please enter retrieval code.');$('#retrieveApp2').find('.errorMsg').hide();$('#retrieveApp2').modal('hide');$('#retrieveApplication').modal('hide');$('#ResendingCode').modal('show')">Resend your code now.</a></u>
+                                    </p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    
+                        </div>
+                    </div> 
+                    
+                    <!--start of last modal-->
+                    
+                    <!-- Expenses Calculator Modal window ends here -->
+                <div id="ResendingCode" class="fade modalBase modalBaseSmall" role="dialog">
+                <div class="modalDialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                          <span  class="times right" data-dismiss="modal" onclick ="enableContinueBtn();">×</span>
+                          <h4 class="modal-title left">Save your application</h4>
+                        </div>
+                    <div class="page-form">
+                        <div class="form-elements">
+                            <div class="page-row">
+                                
+                                <p>
+                                We will send you a individual and secure code which you can use to save and access your application.
+                                </p>
+                                <p>
+                                How would you like to receive your code?
+                                </p>
+                                
+                            </div>
+                                <div class="page-row">
+                                
+                                    <div class="form-cntrls">
+                                        <label class="radioBtns">
+                                            <input type="radio" name="repayloan" id="repayloan_yes"/>
+                                         <span class="button staticBtn radio_yes" onclick="assignhidden('email');temp='email';$('.initialSendButton1').attr('disabled',false);automaticVal();$('#tellusabout5').collapse('show'); $('#tellusabout6').collapse('hide')">Email</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-cntrls">
+                                        <label class="radioBtns">
+                                            <input type="radio" name="repayloan" id="repayloan_no"/>
+                                            <span class="button staticBtn radio_no" onclick="assignhidden('mobile');temp='mobile';$('.initialSendButton1').attr('disabled',false);automaticPhoneVal();$('#tellusabout6').collapse('show'); $('#tellusabout5').collapse('hide')">SMS</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="tellusabout5" class="collapse">
+                                    <div class="page-row">
+                                    
+                                        <label class="form-cntrls custom_sml_label">
+                                                Email
+                                        </label>
+                                        <div class="form-cntrls custom_sml_cntrl">
+                                            <apex:inputtext value="{!retrieveEmail}" id="newEmail" styleClass="isEmail"  onblur="checkFieldValidation(this.id);"/>
+                                            <span class="errorMsg resenderrorEmail">Either the entered email is invalid or there is no application present in the system for this email.</span>
+                                        </div>
+                                    </div>
+                                     <p>
+                                      By clicking 'Save Now' you agree to the Pepper Money <a style="text-decoration:underline;" target="_blank" onclick="show=false" href="https://www.pepper.com.au/lending/personal-loans/privacy-consent">Privacy Consent</a>
+
+                                    </p>
+                                    </div>
+                                <div id="tellusabout6" class="collapse">
+                                    <div class="page-row">
+                                    
+                                        <label class="form-cntrls">
+                                                Mobile Number
+                                        </label>
+                                        <div class="form-cntrls">
+                                            <apex:inputtext value="{!retrievePhone}" id="newPhone" styleClass="isPhone" onblur="checkFieldValidation(this.id);" 
+                                                    html-placeholder="04XXXXXXXX" onkeypress="javascript:return numbersonly(event)"/>
+                                            <span class="errorMsg resenderrorMobile">Either the entered Mobile Number is invalid or there is no application present in the system for this Mobile Number.</span>
+                                        </div>
+                                    </div>
+                                     <p>
+                                 By clicking 'Save Now' you agree to the Pepper Money <a style="text-decoration:underline;" target="_blank" onclick="show=false" href="https://www.pepper.com.au/lending/personal-loans/privacy-consent">Privacy Consent</a>
+
+                                  </p>
+                                  </div>
+                                  <apex:actionStatus id="counterStatus4" startStyleClass="spinner"/>
+                                <div class="form-cntrl">
+                                    <apex:commandButton action="{!resendCode}" value="Send" id="theButton6" styleClass="button primaryBtn" reRender="idfuncCall3" onClick="CallrenderFunc3();" status="counterStatus4"/>
+                                   <apex:outputPanel id="idfuncCall3">
+                                   <script>
+                                    function CallrenderFunc3(){
+                                        var resend={!isError};                                                    
+                                        if(resend==true)
+                                        {
+                                            if(temp=='mobile')
+                                            $(".resenderrorMobile").show();
+                                            else
+                                             $(".resenderrorEmail").show();
+                                        }
+                                        else
+                                        {
+                                            $("#ResendingCode").modal("hide");
+                                            $("#retrieveApplication").modal("show");
+                                        }
+                                    }
+                                    </script>
+                                 </apex:outputPanel>
+                                </div>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal window ends here -->
+        
+    </div>
+         <!--<div id="addressmapper" class="fade modalBase modalBaseSmall" role="dialog">
+            <div class="modalDialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                      <span  class="times right" data-dismiss="modal" onclick ="enableContinueBtn();">×</span>
+                    </div>
+                <div class="page-form">
+                    <div class="form-elements">
+                        <div class="page-row">
+                        <apex:outputText >Please provide the following necessary Details for the <span class="addressmessage"></span> Address to proceed the application further and then click on Ok button.</apex:outputText>
+                        <span style="color:red;">All field are mandatory if not written optional.</span>
+                        <table>
+                        
+                        <tr><td>Unit Number(Optional)</td><td><apex:inputText styleclass="unitnumber"/></td></tr>
+                        <tr><td>Street Number</td><td><apex:inputText styleclass="streetnumber"/></td></tr>
+                        <tr><td>Street Name and Type</td><td><apex:inputText styleclass="streetname"/></td></tr>
+                        <tr><td>Suburb</td><td><apex:inputText styleclass="suburb"/></td></tr>
+                        <tr><td>State</td><td><apex:inputText styleclass="state"/></td></tr>
+                        <tr><td>Country</td><td><apex:inputText styleclass="country"/></td></tr>
+                        <tr><td>Postcode</td><td><apex:inputText styleclass="postcode"/></td></tr>
+                        </table>
+                    
+                            
+                        </div>
+                        <div class="form-ctrls">
+                           
+                         <input type="button" value="oK" class="button primaryBtn" onclick="if(filledallfields()){$('#addressmapper').modal('hide');}else{return false;}"/>  
+                         </div>     
+                              
+                           
+                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div id="saveCont">
+        <div id="saveNowchange" class="fade" role="dialog">
+                                <div class="modalDialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                          <span  class="times right" data-dismiss="modal">×</span>
+                                          <h4 class="modal-title left">Save Your <span class="addressmessage"></span> Address</h4>
+                                        </div>
+
+                                    <div class="page-form">
+                                        <div class="table">
+                                            Please provide the following necessary Details for the  address to proceed the application further and then click on Ok button. <span style="color:red;">All field are mandatory if not written optional.</span>
+                                        </div>
+
+                                        <div class="form-elements">
+                                            <div class="page-row">
+                                                <label class="form-cntrls">Unit Number(Optional) </label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="text" class="unitnumber"/>
+                                                </div>                          
+                                            </div>
+                                            <div class="page-row">
+                                                <label class="form-cntrls">Street Number </label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="text" class="streetnumber"/>
+                                                </div>                          
+                                            </div>
+
+                                            <div class="page-row">
+                                                <label class="form-cntrls">Street Name and Type  </label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="text" class="streetname"/>
+                                                </div>                          
+                                            </div>
+
+                                            <div class="page-row">
+                                                <label class="form-cntrls">Suburb </label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="text" class="suburb"/>
+                                                </div>                          
+                                            </div>
+
+
+                                            <div class="page-row">
+                                                <label class="form-cntrls">State  </label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="text" class="state"/>
+                                                </div>                          
+                                            </div>
+
+                                            <div class="page-row">
+                                                <label class="form-cntrls">Country  </label>
+                                                <div class="form-cntrls-lg" >
+                                                    <input type="text" class="country"/>
+                                                </div>                          
+                                            </div>
+                                            <div class="page-row">
+                                                <label class="form-cntrls">PostCode </label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="text" class="postcode"/>
+                                                </div>                          
+                                            </div>
+
+                                            <div class="page-row">
+                                                <label class="form-cntrls">&nbsp;</label>
+                                                <div class="form-cntrls-lg">
+                                                    <input type="button"  class="button primaryBtn left" value="Ok" onclick="if(filledallfields()){$('#saveNowchange').modal('hide');}else{return false;}"></input>
+                                                </div>                          
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                
+                                    </div>
+                                </div>                  
+                            </div>
+                            </div>
+   <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <!-- <apex:includeScript value="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" /> -->
+    <apex:includeScript value="https://code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+   
+        
+    
+    
+
+    <script>
+        var t=0;
+        function filledallfields(){
+        var StreetType='';
+        var errorstreet='';
+        var addline1;
+        if($('.streetnumber').val()=='' || $('.streetname').val() =='' || $('.suburb').val() ==''|| $('.state').val() ==''|| $('.country').val() ==''|| $('.postcode').val() =='' ){
+        return false;
+        }
+         else{
+         addline1=$('.unitnumber').val()!=''?$('.unitnumber').val()+'/'+$('.streetnumber').val()+' '+$('.streetname').val():$('.streetnumber').val()+' '+$('.streetname').val();
+        var actualfieldId='';
+        actualfieldId=hiddenaddressid.replace('complete_address','checkReq');
+           $.ajax({
+                url: "https://kleber.datatoolscloud.net.au/KleberWebService/DtKleberService.svc/ProcessQueryStringRequest",
+                dataType: "jsonp",
+                type: "GET",
+                async:true,
+                contentType: "application/json; charset=utf-8",
+                data: {
+
+                    Method: "DataTools.Verify.Address.AuPaf.VerifyAddress",    
+                    AddressLine1: ""+addline1,
+                    AddressLine2: "",
+                    AddressLine3: "",
+                    AddressLine4: "",
+                    AddressLine5: "",
+                    AddressLine6: "",
+                    Locality: "" + $('.suburb').val(),
+                    State: "" + $('.state').val(),
+                    Postcode: "" + $('.postcode').val(),
+                    RequestId: "",
+                    RequestKey: "RK-6352B-2D2F8-34A4C-318B8-A1474-80726-9F2B2-94016",
+                    DepartmentCode: "PL_Origination",
+                    OutputFormat: "json"
+                },
+                success: function (data) {
+                    $.map(data.DtResponse.Result, function (item) {
+                      
+                        if(item.MatchType == 0){
+                       
+                        $('.unitnumber').val(item.UnitNumber);
+                        $('.streetnumber').val(item.StreetNumber1);
+                        $('.streetname').val(item.StreetName);
+                        StreetType=item.StreetType;
+                        $('.suburb').val(item.Locality);
+                        $('.state').val(item.State);
+                        $('.postcode').val(item.Postcode);
+                         if($('.unitnumber').val()!=''){
+        document.getElementById(hiddenaddressid).value=$('.unitnumber').val()+':'+$('.streetnumber').val()+':'+ $('.streetname').val()+':'+StreetType+':'+$('.suburb').val()+':'+$('.state').val()+':'+$('.country').val()+':'+$('.postcode').val();
+        document.getElementById(actualfieldId).value=$('.unitnumber').val()+'/'+$('.streetnumber').val()+' '+ $('.streetname').val()+' '+StreetType+','+$('.suburb').val()+' '+$('.state').val()+' '+$('.country').val()+' '+$('.postcode').val();
+        }
+        else{
+        document.getElementById(hiddenaddressid).value=$('.streetnumber').val()+':'+ $('.streetname').val()+':'+StreetType+':'+$('.suburb').val()+':'+$('.state').val()+':'+$('.country').val()+':'+$('.postcode').val();
+        document.getElementById(actualfieldId).value=$('.streetnumber').val()+' '+ $('.streetname').val()+' '+StreetType+','+$('.suburb').val()+' '+$('.state').val()+' '+$('.country').val()+' '+$('.postcode').val();
+                        
+        }
+   $('.unitnumber').val('');
+        $('.streetnumber').val('');
+        $('.streetname').val('');
+        $('.suburb').val('');
+        $('.state').val('');
+        $('.country').val('');
+        $('.postcode').val('');
+        $('#saveNowchange').modal('hide');
+        return true;
+                        }
+                        else{
+                        alert('Invalid Address');
+                        return false;
+                        }
+                        
+                        
+                        
+                 
+                      
+                       
+                   });
+                }
+            });
+         
+       
+     }
+}
+        $(document).ready(
+        function(){
+        $('.initialSendButton').attr('disabled',true);
+        $('.initialSendButton1').attr('disabled',true);
+        }
+        );
+        function assignhidden(r){
+        document.getElementById("idPage:idForm:theHiddenInput").value=r;
+        }
+        function assignhiddenphone(x){
+        document.getElementById("idPage:idForm:theHiddenInputphone").value=x;
+        }
+        function assignhiddenemail(t){
+            document.getElementById("idPage:idForm:theHiddenInputemail").value=t;
+        }
+        var temp;
+            
+            $(document).ready(function(){
+              //  to implement datepicker correctlly code needed to implement on the page /////SUSHANT///
+                dobValidation();
+            }); 
+           
+               function dobValidation()
+               {
+                   $(document).find(".hasDatepicker" ).datepicker( "option", "onClose", function() {
+                    checkFieldValidation($(this).attr('id'));
+                    console.log('initializing in');
+                    });
+               }
+               
+                function CaptchaValidation ()
+               {
+                   
+                   if(checkData('idPage:idForm')&& document.getElementById('requestInfo').checked){
+                      
+                   $('[id$="captcha_error"]').html('');
+                   var googleResponse = jQuery('#g-recaptcha-response').val();
+                    
+                    if(!googleResponse) 
+                    {
+                        
+                        $('[id$="captcha_error"]').html('Please verify the captcha.');
+                        return false;
+                    }
+                     if(!addressvalidator()){
+                    return false;
+                    }
+                      
+                        $('.hideCaptcha').hide();
+                        $('.errorMsg').hide();
+                          return true;
+                  }   
+                  else
+                  {
+                     if(!document.getElementById('requestInfo').checked)
+                        $('p.custom-chkBox').children('.errorMsg').show();
+                      return false;
+                  }
+               }
+               
+                function CallExpenseMethod()
+                {
+                    $('#idPage\\:idForm\\:idHeaderBtn').trigger('click');
+                }
+                function automaticVal()
+                {
+                    $("#idPage\\:idForm\\:email").val($(".isrequired.isEmail").val());
+                }
+                function automaticPhoneVal()
+                {
+                    $("#idPage\\:idForm\\:phone").val($(".isrequired.isPhone").val());
+                }
+                
+                 $(document).ready(function(){
+                    $(".minimizeSection:visible").each(function(){
+                          
+                            var formSection = $(this).parents('div.form-section');
+                            var inputElemObj = formSection.find('section.sectionCont input[type="text"]');
+                            var inputElemCnt = inputElemObj.length;
+                            if( $.trim(inputElemObj.attr('class')) =='' && !$.trim(inputElemObj.val())){
+                                var editObj = formSection.parent('section').prev().find('a.edit');
+                                if(editObj.length){
+                                    editObj.trigger('click');
+                                }
+                            }
+                        
+                    });
+                    var value=$.trim($("#idPage\\:idForm\\:idC\\:idMainComponent\\:forEachSection\\:4\\:forEachQuestion\\:0\\:checkReq").val());
+                    if(value.length>0)
+                    {
+                        $('#idPage\\:idForm\\:idC\\:idMainComponent\\:forEachSection\\:4\\:forEachQuestion\\:0\\:checkReq').attr('readonly', true);
+                    }
+                   
+                });
+                var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    } 
+    var hiddenaddressid='';
+    function addressvalidator(){
+     
+     var t=$('input[id$=complete_address]');
+     
+for(var u=0;u<=t.length-1;u++){
+    if($(t[u]).val().indexOf(':')<=-1){
+        if(u==0){
+        $('.addressmessage').text('Current Residential');
+        }
+        else{
+        $('.addressmessage').text('Previous Residential');
+        }
+        $('.country').val('Australia');
+        $('#saveNowchange').modal('show');
+        hiddenaddressid=$(t[u]).attr('id');
+        return false;
+    }
+    else{
+         
+        var g=$(t[u]).val().split(':');
+        if(g.length<7){
+        if(u==0){
+        $('.addressmessage').text('Current Residential');
+        }
+        else{
+        $('.addressmessage').text('Previous Residential');
+        }
+        $('.country').val('Australia');
+        $('#saveNowchange').modal('show');
+        hiddenaddressid=$(t[u]).attr('id');
+        return false;
+        }
+    }
+}
+    return true;
+}  
+             
+    </script>
+    
+      
+    
+     <c:GoogleAPIComponent />  
+</apex:form>
+
+
+
+
+
+</body>
+</html>
+<script>
+           $(document).ready(function() {
+                     $('.country').val('Australia');
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+    
+        function setVal()
+        {
+          
+           $('[Id$=inputHidden]').val($('[Id$=retrieveCode]').val()); 
+        }
+        function enableContinueBtn()
+
+        {
+            $('[Id$=idBtn]').prop('disabled', false);
+        }
+   </script>
+</apex:page>

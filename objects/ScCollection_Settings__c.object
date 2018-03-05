@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>This object is used to store the all Individual Level/Org Level settings.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>ScCollection_BrokenPromiseCount__c</fullName>
+        <description>This is the number of broken promises that are allowed for a particular account before the account is referred to a supervisor for review.</description>
+        <externalId>false</externalId>
+        <label>Broken Promises Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_DailyReferCap__c</fullName>
+        <description>Limits the number of accounts an employee can refer to another employee in a given day.</description>
+        <externalId>false</externalId>
+        <label>Daily Refer Cap</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_HoldDaysCount__c</fullName>
+        <description>The hold day’s count is the number of days for which an account can remains in a user’s queue without any actions being taken, after which it is referred to a supervisor for review.</description>
+        <externalId>false</externalId>
+        <label>Hold days Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_MaxDaysNoPromise__c</fullName>
+        <description>The maximum number of days that this employee can forward the queue date on an account without a promise. This is limited by system wide settings.</description>
+        <externalId>false</externalId>
+        <label>Max days No Promise</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_MaxDaysWithPromise__c</fullName>
+        <description>The maximum number of days that this employee can forward queue date an account with a promise. This is limited by system wide settings.</description>
+        <externalId>false</externalId>
+        <label>Max days with Promise</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_MaxPromiseDaysCountPromise1__c</fullName>
+        <description>This count is the maximum number of days after today that a promise can be schedules for each product type.    .</description>
+        <externalId>false</externalId>
+        <label>Max Promise Days Count for 1st Promise</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_MaxPromiseDaysCount__c</fullName>
+        <description>This count is the maximum number of days after today that a promise can be schedules for each product type.</description>
+        <externalId>false</externalId>
+        <label>Max Promise Days Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_MinAcceptCommitment__c</fullName>
+        <description>This is the minimum percentage of the original arrears amount that the system will allow a collector to accept as a valid promise amount.  Both promise conditions (minimum acceptable promise amount and minimum commitment %) must be met before the system will allow a collector to record a promise.</description>
+        <externalId>false</externalId>
+        <label>Minimum Acceptable Commitment %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_NoAnswerCount__c</fullName>
+        <description>This is the maximum number of times that a collector can input the &quot;No Answer&quot; action code before the account is referred to the supervisor review.</description>
+        <externalId>false</externalId>
+        <label>No Answer Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_NoCommitmentCount__c</fullName>
+        <description>This is the number of actions that a collector can enter into the system without recording a Promise commitment on the account, after which the account is referred to the supervisor. E.g. If the value in this field is 5 then if a collector enters 5 actions  on an account without recording a promise, then the account is referred to a supervisor.</description>
+        <externalId>false</externalId>
+        <label>No Commitment Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Threshold__c</fullName>
+        <description>this field would contain the minimum difference between the settings and will highlight the counter red.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>fill this field if you want to set and highlight the limit at user/profile level</inlineHelpText>
+        <label>Threshold</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Global Counters</label>
+    <visibility>Public</visibility>
+</CustomObject>

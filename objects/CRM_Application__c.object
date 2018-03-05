@@ -1,0 +1,1627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>ApplicationCompactLayout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>ApplicationCompactLayout</fullName>
+        <fields>Name</fields>
+        <fields>CRM_Application_ID__c</fields>
+        <fields>CRM_Current_Status__c</fields>
+        <fields>CRM_Net_Amount_Financed_Amount__c</fields>
+        <label>ApplicationCompactLayout</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CRM_Address_Status__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Address Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Annualised_Net_Loss__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF((((DATE(YEAR(TODAY()),MONTH(TODAY()),1)-1)-CRM_Settlement_Date__c)/30.2)&lt;=12,CRM_Net_Write_Off_Amount__c,(((CRM_Net_Write_Off_Amount__c/(((DATE(YEAR(TODAY()),MONTH(TODAY()),1)-1)-CRM_Settlement_Date__c)/30.2))*12)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Annualised Net Loss</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Application_ID__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>true</externalId>
+        <label>Application ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Approved_Settled__c</fullName>
+        <externalId>false</externalId>
+        <formula>if( OR(CRM_Current_Status__c = &apos;Approved&apos; , CRM_Current_Status__c = &apos;Approved With Condition(s)&apos;, CRM_Current_Status__c = &apos;Auto Approved&apos;, CRM_Current_Status__c = &apos;Complied&apos;, 
+CRM_Current_Status__c = &apos;Cond-Add Guarantor&apos;,CRM_Current_Status__c = &apos;Cond-Chng Guarantor&apos;, CRM_Current_Status__c = &apos;Cond-IncreaseDwnPmt&apos;, 
+CRM_Current_Status__c = &apos;Irregular&apos;,CRM_Current_Status__c = &apos;Irregualar Compiled&apos;, 
+CRM_Current_Status__c = &apos;Irregular&apos;,CRM_Current_Status__c = &apos;Payment Authorize&apos;,CRM_Current_Status__c = &apos;Payment Pending&apos;,
+ CRM_Current_Status__c = &apos;Received&apos;, CRM_Current_Status__c = &apos;Settlement Pending&apos;, CRM_Current_Status__c = &apos;Application Transferred To Operations&apos;, 
+ CRM_Current_Status__c = &apos;Contract Activation&apos;,
+CRM_Current_Status__c = &apos;Contract Securtized&apos;, CRM_Current_Status__c = &apos;Settled&apos; ), 1, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Approved &amp; Settled</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Age_At_End_Of_Term__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Age At End Of Term</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Age__c</fullName>
+        <externalId>false</externalId>
+        <formula>YEAR(CRM_Settlement_Date__c) - VALUE(CRM_Asset_Year__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Asset Age</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Class__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Class</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Group_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Group Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Make__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Make</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Model__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Model</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_State_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset State Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Status_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Status Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Transmission_Type_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Transmission Type Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Asset_Year__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Asset Year</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_BDM__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>BDM</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Bankruptcy__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Bankruptcy</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Broker__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Broker</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Brokerage_Financed__c</fullName>
+        <externalId>false</externalId>
+        <label>Brokerage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Applications</relationshipLabel>
+        <relationshipName>Applications</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Channel__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Channel</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Closing_Excl_GST_Fees_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Closing Excl GST Fees Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Closing_GST_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Closing GST Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Closing_Interest_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Closing Interest Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Closing_Overdue_Interest_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Closing Overdue Interest Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Closing_Principal_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Closing Principal Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Agreement_Status__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Agreement Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Closed_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Closed Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Deal_Specific_Comsn_GST_Amt__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Deal Specific Comsn. GST Amt.</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Deal_Specific_Comsn_ITC__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Deal Specific Comsn. ITC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_End_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract End Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_ID__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Overdue_Interest_Rate__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Overdue Interest Rate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Start_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Start Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Status__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Type_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Type Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Contract_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Credit_Officer__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Credit Officer</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Current_Address__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Current Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Current_Post_Code__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Application Post Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Current_State__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Application State</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Current_Status_Entry_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Current Status Entry Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Current_Status__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Current Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Current_Total_Outstanding_Balance__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Total Outstanding Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Customer_ID__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Customer ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Customer_Interest_Rate__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer Interest Rate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Customer_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Customer Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_DSC_Excl_GST__c</fullName>
+        <externalId>false</externalId>
+        <label>DSC Excl GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Days_In_Arrears_Excl_Fees_And_Charge__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Days In Arrears Excl Fees And Charges</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Days_In_Arrears_Incl_Fees_And_Charge__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Days In Arrears Incl Fees And Charges</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Days_In_Arrears_Instalment__c</fullName>
+        <externalId>false</externalId>
+        <label>Days In Arrears Installment</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Documentation_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Documentation Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Employment_Status__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Employment Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Financed_BCC__c</fullName>
+        <externalId>false</externalId>
+        <label>Financed BCC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Financial_Charge_Off_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Financial Charge Off Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Financial_Charge_Off_Flag__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Financial Charge Off Flag</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Financial_Charge_Off_Reason__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Financial Charge Off Reason</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Financier_Interest_Rate__c</fullName>
+        <externalId>false</externalId>
+        <label>Financier Interest Rate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>CRM_First_Instalment_Due_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>First Instalment Due Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_GST_on_DSC__c</fullName>
+        <externalId>false</externalId>
+        <label>GST on DSC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_GST_on_Financed_BCC__c</fullName>
+        <externalId>false</externalId>
+        <label>GST on Financed BCC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_GST_on_VB__c</fullName>
+        <externalId>false</externalId>
+        <label>GST on VB</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_GSTonFinBCC__c</fullName>
+        <externalId>false</externalId>
+        <label>GST on Brokerage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Arrears_Excl_Fees_And_Charges__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Arrears Excl Fees And Charges</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Arrears_Incl_Fees_And_Charges__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Arrears Incl Fees And Charges</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Arrears_Instalment__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Gross Arrears Instalment</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Arrears_Instlmnt__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Gross Arrears Instlmnt. $ Total Fees</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Loss__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Gross Loss</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Recoveries_Excl_GST__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Gross Recoveries Excl GST</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Gross_Recoveries_GST__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Gross Recoveries GST</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_ITC_on_DSC__c</fullName>
+        <externalId>false</externalId>
+        <label>ITC on DSC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_ITC_on_Financed_BCC__c</fullName>
+        <externalId>false</externalId>
+        <label>ITC on Financed BCC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_ITC_on_VB__c</fullName>
+        <externalId>false</externalId>
+        <label>ITC on VB</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_ITConFinBCC__c</fullName>
+        <externalId>false</externalId>
+        <label>ITC on Brokerage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Instalment_Amount_Excl_GST__c</fullName>
+        <externalId>false</externalId>
+        <label>Instalment Amount Excl GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Instalment_Amount_Incl_GST__c</fullName>
+        <externalId>false</externalId>
+        <label>Instalment Amount Incl GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Instalment_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Instalment Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Joint_Borrowers_Disposable_Income__c</fullName>
+        <externalId>false</externalId>
+        <label>Joint Borrowers Disposable Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Judgments__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Judgments</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_LVR1__c</fullName>
+        <externalId>false</externalId>
+        <formula>CRM_LVR__c * 100</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>LVR %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>CRM_LVR_Without_Insurance__c</fullName>
+        <externalId>false</externalId>
+        <label>LVR Without Insurance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>CRM_LVR__c</fullName>
+        <externalId>false</externalId>
+        <label>LVR</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Length_Of_Emp_Or_Time_In_Business__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Length Of Employment Or Time In Business</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Loss_Event_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Loss Event Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Loss_Event__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Loss Event</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Net_Amount_Financed_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Net Amount Financed</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Net_Disposable_Income__c</fullName>
+        <externalId>false</externalId>
+        <label>Net Disposable Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Net_Loss__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Net Loss</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Net_Write_Off_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Net Write Off Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_No_of_payments_down__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+CRM_Days_In_Arrears_Instalment__c &gt;= 120,&quot;5&quot;,
+	
+IF(
+AND(CRM_Days_In_Arrears_Instalment__c &gt;= 90 , CRM_Days_In_Arrears_Instalment__c &lt; 120),&quot;4&quot;,
+		
+IF(
+AND(CRM_Days_In_Arrears_Instalment__c &gt;= 60 , CRM_Days_In_Arrears_Instalment__c &lt; 90),&quot;3&quot;,
+			
+IF(
+AND(CRM_Days_In_Arrears_Instalment__c &gt;= 30 , CRM_Days_In_Arrears_Instalment__c &lt; 60),&quot;2&quot;,
+				
+IF(
+AND(CRM_Days_In_Arrears_Instalment__c &gt;= 0.01 , CRM_Days_In_Arrears_Instalment__c &lt; 30),&quot;1&quot;,&quot;0&quot;
+)
+)
+)
+)
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>No. of payments down</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Original_Term__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Original Term</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Override_RB__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Override RB</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Paid_Defaults__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Paid Defaults</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Payment_Method__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Payment Method</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Primary_Borrower_Disposable_Income__c</fullName>
+        <externalId>false</externalId>
+        <label>Primary Borrower Disposable Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Primary_Introducer_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Primary Introducer Code</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Primary_Introducer_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Primary Introducer Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Primary_Introducer__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Secondary Introducer</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Applications (Primary Introducer)</relationshipLabel>
+        <relationshipName>Applications1</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Product_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Product Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Recoveries__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Recoveries</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Recovery_Fees_Excl_GST__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Recovery Fees Excl GST</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Red_Book_Key__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Red Book Key</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Repayment_Frequency__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Repayment Frequency</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Report_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Report Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Residency__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Residency</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Residual_Excl_GST__c</fullName>
+        <externalId>false</externalId>
+        <label>Residual Excl GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Residual_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Residual Percent</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Risk_Band__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Risk Band</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Risk_Score__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Risk Score</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Run_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Run Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_SPV_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SPV Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Secondary_Introducer_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Secondary Introducer Code</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Secondary_Introducer_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Secondary Introducer Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Settled__c</fullName>
+        <externalId>false</externalId>
+        <formula>if( OR(CRM_Current_Status__c = &apos;Application Transferred To Operations&apos;, CRM_Current_Status__c = &apos;Contract Activation&apos;, CRM_Current_Status__c = &apos;Contract Securtized&apos;,CRM_Current_Status__c = &apos;Settled&apos;), 1, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Settled</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Settlement_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Settlement Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Shortfall__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Shortfall</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Structure_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Structure Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Sub_Asset_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Sub Asset Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Submission_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Submission Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Term_in_months__c</fullName>
+        <externalId>false</externalId>
+        <label>Term in months</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Time_Since_Last_Default__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Time Since Last Default</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Total_Amount_Payable_Exc_AKF__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Amount Payable Exc AKF</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Total_Fees_And_Charges__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Total Fees And Charges</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Total_Other_Debt__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Other Debt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Total_Upfront_Commission_Excl_GST__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Upfront Commission Excl GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Tranche_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Tranche Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_UnPaid_Defaults__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>UnPaid Defaults</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Usage_Category_Type_Description__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Usage Category Type Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Use_Type__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Use Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_VBExcl_GST__c</fullName>
+        <externalId>false</externalId>
+        <label>VBExcl GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Weighted_Rate__c</fullName>
+        <externalId>false</externalId>
+        <formula>CRM_Customer_Interest_Rate__c  *  CRM_Net_Amount_Financed_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Rate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Withdrawn_In_Progress__c</fullName>
+        <externalId>false</externalId>
+        <formula>if( OR(CRM_Current_Status__c = &apos;Approved but Deal Lost&apos; , CRM_Current_Status__c = &apos;Cancel-Recommended&apos;, CRM_Current_Status__c = &apos;Contract Withdrawn&apos;, CRM_Current_Status__c = &apos;Withdrawn&apos;, CRM_Current_Status__c = &apos;Awaiting Info&apos;, CRM_Current_Status__c = &apos;InProcess&apos;, CRM_Current_Status__c = &apos;New&apos;, CRM_Current_Status__c = &apos;Re-Submitted&apos;, CRM_Current_Status__c = &apos;Refer&apos;, CRM_Current_Status__c = &apos;Resubmitted&apos;, CRM_Current_Status__c = &apos;With Introducer&apos;, CRM_Current_Status__c = &apos;Approved Recommended&apos;, CRM_Current_Status__c = &apos;Condition-Recommend&apos;
+ ), 1, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Withdrawn &amp; In Progress</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Comments__c</fullName>
+        <description>Internal comments relating to the pipeline rating on the application</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Comments</label>
+        <length>5000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Pipeline_Rating__c</fullName>
+        <externalId>false</externalId>
+        <label>Pipeline Rating</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Alive</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Stale</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Dead</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Reason_Category__c</fullName>
+        <externalId>false</externalId>
+        <label>Reason Category</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Client shopping</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Car sold to other buyer</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Lost to dealer</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Lost on price</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conditions - deposit</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conditions - balloon</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conditions - term</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conditions - co borrower</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conditions - change of vehicle - LVR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conditions - change of vehicle – capacity</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <label>Application</label>
+    <nameField>
+        <label>Application Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Applications</pluralLabel>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>CRM_Application_ID__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>CRM_Current_Status__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>CRM_Net_Amount_Financed_Amount__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>CRM_Application_ID__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>CRM_Application_ID__c</searchFilterFields>
+        <searchResultsAdditionalFields>CRM_Application_ID__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>User_Cannot_Update_Name</fullName>
+        <active>true</active>
+        <description>Prevents users from changing the Application Name.  Currently allows ESB, System Admin and IT profiles to change the field.</description>
+        <errorConditionFormula>AND (
+   ISCHANGED (Name), 
+   $Profile.Id&lt;&gt;&apos;00e28000000eOfw&apos;,
+   $Profile.Id&lt;&gt;&apos;00e28000000SQ4a&apos;,
+   $Profile.Id&lt;&gt;&apos;00e28000001sZ2V&apos;
+)</errorConditionFormula>
+        <errorMessage>Users cannot update the Application Name.  Please speak to an administrator.</errorMessage>
+    </validationRules>
+</CustomObject>

@@ -1,0 +1,23 @@
+<!-----------------------------------------------------------
+Author:         Vincent Vuong
+Company:        SaaSfocus
+Description:    Visualforce page to show duplicate customers
+History
+<Date>      <Authors Name>      <Brief Description of Change>
+18-Oct-17   Vincent Vuong       Prototype
+------------------------------------------------------------>
+<apex:page >
+    <apex:includeLightning />
+    <div id="lightning" />
+
+    <script>
+        $Lightning.use("c:SCV_DuplicateCustomersViewApp", function() {
+          $Lightning.createComponent("c:SCV_DuplicateCustomersView",
+          { label : "" },
+          "lightning",
+          function(cmp) {
+            // do some stuff
+          });
+        });
+    </script>    
+</apex:page>

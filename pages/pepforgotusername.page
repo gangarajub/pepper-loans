@@ -1,0 +1,250 @@
+<apex:page docType="html-5.0" standardStylesheets="false" controller="pepForgotUserName" sidebar="false" id="pageId"  showHeader="false" cache="false">        
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper Verify Login</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>  
+    <apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>  
+    
+    <style>
+   
+   @media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+.pageFooter
+    {
+
+              position:absolute;
+              bottom:0px;
+              width:100%;
+
+        }
+}
+   
+   </style>
+    
+</head>
+ <!--<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!PageName}" /> -->  
+<body>
+    <div class="headerCont">
+    <div class="pepperContainer logForPageCont">
+        <header class="page-row">
+            <div class="pageLogo">
+                <a href="#logo"><apex:image url="{!URLFOR($Resource.ResourceZip,
+                              'assets/common/images/logo.png')}" alt="Pepper"/></a>
+            </div>
+            <div class="callAssist">
+                <span><c:pepcmscomponent_Text pageNameTest="Dashboard Header" sectionName="SectionOne(DH)"></c:pepcmscomponent_Text></span>
+            </div>
+        </header>
+    </div>
+    </div>
+    
+    
+
+    <script type="text/javascript">
+            
+            $(document).ready(function()
+            {
+                if($( "[id$='asDate']" ).length){
+                    datepicker();
+                }
+                
+     
+            });
+        
+           function datepicker(){
+          
+               $( "[id$='asDate']" ).datepicker({dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+               
+           } 
+       </script>
+
+ 
+<apex:form id="idForm">
+     
+    <!-- mid section  start here -->
+    <div class="pepperContainer">
+    <apex:pageMessages /> 
+        <div class="page-row">
+            <div class="personalDetVerification">
+          
+                <h3 class="heading "><c:pepcmscomponent_Text pageNameTest="Forgot UserID" sectionName="Forgot userId section 1"></c:pepcmscomponent_Text></h3>
+                <c:pepcmscomponent_Text pageNameTest="Forgot UserID" sectionName="Forgot userId section 2"></c:pepcmscomponent_Text>
+                
+                
+                
+                
+                
+                <div class="page-row">
+                    <div class="form-cntrl negAppForm">
+                    
+                        <div class="boxInfo">
+                        
+                        <div class="appinfo">
+                        
+                         
+
+                                <div class="page-row">
+                                    <label class="form-cntrls">{!lstQuestions[0].pepLabelPriorQuestion__c}</label>
+                                    <div class="form-cntrls-lg">
+                                        <apex:inputtext id="asDate" value="{!dob}" styleClass="isrequired inputDate"  onkeypress="javascript:return numbersonly(event)"/>
+                                        <span class="errorMsg dateMsg" style="display: none;">{!lstQuestions[0].pepGenericErrorMessage__c}</span> 
+                                        
+                                        
+                                    </div>                          
+                                </div>
+                          
+                            
+                            
+
+                                <div class="page-row">
+                                    <label class="form-cntrls">{!lstQuestions[1].pepLabelPriorQuestion__c}</label>
+                                    <div class="form-cntrls-lg">
+                                        <apex:inputtext value="{!email}"  id="IdSecondAnswer" styleClass="isrequired isEmail" onblur="checkFieldValidation(this.id);if(!checkFieldValidation(this.id)) $('.showMsg').hide(); $('.successInfo').hide(); "/>  
+              
+                                        <span class="errorMsg emailMsg" style="display: none;">{!lstQuestions[1].pepGenericErrorMessage__c}</span>
+
+                                    </div>                          
+                                </div>
+                                
+                            
+                       <div class="successInfo" style="display:none">User ID has been successfully sent to your registered email id</div> 
+                        <span class="errorMsg showMsg" style="display: none;">{!$label.ForgotUserNameError}</span>
+                                <div class="page-row">
+                                    <label class="form-cntrls btncont"></label>
+                                    <div class="form-cntrls-lg text-right">
+                                        <apex:commandButton styleClass="button primaryBtn" value="Send" action="{!checkUserName}" onclick="if(!checkContinueValidation()) return false;" reRender="rerenderScript" oncomplete="checkUserId();"/>
+                                        
+                                    </div>                          
+                                </div>
+                            
+                            
+
+                                <div class="page-row custDet">
+                                    <c:pepcmscomponent_Text pageNameTest="Forgot UserID" sectionName="Forgot userId section 4"></c:pepcmscomponent_Text>
+                                </div>
+
+                        </div>
+                        
+                                                   
+                        </div>
+                        
+                    </div>
+                </div>  
+
+            
+            </div>
+
+        </div>
+    </div>
+    <!-- mid section end here -->
+</apex:form>
+
+    <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+    
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <apex:includeScript value="//code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+   
+</body>
+</html>
+ <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                      
+                     });
+    });
+    
+    
+   </script>
+   
+    <apex:outputPanel id="rerenderScript">
+    <script>
+             function checkUserId()
+        {
+           //alert('{!userNameExist}');
+          
+          if('{!userNameExist}' == 'true')
+           {
+                $('.successInfo').hide();
+                $('.showMsg').show();
+           }
+           
+           else 
+           {
+              
+              $('.successInfo').show();
+              $('.showMsg').hide();
+              $('.primaryBtn').hide();
+              
+           }
+       }
+       
+       </script>
+    </apex:outputPanel>
+    
+   <script>
+        
+  $('.inputDate').change(function()
+    {
+       checkDateValidation();
+     
+    });
+        
+    function isValidDate(comingDate) 
+     {
+          var bits = comingDate.split('/');
+          var buildDate = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
+          return !!(buildDate && (buildDate.getMonth() + 1) == bits[1] && buildDate.getDate() == Number(bits[0]));
+     }
+     
+   function checkDateValidation()
+    {
+         
+        var dateValue = $('.inputDate').val();
+        if((!isValidDate(dateValue)))
+           {
+              $('.dateMsg').show();
+              $('.successInfo').hide();  
+              $('.showMsg').hide();
+              return false;
+           }
+           
+           else{ 
+                  $('.dateMsg').hide();
+                   return true;
+           }
+   }
+   
+   function checkContinueValidation()
+    {
+         
+       if(checkData('pageId:idForm')) 
+       {
+           if(checkDateValidation())
+             {
+                  $('.errorMsg').hide();
+                  $('.successInfo').hide();
+                  return true;
+             } 
+           else
+           {
+              return false;
+           }  
+       } 
+       else{
+                checkDateValidation();
+               $('.successInfo').hide();  
+               $('.showMsg').hide();
+                return false;
+          }
+    }
+  </script>  
+
+</apex:page>

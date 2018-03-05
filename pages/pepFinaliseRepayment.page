@@ -1,0 +1,316 @@
+<apex:page controller="PepFinaliseRepayment" showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" cache="{!$Label.Cache_Settings}" action="{!checkcookie}">
+    
+ <apex:composition template="pepSideBarTemplate">
+ <apex:define name="body">
+ <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+ <apex:form id="myForm">
+
+                <div class="debtPayment">
+
+                <div class="loanSetTopSec">
+                    <div class="row"><h3 class="colA col-sm-8"><c:pepcmscomponent_Text pageNameTest="Finalise Repayment" sectionName="SectionOne"></c:pepcmscomponent_Text></h3>
+                 <!--  <div class="colB"><button class="button primaryBtn">Save for later</button></div>-->
+                  <div class="colB col-sm-3"> <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button primaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/></div>
+                </div>
+                </div>
+
+
+                    <div class="innerCont">
+                     <c:pepcmscomponent_Text pageNameTest="Finalise Repayment" sectionName="SectionTwo"></c:pepcmscomponent_Text>
+                    <div class="page-form">
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                        <div class="form-elements">
+                                        <apex:repeat value="{!wrapperList}" var="wrapInstance" id="idMainRpt">
+                                        <apex:outputPanel rendered="{!if(wrapInstance.objCmsQuestion.pepType__c=='Picklist',true,false)}">  
+                                        <div class="page-row">
+                                         <c:pepcmscomponent_Text pageNameTest="Finalise Repayment" sectionName="Section Two"></c:pepcmscomponent_Text>
+                                         
+                                            <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                            <div class="form-cntrls-lg">
+                                           
+                                                <apex:selectList value="{!selectedFrequency}" multiselect="false" size="1" styleClass="frequencyClass"> 
+                                               <apex:selectOptions value="{!wrapInstance.lstOptions}" />                                      
+                                                 </apex:selectList> 
+                                             <!-- <span class="errorMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span> -->
+                                             </div>
+                                              
+                                            </div>
+                                            </apex:outputPanel>
+                                             <apex:outputPanel rendered="{!if(wrapInstance.objCmsQuestion.pepType__c=='Date',true,false)}">
+                                            <div class="page-row">
+                                            
+                                            <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                            <div class="form-cntrls-lg"><apex:inputText value="{!inputDate}" styleClass="inputDate" id="aeDate"/>
+                                            <span class="errorMsg dateMSg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                            </div>
+                                            
+                                            </div>
+                                             </apex:outputPanel>
+                                            
+                                                <apex:outputPanel rendered="{!if(wrapInstance.objCmsQuestion.pepType__c=='Text',true,false)}">
+                                            <div class="page-row">
+                                            <label class="form-cntrls loan"></label>
+                                            <div class="form-cntrls-lg textInfo">
+                                           <apex:commandButton action="{!calculateRepaymentValue}"  value="Calculate" styleClass="button primaryBtn wAuto showButton" reRender="renderPayment" status="counterStatus" oncomplete="enableConfirmAndContinue();"/>
+                                           <br/>
+                                            <span class="errorMsg warningMsg" style="display: none;">{!wrapInstance.objCmsQuestion.pepGenericErrorMessage__c}</span>
+                                              </div>
+                                            </div>
+                                             </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!if(wrapInstance.objCmsQuestion.pepType__c=='Text',true,false)}" id="renderPayment"> 
+                                            <div class="page-row">
+                                           <label class="form-cntrls loan">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}*</label>
+                                            <div class="form-cntrls-lg textInfo"><strong>${!calculatedRepayment}</strong></div>
+                                             
+                                            </div>
+                                            </apex:outputPanel>
+                                             </apex:repeat>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        
+                        <div class="page-row">
+                        <p class="custom-chkBox">   
+                             <c:pepcmscomponent_Text pageNameTest="Finalise Repayment" sectionName="Section 4"></c:pepcmscomponent_Text>
+                        </p>
+                        </div>
+
+                    
+
+                    </div>
+                    <div class="loanSetBotSec page-row">
+                        <div class="colA">
+                       <!-- <button class="button secondaryBtn">Save</button>-->
+                        <apex:commandButton action="{!saveForLater}" value="Save for later" styleClass="button secondaryBtn" reRender="renderScriptSFR" status="counterStatus" oncomplete="showModal();"/>
+                        </div>
+                     <!--   <div class="colB"><button class="button primaryBtn">Confirm and Continue</button></div>-->
+                         <div class="colB"><apex:commandButton action="{!redirectToNextPage}" value="Confirm and Continue"  styleClass="button primaryBtn tempSaveClass " onclick=" return checkContinue();"/></div>
+                    </div>
+                                
+                </div>
+                
+        </apex:form>
+        <apex:outputPanel id="renderScriptSFR">
+        <script>
+           function showModal() 
+            { 
+                   
+                    if(('{!successSaveForLater }')=='true')
+                       $('.successModalSFR').modal();
+                    else
+                      $('.errorModalSFR').modal();
+            }
+           
+ </script>
+ </apex:outputPanel>
+</apex:define>
+ </apex:composition>
+ 
+  <script>
+  
+     $('.frequencyClass, .inputDate').change(function()
+    {
+       checkFrequencyInFR();
+    });
+    
+    
+    
+    function checkFrequencyInFR()
+    {
+           
+            var frequency = $('.frequencyClass').val().toLowerCase();
+            var diffDays = 'null';
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            var dateValue = $('.inputDate').val();
+            var dateValueErrorMsg = $('.inputDate');
+            var oneDay = 24*60*60*1000;
+            var inputDate ='';
+            var monthlyFrequencyDate ='';
+            
+            if(dateValue !='')
+            {
+                var arr1 = dateValue.split('/');
+                inputDate = new Date(arr1[2], arr1[1] - 1, arr1[0]);
+                diffDays = Math.round((inputDate.getTime() - today.getTime())/(oneDay));
+                if(frequency =='monthly')
+                {
+                   monthlyFrequencyDate = new Date();
+                   monthlyFrequencyDate.setHours(0, 0, 0, 0);
+                   monthlyFrequencyDate.setMonth(monthlyFrequencyDate.getMonth() +1);
+                   monthlyFrequencyDate.setDate(monthlyFrequencyDate.getDate() - 1);
+                
+                }
+            }
+            
+          if((!isValidDate(dateValue)) || inputDate<today || diffDays<=0 || isNaN(diffDays) || diffDays =='null')
+           {
+              
+              
+               $('.showButton').attr("disabled","disabled");
+               $('.tempSaveClass').attr("disabled","disabled");
+               $(dateValueErrorMsg).siblings('.dateMSg').show();
+               $('.warningMsg').hide();
+           }
+        
+          else if(frequency == 'weekly' && diffDays>6)
+            {
+               
+               
+                $(dateValueErrorMsg).siblings('.dateMSg').show();
+                $('.showButton').attr("disabled","disabled");
+                $('.tempSaveClass').attr("disabled","disabled");
+                $('.warningMsg').hide();
+            }
+             
+            else if(frequency =='fortnightly' && diffDays>13)
+             {
+                
+              
+                $(dateValueErrorMsg).siblings('.dateMSg').show();
+                $('.showButton').attr("disabled","disabled");
+                $('.tempSaveClass').attr("disabled","disabled");
+                $('.warningMsg').hide();
+               
+             }
+             
+             else if(frequency =='monthly' && inputDate > monthlyFrequencyDate)
+             {
+             
+               
+                $(dateValueErrorMsg).siblings('.dateMSg').show();
+                $('.showButton').attr("disabled","disabled");
+                $('.tempSaveClass').attr("disabled","disabled");
+                $('.warningMsg').hide();
+             }
+           
+           else
+           {     
+             
+               $(dateValueErrorMsg).siblings('.dateMSg').hide();
+               $('.warningMsg').hide();
+               $('.tempSaveClass').removeAttr("disabled");
+               $('.showButton').removeAttr("disabled");
+               $('.tempSaveClass').removeClass("tempClass");
+               $('.warningMsg').hide();
+              
+           } 
+   
+  }
+    
+   function enableConfirmAndContinue() 
+   {
+       $('.tempSaveClass').addClass("tempClass");
+       $('.warningMsg').hide();
+       $('.tempSaveClass').removeAttr("disabled"); 
+   }
+   
+   function checkContinue() 
+   {
+       if ($('.tempSaveClass').hasClass("tempClass")) 
+         {
+               show=false;
+               return true;
+         } 
+         
+         else
+         {
+              $('.warningMsg').show();
+              return false;
+         }
+   }
+
+   
+  function isValidDate(comingDate) 
+  {
+      var bits = comingDate.split('/');
+      var buildDate = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
+      return !!(buildDate && (buildDate.getMonth() + 1) == bits[1] && buildDate.getDate() == Number(bits[0]));
+  }
+  </script> 
+   <apex:includeScript value="https://code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+   <apex:stylesheet value="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+   <script>
+  $(document).ready(function() {
+  
+              datepicker();
+              $(".inputDate").change();
+              $('.showButton').attr("disabled","disabled");
+              $('.tempSaveClass').addClass("tempClass");
+      });
+        
+       
+       function datepicker(){
+          
+           $("[id$='aeDate']" ).datepicker({dateFormat:'dd/mm/yy',minDate: 0,changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+       }   
+       var show=true;    
+       $(document).ready(function(){
+   
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+    mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }   
+       </script>   
+
+<!-- ADDED BY COE 061220160915 -->
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+</apex:page>

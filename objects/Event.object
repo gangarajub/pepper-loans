@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Decline</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>DeleteSeries</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>NewEvent</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>NewSfdcEvent</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Today</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>CRM_PAF_Compact_Layout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>CRM_PAF_Compact_Layout</fullName>
+        <fields>Subject</fields>
+        <fields>StartDateTime</fields>
+        <fields>WhoId</fields>
+        <fields>WhatId</fields>
+        <fields>CRM_Status__c</fields>
+        <fields>Location</fields>
+        <label>PAF Compact Layout</label>
+    </compactLayouts>
+    <enableFeeds>true</enableFeeds>
+    <fields>
+        <fullName>ActivityDate</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>ActivityDateTime</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>ClientGuid</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>Description</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>DurationInMinutes</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>Email</fullName>
+    </fields>
+    <fields>
+        <fullName>EndDateTime</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>EventSubtype</fullName>
+    </fields>
+    <fields>
+        <fullName>IsAllDayEvent</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>IsException</fullName>
+    </fields>
+    <fields>
+        <fullName>IsPrivate</fullName>
+    </fields>
+    <fields>
+        <fullName>IsReminderSet</fullName>
+    </fields>
+    <fields>
+        <fullName>IsVisibleInSelfService</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>Location</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>OriginalInstanceDateTime</fullName>
+    </fields>
+    <fields>
+        <fullName>OwnerId</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Phone</fullName>
+    </fields>
+    <fields>
+        <fullName>ShowAs</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>StartDateTime</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+    </fields>
+    <fields>
+        <fullName>Subject</fullName>
+        <picklist>
+            <picklistValues>
+                <fullName>Call</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Email</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Meeting</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Send Letter/Quote</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Type</fullName>
+        <picklist>
+            <picklistValues>
+                <fullName>Email</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Meeting</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Call</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>WhatId</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>WhoId</fullName>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Lookup</type>
+    </fields>
+    <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>CRMValidationToFillMeetingNotes</fullName>
+        <active>true</active>
+        <errorConditionFormula>If(
+	AND(
+		$Profile.Name = &apos;CRM PAF&apos;
+		,
+		ISPICKVAL( CRM_Status__c , &apos;Completed&apos;)
+		,
+		OR(
+			ISBLANK(CRM_BDM_Commitments__c)
+			,
+			ISBLANK(CRM_Customer_Commitments__c)
+			,
+			ISBLANK(TEXT(CRM_Next_Meeting_Scheduled__c))
+			,
+			AND(
+				OR(
+					ISBLANK(WhatId)
+					,
+					AND(
+						NOT(ISBLANK(WhatId))
+						,
+						LEFT(WhatId,3) != &quot;001&quot;
+					)
+				)
+				,
+				ISBLANK(WhoId)
+			)
+		)
+	)
+	,
+	True
+	,
+	False
+)</errorConditionFormula>
+        <errorMessage>BDM Commitment, Customer Commitment and next meeting must be scheduled before completing the meeting.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidationForMoMEmail</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND($Profile.Name == &apos;CRM Mortgage&apos;,
+CRM_Mtg_Send_MoM_Email__c == true,
+ISCHANGED(CRM_Mtg_Send_MoM_Email__c), 
+NOT(ISPICKVAL(CRM_Status__c,&apos;Completed&apos;))),true, false)</errorConditionFormula>
+        <errorMessage>Status should be completed for sending MoM email.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidationToCheckEndDate</fullName>
+        <active>true</active>
+        <errorConditionFormula>ISPICKVAL(CRM_Status__c,&quot;Completed&quot;) &amp;&amp;
+IF(
+  IsAllDayEvent = True,
+  ActivityDate + (DurationInMinutes / 1440) &gt; TODAY(),
+  ActivityDateTime + (DurationInMinutes / 1440) &gt; Now()
+)</errorConditionFormula>
+        <errorMessage>End Date Time must not be greater than today for completing the event.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidationToFillContact</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND($Profile.Name == &apos;CRM Mortgage&apos;,
+CRM_Mtg_Send_MoM_Email__c == true,
+OR(ISBLANK(WhoId),
+ISNULL(CRM_Mtg_Meeting_Objectives__c),
+ISBLANK(CRM_Mtg_Meeting_Outcomes__c))),true, false)</errorConditionFormula>
+        <errorMessage>Please specify Contacts, Objectives and Outcomes before sending Minutes email.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidationToFillFollowupTasks</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND($Profile.Name == &apos;CRM Mortgage&apos;, ISPICKVAL(CRM_Status__c,&apos;Completed&apos;),
+OR(ISBLANK(CRM_Mtg_Followup_Date__c), ISBLANK(CRM_Mtg_Followup_Tasks__c))),true, false)</errorConditionFormula>
+        <errorMessage>Followup Tasks and Followup Date are required.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidationToFillMeetingNotes</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND($Profile.Name = &apos;CRM Mortgage&apos;, ISPICKVAL(CRM_Status__c,&apos;Completed&apos;),
+ISBLANK(CRM_Meeting_Notes__c)),true,false)</errorConditionFormula>
+        <errorDisplayField>CRM_Meeting_Notes__c</errorDisplayField>
+        <errorMessage>Internal Meeting Notes are required.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_ValidationToFillScenario</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND($Profile.Name == &apos;CRM Mortgage&apos;,
+CRM_Mtg_Send_Scenario_Email__c == true,
+ISBLANK(CRM_Mtg_New_Scenario__c)),true, false)</errorConditionFormula>
+        <errorMessage>Please specify Scenario before sending scenario mail.</errorMessage>
+    </validationRules>
+</CustomObject>

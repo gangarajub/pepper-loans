@@ -1,0 +1,320 @@
+<apex:page standardStylesheets="false" controller="pepDashBoardHeaderSideBarController" sidebar="false" showHeader="false"  docType="html-5.0"  cache="{!$Label.Cache_Settings}" id="idPage" action="{!loadSidebarData}">
+ <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+ <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+ <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/> 
+
+       
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Pepper Loan Details</title>
+            <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>  
+            
+        </head>
+        <body>
+        <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+        <apex:form id="myForm" >
+        <apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+         <apex:actionFunction name="callActionfunc"  action="{!updateAccount}"  reRender="none"  >
+           <apex:param name="loanContractid" value="" />
+           
+         </apex:actionFunction>
+         
+         <apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction> 
+         
+            <div class="pepperCustomFluid">
+                <div class="offsetBlkHeight"></div>
+                <div class="offsetBlk">
+                  <div class="containerFluid">
+                   <c:pepDashboardHeaderCompnent />
+                  </div>
+                 </div>
+             
+            <div class="containerFluid posRel dashBoard">
+                <div class="page-row">
+                    <div class="catBlk">
+                        <div class="page-row">
+                        <div class="mainCat">
+                    <ul>
+                        <apex:outputPanel rendered="{!if( lstLeftSideBarSections.size > 0,true,false)}">
+                                
+                          <li class="{!if(step ==-1 ,'mainCat_home active','mainCat_home')}"><a href="javascript:void(0)" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                    <li class="mainCat_money more"><a href="#">Loans</a>
+                                    <ul>
+                                       <apex:repeat value="{!sideBarList}" var="loan">
+                                         
+                                            <apex:outputPanel rendered="{!IF(loan.loanId == loanaccountid,true,false)}">
+                                            <li class="{!IF(hideHeader == true,'mainCat_money','mainCat_money active')}">
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!IF(loan.loanId != loanaccountid,true,false)}">
+                                            <li class="mainCat_money"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            
+                                          
+                                        </apex:repeat>
+                                    </ul>
+                                </li>
+                                
+                                <apex:repeat value="{!lstLeftSideBarSections}" var="sidebar">
+                                    <apex:outputPanel rendered="{!if(sidebar.pepHeader__c=='Refer-a-friend',true,false)}">
+                                        <li class="{!if(step ==-2 ,' mainCat_share active','mainCat_share')}"><a href="javascript:void(0)" onclick="passPageName('pepreferafriend');">Refer-a-friend</a></li>
+                                    </apex:outputpanel>
+                                </apex:repeat>
+                                
+                                <li class="{!if(step ==-4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="javascript:void(0)" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                                <li class="{!if(step ==-3 ,'mainCat_profile active','mainCat_profile')}"><a href="javascript:void(0)" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                                <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp"  rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+                            </apex:outputPanel>
+
+                    </ul>
+                        </div>
+                        </div>
+                    </div>
+                  
+                               <div class="contentCat">                
+                                <div class="loanCont ">
+                                <div class="page-row ">
+                                
+                                <div class="dashboard_lhs " >     
+                                        <div class="myLoan" >
+                                            <div class="loanHead" style="{!IF(hideHeader == true,'display:none;','')}">
+                                    <h1>
+                                        <apex:outputPanel id="rerenderName">
+                                        <apex:outputText value="{!headerInput}" styleClass="outputHeaderValue"/><apex:inputText value="{!headerInput}" style="display: none" styleClass="inputHeaderValue">
+                                        <apex:actionSupport event="onblur" action="{!changeloanName}" reRender="rerenderName,rerenderMsgHeader,rerenderModalHeader" oncomplete="editHeader1();showModalHeader();" status="counterStatus"/>
+                                        </apex:inputtext>
+                                        </apex:outputPanel>
+                                     <span>
+                                   <!--  <a href="#" class="editamt">edit</a>-->
+                                   <apex:commandLink value="edit" reRender="temp" styleClass="editamt" onclick="editHeader();" style="{!IF(closedLoan == true,'display:none;','')}"/>
+                                     </span>
+                                      <div class="loanNumber">Loan Number : {!headerLoanNo}</div>
+                                     </h1>
+                                     
+                                    <div class="nextPaymentSec">
+                                   
+                                        <p><apex:outputtext style="display:{!if(closedLoan==True,'none','block')}" value="Next repayment"></apex:outputText></p>
+                                        <p>
+                                        <span class="amount">
+                                        
+                                       
+                                        
+                                        <apex:outputText value="${!nextRepaymentAmount}"  style="display:{!if(closedLoan==True,'none','block')}"/>
+                                        
+                                        </span><br/>
+                                        <span><apex:outputText value="due on {!nextRepaymentDate}"  style="display:{!if(closedLoan==True,'none','block')}"/></span> 
+                                        </p>
+                                       
+                                    </div>
+                                   
+                                    <div class="progressBarSec">
+                                           <!--  <div class="innerArrow" style="width: {!progressBarWidth}%;">
+                                                <span class="arrowPos"></span>
+                                            </div>
+                                            <div class="progInfo">
+                                                <span>Near Half Way</span>
+                                            </div> -->
+                                            
+                                        <div class="progressBarCont">
+                                            <div class="innerBar" style="width: {!progressBarWidth}%;"></div>
+                                            <span class="amtpaid">
+                                                ${!amountPaid} paid
+                                            </span>
+                                            <span class="amtremain">
+                                                ${!amountRemaining} remaining
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <apex:insert name="header"/>
+                                 <apex:insert name="body"/>
+                                                  
+                               <div class="clear"></div>
+                            
+            
+                                        </div>
+                                </div>
+                                
+                                <div class="dashboard_rhs" style="{!IF(hideLoanDetailsSideBar == true,'display:none;','display:block;')}">
+                                    
+                                        <div class="widgetCards">
+                                            <h4>Loan Details</h4>
+                                            <ul>
+                                                <li class="{!if(Step ==1,'active','')}">
+                                                <a href="javascript:void(0)" onclick="passPageName('peppaymentdetails');" class="bank">
+                                                
+                                              <!--    <apex:outputtext value="Bank Details" rendered="{!IF(step == 1 ,'false','true')}"/> 
+                                                  <apex:outputtext value="Payment Details" rendered="{!IF(step == 1 ,'true','false')}"/> -->
+                                                  Payment Details
+                                                
+                                                </a>
+                                                
+                                                </li>
+                                                 <li class="{!if(Step ==8,'active ','')}"><a href="javascript:void(0)" onclick="passPageName('pepdocumentinbox');" class="document">Document Inbox</a></li>
+                                                <li class="{!if(Step ==2,'active ','')}"><a href="javascript:void(0)" onclick="passPageName('peptransactionhistory');" class="history">Transaction History</a></li>
+                                            </ul>
+                                        </div>
+                                    
+            
+                                
+                                      <div class="widgetCards hideSidebar" style="{!IF(OR(hideLoanServicesSideBar == true,closedLoan == true) ,'display:none;','display:block;')}">
+                                            <h4>Loan Services</h4>
+                                            <ul>
+                                                <li class="{!if(Step ==3,'active','')}"><a href="javascript:void(0)" onclick="passPageName('pepmakeoneoffpayments');" class="money oneoffPay">One-off payments</a></li>
+                                                <li class="{!if(Step ==4,'active','')}"><a href="javascript:void(0)" onclick="passPageName('pepadjustrepayments');" class="money adjRepay">Adjust repayments</a></li>
+                                                <li class="{!if(Step ==5,'active','')}"><a href="javascript:void(0)" onclick="passPageName('pepchangepaymentsfrequency');" class="calendar payFreq">Payment frequency</a></li>
+                                                <li class="{!if(Step ==7,'active','')}"><a href="javascript:void(0)" onclick="passPageName('peppayoutloanpage');" class="sort payoffLoan">Pay off your loan</a></li>
+                                                <li class="{!if(Step ==6,'active','')}"><a href="javascript:void(0)" onclick="passPageName('peppaymentholidaydashboard');" class="holiday payHoliday">Payment holidays</a></li>
+
+                                           </ul>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                             <p class="pepperTnC">
+                            <c:pepTermsConditionFooter />
+                          </p>
+                        </div>
+                       
+                    </div>
+                    
+                     </div>
+                     
+                    </div>
+               
+            <footer>
+                <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+            </footer>
+            
+            </div>
+       
+     
+<div id="pepperModal_error" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="fa fa-question-circle right"></span>
+        On no!
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>Hmm it looks like we’ve hit a technical problem and your [service] was not processed.
+                   Please try again.</p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <button class="button secondaryBtn modalOK" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<apex:outputPanel id="rerenderMsgHeader">
+    <div id="pepperModal_success" class="modal fade tempHeaderClass" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="fa fa-check-circle right"></span>
+            Your loan name has been updated.
+          </div>
+          <div class="modal-body">
+            <div class="page-row">
+                <div class="modalContent">
+                    <p>New Name: {!headerInput}</p>
+                </div>              
+            </div>
+            <div class="page-row">
+                <button class="button secondaryBtn modalOK" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</apex:outputPanel> 
+      
+          </apex:form>  
+            
+       </body>
+    </html>
+      <script>
+      
+      function passPageName(APIPageName)
+          {
+             var i=APIPageName;
+               var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+            //   alert($mapParentChildren[APIPageName]);
+               window.location.href = $mapParentChildren[APIPageName];
+              
+            //  pageRedirection(APIPageName);
+
+          }
+      
+            /*   $(document).ready(function() {
+              
+                     $('.hideSidebar').find('a.holiday').attr("disabled","disabled");
+       }); */
+         
+        function editHeader()
+        {
+            $(".outputHeaderValue").hide();
+            $(".inputHeaderValue").css("display","inline-block");
+            $(".inputHeaderValue").focus().select();
+        }
+        
+        function editHeader1()
+        {
+            $(".inputHeaderValue").hide();
+            $(".outputHeaderValue").show();
+        }
+   </script>
+ 
+    
+     <apex:outputPanel id="rerenderModalHeader">
+           <script>
+            function showModalHeader() 
+            {
+                     if(('{!dontShowAlertHeader}')=='true')
+                    {
+                      
+                    }
+                   else if(('{!successMsgHeader}')=='true')
+                    {
+                       $('.tempHeaderClass').modal();
+                    }
+                    else
+                    {
+                       $('#pepperModal_error').modal();
+                    }
+             }
+             
+             
+             function callfun(IdloanContract)
+             {
+                
+                 $('[Id$=IdinputHidden]').val(IdloanContract);               
+                 callActionfunc(IdloanContract);
+             }
+             
+                
+           </script>
+           
+           
+           </apex:outputPanel>
+</apex:page>

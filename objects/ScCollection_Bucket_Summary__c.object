@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>this object would contain the status of contracts bucket on daily basis</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>ScCollecction_Diff_Percent__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Percent__c - ScCollection_EOM_percent__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Diff %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_BucketName__c</fullName>
+        <description>this field would contain the bucket name</description>
+        <externalId>false</externalId>
+        <label>Bucket</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_Summary__c</fullName>
+        <description>this field would tag the contract summary to bucket summary</description>
+        <externalId>false</externalId>
+        <label>Contract Summary</label>
+        <referenceTo>ScCollection_Contract_Summary__c</referenceTo>
+        <relationshipLabel>Bucket Summary</relationshipLabel>
+        <relationshipName>Bucket_Summary</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Count_of_Contracts__c</fullName>
+        <description>this field would contain the number of contracts in that contract</description>
+        <externalId>false</externalId>
+        <label>Accounts</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Count_of_Month_End_Accounts__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Month_s_End_Bucket_Summary__r.ScCollection_Count_of_Contracts__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>EOM Accounts</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Current_Balance_Sum__c</fullName>
+        <description>this field would contain the sum of balances of that bucket</description>
+        <externalId>false</externalId>
+        <label>Balances</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_DifferenceCount__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Count_of_Contracts__c - ScCollection_Month_s_End_Bucket_Summary__r.ScCollection_Count_of_Contracts__c</formula>
+        <label>Difference in Accounts Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Difference__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Current_Balance_Sum__c-ScCollection_Month_s_End_Bucket_Summary__r.ScCollection_Current_Balance_Sum__c</formula>
+        <label>Difference in Balances</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_EOM_Balances__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Month_s_End_Bucket_Summary__r.ScCollection_Current_Balance_Sum__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>EOM Balances</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_EOM_percent__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Month_s_End_Bucket_Summary__r.ScCollection_Percent__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Month End&apos;s Balances %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Month_s_End_Bucket_Summary__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>this field would contain the month&apos;s end bucket summary</description>
+        <externalId>false</externalId>
+        <label>Month&apos;s End Bucket Summary</label>
+        <referenceTo>ScCollection_Bucket_Summary__c</referenceTo>
+        <relationshipLabel>Bucket Summary (Month&apos;s End Bucket Summary)</relationshipLabel>
+        <relationshipName>Bucket_Summary1</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Number_of_Contracts_Moved__c</fullName>
+        <description>this field would contain the total number of moved contracts from one to two</description>
+        <externalId>false</externalId>
+        <label>Number of Contracts Moved</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Percent__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(ScCollection_Contract_Summary__r.ScCollection_Total_Balance_Today__c = 0,0,ScCollection_Current_Balance_Sum__c /  ScCollection_Contract_Summary__r.ScCollection_Total_Balance_Today__c)</formula>
+        <label>Today&apos;s Balances %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_SumofContractsMovedfrom1to2__c</fullName>
+        <description>this field would contain the sum of moved contracts from one to two</description>
+        <externalId>false</externalId>
+        <label>Sum of Contracts Moved from 1 to 2</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Yesterday_Bucket_Summary__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>would tag yesterday&apos;s bucket to today&apos;s bucket</description>
+        <externalId>false</externalId>
+        <label>Yesterday Bucket Summary</label>
+        <referenceTo>ScCollection_Bucket_Summary__c</referenceTo>
+        <relationshipLabel>Bucket Summary</relationshipLabel>
+        <relationshipName>Bucket_Summary</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Bucket Summary</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>Bucket Summary- {0000000}</displayFormat>
+        <label>Bucket Summary Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Bucket Summary</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

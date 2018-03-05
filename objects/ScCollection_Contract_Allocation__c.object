@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Loan_ID__c</fullName>
+        <externalId>false</externalId>
+        <formula>VALUE(SUBSTITUTE(ScCollection_Contract_Name__c, &quot;_0&quot;, &quot;&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Loan ID</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Arrears_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Queue_Contract__r.ScCollection_Arrears__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Arrears Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Assigned_By__c</fullName>
+        <externalId>false</externalId>
+        <formula>If(LEFT(ScCollection_Queue_Contract__r.LastModifiedBy.Id,15) = &apos;00528000003PExI&apos;, &apos;ICM&apos;, ScCollection_Queue_Contract__r.LastModifiedBy.FirstName &amp; &apos; &apos; &amp;  ScCollection_Queue_Contract__r.LastModifiedBy.LastName)</formula>
+        <label>Assigned By</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Assigned_Date__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Queue_Contract__r.collect__Follow_Up_Date__c</formula>
+        <label>Assigned Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Assignee__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Queue_Contract__r.collect__User__r.FirstName &amp; &apos; &apos; &amp; ScCollection_Queue_Contract__r.collect__User__r.LastName</formula>
+        <label>Agent Assigned</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Balance_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Queue_Contract__r.ScCollection_Balance_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Balance Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Bucket__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null,
+TEXT(ScCollection_Contract__r.ScCollection_Bucket__c),
+&apos;&apos;)</formula>
+        <label>Bucket</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_CL_Contract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>CL Contract</label>
+        <referenceTo>loan__Loan_Account__c</referenceTo>
+        <relationshipLabel>Contract Allocation</relationshipLabel>
+        <relationshipName>Contract_Allocation</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>If(ScCollection_Contract__c &lt;&gt; NULL, ScCollection_Contract__r.Name, IF(ScCollection_CL_Contract__c &lt;&gt; NULL, ScCollection_CL_Contract__r.Name, &apos;&apos;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Contract Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_Split_Number__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null, 
+TEXT(ScCollection_Contract__r.ScCollection_Contract_Split_Number__c), 
+&apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Contract Split Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_URL__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&quot;https://ap2.salesforce.com/&quot;&amp;If(ScCollection_Contract__c &lt;&gt; NULL,  ScCollection_Contract__r.Id, IF(ScCollection_CL_Contract__c &lt;&gt; NULL, ScCollection_CL_Contract__r.Id, &apos;&apos;)), ScCollection_Contract_Name__c, &apos;_blank&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Contract</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Contract</label>
+        <referenceTo>collect__Loan_Account__c</referenceTo>
+        <relationshipLabel>Contract Allocation</relationshipLabel>
+        <relationshipName>Contract_Allocation</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Country_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null, 
+ScCollection_Contract__r.ScCollection_Country_Code__c, 
+&apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Country Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_External_ID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <encrypted>false</encrypted>
+        <externalId>true</externalId>
+        <label>External ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Interaction_Log__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Interaction Log</label>
+        <referenceTo>collect__Interaction_Log__c</referenceTo>
+        <relationshipLabel>Contract Allocation</relationshipLabel>
+        <relationshipName>Contract_Allocation</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Mortgage_Funding__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null, 
+ScCollection_Contract__r.ScCollection_Mortgage_Funding__c, 
+&apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Mortgage Funding</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Old_Bucket__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null, 
+TEXT(ScCollection_Contract__r.ScCollection_OldBucket__c), 
+&apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Old Bucket</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Queue_Contract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Queue Contract</label>
+        <referenceTo>collect__Queue_Contract__c</referenceTo>
+        <relationshipLabel>Contract Allocation</relationshipLabel>
+        <relationshipName>Contract_Allocation</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Queue_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Queue_Contract__r.collect__Queue__r.Name</formula>
+        <label>Queue Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Review_Date__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Interaction_Log__c &lt;&gt; Null,
+DATEVALUE(ScCollection_Interaction_Log__r.collect__Follow_Up_Date_Time__c),
+ScCollection_Queue_Contract__r.collect__Follow_Up_Date__c)</formula>
+        <label>Review Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Rolled_up_down__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null, 
+ScCollection_Contract__r.ScCollection_Rolled_Up_Down__c, 
+&apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Rolled Up/Down</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Source_System__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Contract__c &lt;&gt; Null,
+ScCollection_Contract__r.collect__Source_System__r.Name,
+If(ScCollection_CL_Contract__c &lt;&gt; Null,
+&apos;Cl Loan&apos;,
+&apos;&apos;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Source System</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Untouched_Since_Duration__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(TODAY() - ScCollection_Untouched_Since__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Untouched Since(Duration)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Untouched_Since__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ScCollection_Interaction_Log__c &lt;&gt; NULL, DATEVALUE(ScCollection_Interaction_Log__r.CreatedDate),  ScCollection_Queue_Contract__r.collect__Follow_Up_Date__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Untouched Since</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Untouched_Since_Bucket__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(AND(VALUE(ScCollection_Untouched_Since_Duration__c) &gt; 0,  VALUE(ScCollection_Untouched_Since_Duration__c) &lt;= 10),
+&apos;0-10&apos;,
+IF(AND(VALUE(ScCollection_Untouched_Since_Duration__c) &gt; 10,  VALUE(ScCollection_Untouched_Since_Duration__c) &lt;= 20),
+&apos;11-20&apos;,
+IF(AND(VALUE(ScCollection_Untouched_Since_Duration__c) &gt; 20,  VALUE(ScCollection_Untouched_Since_Duration__c) &lt;= 30),
+&apos;21-30&apos;,
+&apos;30 +&apos;)))</formula>
+        <label>Untouched Since Bucket</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Contract Allocation</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>ScCollection_Contract__c</columns>
+        <columns>ScCollection_CL_Contract__c</columns>
+        <columns>ScCollection_Queue_Contract__c</columns>
+        <columns>ScCollection_Interaction_Log__c</columns>
+        <columns>ScCollection_Review_Date__c</columns>
+        <columns>ScCollection_Assignee__c</columns>
+        <columns>ScCollection_Queue_Name__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>CA-{00000000}</displayFormat>
+        <label>Contract Allocation Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Contract Allocation</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

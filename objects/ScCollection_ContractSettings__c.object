@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This is used to hold the Global Settings count against user and CL/PL Contracts.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>ScCollection_BrokenPromiseCountDate__c</fullName>
+        <description>this would contain the date</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Broken Promise Count Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_BrokenPromiseCount__c</fullName>
+        <description>this would contain the count of No Commitment Count</description>
+        <externalId>false</externalId>
+        <label>Broken Promise Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_CLContract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>this field contains the tagged CL Contract</description>
+        <externalId>false</externalId>
+        <label>PL Contract</label>
+        <referenceTo>loan__Loan_Account__c</referenceTo>
+        <relationshipLabel>Contract Settings</relationshipLabel>
+        <relationshipName>Contract_Settings</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_Name__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+NOT( ISBLANK(  ScCollection_CLContract__c  ) ) 
+, 
+ ScCollection_CLContract__r.Name 
+, 
+IF( 
+NOT( ISBLANK(ScCollection_DevContract__c ) ) 
+, 
+IF( 
+ScCollection_DevContract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot; 
+, 
+left( ScCollection_DevContract__r.Name ,find(&apos;_&apos;, ScCollection_DevContract__r.Name)-1) 
+, 
+ScCollection_DevContract__r.Name 
+) 
+, 
+&quot;&quot; 
+) 
+)</formula>
+        <label>Contract Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_ContracttoUser__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contract to User</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Country_Code__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+NOT( ISBLANK( ScCollection_DevContract__c ) ) 
+, 
+ScCollection_DevContract__r.ScCollection_Country_Code__c 
+, 
+&quot;&quot; 
+)</formula>
+        <label>Country Code</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_DevContract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>This is the tagged with Collection contracts with the setting.</description>
+        <externalId>false</externalId>
+        <label>CL Contract</label>
+        <referenceTo>collect__Loan_Account__c</referenceTo>
+        <relationshipLabel>Contract Settings</relationshipLabel>
+        <relationshipName>Contract_Settings</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_External_Id__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+AND(NOT( ISBLANK(ScCollection_DevContract__c)),OR( ScCollection_DevContract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;, ScCollection_DevContract__r.ScCollection_Source_System_Name__c == &quot;PAF&quot; ) ) 
+, 
+ScCollection_DevContract__r.collect__External_ID__c 
+, 
+&quot;&quot; 
+)</formula>
+        <label>External Id</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_HoldDaysCount__c</fullName>
+        <description>this would contain the count of Hold Days Count</description>
+        <externalId>false</externalId>
+        <label>Hold Days Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_LOB_Identifier__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+NOT( ISBLANK( ScCollection_CLContract__c ) ) 
+, 
+&quot;CL Loan&quot; 
+, 
+IF( 
+NOT( ISBLANK(ScCollection_DevContract__c ) ) 
+, 
+ScCollection_DevContract__r.ScCollection_Source_System_Name__c 
+, 
+&quot;&quot; 
+) 
+)</formula>
+        <label>LOB Identifier</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_NoAnsCounterDate__c</fullName>
+        <description>this would contain the date</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>No Ans Counter Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_NoAnswerCount__c</fullName>
+        <description>this would contain the count of No answer count</description>
+        <externalId>false</externalId>
+        <label>No Answer Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_NoCommitmentCountDate__c</fullName>
+        <description>this would contain the date</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>No Commitment Count Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_NoCommitmentCount__c</fullName>
+        <description>this would contain the count of No Commitment Count</description>
+        <externalId>false</externalId>
+        <label>No Commitment Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Split_Number__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+AND(NOT( ISBLANK( ScCollection_DevContract__c )),ScCollection_DevContract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;)  
+, 
+TEXT(ScCollection_DevContract__r.ScCollection_Contract_Split_Number__c) 
+, 
+&quot;&quot; 
+)</formula>
+        <label>Split Number</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_UserLookup__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>this field would contain the look  up of the user</description>
+        <externalId>false</externalId>
+        <label>User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Contract_Settings</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Contract Setting</label>
+    <nameField>
+        <displayFormat>CS-{00000000}</displayFormat>
+        <label>CS Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Contract Settings</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

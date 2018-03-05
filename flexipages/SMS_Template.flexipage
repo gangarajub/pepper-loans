@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>decorate</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>richTextValue</name>
+                <value>&lt;b&gt;Lending Specialist&amp;rsquo;s:&lt;/b&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;Your application has been submitted. We expect to hear back from our credit team in &lt;span style=&quot;color:#FF0000;&quot;&gt;X&lt;/span&gt; days, and will be in touch!&lt;/li&gt;
+	&lt;li&gt;Great news! Your application has been conditionally approved. An email will be sent to you outlining the conditions of your loan and requirements to getting your loan formally approved.&lt;/li&gt;
+	&lt;li&gt;Congratulations, your home loan has been formally approved! Your loan contracts will be in the mail over the coming days.&lt;/li&gt;
+	&lt;li&gt;Welcome to Pepper Money - your home loan has officially settled! Our Customer Service team will be in touch via phone to set up everything you need in the coming days.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br /&gt;
+&lt;b&gt;Lending Associates:&lt;/b&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;Thanks for enquiring with Pepper Money! We were unable to make contact with you today. Please reply to this text with a good time to call or call us on 13 73 77 option 2 between 8am and 6pm. Speak soon.&lt;/li&gt;
+	&lt;li&gt;Thank you for enquiring with Pepper Money. A call has been scheduled with a Pepper Money Lending Specialist at &lt;span style=&quot;color:#FF0000;&quot;&gt;XX&lt;/span&gt;. &amp;nbsp;Thank you.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br /&gt;
+&lt;b&gt;Lending Support:&lt;/b&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;We are currently working on your loan application and require additional information. Please call 13 73 77 option 2 to discuss. Pepper Money&amp;nbsp;&lt;/li&gt;
+	&lt;li&gt;We have tried to call you regarding your home loan.&amp;nbsp;Please call on 13 73 77 Option 2. Pepper Money&amp;nbsp;&lt;/li&gt;
+	&lt;li&gt;We can confirm settlement has been booked for x!&amp;nbsp;Please call 13 73 77 Option 2 for any questions.&amp;nbsp;Pepper Money&lt;/li&gt;
+&lt;/ul&gt;</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:richText</componentName>
+        </componentInstances>
+        <name>main</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>SMS Template</masterLabel>
+    <pageTemplate>flexipage:defaultAppHomeTemplate</pageTemplate>
+    <type>AppPage</type>
+</FlexiPage>

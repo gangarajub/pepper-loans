@@ -1,0 +1,294 @@
+<apex:page docType="html-5.0" standardStylesheets="false" sidebar="false" id="pageId" showHeader="false" cache="{!$Label.Cache_Settings}" controller="pepWelcomePageController">
+  
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper Welcome Page</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>   
+    
+</head>
+<script>
+    function callfun(IdloanContract)
+             {
+                
+                 $('[Id$=IdinputHidden]').val(IdloanContract);               
+                 callActionfunc(IdloanContract);
+             }
+             
+             function passPageName(APIPageName)
+          {
+               var i=APIPageName;
+               var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+               window.location.href = $mapParentChildren[APIPageName];
+          }
+</script>
+<style>
+    form{
+      min-height: 100%; 
+      height: 100%; 
+    }
+    .pepperCustomFluid{
+        padding-bottom: 158px;
+    }
+</style>
+<body>
+<apex:form id="idForm">
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+
+<apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+         <apex:actionFunction name="callActionfunc"  action="{!updateAccount}"  reRender="none"  >
+           <apex:param name="loanContractid" value="" />
+           
+         </apex:actionFunction>
+         
+         <apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction> 
+         
+<div class="pepperCustomFluid">
+    <div class="offsetBlkHeight"></div>
+    <div class="offsetBlk">
+      <div class="containerFluid">
+          <c:pepDashboardHeaderCompnent ></c:pepDashboardHeaderCompnent>
+      </div>
+     </div>
+ 
+<div class="containerFluid posRel dashBoard">
+    <div class="page-row">
+        <div class="catBlk">
+                        <div class="page-row">
+                        <div class="mainCat">
+                    <ul>
+                        <apex:outputPanel rendered="{!if( lstLeftSideBarSections.size > 0,true,false)}">
+                                
+                          <li class="{!if(step ==-1 ,'mainCat_home active','mainCat_home')}"><a href="javascript:void(0)" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                    <li class="mainCat_money more"><a href="#">Loans</a>
+                                    <ul>
+                                       <apex:repeat value="{!lstwelcomePageWrapper}" var="loan">
+                                         
+                                            
+                                            <li class="mainCat_money"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.lonaName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            
+                                          
+                                        </apex:repeat>
+                                    </ul>
+                                </li>
+                                
+                             <!--   <apex:repeat value="{!lstLeftSideBarSections}" var="sidebar">
+                                    <apex:outputPanel rendered="{!if(sidebar.pepHeader__c=='Refer-a-friend',true,false)}">
+                                        <li class="{!if(step ==-2 ,' mainCat_share active','mainCat_share')}"><a href="javascript:void(0)" onclick="passPageName('pepreferafriend');">Refer-a-friend</a></li>
+                                    </apex:outputpanel>
+                                </apex:repeat> -->
+                                
+                                <li class="{!if(step ==-4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="javascript:void(0)" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                                <li class="{!if(step ==-3 ,'mainCat_profile active','mainCat_profile')}"><a href="javascript:void(0)" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                                <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp"  rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+                            </apex:outputPanel>
+
+                    </ul>
+                </div>
+                        </div>
+                    </div>
+        
+        <div class="contentCat welcomeCont">
+
+        
+            <div class="loanCont">
+                    <apex:outputtext value="{!strsectionstory}" escape="false"/>
+
+        
+                <div class="page-row">
+                    <div class="dashboard_lhs_home">
+                    
+                            <div class="myLoan" >
+                            
+                <apex:repeat value="{!lstwelcomePageWrapper}" var="varLoan">  
+                    <div class="page-form">
+                               
+                            
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                 
+                                    
+                                    <div class="loanTxtOuter">
+                                    
+                                        
+                                        <div class="loanHead" >
+                                            
+                                                <div class="loanSetTopSec">
+                                                
+                                                    <h3 class="colA"><apex:outputText value="{!varLoan.lonaName}"></apex:outputText> </h3>
+                                                    <div class="colB">
+                                                        Loan Number &nbsp;<apex:outputText value="{!varLoan.loanNumber}"></apex:outputText>
+                                                    </div>
+                                                </div>
+                                            
+                                            
+                                            
+                                                <apex:outputpanel layout="block" styleclass="nextPaymentSec" style="display:{!if(varLoan.closedLoan==true,'none','block')}">
+                                                    <p>Next repayment</p>
+                                                    <p>
+                                                    <span class="amount"> <apex:outputText value="${0,number,###,###,###,##0.00}" id="myNumberDisplay" >
+                                                                    <apex:param value="{!varLoan.apsAmount}"/>
+                                                                </apex:outputText>
+                                                    
+                                                    </span><br/>
+                                                    <span>due on &nbsp;<apex:outputText value="{0,date,dd/MM/yyyy}">
+                                                        <apex:param value="{!varLoan.apsDate}"/></apex:outputText></span> 
+                                                    </p >
+                                                </apex:outputpanel> 
+                                               
+                                                <div class="progressBarSec">
+                                                                                                           
+                                                        
+                                                        <div class="progressBarCont">
+                                                            <div class="innerBar" style="width:{!varLoan.progressBarWidth}%;"></div>
+                                                            <span class="amtpaid">
+                                                               <!-- <apex:outputText value="${0,number,###,###,###,##0.00}" id="mySecondNumberDisplay" >
+                                                                </apex:outputText>-->
+                                                                $<apex:outputText value="{!varLoan.principlePaid}"/>
+                                                                 paid
+                                                            </span>
+                                                            <span class="amtremain">
+                                                               <!-- <apex:outputText value="${0,number,###,###,###,##0.00}" id="myThirdNumberDisplay" >
+                                                                </apex:outputText> -->
+                                                                $<apex:outputText value="{!varLoan.principleRemaining}"/>
+                                                                remaining
+                                                            </span>
+                                                        </div>
+                                                </div>
+
+                                                <div class="form-cntrl">
+                                                    <apex:commandlink id="IdviewMyLoan" styleClass="button primaryBtn" value="View My Loan" action="{!ViewMyLoan}">
+                                                        <apex:param name="LoanAccountId" value="{!varLoan.loanId}"/>
+                                                    </apex:commandlink>
+                                                
+                                                </div>
+                                    </div>  
+
+                                    </div>
+                                  
+                                        <div class="form-elements">
+                                                
+                                        
+                                        </div>  
+                                    </div>  
+                                </div>
+                    </div> 
+                </apex:repeat>                 
+                    <div class="clear"></div>                    
+                        
+
+                    <div class="page-form">
+                                
+                            
+                                <div class="page-row">
+                                <apex:outputPanel rendered="false">
+                                
+                                    <div class="form-section marketAdd">    
+                                     
+                                    
+                                        <div class="loanTxtOuter">
+                                           
+                                            <div class="loanHead" >
+                                            
+                                            <apex:repeat value="{!lstSection}" var="Section">
+                                                <apex:outputPanel id="IdSingleImageOutputPanel" rendered="{!if(Section.Sub_Type__c == 'One Column', true,false)}">
+                                                    <apex:repeat var="varMarketing" value="{!Section.Attachments}" rendered="{!if(Section.Attachments != null, true,false)}">
+                                                    <!-- One Image !-->         
+                                                    <div  class="singleCol">
+                                                        <div >
+                                                        <apex:outputLink value="{!Section.Marketing_Link_1__c}" target="_blank"><apex:image value="/servlet/servlet.FileDownload?file={!varMarketing.id}"/></apex:outputLink>
+                                                        </div>
+    
+                                                    </div>
+                                                <!-- One Image !-->
+                                                </apex:repeat>
+                                                </apex:outputpanel>
+    
+                                                        <apex:outputPanel id="IdDoubleImageOutputPanel" rendered="{!if(Section.Sub_Type__c == 'Two Column', true,false)}">
+                                                            
+                                                               
+    
+                                                                <!-- Second Image !-->          
+                                                                    <div class="page-row" >
+                                                                      <apex:repeat var="varMarketing" value="{!Section.Attachments}" rendered="{!if(Section.Attachments != null, true,false)}">
+                                                                             
+                                                                    <div class="doubCol">
+                                                                        <div>
+                                                                        <apex:outputLink value="{!Section.Marketing_Link_1__c}" target="_blank"><apex:image value="/servlet/servlet.FileDownload?file={!varMarketing.id}"/></apex:outputLink>
+                                                                         
+                                                                        </div>
+                                                                    </div>
+                                                                    </apex:repeat>
+                                                                    
+                                                                    
+                                                                        
+                                                                    </div>
+                                                                <!-- Second Image !-->
+                                                                
+                                                                
+                                                            </apex:outputPanel> 
+                                                        </apex:repeat> 
+                                                                                                                                                                                                                                                                            
+                                            </div>  
+                                            
+                                        </div>
+                                        
+                                    </div> 
+                                </apex:outputpanel> 
+                                </div>
+                                
+                    </div>  
+
+
+                            </div>
+                    </div>
+                    
+                    
+                </div>
+                 <p class="pepperTnC">
+                            <c:pepTermsConditionFooter />
+                          </p>
+            </div>
+        </div>
+    </div>  
+
+</div>
+            <footer>
+                <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+            </footer>
+
+</div>
+
+
+
+
+
+
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+    
+</apex:form>
+</body>
+</html>
+</apex:page>

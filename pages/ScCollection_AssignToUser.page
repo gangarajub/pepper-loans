@@ -1,0 +1,193 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for assigning a user on the contract within the same queue by another working agent
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 18-JUN-2016    Created By: Pawan Mudgal    Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+    User Story: 
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page controller="ScCollection_AssignToUser" name="Contract User Assigment" Id="UserAPage" sidebar="false" showheader="false" action="{!createMapQueueToUserlist}" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head> 
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />   
+            <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap-theme.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    if('{!strTabId}' != '' && '{!strRefresh}' == '0') 
+                    {
+                        sforce.console.refreshPrimaryTabById('{!strTabId}', true, null);    
+                        
+                        //close tab after 2 secs
+                        setTimeout(function(){ closeSubTabOnLoad(); }, 2000);
+                    }
+                });
+                
+                function closeSubTabOnLoad() 
+                {
+                    sforce.console.getEnclosingTabId(closeSubtab);
+                }
+                
+                var closeSubtab = function closeSubtab(result) 
+                {
+                    var tabId = result.id;
+                    sforce.console.closeTab(tabId);
+                };
+                
+                function ValidateSubmit()
+                {
+                    $('.errorsection').hide();
+                    $('#errortext').html('');
+                                                
+                    $('.requiredField').each(function(index) 
+                    {
+                        $(this).removeClass('errorBorder');
+                        $(this).addClass('normalBorder');
+                    });
+                    
+                    if(validateRequiredFields() && validateDateFields())
+                    {
+                        executeUserAssignment();
+                    }
+                    else
+                    {
+                        $(window).scrollTop(0);
+                    }
+                }
+                
+                function validateRequiredFields()
+                {
+                    var result = true;
+                    
+                    $('.requiredField').each(function(index) 
+                    {
+                        if($(this).val() == '')
+                        {
+                            $('.errorsection').show();
+                            $('#errortext').html('Error : Please provide values for all required fields.');
+                            $(this).removeClass('normalBorder');
+                            $(this).addClass('errorBorder');
+                            result = false;
+                        }
+                    });
+                    
+                    return result;
+                }
+                
+                function validateDateFields()
+                {
+                    var result = true;
+                    
+                    $('.dateField').each(function(index) 
+                    {
+                        var selecteddate = parseDate($(this).val());
+                        selecteddate.setHours(0, 0, 0, 0);
+                        var todaydate = new Date('{!NOW()}');
+                        todaydate.setHours(0, 0, 0, 0);
+                        
+                        if(selecteddate < todaydate)
+                        {
+                            $('.errorsection').show();
+                            $('#errortext').html('Error : Please provide valid dates greater or equal to today.');
+                            $(this).removeClass('normalBorder');
+                            $(this).addClass('errorBorder');
+                            result = false;
+                        }
+                    });
+                    
+                    return result;
+                }
+                
+                // accepts format like dd/mm/yyyy
+                function parseDate(datestr) 
+                {
+                    var arr = datestr.match(/(\d+)/g);
+                    var y = parseInt(arr[2]);
+                    var m = parseInt(arr[1])-1;
+                    var d = parseInt(arr[0]);
+                    return new Date(y,m,d);
+                }
+            </script>
+            <style>
+                .errorMsg
+                {
+                    display:none !important;
+                }
+            </style>
+        </head>
+        <body>
+            <section id="main-section">
+                <div class="container-fluid">
+                    <apex:outputPanel rendered="{!If(AND(showAssignment == true, strRefresh == '0'),true,false)}">
+                        <section class="cstm-form clearfix" style="text-align: center;margin: 20px;border: 1px solid #ccc;border-radius: 5px;padding: 20px;color: #DF0024;">
+                            <h4>Contract is successfully assigned to selected user.</h4>
+                        </section>
+                    </apex:outputPanel>
+                    
+                    
+                    <apex:form rendered="{!If(AND(showAssignment, strRefresh != '0'),true,false)}" id="frm" style="margin-top:1em;">
+                        <apex:actionFunction action="{!UserAssignment}" name="executeUserAssignment"/>
+                        
+                        <apex:outputPanel id="pb">
+                            <div class="col-md-12 col-sm-12 iframe-sm-12 noleftpadding">
+                                <label class="displayNone errorsection"><i class="fa fa-exclamation-triangle"></i><span id="errortext"></span></label>
+                                <apex:pageMessages id="servererror" />
+                            </div>
+                            <div class="clearfix"></div>
+                            <aside id="center_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+                                <section class="cstm-form clearfix" style="text-align:center; margin-top:5px;">
+                                    <a href="#" class="nav-login active" onclick="ValidateSubmit();"><span>Assign</span></a>
+                                </section>
+                                <div class="clearfix"></div>
+                                    <apex:actionStatus id="OutPanelRenderer" layout="block" startStyleClass="customLoading" styleClass="customLoading"/>
+                                    <section class="cstm-form clearfix">
+                                        <fieldset>
+                                            <legend>Queue Users Details</legend>
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>Users</label>
+                                                <apex:selectList id="selectList" value="{!UserId}" styleClass="form-control requiredField" multiselect="false" size="1">
+                                                    <apex:selectOptions value="{!Users}"/>
+                                                    <apex:actionSupport reRender="pb" action="{!enableUserSelection}" event="onchange" status="OutPanelRenderer"/>
+                                                </apex:selectList>
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>Queues</label>
+                                                <apex:selectList id="QUSelect" value="{!QueueID}" styleClass="form-control requiredField" multiselect="false" size="1">
+                                                    <apex:selectOptions value="{!Queue}"/>
+                                                </apex:selectList>
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <!--<div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>From Date</label>
+                                                <apex:inputField id="startdate" value="{!objCon.ScCollection_Contract_End_Date__c}" styleClass="form-control requiredField dateField" style="width:100%;" />
+                                                <div class="requiredMark"></div>
+                                            </div>-->
+                                            
+                                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                                                <label>End Date</label>
+                                                <apex:inputField id="enddate" value="{!objCon.ScCollection_Movement_Date__c}" styleClass="form-control requiredField dateField" style="width:100%;" />
+                                                <div class="requiredMark"></div>
+                                            </div>
+                                        </fieldset>
+                                    </section>
+                            </aside>
+                        </apex:outputPanel>
+                    </apex:form>
+                </div>
+            </section>
+        </body>
+    </html>
+</apex:page>

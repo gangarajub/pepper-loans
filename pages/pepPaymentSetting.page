@@ -1,0 +1,193 @@
+<apex:page sidebar="false" cache="{!$Label.Cache_Settings}" showHeader="false" standardStylesheets="false" controller="pepPaymentSettingController">   
+ <apex:composition template="pepDashBoardHeaderSideBarTemplate">
+<apex:define name="body">
+ 
+
+<!--<apex:form id="formId">  -->
+<apex:actionFunction name="change" action="{!changeAccount}" reRender="IDForm" status="counterStatus"/> 
+<apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction> 
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+ 
+                <apex:outputPanel layout="block" styleclass="page-form" id="IDForm">
+                             <div class="page-row">
+                             
+                                <apex:repeat value="{!lstSection}" var="S">
+                                    
+                                    <div class="form-section">  
+                                    <div class="loanTxtOuter">
+                                        <div class="loanTxtHead">
+                                            <h3><apex:outputText escape="false">{!S.pepHeader__c}</apex:outputText> </h3>
+                                        </div>  
+
+                                        <p>
+                                         <apex:outputText value="{!S.pepSectionBodyRich__c}" escape="false"/>
+                                        </p>        
+                                    </div>
+                                        <div class="form-elements">
+                                                
+                                            <div class="form-section innerForm">    
+                                                <div class="form-elements">
+                                                 <apex:repeat value="{!S.pepQuestion__r}" var="Q" >  
+                                                  <div class="page-row">
+                                                         <apex:outputLabel value="{!Q.pepLabelPriorQuestion__c}" rendered="{!Q.pepType__c !='Button'}" styleClass="form-dcntrls" />
+                                                        <div class="form-dcntrls-lg">
+                                                           <apex:selectList value="{!SelectedAccount}" rendered="{!Q.pepType__c =='Picklist' && Q.pepLabelPriorQuestion__c=='Select Account'}" multiselect="false" size="1" onchange="change();">
+                                                            <apex:selectOptions value="{!lstOptions}"/>
+                                                            </apex:selectList>
+                                                        <!--<apex:outputPanel rendered="{!strSectionType=='edit'}">-->
+                                                            <apex:inputText id="Id_account_name" value="{!strAccountName}" rendered="{!Q.pepType__c =='Text' && strSectionType=='edit' && Q.pepLabelPriorQuestion__c=='Account Name'}" onblur="checkFieldValidation(this.id);" styleClass="isrequired"/>
+                                                            <apex:outputText rendered="{!Q.pepType__c =='Text' && strSectionType=='edit' && Q.pepLabelPriorQuestion__c=='Account Name'}"><span class="errorMsg" style="display: none;">{!Q.pepGenericErrorMessage__c}</span></apex:outputText>
+                                                           
+                                                            <apex:inputText id="Id_Account_Number" value="{!strAccountNumber}" rendered="{!Q.pepType__c =='Text' && strSectionType=='edit' && Q.pepLabelPriorQuestion__c=='Account Number'}" onblur="checkFieldValidation(this.id);hidebsbMsg(this.id);" styleClass="isrequired isAccountNo" onkeypress="javascript:return numbersonly(event,this.id);"/>
+                                                            <apex:outputText rendered="{!Q.pepType__c =='Text' && Q.pepLabelPriorQuestion__c=='Account Number'}"><span class="errorMsg" style="display: none;">{!Q.pepGenericErrorMessage__c}</span></apex:outputText>
+                                                           
+                                                            <apex:inputText id="ID_BSB" value="{!strBSB}" rendered="{!Q.pepType__c =='Text' && strSectionType=='edit' && Q.pepLabelPriorQuestion__c=='BSB'}" onblur="checkFieldValidation(this.id);" styleClass="isrequired isBsb" onkeypress="javascript:return numbersonly(event,this.id);"/>
+                                                            <apex:outputText rendered="{!Q.pepType__c =='Text' && strSectionType=='edit' && Q.pepLabelPriorQuestion__c=='BSB'}">
+                                                            <span class="errorMsg" style="display: none;">{!Q.pepGenericErrorMessage__c}</span>
+                                                            <span class="bsbValidationErrorMsg" style="{!IF(boolBSCallBWebserviceError== true,'display: block;','display:none;')}">{!$Label.pepBSB_validation_Msg}</span>
+                                                            </apex:outputText>
+                                                            
+                                                           <apex:selectList value="{!SelectedBank}" rendered="{!Q.pepType__c =='Picklist' && strSectionType=='edit' && Q.pepLabelPriorQuestion__c=='Financial Institution'}" multiselect="false" size="1">
+                                                                <apex:selectOptions value="{!lstBankName}"/>
+                                                            </apex:selectList>
+                                                           <!--</apex:outputPanel>-->
+                                                           
+                                                         <!--<apex:outputPanel rendered="{!strSectionType=='view'}">-->
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text'  && strSectionType=='view' && Q.pepLabelPriorQuestion__c=='Account Name'}">  <label for=""><strong>{!strAccountName} </strong></label></apex:outputText>
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text' && strSectionType=='view' && Q.pepLabelPriorQuestion__c=='Account Number'}"> <label for=""><strong> {!strAccountNumber} </strong></label></apex:outputText>
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text' && strSectionType=='view' && Q.pepLabelPriorQuestion__c=='BSB'}" >  <label for=""><strong> {!strBSB}</strong></label></apex:outputText>
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Picklist' && strSectionType=='view' && Q.pepLabelPriorQuestion__c=='Financial Institution'}"> <label for=""><strong>{!SelectedBank} </strong></label></apex:outputText>
+                                                            <!--</apex:outputPanel>-->
+                                                           
+                                                        </div>
+                                                    </div>
+                                                    
+                                                   <!--<apex:outputpanel rendered="{!Q.pepType__c =='Picklist' && Q.pepLabelPriorQuestion__c=='Select Account'}"><br/>
+                                                    <hr class="pepperHR" />
+                                                    </apex:outputpanel>-->
+                                                   
+                                                    </apex:repeat>
+                                                   
+                                                    <div class="page-row buttonCont">
+                                                    
+                                                    <div class=" buttonCont text-right">                                                    
+                                                            <!-- <apex:commandLink value="Cancel" styleClass="button wAuto primaryBtn mrgnL0" onclick="passPageName('peppaymentdetails');"/>-->
+                                                            <input type="button" value="Cancel" class="button wAuto primaryBtn mrgnL0" onclick="passPageName('peppaymentdetails');"/>
+                                                            <apex:commandLink value="Update Account"  onclick="return checkvalidation();"  action="{!addNewAccount}"  rendered="{!SelectedAccount!='New Account'}" styleClass="button wAuto primaryBtn mrgnL0" style="margin-left: 11px;"/>
+                                                            <apex:commandLink value="Add New Account"  onclick="if(!(checkData('j_id0:idPage:myForm') && checkvalidation())){checkvalidation(); return false;show=false;}"
+                                                                 action="{!addNewAccount}"  rendered="{!SelectedAccount=='New Account'}" styleClass="button wAuto primaryBtn mrgnL0" style="margin-left: 5px;" reRender="IDForm" status="counterStatus"/>
+                                                          <!--
+                                                            <apex:repeat value="{!S.pepQuestion__r}" var="Q">  
+                                                           <apex:outputpanel rendered="{!Q.pepType__c =='Button'}">{!SelectedAccount}{!Q.pepLabelPriorQuestion__c}
+                                                            <apex:commandLink value="{!Q.pepLabelPriorQuestion__c}"  action="{!addNewAccount}"  rendered="{!Q.pepType__c =='Button' &&    Q.pepLabelPriorQuestion__c=='Update Account' &&   SelectedAccount!='New Account'}" styleClass="button wAuto primaryBtn mrgnL0" style="margin-left: 11px;"/>
+                                                            <apex:commandLink value="{!Q.pepLabelPriorQuestion__c}"  action="{!addNewAccount}"  rendered="{!Q.pepType__c =='Button'  && Q.pepLabelPriorQuestion__c=='Add New Account' && SelectedAccount=='New Account'}" styleClass="button wAuto primaryBtn mrgnL0" style="margin-left: 5px;"/>
+                                                            </apex:outputpanel>
+                                                            </apex:repeat>
+                                                             -->
+                                                    </div>
+                                                    </div>  
+                                                 
+                                                 
+                                              </div>  
+                                            </div>
+                                        </div>  
+                                    </div>
+                                        
+                                    </apex:repeat> 
+                                    <apex:outputText > <span class="errorMsg requestInfoerrorMsg">Please select checkbox to continue</span></apex:outputText> 
+                                </div>
+                                
+                   </apex:outputPanel>
+                    
+                   <div class="clear"></div>
+                  
+                    <div>
+                        
+                        <p class="custom-chkBox">                           
+                            <input type="checkbox" id="requestInfo" name="debt" class="requestcheckboxes" tabindex="6" onclick = "EnableAcceptandContinueButton();"/>
+                            <label for="requestInfo"><c:pepcmscomponent_Text pageNameTest="PaymentSetting" sectionName="Payment Setting Section 2"></c:pepcmscomponent_Text> </label>
+                        </p>
+                    </div>
+
+                    
+                    <div>
+                        <p >                               
+                            <c:pepcmscomponent_Text pageNameTest="PaymentSetting" sectionName="Payment Setting Section 3"></c:pepcmscomponent_Text> 
+                        </p>
+                    </div>
+                    <!--</div>-->
+<!--</apex:form>-->
+
+ </apex:define>
+</apex:composition>
+
+<style>
+.loanTxtHead h3 { padding-left:0px!important;}
+.bsbValidationErrorMsg
+    {
+        color:#DF0024; 
+        font-size: 14px; 
+        display:none; 
+        line-height: 20px;
+        text-align: left;
+        float:left;
+        margin-top:0 !important;
+        font-weight:normal;
+    }
+</style>
+
+<script>
+  function checkvalidation()
+  {  
+      
+      if ( $( ".requestcheckboxes").prop( "checked" ) )
+      {
+         
+          $(".requestInfoerrorMsg").hide();
+          return true;
+      }
+      else
+      {
+          $(".requestInfoerrorMsg").show();
+          return false;
+      }
+  }
+
+
+   $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    }); 
+    // alert('{!Page_Label}');
+function passPageName(APIPageName)
+          {
+              pageRedirection(APIPageName)
+          }
+          function hidebsbMsg(selector)
+    {
+        var $this = $(document.getElementById(selector));
+        
+        if('{!boolBSCallBWebserviceError}'=='false')
+        {
+               
+               $('.bsbValidationErrorMsg').hide();
+        }
+            
+        else
+        {
+            $('.bsbValidationErrorMsg').show();
+        }
+        
+        if(!$.trim($this.val()) || $this.val() =='null' || $this.val() ==null || $this.val().length < 6)
+        {
+            $('.bsbValidationErrorMsg').hide();
+        }
+        
+    }      
+    
+</script>
+</apex:page>

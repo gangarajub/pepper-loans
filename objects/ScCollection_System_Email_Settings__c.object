@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>This custom setting will be used to store the list of emails that will be used to send error alert emails for various processess.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>ScCollection_Email_Addressess__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Email Addressess</label>
+        <length>255</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Send System Email Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

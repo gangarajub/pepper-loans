@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>API_ver__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>API ver</label>
+        <length>5</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Chatter_Notification_Body_Mortgage__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Chatter Notification Body Mortgage</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Chatter_Notification_Body__c</fullName>
+        <description>Stores the text will be sent as a chatter feed. 
+Available Variables = $DashboardName</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Use $DashboardName variable in the text. It&apos;ll be replaced while posting the chatter feed.</inlineHelpText>
+        <label>Chatter Notification Body  PAF</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Chatter_Users_Id__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Chatter Users Id</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Client_Id__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Client Id</label>
+        <length>250</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Client_Secret__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Client Secret</label>
+        <length>250</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Dashboard_Id__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Dashboard Id&apos;s</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Error_Handling_URL__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Error Handling URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Error_Recipient__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Please enter email id&apos;s of recipient. To whom error messages to be sent.</inlineHelpText>
+        <label>Error Recipients</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Mortgage_Last_Sync_Time__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Mortgage Last Sync Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Mortgage_User_Group__c</fullName>
+        <description>Add all the id for Public Groups and User to whom notifications need to send.</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Add all the id for Public Groups and User to whom notifications need to send.</inlineHelpText>
+        <label>Mortgage User Group</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Mulesoft_Job_Url__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Mulesoft Job Url</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Mulesoft_Password__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Mulesoft Password</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mulesoft_User_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Mulesoft User Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NotificationTemplete_Mortgage__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>NotificationTemplete Mortgage</label>
+        <length>200</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NotificationTemplete_PAF__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>NotificationTemplete PAF</label>
+        <length>200</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PAF_Last_Sync_Time__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>PAF Last Sync Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>PAF_User_Groups__c</fullName>
+        <description>Add all the id for Public Groups and User to whom notifications need to send.</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Add all the id for Public Groups and User to whom notifications need to send.</inlineHelpText>
+        <label>PAF User Groups</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Result_Batch_Class_Id__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Result Batch Class Id</label>
+        <length>40</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SF_Password__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SF Password</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SF_Token_Endpoint__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SF Token Endpoint</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>SF_User_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SF User Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Salesforce_Instance_URL__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Salesforce Instance URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Success_Recipients__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Success Recipients</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <label>Mulesoft Configuration</label>
+    <visibility>Public</visibility>
+</CustomObject>

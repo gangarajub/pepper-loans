@@ -1,0 +1,12 @@
+<apex:component controller="pepCmsFooterComponentController" id="idFooterComponent" language="en" access="global">
+  
+  <apex:attribute name="FooterpageName" type="string" assignTo="{!strGetPageName}" required="true" description="The page name." access="global" id="idAttr"/>
+  
+            <div class="pageFooter">
+                    <footer class="pepperContainer">
+                        <apex:outputtext id="IdOuptputText" value="{!objSection.pepSectionBodyRich__c}" escape="false"></apex:outputtext>
+                    </footer>
+                </div>  
+      
+ 
+</apex:component>

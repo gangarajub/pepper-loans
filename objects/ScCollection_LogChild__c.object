@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>this would contain the records and messages corresponding to an event</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>ScCollection_Exception_Message__c</fullName>
+        <description>This field would contain the  messages returned from the system during transaction.</description>
+        <externalId>false</externalId>
+        <label>Exception Message</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Exception_Record_Ids__c</fullName>
+        <description>This field would contain the ids of records processed in the transaction with errors.</description>
+        <externalId>false</externalId>
+        <label>Exception Record Ids</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Exception_Type__c</fullName>
+        <description>This field would contain the type of exception/Log that has been captured.</description>
+        <externalId>false</externalId>
+        <label>Exception Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>DmlException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EmailException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ListException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MathException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NullPointerException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>QueryException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NoAccessException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NoDataFoundException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SObjectException</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_LogMaster__c</fullName>
+        <description>This field would hold the log id with it&apos;s process and its status.</description>
+        <externalId>false</externalId>
+        <label>Log Master</label>
+        <referenceTo>ScCollection_LogMaster__c</referenceTo>
+        <relationshipLabel>Log Child</relationshipLabel>
+        <relationshipName>Log_Child</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>Log Detail</label>
+    <nameField>
+        <displayFormat>Log Child - {00000000}</displayFormat>
+        <label>Log Child Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Log Child</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

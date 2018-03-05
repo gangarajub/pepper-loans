@@ -1,0 +1,204 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false" controller="pepAdjustRepaymentsController"  cache="{!$Label.Cache_Settings}">
+   
+  
+  <apex:composition template="pepDashBoardHeaderSideBarTemplate" > 
+        <apex:define name="body" >
+         
+                    <div class="page-form">
+                                
+                                 <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                        
+                                        <div class="loanTxtOuter">
+                                            <div class="page-row">
+                                                <div class="loanTxtHead adjustRepay">
+                                                    <h3><c:pepcmscomponent_Text pageNameTest="Adjust repayments" sectionName="SectionOne(AR)"></c:pepcmscomponent_Text></h3>
+                                                    <span class="headIcons">
+                                                        <span class="fa fa-money"></span> 
+                                                        <span class="fa fa-plus sml-icon"></span>
+                                                        <span class="fa fa-money"></span>
+                                                    </span>
+                                                </div>  
+                                            </div>                                      
+
+                                            <c:pepcmscomponent_Text pageNameTest="Adjust repayments" sectionName="SectionTwo(AR)"></c:pepcmscomponent_Text>
+                                        </div>                                          
+
+                                        <div class="form-elements">
+                                                
+                                            <div class="form-section innerForm">    
+                                                <div class="form-elements">
+                                                    <apex:actionFunction name="rerenderGraph" rerender="rerenderAmount" />
+                                                    <apex:outputPanel id="rerenderAmount">    
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">Minimum repayment</label>
+                                                        <div class="form-dcntrls-lg">
+                                                        <label>${!minimumRepayment}</label>
+                                                        </div>
+                                                    </div>
+
+                                                   <apex:outputPanel rendered="{!showAdditionalAmount}"> 
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">+ additional amount</label>
+                                                        <div class="form-dcntrls-lg">  
+                                                      <label>${!additionalAmountLabel}</label>
+                                                        <label class="right">
+                                                       <!-- <a href="#">remove</a>-->
+                                                       <apex:commandLink action="{!removeAdditionalAmount}" value="remove" reRender="rerenderAmount,rerenderButton,rerenderText"/>
+                                                        </label>
+                                                      </div>
+                                                    </div>                                                  
+                                                     </apex:outputPanel>
+                                                     
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">+</label>
+                                                        <div class="form-dcntrls-lg currency">                                               
+                                                        <apex:inputtext value="{!enterAdditionalAmount}" id="additionalAmount" styleClass="additionalAmount" onkeypress="javascript:return numbersonly(event,this.id)"/>
+                                                         <span class="errorMsg" style="display:none">Sum of additional amount and minimum repayment  can not be greater than remaining Amount </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="page-row">
+                                                        <label class="form-dcntrls">&nbsp;</label>
+                                                        <div class="form-dcntrls-lg text-left">
+                                                           <!-- <button class="button primaryBtn wAuto">Calculate</button> -->
+                                                           <apex:commandButton action="{!calculateRepaymentAmount}" value="Calculate" styleClass="button primaryBtn wAuto" reRender="rerenderAmount,rerenderButton,rerenderText,rerenderModal" status="counterStatus" onComplete="checkAdditionalAmount();"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="pepperHR" />
+
+                                                    <div class="graphLabels">
+                                                        <div class="page-row">
+                                                            <label class="form-dcntrls">Total repayment</label>
+                                                            <div class="form-dcntrls-lg">                                       
+                                                            <label>${!totalRepayment}</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="page-row">
+                                                            <label class="form-dcntrls">Loan Term</label>
+                                                            <div class="form-dcntrls-lg">                                       
+                                                            <label>{!loanTerm}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="graphPlacement"> 
+                                                        <!--<img src="assets/common/images/graph_placement.png" alt=""/>-->
+                                                        <apex:chart height="400" width="100%" data="{!data}">
+                                                              <apex:axis type="Numeric" position="left" fields="data3" 
+                                                                title="Outstanding Balance" grid="false"/>
+                                                              <apex:axis type="Numeric" position="bottom" fields="data1" 
+                                                                title="Number of Months" steps="10">
+                                                            </apex:axis>
+                                                       <!--    <apex:lineSeries axis="left" fill="true" xField="data1" yField="data3"
+                                                                markerSize="0" tips="true" fillColor="#006845" highlight="false" strokeWidth="0" /> -->
+                                                              <apex:areaSeries axis="left" xField="data1" yField="data3" highlight="false" tips="true" colorSet="#006845"> </apex:areaSeries> 
+                                                            <!-- <apex:lineSeries axis="left" fill="true" xField="data2" yField="data4"
+                                                               markerSize="0" rendered="{!showAdditionalAmount}" tips="true" fillColor="#FFD100" highlight="false" strokeWidth="0"/>   -->
+                                                              <apex:areaSeries axis="left" xField="data2" yField="data4" highlight="false" rendered="{!showAdditionalAmount}" tips="true" colorSet="#FFD100"></apex:areaSeries>
+                                                       </apex:chart>
+                                                    </div>   
+                                                                               
+                                                     </apex:outputPanel>
+                                                </div>  
+                                            </div>
+                                        </div>  
+                                    </div>  
+                                </div>
+                    </div> 
+                                  
+                    <div class="clear"></div>
+                    <div>
+                      <!-- <c:pepcmscomponent_Text pageNameTest="Adjust repayments" sectionName="SectionThree(AR)"></c:pepcmscomponent_Text>-->
+                      <apex:outputText escape="false" value="{!Section3}" id="rerenderText" style="display:none" styleClass="displayText"/>
+                    </div>
+
+                    <div class="loanSetBotSec">
+                       <!-- <div class="colA"><button class="button secondaryBtn">Cancel</button></div>
+                        <div class="colB"><button class="button primaryBtn">Update repayment</button></div>-->
+                        <div class="colA"><apex:commandButton action="{!cancelRedirection}" value="Cancel" styleClass="button secondaryBtn"/></div>
+                        <div class="colB"><apex:commandButton action="{!updateRepayment}" value="Update repayment" styleClass="button primaryBtn" disabled="{!showUpdateButton}" id="rerenderButton" reRender="rerenderModal,rerenderMsg" status="counterStatus" oncomplete="showModal();"/></div>
+                    </div>
+   
+  
+
+<apex:outputPanel id="rerenderMsg">
+    <div id="pepperModal_success" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="fa fa-check-circle right"></span>
+            Your repayment has been updated.
+          </div>
+          <div class="modal-body">
+            <div class="page-row">
+                <div class="modalContent">
+                    <p>Your new repayment amount: ${!totalRepayment}</p>
+                    <p>Paid per frequency: {!paymentFrequency}</p>  
+                    
+                </div>              
+            </div>
+            <div class="page-row">
+                <button class="button secondaryBtn modalOK" data-dismiss="modal" onClick="window.location.reload();">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</apex:outputPanel>
+               
+</apex:define> 
+     </apex:composition> 
+   
+   
+
+      <apex:outputPanel id="rerenderModal">
+           <script>
+            function showModal() 
+            {
+                   
+                    if(('{!successMsg}')=='true')
+                    {
+                       $('#pepperModal_success').modal();
+                    }
+                    else
+                    {
+                       $('#pepperModal_error').modal();
+                    }
+             }   
+             
+            function checkAdditionalAmount() 
+            {
+                 
+                    if(('{!errorMsg }')=='true')
+                    {
+                        $('.errorMsg').show();
+                    }
+                    else if($('.additionalAmount').val()>0)
+                    {
+                     
+                        $('.displayText').show();
+                        $('.additionalAmount').val('');
+                    }   
+            }         
+           </script>
+           
+   </apex:outputPanel>  
+       <script>
+            var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+           var resizeTimer;
+            
+            window.addEventListener(orientationEvent, function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function(){
+             rerenderGraph();
+            },100);
+           // alert();
+               
+            }, false);
+           </script>
+</apex:page>

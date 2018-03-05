@@ -1,0 +1,493 @@
+<apex:component controller="pepBankInformationDetails" id="cmpntId" allowDML="true">
+        <style>
+            .bankFields .button{
+                margin-bottom: 20px;
+            }
+            @media (min-width: 768px){
+                .page-form .form-elements label.form-cntrls{
+                    margin-bottom: 10px;
+                }
+            }
+            @media(max-width:400px){
+            .bankFields{
+            padding:0 10px !important;
+            }
+            }
+    
+        </style>
+        <script type="text/javascript">
+        function assignmystate(val){
+        $('input[id$=statecode]').val(val);
+        callmystateauthentication();
+        }
+        function assignnetcode(val){
+        
+        $('input[id$=strnetcode]').val(val);
+        }
+        function assignloginmethod(a){
+        $('input[id$=loginmethod]').val(a);
+        }
+        function assignvaluetomap(refField,letter){
+      
+       if(refField == 'RCCField0' || refField == 'RCCfield0' ){
+       $('input[id$=field0]').val(letter);
+       }
+       if(refField == 'RCCField1' || refField == 'RCCfield1' ){
+       $('input[id$=field1]').val(letter);
+       }
+       if(refField == 'RCCField2' || refField == 'RCCfield2' ){
+       $('input[id$=field2]').val(letter);
+       }
+       if(refField == 'RCCField3' || refField == 'RCCfield3' ){
+       $('input[id$=field3]').val(letter);
+       }
+       if(refField == 'RCCField4' || refField == 'RCCfield4' ){
+       $('input[id$=field4]').val(letter);
+       }
+       if(refField == 'RCCField5' || refField == 'RCCfield5' ){
+       $('input[id$=field5]').val(letter);
+       }
+       if(refField == 'RCCField6' || refField == 'RCCfield6' ){
+       $('input[id$=field6]').val(letter);
+       }
+       if(refField == 'RCCField7' || refField == 'RCCfield7' ){
+       $('input[id$=field7]').val(letter);
+       }
+     }
+        function assignsecrets(w){
+        if(w == 'memorableAnswer')
+        $('input[id$=strmemorableAnswer]').val($('.'+w).val());
+        if(w == 'idv_OtpCredential')
+        $('input[id$=strotpcredential]').val($('.'+w).val());
+        }
+        function callauthenticationhsbcPasssword(){
+        actionauthentication('calling');
+        }
+        function callauthenticationhsbc(){
+        
+        if($('.memorableAnswer').val()=='' || $('.idv_OtpCredential').val()=='')
+        return false;
+        actionauthentication('calling');
+    }
+    function callauthenticationcba(){
+    if($('.netcode').val()=='' || $('.netcode').val()==null)
+    return false;
+    actionauthentication('calling');
+    }
+            function queryData(strfilter)
+            {         
+             //alert(strfilter);
+               Visualforce.remoting.Manager.invokeAction(
+                     '{!$RemoteAction.pepBankInformationDetails.AutoCompleteBanklList}',strfilter,
+                     function(result, event)
+                     {                      
+                         //if success
+                         if(event.status){ 
+                             var data = {results: []}
+                             data.results = result;
+                            // alert(data.results);
+                             BindBankList(data.results);                  
+                         }
+                         else{
+                              alert('Invalid Field/Object API Name : '+event.message);
+                         }
+                        
+                     }, 
+                      {escape: true}
+                );
+            } 
+            
+            function BindBankList(arrBankList)
+            {
+                var strBankListHtml = '';
+                
+                for(var i=0; i<arrBankList.length; i++)
+                {
+                    
+                  //  alert(arrBankList[i].pepImage_URL__c);
+                    if(arrBankList[i].pepImage_URL__c ==null || arrBankList[i].pepImage_URL__c ==' ')
+                    {
+                       strBankListHtml = strBankListHtml + '<li value="'+arrBankList[i].pepBank_Name__c+'" style="cursor: pointer; cursor: hand;"><span style="vertical-align: center;padding-left:10px;"><b class="bnkName">'+arrBankList[i].pepBank_Name__c+'</b></span><span class="BnkOpt" style="display:none;">'+arrBankList[i].pepBank_Slug_Name__c+'</span></li>';
+                       
+                    }
+                   
+                    else
+                    {
+                        strBankListHtml = strBankListHtml + '<li value="'+arrBankList[i].pepBank_Name__c+'" style="cursor: pointer; cursor: hand;"><span class="bank-img"  ><img src="{!$Label.pepSiteUrl}'+arrBankList[i].pepImage_URL__c+'" height="70px;" width="auto"/></span><span style="vertical-align: center;padding-left:10px;"><b class="bnkName">'+arrBankList[i].pepBank_Name__c+'</b></span><span class="BnkOpt" style="display:none;">'+arrBankList[i].pepBank_Slug_Name__c+'</span></li>';
+                    }
+                    
+                    
+                }
+                
+                //alert(strBankListHtml);
+                $('.bank-list_2').html(strBankListHtml);
+                        
+                $('.bank-list_2 li').click(function(){
+                    $('input[id$=textId]').val($(this).find('.bnkName').text());
+                    $('input[id$=bankHdnId]').val($(this).find('.BnkOpt').text());
+                    bankSelectMethod();
+                });  
+            }
+            function callmfaAuthentication(t){
+     
+            actionauthentication(t);
+          }
+          function assignHidden(u){
+          if(u!='Username')
+          $('input[id$=usernameEntered]').val(u);
+        }         
+        </script>
+        <apex:outputPanel id="pnlMain">
+         <apex:actionFunction action="{!mfaAuthentication}" status="counterStatus" name="actionauthentication" rerender="pnlMain">
+        <apex:param name="param1" value="" assignTo="{!strProfileId}"/>
+        </apex:actionfunction>
+        <apex:actionfunction name="callmystateauthentication" status="counterStatus" action="{!mfaAuthentication}" rerender="pnlMain"/>
+        <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+       
+        <apex:actionFunction action="{!SelectBankName}" status="counterStatus" name="bankSelectMethod" rerender="pnlMain"/>
+        <apex:inputHidden id="bankHdnId" value="{!strBankSlugName}"/>
+        <apex:inputHidden id="usernameEntered" value="{!userenteredname}"/>
+        <apex:inputHidden id="strmemorableAnswer" value="{!strmemorableAnswer}"/>
+        <apex:inputHidden id="strotpcredential" value="{!strotpcredential}"/>
+        <apex:inputHidden id="strnetcode" value="{!strnetcode}"/>
+        <apex:inputHidden id="field0" value="{!RCCField0}"/>
+        <apex:inputHidden id="field1" value="{!RCCField1}"/>
+        <apex:inputHidden id="field2" value="{!RCCField2}"/>
+        <apex:inputHidden id="field3" value="{!RCCField3}"/>
+        <apex:inputHidden id="field4" value="{!RCCField4}"/>
+        <apex:inputHidden id="field5" value="{!RCCField5}"/>
+        <apex:inputHidden id="field6" value="{!RCCField6}"/>
+        <apex:inputHidden id="field7" value="{!RCCField7}"/>
+        <apex:inputhidden value="{!loginselected}" id="loginmethod"/>
+        <apex:inputhidden value="{!mystatecode}" id="statecode"/>
+        <div class="boxCont" id="boxCntId">
+           <apex:outputPanel rendered="{!(intStepNumber == 1)}">
+           <script>      
+                    function searchBnkData(strSearch)
+                    {
+                        queryData(strSearch);
+                        $('[id$=upldId]').css('display','none');
+                    }
+                </script>     
+                
+                <div class="innerCont">
+                    <p><c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements19"></c:pepcmscomponent_Text>
+                    </p>
+                    <p style="margin-bottom:10px;">
+                    <c:pepcmscomponent_Text pageNameTest="Loan Setup(FinancialDoc)" sectionName="upload bank statements20"></c:pepcmscomponent_Text>
+                    </p>
+                    <p/>
+                </div> 
+            <div class="page-form" id="pgefrmId">
+                <div class="page-row"> 
+                        <div class="form-section">  
+                            <div class="form-cntrl">
+                                <strong><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec1"></c:pepcmscomponent_Text></strong>
+                            </div>
+                            <div class="form-cntrl">
+                                <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec2"></c:pepcmscomponent_Text>
+                            </div>
+                            
+                            <div class="form-cntrl">
+                                <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec3"></c:pepcmscomponent_Text>
+                            </div>
+
+                        
+                            <div class="form-cntrl">
+                                <div class="navbar-form" role="search">
+                                <div class="searchForm">
+                                   <apex:inputText id="textId" value="{!strBankName}" onBlur="if (this.placeholder == '') {this.placeholder = 'Search for your bank here';}" onFocus="if (this.placeholder == 'Search for your bank here') {this.placeholder = '';}" html-placeholder="Search for your bank here" onkeyup="searchBnkData(this.value);" styleclass="form-control searchInput" html-autocomplete="off"/>
+                                    <ul class="bank-list_2">
+                                    </ul>
+                                  <!--<input type="text" class="form-control searchInput" placeholder="Search for your bank here" name="srch-term" id="srch-term"/>-->
+                                    <div class="btn btn-default searchBtn foo" type="submit" style="cursor: default;"><i class="glyphicon glyphicon-search"></i></div>
+                                </div>
+                              </div>
+                            </div>
+                                
+                            <div class="form-cntrl">
+                            <!--   <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/mcafee.png')}" alt="Pepper" class="mcafee"/>
+                                <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/comdo-secured.png')}" alt="Pepper"/>-->
+                            </div>
+                            
+                            
+                            <div class="clear"> 
+                            <div class="page-row">                                          
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic1.png')}" alt="Pepper" class="picImg"/>
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec4"></c:pepcmscomponent_Text>
+                                </div>                                          
+                                
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic2.png')}" alt="Pepper" class="picImg"/>
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec5"></c:pepcmscomponent_Text>
+                                </div>
+                            </div>
+                                 <hr class="pepperHR" />
+                       <!-- Commented by IJ     <div class="page-row">
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic.png')}" alt="Pepper" class="picImg"/>
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec6"></c:pepcmscomponent_Text>
+                                </div>                                          
+                                
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic.png')}" alt="Pepper" class="picImg"/>
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec7"></c:pepcmscomponent_Text>
+                                </div>
+                            </div> -->
+                            <!-- next div Added by IJ -->
+                            <div class="page-row">
+                            <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec6"></c:pepcmscomponent_Text>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           </apex:outputPanel>
+        </div>
+  
+  <!--  upload-financial-documents-2.html contents -->
+    <apex:outputPanel id="frmLogin" rendered="{!(intStepNumber == 2)}">
+            <div class="page-form">                                                               
+                    <div class="form-section">  
+                        <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec8"></c:pepcmscomponent_Text>
+                        <div class="form-elements">
+                            <div class="page-row">
+                                <div class="mainFrmDetails">
+                                    <div class="formsElem">
+                                        <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec9"></c:pepcmscomponent_Text> {!strBankName} &nbsp; <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec10"></c:pepcmscomponent_Text></p>
+                                        <apex:outputPanel rendered="{!if(strErrorMsg != null && strErrorMsg != '', true,false)}" style="color:red;"><p>{!strErrorMsg}</p></apex:outputPanel>
+                                        <apex:repeat value="{!lstCredentials}" var="credVar">
+                                            <apex:outputPanel rendered="{!credVar.type != 'select'&& credVar.type != 'captcha'}">
+                                                <div class="page-row">
+                                                    <label class="form-cntrls">{!credVar.Name}</label> 
+                                                        <div class="form-cntrls-lg">
+                                                            <apex:inputText value="{!credVar.Name}"  rendered="{!credVar.type != 'password'}" onblur="if (this.value == '') {this.value = '{!credVar.Name}';}assignHidden(this.value);" onFocus="if (this.value == '{!credVar.Name}') {this.value = '';}" html-autocomplete="off">
+                                                           
+                                                            </apex:inputText>
+                                                            <apex:inputSecret value="{!credVar.Name}" rendered="{!credVar.type == 'password'}"/>
+                                                        </div>
+                                                </div>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!captchaImgUrl != null && captchaImgUrl != '' && credVar.type == 'captcha'}">  
+                                                <apex:image url="{!captchaImgUrl}" style="margin-bottom: 10px;"/>
+                                                <apex:inputText id="txtCaptcha" value="{!credVar.Name}" onblur="if (this.value == '') {this.value = '{!credVar.Name}';}" onFocus="if (this.value == '{!credVar.Name}') {this.value = '';}"/>
+                                            </apex:outputPanel> 
+                                            <apex:outputPanel rendered="{!credVar.type == 'select'}">
+                                                    <div class="page-row">  
+                                                        <label class="form-cntrls">{!credVar.Name}</label>
+                                                        <div class="form-cntrls-lg">
+                                                            <apex:selectList size="1"  value="{!credVar.Name}" multiselect="false" onchange="assignloginmethod(this.value);">
+                                                                <apex:selectOption itemValue="{!credVar.values.one}" itemLabel="1" rendered="{!credVar.values.one !=null}" ></apex:selectOption>
+                                                                <apex:selectOption itemValue="{!credVar.values.two}" itemLabel="2" rendered="{!credVar.values.two!=null}"></apex:selectOption>
+                                                                <apex:selectOption itemValue="{!credVar.values.three}" itemLabel="3" rendered="{!credVar.values.three!=null}"></apex:selectOption>
+                                                                <apex:selectOption itemValue="{!credVar.values.four}" itemLabel="4" rendered="{!credVar.values.four!=null}"></apex:selectOption>
+                                                                <apex:selectOption itemValue="with" itemLabel="{!credVar.values.with}" rendered="{!credVar.values.with!=null}"></apex:selectOption>
+                                                                <apex:selectOption itemValue="without" itemLabel="{!credVar.values.without}" rendered="{!credVar.values.without!=null}"></apex:selectOption>
+                                                                <apex:selectOption itemValue="device" itemLabel="{!credVar.values.device}" rendered="{!credVar.values.device!=null}"></apex:selectOption>
+                                                                 <apex:selectOption itemValue="passwords" itemLabel="{!credVar.values.passwords}" rendered="{!credVar.values.passwords!=null}"></apex:selectOption>
+                                                            </apex:selectList> 
+                                                        </div>
+                                                    </div>
+                                            </apex:outputPanel>                                         
+                                        </apex:repeat>                                     
+                                        <div class="page-row">
+                                            <label class="form-cntrls"></label> 
+                                            <div class="form-cntrls-lg right">
+                                               <!-- <button class="button primaryBtn">Submit</button>-->
+                                               <apex:commandButton id="btnRestartid" value="Start Again" action="{!gobackmethod}" styleclass="button primaryBtn" rerender="pnlMain" onclick="show=false;" status="counterStatus" style="float:left;"/>
+                                               <apex:commandButton id="btnLogin" value="Submit" action="{!BankLogin}" styleclass="button primaryBtn foo" rerender="pnlMain" status="counterStatus"/> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="page-row bankStmnt">
+                                        <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/bank_statement.jpg')}" alt="" class="img-responsive" />
+                                    </div>
+                                </div>                                          
+                            </div>
+                        </div>
+
+                        <div class="clear"> 
+                            <div class="page-row">                                          
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic1.png')}" alt="Pepper" class="picImg" />
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec4"></c:pepcmscomponent_Text>
+                                </div>                                          
+                                    
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic2.png')}" alt="Pepper" class="picImg"/>
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec5"></c:pepcmscomponent_Text>
+                                </div>
+                            </div>
+                            <!-- Commented by IJ    <hr class="pepperHR" />
+                             <div class="page-row">
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic.png')}" alt="Pepper" class="picImg" />
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec6"></c:pepcmscomponent_Text>
+                                </div>                                          
+                                    
+                                <div class="colUploadSec">
+                                    <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic.png')}" alt="Pepper" class="picImg" />
+                                    <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec7"></c:pepcmscomponent_Text>
+                                </div>
+                            </div> -->
+                        </div></div>
+                        <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec17"></c:pepcmscomponent_Text>
+                    
+                                                        
+            </div>
+        </apex:outputPanel>
+        <!-- third page-->
+        <apex:outputPanel id="frmSend" rendered="{!(intStepNumber == 3)}"> 
+        <div class="page-form">
+            <div class="form-section">  
+                <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec11"></c:pepcmscomponent_Text>
+            <div class="form-elements">
+                <div class="page-row">
+                    <div class="mainFrmDetails">
+                        <div class="formsElem">
+                            <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec12"></c:pepcmscomponent_Text></p>
+                            <apex:outputPanel rendered="{!if(strErrorMsg != null && strErrorMsg != '', true,false)}" style="color:red;"><p>{!strErrorMsg}</p></apex:outputPanel>
+                            <apex:variable var="count" value="{!0}"/>
+                             <apex:repeat value="{!lstBankAccounts}" var="acc" id="bankAccId">
+                                 <div class="page-row">
+                                    <div class="custom-chkBox"> 
+                                      <!--  <input type="checkbox" id="debt" name="debt" />-->
+                                        <apex:inputCheckbox value="{!acc.chk_box}" styleClass="css-checkbox" id="debt"/>
+                                        <label for="idPage:j_id0:frmdocId:cmpId:cmpntId:bankAccId:{!count}:debt">Personal Account <span class="acNo">[Acc: {!acc.accountNumber}  BSB: {!acc.bsb}</span></label>
+                                    </div>
+                                    <span class="priceValue">${!acc.balance}</span>
+                                  </div>
+                                 
+                                 <apex:variable var="count" value="{!count + 1}"/>
+                              </apex:repeat>
+                            <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec13"></c:pepcmscomponent_Text></p>
+
+                            <div class="page-row">
+                 
+                                    <!--<button class="button primaryBtn retrieveSendBtn">Retrieve and send</button>-->
+                                    <apex:commandButton id="btnStartAgainId" value="Start Again" action="{!gobackmethod}" styleclass="button primaryBtn retrieveSendBtn" rerender="pnlMain,fetchPnlId" onclick="show=false;" status="counterStatus" style="float:left;"/>
+                                    <apex:commandButton id="btnSend" value="Retrieve and send" action="{!FetchStatements}" styleclass="button primaryBtn retrieveSendBtn" rerender="pnlMain,fetchPnlId" status="counterStatus" style="float:right;" onclick="show=false;"/>
+                             
+                            </div>
+
+                        </div>
+                        <div class="page-row bankStmnt">
+                            <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/bank_statement.jpg')}" alt="" />
+                        </div>
+                    </div>                                          
+                </div>
+            </div>
+
+                <div class="clear"> 
+                    <div class="page-row">                                          
+                        <div class="colUploadSec">
+                            <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic1.png')}" alt="Pepper" class="picImg" />
+                            <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec4"></c:pepcmscomponent_Text>
+                        </div>                                          
+                        
+                        <div class="colUploadSec">
+                            <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic2.png')}" alt="Pepper" class="picImg" />
+                            <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec5"></c:pepcmscomponent_Text>
+                        </div>
+                    </div>
+            <!--   Removed by IJ         <hr class="pepperHR" />
+                    <div class="page-row">
+                        <div class="colUploadSec">
+                            <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic.png')}" alt="Pepper" class="picImg" />
+                            <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec6"></c:pepcmscomponent_Text>
+                        </div>                                          
+                        
+                        <div class="colUploadSec">
+                            <img src="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pic.png')}" alt="Pepper" class="picImg" />
+                            <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec7"></c:pepcmscomponent_Text>
+                        </div>
+                    </div> -->
+                </div>                                                                   
+            </div>
+               <c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec17"></c:pepcmscomponent_Text>
+    </div>
+   </apex:outputPanel> 
+   
+   <apex:outputPanel rendered="{!(intStepNumber == 4)}">  
+       <div class="page-form">
+            <div class="form-section">  
+                <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec30"></c:pepcmscomponent_Text></p>
+                <!--<div class="innerCont" style="margin-bottom:10px;">
+                    <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec15"></c:pepcmscomponent_Text>
+                    </p>
+                    <p><c:pepcmscomponent_Text pageNameTest="Loan Setup (Bank-Detail)" sectionName="BankInformationDetailsSec16"></c:pepcmscomponent_Text>
+                    </p>                   
+                </div>-->         
+                <div class="form-cntrl">
+                    <apex:commandButton action="{!redirectToNextPage}" value="Manual upload" onclick="show=false;" styleClass="button primaryBtn"/>&nbsp;&nbsp;
+                    <apex:commandButton action="{!gobackmethod}" value="Retry" onclick="show=false;" styleClass="button primaryBtn" />
+                </div>
+             </div>
+       </div>
+   </apex:outputPanel>  
+  <apex:outputPanel rendered="{!(intStepNumber == 5)}">  
+       <div class="page-form">
+            <div class="form-section bankFields">
+                <div class="form-elements">
+                    <div class="page-row">
+                        <div class="mainFrmDetails" style="margin: 0 auto">
+                            <div class="formsElem">
+                                <p>{!profiletitle}</p>
+                                <apex:repeat value="{!pepprofilewrapper}" var="pepwrap">
+                                <apex:outputText value="{!pepwrap.fields.value}" rendered="{!if(pepwrap.fields.type=="header",'true','false')}"/>
+                                <apex:outputText value="{!pepwrap.fields.value}" rendered="{!if(pepwrap.fields.type=="instructions",'true','false')}"/>
+                                <apex:outputText value="{!pepwrap.fields.value}" rendered="{!if(pepwrap.fields.type=="label",'true','false')}"/>
+                                <apex:outputText value="{!pepwrap.fields.label}" rendered="{!if(pepwrap.fields.type=="set" && pepwrap.fields.label!="",'true','false')}"/>
+                                
+                                <div class="row" style="margin: 15px auto;">
+                                        <apex:outputpanel rendered="{!if(pepwrap.fields.type=='set','true','false')}">
+                                        <apex:repeat value="{!pepwrap.fields.subElements}" var="subelement" >
+                                        <apex:outputText value="{!subelement.value}" rendered="{!if(subelement.type=='instructions','true','false')}"/><br/>
+                                        <apex:inputText rendered="{!if(subelement.type=='password','true','false')}" styleclass="{!subelement.id}" disabled="{!if(subelement.active==false,'true','false')}"  onblur="if('{!subelement.active}'=='true'){assignvaluetomap('{!subelement.id}',this.value);}"/>
+                                        <apex:image value="{!subelement.src}" rendered="{!if(subelement.type=='image','true','false')}" onclick="{!subelement.htmlAttrs.onclick}"/><br/>
+                                        </apex:repeat>
+                                        <p class="selectionCounter" id="selectionCounter" style="font-weight:bold;display:{!if(strBankSlugName=='mystate'|| (userenteredname=='mystate' && strBankSlugName=='bank_of_mfa'),'block','none')};">0/3 selected</p>
+                                        </apex:outputpanel>
+                                         <input type="button" onclick="callauthenticationhsbcPasssword();" value="Continue"  style="display:{!If(pepwrap.fields.type=='javascript' && (strBankSlugName=='hsbc'|| (userenteredname=='hsbc-passwords' && strBankSlugName=='bank_of_mfa')),'block','none')};width:auto !important;margin-top:1%" class="button primaryBtn"  />
+                                    
+                                        <apex:inputText rendered="{!if(pepwrap.fields.type=='input','true','false')}" styleclass="{!pepwrap.fields.id}" onblur="assignnetcode(this.value);"/>
+                                        <input type="button" onclick="callauthenticationcba();" value="Continue"  style="display:{!If(pepwrap.fields.id=='netcode','block','none')};width:auto !important;margin-top:1%" class="button primaryBtn"  />
+                                                                                
+                                        <apex:outputpanel rendered="{!if(pepwrap.profileIdtoName !=null,'True','False')}">
+                                        <apex:repeat value="{!pepwrap.profileIdtoName}" var="key">
+                                        <div class="col-sm-12 text-center">
+                                            <!--<apex:commandbutton value=""  style rendered="{!if(pepwrap.fields.type=='options','true','false')}" onclick="callmfaAuthentication('{!Key}');">
+                                            
+                                            </apex:commandbutton>-->
+                                            <input type="button" value="{!pepwrap.profileIdtoName[key]}" onclick="callmfaAuthentication('{!Key}');" style="display:{!If(pepwrap.fields.type=='options','block','none')};width:auto !important;" class="button primaryBtn"  />
+                                        </div>
+                                        </apex:repeat>
+                                     </apex:outputpanel>
+                                     <input type="hidden" name="seqCode" id="{!pepwrap.fields.id}" style="display:{!IF(pepwrap.fields.id=='seq','block','none')}"/>
+                                     <apex:inputsecret rendered="{!If(pepwrap.fields.type=='password','true','false')}" styleclass="{!pepwrap.fields.id}" onblur="assignsecrets('{!pepwrap.fields.id}');"/>
+                                     <input type="button" onclick="callauthenticationhsbc();" value="Continue"  style="display:{!If(pepwrap.fields.id=='idv_OtpCredential','block','none')};width:auto !important;margin-top:1%" class="button primaryBtn"  />
+                                     <input type="button" onclick="clearvalues();" value="{!pepwrap.fields.htmlAttrs.value}"  style="display:{!If(strBankSlugName=='mystate'|| (userenteredname=='mystate' && strBankSlugName=='bank_of_mfa') && pepwrap.fields.type=='button','block','none')};width:auto !important;" class="button primaryBtn" />
+                                     <apex:outputpanel rendered="{!if(pepwrap.fields.type=='javascript' && (strBankSlugName=='mystate'|| (userenteredname=='mystate' && strBankSlugName=='bank_of_mfa')),'true','false')}">
+                                     <script type="text/javascript">
+                                     {!pepwrap.fields.script}
+                                     function clearvalues(){
+                                     document.getElementById('seq').value='';
+                                     document.getElementById('selectionCounter').innerHTML='0/3 selected';
+                                     }
+                                     function submitMFA(val){
+                                     assignmystate(document.getElementById('seq').value);
+                                     }
+                                     </script>
+                                     </apex:outputpanel>
+                                </div>
+                                </apex:repeat>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+       </div>
+   </apex:outputPanel>   
+   </apex:outputPanel> 
+ </apex:component>

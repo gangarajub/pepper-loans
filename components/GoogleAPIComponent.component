@@ -1,0 +1,190 @@
+<apex:component >
+    <!--<link href="https://dtwebsite.datatoolscloud.net.au/jquery19/themes/base/jquery.ui.all.css" rel="stylesheet"/>-->
+    <!--<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>-->
+    <!--<script src="https://dtwebsite.datatoolscloud.net.au/jquery19/ui/jquery.ui.core.js" ></script>-->
+    <!--<script src="https://dtwebsite.datatoolscloud.net.au/jquery19/ui/jquery.ui.widget.js"/>
+    <script src="https://dtwebsite.datatoolscloud.net.au/jquery19/ui/jquery.ui.position.js" ></script>
+    <script src="https://dtwebsite.datatoolscloud.net.au/jquery19/ui/jquery.ui.autocomplete.js" ></script>
+    <script src="https://dtwebsite.datatoolscloud.net.au/jquery19/ui/jquery.ui.menu.js" ></script>-->
+    
+
+    
+  
+  
+    
+    
+  <style type="text/css">
+
+    .ui-autocomplete-loading 
+{   
+background: white URL('https://kleber.datatoolscloud.net.au/dt_processing_images/dt20x20.gif') right center no-repeat;
+}
+    </style>
+    
+<script>
+  var clearvalue=true;
+  var vrAddressId;
+  //var jq14 = jQuery.noConflict(true); 
+
+
+$( document ).ready(function(){
+   $(".addresspicker_map").focus(function(){
+   vrAddressId=this.id;
+  });
+   $(".addresspicker_map").keypress(function(){
+   var addressvrAddressId=this.id;
+    var vr11;   
+        if(addressvrAddressId !=null && addressvrAddressId != '' )
+            vr11 = addressvrAddressId.split(':');
+            var vrTemp1='';
+            for(var i=0; i < vr11.length-1;i++)
+            {
+                 if(vrTemp1 == null || vrTemp1 == '')
+                {
+                    vrTemp1 = vr11[i]; 
+                }
+                else
+                    vrTemp1 = vrTemp1 + ':'+vr11[i]; 
+            }
+            vrTemp1 = vrTemp1 +':complete_address';
+            document.getElementById(vrTemp1).value='';
+  });
+    $(".addresspicker_map").change(function()
+    {
+           
+           populateValueinField(vrAddressId);
+           
+    });
+    function populateValueinField(ipthdnFieldId)
+    {   //alert(ipthdnFieldId);
+        var vrAddressId1 = ipthdnFieldId;
+        var vr1;   
+        if(vrAddressId1!=null && vrAddressId1!= '' )
+            vr1 = vrAddressId1.split(':');
+            var vrTemp='';
+            for(var i=0; i < vr1.length-1;i++)
+            {
+                 if(vrTemp == null || vrTemp == '')
+                {
+                    vrTemp = vr1[i]; 
+                }
+                else
+                    vrTemp = vrTemp + ':'+vr1[i]; 
+            }
+            vrTemp = vrTemp +':complete_address';
+            var addressvalue=document.getElementById(vrTemp).value;
+            //alert(addressvalue.split(':').length);
+            if(addressvalue.split(':').length>=7){
+            
+            return false;
+            }
+            else{
+            document.getElementById(vrTemp).value = '';
+            }     
+    }
+    $(function()
+
+{
+        
+$('input.addresspicker_map').autocomplete(
+        {   
+           
+            minLength:7,
+            source: function( request, response ) 
+            {
+               
+                    $.ajax(
+                {
+
+                    url: "https://kleber.datatoolscloud.net.au/KleberWebService/DtKleberService.svc/ProcessQueryStringRequest",
+                    dataType: "jsonp", 
+                    async:true,                 
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    data: {OutputFormat:"json", ResultLimit:10, AddressLine:request.term, Method:"DataTools.Capture.Address.Predictive.AuPaf.SearchAddress", RequestKey:"RK-6352B-2D2F8-34A4C-318B8-A1474-80726-9F2B2-94016",DepartmentCode:"PL_Origination"},
+                    success: function( data ) 
+                    {
+                        //$('#dpid').val("");
+                        response( $.map( data.DtResponse.Result, function( item ) 
+                        {   
+                            
+                            var Output = (item.AddressLine + ", " + item.Locality + ", " + item.State + ", " + item.Postcode);
+                            return {label: Output,value: Output,Output: Output, RecordId: item.RecordId,AddressLine: item.AddressLine};
+                        }));
+                    }
+                });
+            },
+            select: function( event, ui ) 
+               {
+                     $.ajax(
+                     {
+                            url: "https://kleber.datatoolscloud.net.au/KleberWebService/DtKleberService.svc/ProcessQueryStringRequest",
+                            dataType: "jsonp",
+                            crossDomain: true,
+                            data: {
+                                    OutputFormat:"json", 
+                                    RecordId:ui.item.RecordId, 
+                                    Method:"DataTools.Capture.Address.Predictive.AuPaf.RetrieveAddress", 
+                                    RequestKey:"RK-6352B-2D2F8-34A4C-318B8-A1474-80726-9F2B2-94016",
+                                    DepartmentCode:"PL_Origination"},
+                            success: function (data) 
+                            {
+                                $.map(data.DtResponse.Result, function (item) 
+                                {   
+                                     var vr;
+                                    
+                                 if(vrAddressId!=null && vrAddressId!= '' )
+                                 vr = vrAddressId.split(':');
+                                 var vrTemp='';
+                                 for(var i=0; i < vr.length-1;i++)
+                                 {
+                                 if(vrTemp == null || vrTemp == '')
+                                {
+                                vrTemp = vr[i]; 
+                                }
+                                else
+                                vrTemp = vrTemp + ':'+vr[i]; 
+                                }
+                                vrTemp = vrTemp +':complete_address';
+                                var j='';
+                       
+                                if(item.UnitNumber != 'undefined' && item.UnitNumber!='null' && item.UnitNumber!=null && item.UnitNumber!='')
+                                j=item.UnitNumber+':';
+                                if(item.StreetNumber1 != 'undefined' && item.StreetNumber1 !='null' && item.StreetNumber1 !=null && item.StreetNumber1 !='')
+                                j+=item.StreetNumber1+':';
+                                if(item.StreetName != 'undefined' && item.StreetName !='null' && item.StreetName != null && item.StreetName !=''){
+                                var y =item.StreetName;                                
+                                j+=item.StreetName+':';
+                                }
+                                if(item.StreetType != 'undefined' && item.StreetType !='null' && item.StreetType != null && item.StreetType !=''){
+                               
+                                j+=item.StreetType+':';
+                                }
+                                if(item.Locality!= 'undefined'  && item.Locality !='null' && item.Locality != null && item.Locality !='')
+                                j+=item.Locality+':';
+                                if(item.State != 'undefined' && item.State !='null' && item.State != null && item.State !='')
+                                j+=item.State +':';
+                                j+='Australia'+':';
+                                if(item.Postcode != 'undefined' && item.Postcode !='null' && item.Postcode != null && item.Postcode !='')
+                                j+=item.Postcode;
+                               
+                                document.getElementById(vrTemp).value =j;                             
+                                clearvalue=false;     
+                                });
+                            }
+                    });
+              },
+               focus: function ( e, ui ) {
+           
+                  return false;
+            
+      }
+        });
+    });});
+
+
+   
+    </script>
+   
+
+</apex:component>

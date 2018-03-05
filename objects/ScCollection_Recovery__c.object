@@ -1,0 +1,1323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used for storing recovery information on the PL Contract</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Agent_Instructions__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Agent Instructions</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Amount_Owing_at_time_of_Sale__c</fullName>
+        <externalId>false</externalId>
+        <label>Amount Owing at time of Sale</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Auction_Costs__c</fullName>
+        <externalId>false</externalId>
+        <label>Auction Costs</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Customer_DoB__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Contract__r.Customer_Birthdate__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Contract Customer DoB</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Date_of_Redemption__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Date of Redemption</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Insurance_Rebate_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Insurance Rebate Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Job_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Job Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Repossession</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Field Call</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Field Call/Upgrade</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Field Call Collect</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Skip Trace</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cartage Request</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Legal_Review__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Legal Review</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Possible_Redemption__c</fullName>
+        <externalId>false</externalId>
+        <label>Possible Redemption</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Reserve_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Reserve Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Agent_Appointed__c</fullName>
+        <externalId>false</externalId>
+        <label>Agent Appointed</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Access Mercantile</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Advance National</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GM Investigations</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Procol Recoveries</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Scott&apos;s Mercantile</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Pickles Auctions</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Agent_Close_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Agent Close Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_App_for_Substituted_Service__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Application for Substituted Service</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Auction_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Auction Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Auction_House__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Auction House</label>
+        <length>32</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Borrower_Shortfall__c</fullName>
+        <externalId>false</externalId>
+        <label>Borrower Shortfall</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Claim_Lodged_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Claim Lodged Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_Name__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+	NOT( ISBLANK(  ScCollection_Contract__c  ) ) 
+	, 
+		IF(
+			ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;
+		,
+			left( ScCollection_Contract__r.Name ,find(&apos;_&apos;, ScCollection_Contract__r.Name)-1)
+		,
+			ScCollection_Contract__r.Name
+		)
+	, 
+	&quot;&quot; 
+)</formula>
+        <label>Contract Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>this would tag the contract with recovery</description>
+        <externalId>false</externalId>
+        <label>Contract</label>
+        <referenceTo>collect__Loan_Account__c</referenceTo>
+        <relationshipLabel>Recoveries</relationshipLabel>
+        <relationshipName>Recoveries</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Country_Code__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+ NOT(ISBLANK(  ScCollection_Contract__c  ))  
+, 
+ ScCollection_Contract__r.ScCollection_Country_Code__c 
+, 
+&quot;&quot; 
+)</formula>
+        <label>Country Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Date_Appointed__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Date Appointed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Default_Notice_Expired__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Default Notice Expired</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Default_Notice_Issued__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Default Notice Issued</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Default_Notice_Requested__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Default Notice Requested</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Default_Notice_Served__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Default Notice Served</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Defence_Lodged__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Defence Lodged</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Eviction_Scheduled__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Eviction Scheduled</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Eviction_Stayed__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Eviction Stayed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_External_Id__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+ AND(NOT(ISBLANK(  ScCollection_Contract__c  )),OR( ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;, ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;PAF&quot; ))  
+, 
+ ScCollection_Contract__r.collect__External_ID__c  
+, 
+&quot;&quot; 
+)</formula>
+        <label>External Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Final_Notice_Issued_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Final Notice Issued Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Form_14_Expiry_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Form-14 Expiry Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Form_14_Issue_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Form-14 Issue Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Judgement_Expiry_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Judgement Expiry Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Judgement_Obtained__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Judgement Obtained</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Judgement_Requested__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Judgement Requested</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_LOB_Identifier__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+NOT( ISBLANK(  ScCollection_Contract__c  ) ) 
+, 
+ ScCollection_Contract__r.ScCollection_Source_System_Name__c 
+, 
+&quot;&quot; 
+)</formula>
+        <label>LOB Identifier</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_LOD_Requested__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>LOD Requested</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_LTV__c</fullName>
+        <externalId>false</externalId>
+        <label>LTV</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Legal_Action_Cancelled__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Legal Action Cancelled</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_MIP_Shortfall_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>MIP Shortfall Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Payment_Received_Claim__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Received - Claim</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Possession_Obtained__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Possession Obtained</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_PropertyPresenterInstructed__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Property Presenter Instructed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Property_Handed_Back__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Property Handed Back</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Property_Passed_In_OnMarket__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Property Passed In On Market</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Property_Sold_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Property Sold Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Property_Surrogate__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Security</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.ScCollection_Contract__c</field>
+                <operation>equals</operation>
+                <valueField>Property_Surrogate__c.Loan_Surrogate__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Property_Surrogate__c</referenceTo>
+        <relationshipLabel>Recoveries</relationshipLabel>
+        <relationshipName>Recoveries</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Property_Under_Tender__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Property Under Tender</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Provision_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Provision Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Provision_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Provision Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Provision__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Provision</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Real_Estate_Agent__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Real Estate Agent</label>
+        <length>32</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Reason_for_Agent_Closure__c</fullName>
+        <externalId>false</externalId>
+        <label>Reason for Agent Closure</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Paid</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Repossessed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Access Mercantile</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Advance National</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GM Investigations</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Procol Recoveries</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Scott’s Mercantile</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Recovery_Fees__c</fullName>
+        <externalId>false</externalId>
+        <label>Agent Costs</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Redemption_Days__c</fullName>
+        <externalId>false</externalId>
+        <label>Redemption Days</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Release_of_Asset__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Release of Asset</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Repossession_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Repossession Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_SOC_Requested__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SOC Requested</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_SOC_Served__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SOC Served</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Sale_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Sale Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Sale_Proceeds_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Sale Proceeds Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Sale_Proceeds__c</fullName>
+        <externalId>false</externalId>
+        <label>Sale Proceeds</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Settlement_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Settlement Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Shortfall_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Shortfall Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Shortfall_Authorised__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Shortfall Authorised</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Shortfall_Proposed__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Shortfall Proposed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Shortfall_Sale_Approval__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Shortfall Sale Approval Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Sold_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Sold Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Solicitor_Appointed__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Solicitor Appointed</label>
+        <length>32</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Solicitor_Letter_Issued__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Solicitor’s Letter Issued</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Split_Number__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+ AND(NOT(ISBLANK(  ScCollection_Contract__c  )),ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;)  
+, 
+TEXT( ScCollection_Contract__r.ScCollection_Contract_Split_Number__c ) 
+, 
+&quot;&quot; 
+)</formula>
+        <label>Split Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Closed</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Time_to_lodge_defence__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Time to lodge defence</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Valuation_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Valuation Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Valuation_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Valuation Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Valuer__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Valuer</label>
+        <length>32</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Voluntary_Surrender__c</fullName>
+        <externalId>false</externalId>
+        <label>Voluntary Surrender</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Writ_Requested__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Writ Requested</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Write_Off_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Write Off Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Tow_Costs__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Cost incurred arranging for an asset to be towed</inlineHelpText>
+        <label>Tow Costs</label>
+        <precision>6</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <label>Recovery</label>
+    <nameField>
+        <displayFormat>RCI-{0000000}</displayFormat>
+        <label>Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Recoveries</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>ScCollection_Mortgage_Recovery</fullName>
+        <active>true</active>
+        <label>Mortgage</label>
+        <picklistValues>
+            <picklist>Job_Type__c</picklist>
+            <values>
+                <fullName>Cartage Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field Call</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field Call Collect</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field Call%2FUpgrade</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Repossession</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Skip Trace</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Possible_Redemption__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Reason_for_Agent_Closure__c</picklist>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Paid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Repossessed</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Status__c</picklist>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>In Progress</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Voluntary_Surrender__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>ScCollection_PAF_Recovery</fullName>
+        <active>true</active>
+        <label>PAF</label>
+        <picklistValues>
+            <picklist>Job_Type__c</picklist>
+            <values>
+                <fullName>Cartage Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field Call</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field Call Collect</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field Call%2FUpgrade</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Repossession</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Skip Trace</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Possible_Redemption__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Agent_Appointed__c</picklist>
+            <values>
+                <fullName>Access Mercantile</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Advance National</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>GM Investigations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pickles Auctions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Procol Recoveries</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Scott%27s Mercantile</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Reason_for_Agent_Closure__c</picklist>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Paid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Repossessed</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Status__c</picklist>
+            <values>
+                <fullName>Closed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>In Progress</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>ScCollection_Voluntary_Surrender__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>AgentClosedDateGreaterThanDateAppointed</fullName>
+        <active>true</active>
+        <description>Agent Close Date Should be greater than Date Appointed.</description>
+        <errorConditionFormula>OR(AND(ISNULL(ScCollection_Date_Appointed__c),NOT(ISNULL(ScCollection_Agent_Close_Date__c))),ScCollection_Date_Appointed__c &gt; ScCollection_Agent_Close_Date__c)</errorConditionFormula>
+        <errorDisplayField>ScCollection_Agent_Close_Date__c</errorDisplayField>
+        <errorMessage>Agent Close Date Should be greater than Date Appointed.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>EitherReleaseOfAssetOrRedemptionDate</fullName>
+        <active>true</active>
+        <description>Both Release of Asset and Date of Redemption cannot be filled.</description>
+        <errorConditionFormula>AND( NOT(ISNULL(ScCollection_Release_of_Asset__c)) , NOT(ISNULL(Date_of_Redemption__c)))</errorConditionFormula>
+        <errorMessage>Both Release of Asset and Date of Redemption cannot be filled.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>ReleaseOfAssetOrRedemptionDateGreater</fullName>
+        <active>true</active>
+        <description>Repossession date cannot be greater than Release of Asset or Date of Redemption.</description>
+        <errorConditionFormula>OR(AND(ISNULL(ScCollection_Repossession_Date__c),OR(NOT(ISNULL(ScCollection_Release_of_Asset__c)) , NOT(ISNULL(Date_of_Redemption__c)))), ScCollection_Repossession_Date__c &gt;  ScCollection_Release_of_Asset__c ,ScCollection_Repossession_Date__c &gt;  Date_of_Redemption__c)</errorConditionFormula>
+        <errorMessage>Release of Asset or Date of Redemption should be greater than Repossession Date.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>RestrictMoreThanOneInProgressRecord</fullName>
+        <active>true</active>
+        <description>This rule is setup to restrict more than one in progress recovery record against property.</description>
+        <errorConditionFormula>AND(ISNEW(), ScCollection_Property_Surrogate__r.Recovery_Record_Count__c &gt;= 1,  TEXT(ScCollection_Status__c) = &apos;In Progress&apos;)</errorConditionFormula>
+        <errorMessage>You can&apos;t tag more than one in-progress recoveries against a property.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>RestrictUpdationOfClosedRecovery</fullName>
+        <active>true</active>
+        <description>Validation for not being able to edit the record once the status is changed to &apos;Closed&apos;.</description>
+        <errorConditionFormula>AND(ISPICKVAL(PRIORVALUE(ScCollection_Status__c),&quot;Closed&quot;),NOT(ISNEW()))</errorConditionFormula>
+        <errorMessage>You cannot edit the record once the status is changed to &apos;Closed&apos;.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>SoldDateGreaterThanReleaseOfAsset</fullName>
+        <active>true</active>
+        <description>Sold Date should be greater than Release of Asset Date.</description>
+        <errorConditionFormula>OR(AND(ISNULL(ScCollection_Release_of_Asset__c),NOT(ISNULL(ScCollection_Sold_Date__c))),ScCollection_Release_of_Asset__c &gt; ScCollection_Sold_Date__c)</errorConditionFormula>
+        <errorDisplayField>ScCollection_Sold_Date__c</errorDisplayField>
+        <errorMessage>Sold Date should be greater than Release of Asset Date.</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Edit</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Edit</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/{!ScCollection_Recovery__c.Id}/e?retURL=/{!ScCollection_Recovery__c.Id}</url>
+    </webLinks>
+</CustomObject>

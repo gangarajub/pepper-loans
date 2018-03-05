@@ -1,0 +1,2221 @@
+<!--
+--------------------------------------------------------------------------------------------------------
+This page handles the new and edit functionality of the hardship
+--------------------------------------------------------------------------------------------------------
+Created Date: 03-JUN-2016    Created By: Deepak Dhingra   Email: deepak.dhingra@saasfocus.com
+--------------------------------------------------------------------------------------------------------
+-->
+<apex:page standardController="ScCollection_Hardship__c" extensions="ScCollection_newHardshipController" id="Page" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false" >
+  
+  <apex:pageMessage severity="Error" strength="2" title="Fatal Error" detail="{!errorMsg}" rendered="{!If(errorMsg != '',true,false)}">
+  </apex:pageMessage>
+  <html>
+    <head>
+      <style>
+      .dataTables_length
+        {
+            float: right !important;
+        }
+        .dataTables_info
+        {
+            float: left !important;
+        }
+        .dataTables_paginate
+        {
+            float: right !important;
+        }
+      table.dataTable thead th div.DataTables_sort_wrapper span{
+
+             right: -6px !important;
+      }
+        .fontfortable{
+
+          font-size: 12.5px !important;
+        }        
+        .errorBorder
+        {
+          border: 1px solid #DF0024 !important;
+        }
+        .incomeDetails
+        {
+        }
+        .expenditureDetails
+        {
+        }
+        .accordingStyle
+        {
+          background-color: #f5f5f5 !important;
+          border-radius: 7px;
+          font-size: 14px !important;
+          font-weight: bold;
+          font-family: Arial,Helvetica,sans-serif;
+          color: black !important;
+          border: 1px;
+          margin-bottom: 6px;
+        }
+        .errorMsg
+        {
+          display:none !important;
+        }
+        .customanchor:hover
+        {
+          color:#000;
+        }
+        blockquote 
+        {
+            padding: 0px !important;
+            margin: 0px !important;
+            font-size: inherit !important;
+            border-left: none !important;
+        }
+
+        .onFocusApplied
+        {
+
+        }
+        .cstm-eror{
+            background-color: rgba(230,1,12,0.9);
+            margin: 0 auto;
+            width: 300px;
+            max-width: 200px;
+            border: 1px #fff solid;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+            top: 50%;
+            left: 40%;
+            position: fixed;
+            display: none;
+            z-index: 1000;
+            border-radius: 12px;
+            }
+            .disBlock{
+            display: block;
+            }
+      </style> 
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      <!--  <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"/>  -->
+      <apex:includeScript value="{!URLFOR($Resource.ScCollection_Jquery)}" />
+     <!-- <apex:includeScript value="{!URLFOR($Resource.bootstrap, 'js/bootstrap.min.js')}" /> -->
+      <apex:includeScript value="/support/console/34.0/integration.js" />
+      <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap-theme.css')}"/>
+      <apex:stylesheet value="{!URLFOR($Resource.bootstrap,'css/bootstrap.css')}"/>
+      <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+      <!--<script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery.min.js')}">
+      </script> -->
+      <script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-accordion-menu.js')}">
+      </script> 
+      <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-accordion-menu.css')}" rel="stylesheet" />
+      <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" rel="stylesheet" />
+      <!-- added for the table component -->
+            
+      <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+      <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+      <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-datatable.js')}" />
+      <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquerydataTables.min.js')}" />
+      <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/dataTablesjqueryui.min.js')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-ui.css')}" />
+      <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/dataTablesjqueryui.min.css')}" />
+
+      <script type="text/javascript">
+
+      function assetInformationValidation(){
+
+        var showPopup = false;
+        var legendwithid = $('#assetDetails');
+        
+        legendwithid.find('input').each(function(){
+
+        
+        if(isNaN($(this).val().replace(/,/g,''))){
+          $(this).focus();
+          popupInvalidNumberShow();
+          showPopup = true;
+          
+        }
+
+      });
+        if(showPopup == false){
+          popupInvalidNumberHide();
+        }
+      }
+
+      function popupInvalidNumberHide(){
+
+        $(".cstm-eror").removeClass("disBlock");
+
+      }
+       function popupInvalidNumberShow(){
+       $(document).ready(function(){
+        $(".cstm-eror").addClass("disBlock");
+        $("#btn-popclose").click(function(){
+        var d = $(this).parent(".cstm-eror").removeClass("disBlock")
+        });
+       });
+        }
+        jQuery(document).ready(function()
+        {
+          // load history table
+          loadwidget();
+            
+          jQuery('#jquery-accordion-menu').jqueryAccordionMenu();          
+                                     
+          jQuery('.submenu').click(function()
+          {
+            return false;
+          });
+          
+          var recsaved = '{!$CurrentPage.parameters.recsaved}';
+          // alert('recsaved -'+recsaved);
+          if(recsaved == 'Recordsaved'){
+            $('a').each(function(index) {
+              $(this).hide();
+            }
+                       );
+            $('.successsection').show();
+            $('#successtext').html('Hardship saved successfully !!!');
+            //close tab after 3 secs
+            setTimeout(function(){
+              closeSubTabOnLoad();
+            }
+                       , 3000);
+            //refresh all other windows
+            sforce.console.getEnclosingPrimaryTabId(function(result) 
+                                                    {
+              sforce.console.refreshPrimaryTabById(result.id,false);
+            }
+                                                   );
+          }
+          function closeSubTabOnLoad() 
+          {
+            sforce.console.getEnclosingTabId(closeSubtab);
+          }
+          var closeSubtab = function closeSubtab(result) 
+          {
+            var tabId = result.id;
+            sforce.console.closeTab(tabId);
+          };
+          decisionProcessing();
+        }
+                              );
+
+        function loadwidget(){
+
+          $('#historytable').DataTable(
+          {
+              "order": [[ 1, "desc" ]],
+          });
+        }
+
+
+
+
+        function oneOfDateChanged(itemId)
+        {
+          document.getElementById('Page:frm:hardshipAssistancePeriod').value = '';
+          $('#hardshipAssistancePerioddisplay').html('N/A');
+          datechanged();
+        }
+        function datechanged(){
+          re = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+          if(document.getElementById('Page:frm:hardshipCommencementDate').value != '' && !document.getElementById('Page:frm:hardshipCommencementDate').value.match(re)){
+            alert('Invalid Commencement date');
+            //document.getElementById('Page:frm:hardshipCommencementDate').focus();
+            return false;
+          }
+          if(document.getElementById('Page:frm:hardshipExpiryDate').value != '' && !document.getElementById('Page:frm:hardshipExpiryDate').value.match(re)){
+            alert('Invalid Expiry date');
+            //  document.getElementById('Page:frm:hardshipExpiryDate').focus();
+            return false;
+          }
+          //alert('datechanged');      
+          var cdsplit            =  document.getElementById('Page:frm:hardshipCommencementDate').value.split("/");
+          var expirysplit        =            document.getElementById('Page:frm:hardshipExpiryDate').value.split("/");
+          var commencementdate   = new Date(cdsplit[2],cdsplit[1]-1,cdsplit[0]);
+          var expirydate= new Date(expirysplit[2],expirysplit[1]-1,expirysplit[0]);
+          //  alert(commencementdate );
+          //  alert(expirydate);
+          //  alert('commencementdate -'+commencementdate);
+          //  alert('expirydate -'+expirydate);
+          if(!isNaN(commencementdate)  && !isNaN(expirydate)){
+            if(expirydate < commencementdate ){
+              alert('Expiry date should be greater than commencement date.');
+            }
+            else{
+              var days =   ((expirydate - commencementdate )/( 1000 * 60 * 60 * 24)).toFixed(2);
+             
+              document.getElementById('Page:frm:hardshipAssistancePeriod').value = days + ' day(s)';
+              $('#hardshipAssistancePerioddisplay').html(days + ' day(s)');
+              
+              
+            }
+          }
+        }
+
+        
+
+
+        function eighteenDigitCheck(sum,nameOfInt,alertOrNot){
+
+          var sumOfVariables = sum;
+      var showAlert   = alertOrNot;
+          var lengthofint = sumOfVariables.toString().replace('.','').length;
+
+          //alert(lengthofint);
+          //alert(sumOfVariables.toString().replace('.',''));
+
+          if(lengthofint > 18){
+      
+      if(showAlert== false){
+            alert(nameOfInt + ' : Aggregate can not be greater than 16 digits.');
+      }
+            return false;
+          }
+
+
+        }
+
+        function calculateDifference(alertOrNot){
+          var totalIncomeSum = 0 ;
+          var totalExpenditure = 0 ;
+          $(".incomeDetails").each(function(){
+            totalIncomeSum =  totalIncomeSum + Number($(this).val().replace(/,/g,''));
+          
+          }
+          );
+            totalIncomeSum = Number(totalIncomeSum).toFixed(2);
+
+
+            var checkTotalIncome = eighteenDigitCheck(totalIncomeSum,'Total Monthly Income',alertOrNot);
+            if(checkTotalIncome == false){
+              document.getElementById('Page:frm:totalIncome').value = totalIncomeSum;
+              document.getElementById('Page:frm:totalExpenses').value = totalExpenditure;
+              $('#totalincomedisplay').html('Total Monthly Income : Value Too Large !!!');
+              return;
+            }
+
+
+
+          $('#totalincomedisplay').html('Total Monthly Income : ($)'+totalIncomeSum);
+          $(".expenditureDetails").each(function(){
+            totalExpenditure = totalExpenditure + Number($(this).val().replace(/,/g,''));
+            
+          }
+          );
+          totalExpenditure = Number(totalExpenditure).toFixed(2);
+          var checkTotalExpenditure = eighteenDigitCheck(totalExpenditure,'Total Monthly Expenditure',alertOrNot);
+            if(checkTotalExpenditure == false){
+              document.getElementById('Page:frm:totalIncome').value = totalIncomeSum;
+              document.getElementById('Page:frm:totalExpenses').value = totalExpenditure;
+              $('#totalExpendituredisplay').html('Total Monthly Expenditure : Value Too Large !!!');
+              return;
+            }
+
+
+          //alert($('[id$="totalIncome"]').val());  
+
+
+          $('#totalExpendituredisplay').html('Total Monthly Expenditure : ($)'+totalExpenditure);
+          document.getElementById('Page:frm:totalSurplus').value = '';
+          $('#totalSurplusdisplay').html('')               ;
+          document.getElementById('Page:frm:totalIncome').value = totalIncomeSum;
+          document.getElementById('Page:frm:totalExpenses').value = totalExpenditure;
+          $('[id$="totalFortnightlyIncomedisplay"]').html('$'+ (totalIncomeSum * (12/26)).toFixed(2));
+          $('[id$="totalWeeklyIncomedisplay"]').html('$'+ (totalIncomeSum * (12/52)).toFixed(2));
+          $('[id$="totalFortnightlyExpendituredisplay"]').html('$'+ (totalExpenditure * (12/26)).toFixed(2));
+          $('[id$="totalWeeklyExpendituredisplay"]').html('$'+ (totalExpenditure * (12/52)).toFixed(2));
+          if(!isNaN(totalIncomeSum) && !isNaN(totalExpenditure)){
+            var diff = totalIncomeSum   - totalExpenditure ;
+            diff  = diff.toFixed(2);
+            document.getElementById('Page:frm:totalSurplus').value = diff ;
+            $('#totalSurplusdisplay').html('$'+diff);
+            popupInvalidNumberHide();
+          }
+        }
+
+        
+
+        function frequencyModified(){
+         // alert('frequecymodified');
+         // $('[id$="frequencyPickVal"]').prop('disabled',false);
+          $('[id$="monthlyAmounthidden"]').val('');
+          $('[id$="monthlyAmountdisplay"]').html( ''  );
+          var frequencyValue = $('[id$="frequencyPickVal"]').val();
+          var lengthOfFrequencyAmount = $('[id$="frequencyamount"]').val().replace(/,/g,'');
+          
+          if(!isNaN(lengthOfFrequencyAmount)){ 
+
+           popupInvalidNumberHide();
+          if(frequencyValue == ''){
+              $('[id$="monthlyAmounthidden"]').val('');
+              $('[id$="monthlyAmountdisplay"]').val('');
+          }
+          if(frequencyValue == 'Weekly'){
+
+            var amountVal = Number($('[id$="frequencyamount"]').val().replace(/,/g,'')) * (52/12);
+            $('[id$="monthlyAmounthidden"]').val(amountVal.toFixed(2));
+            $('[id$="monthlyAmountdisplay"]').html( '$' + amountVal.toFixed(2));
+            
+
+          }
+           if(frequencyValue == 'Fortnightly'){
+            var amountVal = Number($('[id$="frequencyamount"]').val().replace(/,/g,'')) * (26/12);
+            $('[id$="monthlyAmounthidden"]').val(amountVal.toFixed(2));
+            $('[id$="monthlyAmountdisplay"]').html( '$' + amountVal.toFixed(2));
+
+            
+          }
+           if(frequencyValue == 'Quarterly'){
+            var amountVal = Number($('[id$="frequencyamount"]').val().replace(/,/g,'')) * (4/12);
+            $('[id$="monthlyAmounthidden"]').val(amountVal.toFixed(2));
+            $('[id$="monthlyAmountdisplay"]').html( '$' + amountVal.toFixed(2));
+
+            
+          }
+
+          var lengthOfHidden = $('[id$="monthlyAmounthidden"]').val().toString().replace('.','').length;
+          if(lengthOfHidden > 18){
+
+            // $('[id$="frequencyPickVal"]').prop('disabled',true); 
+             $('[id$="monthlyAmounthidden"]').val('');
+             $('[id$="monthlyAmountdisplay"]').html( 'Value Too Large !!'  );
+             alert('Monthly Amount can not be greater than 16 digits.');
+             $('[id$="frequencyamount"]').focus();
+             return false;
+          }
+        }else{
+
+          // $('[id$="frequencyPickVal"]').prop('disabled',true);
+           $('[id$="monthlyAmounthidden"]').val('');
+           $('[id$="monthlyAmountdisplay"]').html('Invalid Amount!!!');
+           //alert('Invalid Number :'+$('[id$="frequencyamount"]').val());
+           //$('[id$="frequencyamount"]').focus();
+           return false;
+        }
+
+        }
+
+        function positiveNumberValidation(idOfElement){
+
+            //frequencyamount
+            
+            var classesapplied = document.getElementById(idOfElement).getAttribute("class");
+           
+            if(classesapplied.includes("onFocusApplied") == false){
+            var d = document.getElementById(idOfElement);
+            d.className += " onFocusApplied";
+           document.getElementById(idOfElement).addEventListener('focusout', function(e){
+             // if this is a valid number
+
+
+
+             var valueAfterRemoval = document.getElementById(idOfElement).value.replace(/,/g,'');
+             if(idOfElement == 'Page:frm:frequencyamount'){
+             if(isNaN(valueAfterRemoval) == true){
+              popupInvalidNumberShow();
+              document.getElementById(idOfElement).focus();
+            } 
+             frequencyModified();
+             }else{
+             calculateDifference();
+             if(isNaN(valueAfterRemoval) == true){
+              popupInvalidNumberShow();
+              document.getElementById(idOfElement).focus();
+            }
+           }
+
+           
+            
+          });
+    
+        document.getElementById(idOfElement).addEventListener('keydown', function(e){
+            var key = e.keyCode ? e.keyCode : e.which;
+            if(!([8, 9, 13, 27, 46, 110, 190].indexOf(key) !== -1 ||
+                 (key == 65 && ( e.ctrlKey || e.metaKey  ) ) || 
+                 (key >= 35 && key <= 40) ||
+                 (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) ||
+                 (key >= 96 && key <= 105)
+                )) e.preventDefault();
+          });
+
+          }
+         
+
+          }
+        
+        function decisionProcessingOnComplete(){
+         
+          var hardshipvalue = document.getElementById('Page:frm:hardShipDecision').value ;
+          //alert('hardshipvalue  --'+hardshipvalue );
+          if(hardshipvalue ==''){
+            
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('requiredField');
+            document.getElementById('hardshipDeclinediv').style.display = 'none';
+            document.getElementById('hardshipApprovaldiv').style.display = 'none';
+            document.getElementById('hardshipApprovalDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'none';
+          }
+          if(hardshipvalue =='Approved'){
+            
+            document.getElementById('Page:frm:hardShipApproval').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.add('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.add('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.add('requiredField');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('requiredField');
+            document.getElementById('hardshipDeclinediv').style.display = 'none';
+            document.getElementById('hardshipApprovaldiv').style.display = 'block';
+            document.getElementById('hardshipApprovalDatediv').style.display = 'block';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'none';
+          }
+          if(hardshipvalue =='Declined'){
+            
+            document.getElementById('Page:frm:hardShipDecline').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.add('requiredField');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('requiredField');
+            document.getElementById('hardshipDeclinediv').style.display = 'block';
+            document.getElementById('hardshipApprovaldiv').style.display = 'none';
+            document.getElementById('hardshipApprovalDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'block';
+          }
+          if(hardshipvalue =='In Progress'){
+            document.getElementById('hardshipApprovalDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclinediv').style.display = 'none';
+            document.getElementById('hardshipApprovaldiv').style.display = 'none';
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('requiredField');
+          }
+          
+          var cdsplit            =  document.getElementById('Page:frm:hardshipCommencementDate').value.split("/");
+          var expirysplit        =            document.getElementById('Page:frm:hardshipExpiryDate').value.split("/");
+          var commencementdate   = new Date(cdsplit[2],cdsplit[1]-1,cdsplit[0]);
+          var expirydate= new Date(expirysplit[2],expirysplit[1]-1,expirysplit[0]);
+          
+           document.getElementById('Page:frm:hardshipAssistancePeriod').value = '';
+            $('#hardshipAssistancePerioddisplay').html('N/A');
+          
+           if(!isNaN(commencementdate)  && !isNaN(expirydate)){
+             var days =   ((expirydate - commencementdate )/( 1000 * 60 * 60 * 24)).toFixed(2);
+              document.getElementById('Page:frm:hardshipAssistancePeriod').value = days + ' day(s)';
+              $('#hardshipAssistancePerioddisplay').html(days + ' day(s)');
+          }
+          
+         
+            
+          
+          
+        }
+        
+        function decisionProcessing(){
+          var today = new Date();
+          var hardshipvalue = document.getElementById('Page:frm:hardShipDecision').value ;
+          //alert('hardshipvalue  --'+hardshipvalue );
+          if(hardshipvalue ==''){
+            document.getElementById('Page:frm:hardshipApprovalDate').value = '';
+            document.getElementById('Page:frm:hardshipDeclineDate').value = '';
+            document.getElementById('Page:frm:hardShipApproval').value  = '';
+            document.getElementById('Page:frm:hardShipDecline').value   = '';
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('requiredField');
+            document.getElementById('hardshipDeclinediv').style.display = 'none';
+            document.getElementById('hardshipApprovaldiv').style.display = 'none';
+            document.getElementById('hardshipApprovalDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'none';
+          }
+          if(hardshipvalue =='Approved'){
+
+            if(document.getElementById('Page:frm:hardshipApprovalDate').value == ''){
+              document.getElementById('Page:frm:hardshipApprovalDate').value =  today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+            }
+            
+            document.getElementById('Page:frm:hardshipDeclineDate').value = '';
+            document.getElementById('Page:frm:hardShipApproval').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.add('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.add('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.add('requiredField');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('requiredField');
+            document.getElementById('hardshipDeclinediv').style.display = 'none';
+            document.getElementById('hardshipApprovaldiv').style.display = 'block';
+            document.getElementById('hardshipApprovalDatediv').style.display = 'block';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'none';
+          }
+          if(hardshipvalue =='Declined'){
+            if(document.getElementById('Page:frm:hardshipDeclineDate').value == ''){
+
+              document.getElementById('Page:frm:hardshipDeclineDate').value =  today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+            }
+            
+            document.getElementById('Page:frm:hardshipApprovalDate').value = '';
+            document.getElementById('Page:frm:hardShipDecline').classList.add('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.add('requiredField');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('requiredField');
+            document.getElementById('hardshipDeclinediv').style.display = 'block';
+            document.getElementById('hardshipApprovaldiv').style.display = 'none';
+            document.getElementById('hardshipApprovalDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'block';
+          }
+          if(hardshipvalue =='In Progress'){
+            document.getElementById('hardshipApprovalDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclineDatediv').style.display = 'none';
+            document.getElementById('hardshipDeclinediv').style.display = 'none';
+            document.getElementById('hardshipApprovaldiv').style.display = 'none';
+            document.getElementById('Page:frm:hardshipDeclineDate').value =  '';
+            document.getElementById('Page:frm:hardshipApprovalDate').value = '';
+            document.getElementById('Page:frm:hardShipApproval').value  = '';
+            document.getElementById('Page:frm:hardShipDecline').value   = '';
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipDecline').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('errorBorder');
+            document.getElementById('Page:frm:hardShipApproval').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipCommencementDate').classList.remove('requiredField');
+            document.getElementById('Page:frm:hardshipExpiryDate').classList.remove('requiredField');
+          }
+        }
+        
+    
+    function accordianFunction(){
+      
+        jQuery('#jquery-accordion-menu').jqueryAccordionMenu();          
+                                     
+        jQuery('.submenu').click(function()
+        {
+        return false;
+        });
+    
+    }
+    
+        function afterOncompleteSubmit(){
+        decisionProcessingOnComplete();
+        calculateDifference(false);
+        frequencyModified();
+        }
+        
+        function decisionChanged(){
+          document.getElementById('Page:frm:hardShipDecision').addEventListener('change', function(e) 
+                                                                                {
+            decisionProcessing();
+          }
+                                                                               );
+        }
+
+        function frequencyChanged(){
+
+           frequencyModified();
+                                                                            
+        }
+
+
+        function ValidateSubmit()
+        {
+          
+          $('.msgIcon').each(function(index) {
+            $(this).hide();
+          }
+                            );
+          $('.messageText').each(function(index) {
+            $(this).hide();
+          }
+                                );
+          $('.errorsection').hide();
+          $('#commencementDateerror').hide();
+          $('#mandatehardshiprequesteddate').hide();
+          $('#hardshiprequestdateafterapproval').hide();
+          $('#hardshiprequestdateafterdecline').hide();
+          $('#hardshiprequestdateaftercommencement').hide();
+          $('.requiredField').each(function(index) 
+                                   {
+            $(this).removeClass('errorBorder');
+            $(this).addClass('normalBorder');
+          }
+                                  );
+          if(validateRequiredFields())
+          {
+
+            // check the total
+            var totalIncomeSum = 0 ;
+            var totalExpenditure = 0 ;
+            $(".incomeDetails").each(function(){
+            totalIncomeSum =  totalIncomeSum + Number($(this).val().replace(/,/g,''));
+            }
+            );
+            totalIncomeSum = Number(totalIncomeSum).toFixed(2);
+            var checkTotalIncome = eighteenDigitCheck(totalIncomeSum,'Total Monthly Income',false);
+            if(checkTotalIncome == false) return;
+            $('#totalincomedisplay').html('Total Monthly Income : ($)'+totalIncomeSum);
+            $(".expenditureDetails").each(function(){
+            totalExpenditure = totalExpenditure + Number($(this).val().replace(/,/g,''));
+            }
+            );
+            totalExpenditure = Number(totalExpenditure).toFixed(2);
+            var checkTotalExpenditure = eighteenDigitCheck(totalExpenditure,'Total Monthly Expenditure',false);
+            if(checkTotalExpenditure == false) return;
+            var amountValidation = frequencyModified();
+            if(amountValidation == false) return;
+            savehardship();
+          }
+        }
+        function validateRequiredFields()
+        {
+          var result = true;
+          $('.requiredField').each(function(index) 
+                                   {
+            if($(this).val() == '')
+            {
+              $('.errorsection').show();
+              $(this).removeClass('normalBorder');
+              $(this).addClass('errorBorder');
+              result = false;
+            }
+          }
+                                  );
+          // validation for commencement and expiry date
+          var cdsplit            =  document.getElementById('Page:frm:hardshipCommencementDate').value.split("/");
+          var expirysplit        =            document.getElementById('Page:frm:hardshipExpiryDate').value.split("/");
+          var commencementdate   = new Date(cdsplit[2],cdsplit[1],cdsplit[0]);
+          var expirydate= new Date(expirysplit[2],expirysplit[1],expirysplit[0]);
+          if(!isNaN(commencementdate)  && !isNaN(expirydate)){
+            if(expirydate < commencementdate ){
+              $('#commencementDateerror').show();
+              result = false;
+            }
+          }
+          // validation for request date
+          var hardshipRequesteddate = document.getElementById('Page:frm:hardshipRequestedDate').value ;
+          var hardshipApprovalddate = document.getElementById('Page:frm:hardshipApprovalDate').value ;
+          var hardshipApprovalddate = document.getElementById('Page:frm:hardshipApprovalDate').value ;
+          var hardshipDeclineddate = document.getElementById('Page:frm:hardshipDeclineDate').value ;
+          //alert('hardshipvalue  --'+hardshipvalue );
+          if( hardshipRequesteddate != '' ){
+            if(!isNaN(commencementdate)){
+              var reqestdatestr    =  document.getElementById('Page:frm:hardshipRequestedDate').value.split("/");
+              var requestdate   = new Date(reqestdatestr[2],reqestdatestr[1],reqestdatestr[0]);
+              if(commencementdate < requestdate){
+                $('#hardshiprequestdateaftercommencement').show();
+                result = false;
+              }
+            }
+            if(hardshipApprovalddate != '' ){
+              var cdsplit            =  document.getElementById('Page:frm:hardshipRequestedDate').value.split("/");
+              var expirysplit        =            document.getElementById('Page:frm:hardshipApprovalDate').value.split("/");
+              var requestdate   = new Date(cdsplit[2],cdsplit[1],cdsplit[0]);
+              var approvaldate= new Date(expirysplit[2],expirysplit[1],expirysplit[0]);
+              if(requestdate > approvaldate){
+                $('#hardshiprequestdateafterapproval').show();
+                result = false;
+              }
+            }
+            if(hardshipDeclineddate != '' ){
+              var cdsplit            =  document.getElementById('Page:frm:hardshipRequestedDate').value.split("/");
+              var expirysplit        =            document.getElementById('Page:frm:hardshipDeclineDate').value.split("/");
+              var requestdate   = new Date(cdsplit[2],cdsplit[1],cdsplit[0]);
+              var approvaldate= new Date(expirysplit[2],expirysplit[1],expirysplit[0]);
+              if(requestdate > approvaldate){
+                $('#hardshiprequestdateafterdecline').show();
+                result = false;
+              }
+            }
+          }
+          else {
+            var hardshipvalue = document.getElementById('Page:frm:hardShipDecision').value ;
+            if(hardshipvalue == 'Approved' || hardshipvalue == 'Declined'){
+              $('#mandatehardshiprequesteddate').show();
+              result = false;
+            }
+          }
+          return result;
+        }
+      </script>
+     
+    </head>
+    <body>
+        
+      <section id="">
+        <div class="container-fluid">
+        <article class="cstm-eror">
+         <div class="faded"></div>
+         <p>Invalid Input.Please correct.</p>
+         
+        </article>
+          <apex:outputPanel rendered="{!IF($CurrentPage.parameters.view == 'view' ,true,false)}">
+            <div class="col-md-12 col-sm-12 iframe-sm-12 noleftpadding" style="margin-top: 10px;color: green;">
+              <label class="displayNone successsection">
+                <i class="fa fa-check" aria-hidden="true">
+                </i>
+                <span id="successtext">  
+                </span>
+              </label>
+            </div>
+            <div class="clearfix">
+            </div>
+            <aside id="center_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+              <section class="cstm-form clearfix" style="text-align:center; margin-top:5px;">
+                <a href="#" class="nav-login active center-block" onclick="editHardship();" style="display:{!If(hardshipedit,'block','none')}">
+                  <span>Edit
+                  </span>
+                </a>
+              </section>
+              <section class="cstm-form clearfix">
+                <fieldset>
+                  <legend>Account Details
+                  </legend>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Total Arrears
+                    </label>
+                    <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!objContract.Arrears}" />
+                    </apex:outputText>
+                    <!-- <span  >{!objContract.Arrears}</span> -->
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Arrears to be capped
+                    </label>
+                    <apex:outputField id="cappedarrears" value="{!ScCollection_Hardship__c.ScCollection_Arrears_to_be_capped__c}" styleClass="form-control" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Total Balance
+                    </label>
+                    <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!objContract.Balance}" />
+                    </apex:outputText>
+                    <!-- <span  >{!objContract.Balance}</span> -->
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Monthly Total Surplus or Deficit
+                    </label>
+                     <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Surplus__c}" />
+                    </apex:outputText>
+                   <!--  <apex:outputField id="totalSurplus" value="{!if( != Null,'$')}" styleClass="form-control" /> -->
+                  </div>
+                   <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Fortnightly Income
+                      </label>
+                      <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Fortnightly_Income__c}" />
+                    </apex:outputText>  
+                     
+                     
+                    </div>
+           <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Weekly Income
+                      </label>
+                      <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Weekly_Income__c}" />
+                    </apex:outputText>  
+                     
+                      
+                    </div>
+           <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Fortnightly Expenditure
+                      </label>
+                      <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_TotalFortnightlyExpenditure__c}" />
+                    </apex:outputText>  
+                     
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Weekly Expenditure
+                      </label>
+                     <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Weekly_Expenditure__c}" />
+                    </apex:outputText>  
+                     
+                     
+                    </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Reason for  Hardship
+                    </label>
+                    <apex:outputField id="hardShipStatus" value="{!ScCollection_Hardship__c.ScCollection_Reason_for_Hardship__c}" styleClass="form-control" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Hardship Decision
+                    </label>
+                    <apex:outputField id="hardShipDecision" value="{!ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c}" styleClass="form-control" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c == 'Approved','block','none')}" >
+                    <label class="outputlabel">Hardship Approval 
+                    </label>
+                    <apex:outputField id="hardShipApproval" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Approval__c}" styleClass="form-control" />
+                    <label id="action-hardshipapproval" class="error-label displayNone">
+                      <i class="fa fa-exclamation-triangle">
+                      </i>Please provide a value for Hardship Approval.
+                    </label>
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c == 'Declined','block','none')}" >
+                    <label class="outputlabel">Hardship Decline
+                    </label>
+                    <apex:outputField id="hardShipDecline" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Decline__c}" styleClass="form-control" />
+                    <label id="action-hardshipdecline" class="error-label displayNone">
+                      <i class="fa fa-exclamation-triangle">
+                      </i>Please provide a value for Hardship Decline.
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <legend>Hardship Details
+                  </legend>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c == 'Approved','block','none')}" >
+                    <label class="outputlabel">Hardship Approval Date
+                    </label>
+                    <apex:outputField id="hardshipApprovalDate" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Approval_Date__c}" styleClass="form-control" style="width:100%" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c == 'Declined','block','none')}" >
+                    <label class="outputlabel">Hardship Decline Date
+                    </label>
+                    <apex:outputField id="hardshipDeclineDate" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Decline_Date__c}" styleClass="form-control" style="width:100%" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Hardship Requested Date
+                    </label>
+                    <apex:outputField id="hardshipRequestedDate" value="{!ScCollection_Hardship__c.ScCollection_HardshipRequestedDate__c}" styleClass="form-control" style="width:100%" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Hardship Commencement Date
+                    </label>
+                    <apex:outputField id="hardshipCommencementDate" value="{!ScCollection_Hardship__c.ScCollection_HardshipCommencementDate__c}" styleClass="form-control" style="width:100%" />
+                    <label id="action-hardshipCommencemment" class="error-label displayNone">
+                      <i class="fa fa-exclamation-triangle">
+                      </i>Please provide a value for Hardship Commencemment Date.
+                    </label>
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Hardship Expiry Date
+                    </label>
+                    <apex:outputField id="hardshipExpiryDate" value="{!ScCollection_Hardship__c.ScCollection_HardshipExpiryDate__c}" styleClass="form-control" style="width:100%" />
+                    <label id="action-hardshipExpiry" class="error-label displayNone">
+                      <i class="fa fa-exclamation-triangle">
+                      </i>Please provide a value for Hardship Expiry Date.
+                    </label>
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Hardship Completed
+                    </label>
+                    <apex:outputField id="hardshipcompleted" value="{!ScCollection_Hardship__c.Hardship_Completed__c}" styleClass="form-control" style="width:100%" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">SOFP Date
+                    </label>
+                    <apex:outputField id="sofpdate" value="{!ScCollection_Hardship__c.ScCollection_SOFP_Date__c}" styleClass="form-control" style="width:100%" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="height: 40px;">
+                    <label class="outputlabel">Hardship Broken
+                    </label>
+                    <apex:outputField value="{!ScCollection_Hardship__c.ScCollection_Hardship_Broken__c}" styleClass="form-control" />
+                  </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                        <label class="outputlabel">How was SOFP Completed?
+                        </label>
+                        <apex:outputfield id="howwassofpcompleted1" value="{!ScCollection_Hardship__c.How_was_SOFP_Completed__c}" styleClass="form-control" style="width:100%" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                        <label class="outputlabel">Hardship Outcome
+                        </label>
+                        <apex:outputfield value="{!ScCollection_Hardship__c.Hardship_Outcome__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Hardship Assistance Period
+                    </label>
+                    <apex:outputField id="hardshipAssistancePeriod" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Assistance_Period__c}" styleClass="form-control" style="width:100%" />
+                  </div>
+                </fieldset>
+
+                 <section class="cstm-form clearfix">
+           <fieldset>
+                    <legend>Monthly Income Calculator
+
+                    </legend>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                      <label class="outputlabel">Frequency
+                      </label>
+                      <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Frequency__c}" styleClass="form-control" style="width:100%" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group"  >
+                      <label class="outputlabel">Amount
+                      </label>
+                      <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Amount__c}" styleClass="form-control" style="width:100%"  />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                      <label >Monthly Amount
+                      </label>
+             <span  class="outputlabel"> <apex:outputText value="{0, number,  $###,##0.00}">
+              <apex:param value="{!ScCollection_Hardship__c.ScCollection_Monthly_Amount__c}" />
+            </apex:outputText>  
+                      </span>
+                     
+                    </div>
+                  
+                   
+                  </fieldset>
+        </section>
+                
+            <section class="cstm-form clearfix">
+                    <fieldset >
+                          <legend>Hardship Letter Fields 
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Date (payments to recommence)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Date_payments_to_recommence__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Date (docs to be returned)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Date_docs_to_be_returned__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Followed up Date
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Followed_up_Date__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Reduced interest Rate (%)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Reduced_interest_Rate__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Reassessment Date
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Reassessment_Date__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Reduced payment amount ($)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Reduced_payment_amount__c}" styleClass="form-control" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Proposed Repayment Plan ($)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Proposed_Repayment_Plan__c}" styleClass="form-control" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Letter of finance approval
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Letter_of_finance_approval__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Judgement Obtained
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Judgement_Obtained__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">BSB
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_BSB_1__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">EREF Account number
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_EREF_Account_number__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">COS Date
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_COS_Date__c}" styleClass="form-control"/>
+                            </div>
+                            
+                            
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Frequency of arrangement
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Frequency_of_arrangement__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Number of payments
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Number_of_payments__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Resumed payment frequency
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Resumed_payment_frequency__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Ad Hoc Instalment
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Ad_Hoc_Instalment__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Ad Hoc Date 1
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Ad_Hoc_Date_1__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Ad Hoc Date 2
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScColletion_Ad_Hoc_Date_2__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">BSB Number (Direct Debit)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_BSB_Number_Direct_Debit_1__c}" styleClass="form-control"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Account Number (Direct Debit)
+                              </label>
+                              <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Account_Number_Direct_Debit__c}" styleClass="form-control"/>
+                            </div>
+                        </fieldset>
+                
+                </section>
+                <section class="cstm-form clearfix">
+                <fieldset>
+                  <legend>Previous Details
+                  </legend>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Previous Application
+                    </label>
+                    <span   > {!PreviousCount}
+                    </span>
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Previous Decision
+                    </label>
+                    <apex:outputField value="{!ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c}" styleClass="form-control" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Decline Reason
+                    </label>
+                    <apex:outputField value="{!ScCollection_Hardship__c.ScCollection_Hardship_Decline__c}" styleClass="form-control" />
+                  </div>
+                  <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                    <label class="outputlabel">Approve Reason
+                    </label>
+                    <apex:outputField value="{!ScCollection_Hardship__c.ScCollection_Hardship_Approval__c}" styleClass="form-control" />
+                  </div>
+                </fieldset>
+                </section>
+              </section>
+              <!-- Phase 2 view enhancements-->
+              <div class="content">
+                <div id="jquery-accordion-menu" class="jquery-accordion-menu">
+                  <ul>
+                    <li class="main-menu" style="margin-left:0px;">
+                      <a id="incomeanchor" href="#" class="accordingStyle">Income Details
+                        <span  style="float: right;margin-right: 30%;"> Total Monthly Income :($) {!ScCollection_Hardship__c.ScCollection_Total_Monthly_Income__c}
+                        </span> <!--{!ScCollection_Hardship__c.ScCollection_Total_income__c} -->
+                        <span class="submenu-indicator">+
+                        </span>
+                      </a> 
+                      <ul class="submenu">
+                        <fieldset >
+                          <legend>Income 
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">After Tax Wages (Borrower 1) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_After_Tax_Wages_Borrower_1__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">After Tax Wages (Borrower 2) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_After_Tax_Wages_Borrower_2__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">After Tax Wages (Borrower 3) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollectionAfter_Tax_Wages_Borrower_3__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">After Tax Wages (Borrower 4) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_After_Tax_Wages_Borrower_4__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                        </fieldset>
+                        <!-- Other Sources of Income -->
+                        <fieldset >
+                          <legend>Other Sources of Income
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Bonds 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Bonds__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Dividends 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Dividends__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Rent/Board 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Rent_Board__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other 1  
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Other_Please_State_1__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other 2  
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Other_Please_State_2__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other 3  
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Other_Please_State_3__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Unemployment Benefits 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Unemployment_Benefits__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                        </fieldset>
+                        <!-- Family Allowance  -->
+                        <fieldset >
+                          <legend>Family Allowance 
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Basic 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Basic__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Additional 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Additional__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Rent Assistance 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Rent_Assistance__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other 4  
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_OtherPleaseStatefamilyall_1__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other 5  
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_OtherPleaseStatefamilyall_2__c}" styleClass="form-control incomeDetails" />
+                          </div>
+                        </fieldset>
+                      </ul>
+                    </li>
+                    <li class="main-menu" style="margin-left:0px;">
+                      <a id="expenditureanchor" href="#" class="accordingStyle">Expenditure Details
+                        <span  style="float: right;margin-right: 30%;"> Total Monthly Expenditure : ($)  {!ScCollection_Hardship__c.ScCollection_Total_Monthly_Expenditures__c}
+                        </span> <!-- {!ScCollection_Hardship__c.ScCollection_Total_Expenses__c} -->
+                        <span class="submenu-indicator">+
+                        </span>
+                      </a> 
+                      <ul class="submenu">
+                        <fieldset >
+                          <legend>Expenditure 
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Mortgage  ( 1 ) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Mortgage_1__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Mortgage  ( 2 ) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Mortgage_2__c}" styleClass="form-control expenditureDetails"   />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Rent 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Rent__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Credit Card  (1) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Credit_Card_1__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Credit Card  (2 ) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Credit_Card_2__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Credit Card  (3) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Credit_Card_3__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Loan (1) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Loan_1__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Loan (2) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Loan_2__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                        </fieldset>
+                        <!-- Household/Living Costs-->
+                        <fieldset >
+                          <legend>Household/Living Costs
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Rates/Water 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Rates_Water__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Telephone/Internet 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Telephone_Internet__c}" styleClass="form-control expenditureDetails"  />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Mobile Phone 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Mobile_Phone__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Electricty/Gas 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Electricity_Gas__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Food 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Food__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Clothing 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Clothing__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Personal (Grooming etc) 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Personal_Grooming_etc__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Entertainment 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Entertainment__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Insurance 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Insurance__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Presciptions 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Prescriptions__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                        </fieldset>
+                        <!-- Car Costs  -->
+                        <fieldset >
+                          <legend>Car Costs 
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Petrol 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Petrol__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Registration 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Registration__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Insurance 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Car_Insurance__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Repairs 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Repairs__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Any Other Cost 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Any_Other_Cost__c}" styleClass="form-control expenditureDetails" />
+                          </div>
+                        </fieldset>
+                      </ul>
+                    </li>
+                    <li class="main-menu" style="margin-left:0px;">
+                      <a id="assetanchor" href="#" class="accordingStyle">Asset Details
+                        <span class="submenu-indicator">+
+                        </span>
+                      </a> 
+                      <ul class="submenu">
+                        <fieldset >
+                          <legend>Assests 
+                          </legend>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Market Value of This Property 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Market_Value_ofThisProperty__c}" styleClass="form-control" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other Real Estate Owned 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Other_Real_Estate_Owned__c}" styleClass="form-control" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Motor Vehicles 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Motor_Vehicles__c}" styleClass="form-control" />
+                          </div>
+                          <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                            <label class="outputlabel">Other Investments 
+                            </label>
+                            <apex:outputfield value="{!ScCollection_Hardship__c.ScCollection_Other_Investments__c}" styleClass="form-control" />
+                          </div>
+                        </fieldset>
+                      </ul>
+                    </li>
+                    
+                  </ul>
+                </div>
+              </div>  
+              
+                
+              <section class="cstm-form clearfix" style="text-align:center; margin-top:5px;">
+                <a href="#" class="nav-login active center-block" onclick="editHardship();" style="display:{!If(hardshipedit,'block','none')}">
+                  <span>Edit
+                  </span>
+                </a>
+              </section>
+            </aside>
+          </apex:outputPanel>
+          <apex:form id="frm" style="margin-top:1em;" >
+            <apex:pageMessages />
+            <apex:actionFunction name="savehardship" action="{!insertHardship}" reRender="frm" oncomplete="afterOncompleteSubmit();"/>
+            <apex:actionFunction name="editHardship" action="{!cancelCustom}"/>
+            <apex:outputPanel rendered="{!IF($CurrentPage.parameters.view == 'edit',true,false)}">
+              <aside id="center_panel" class="col-md-12 col-sm-12" style="padding:0px;">
+                <section class="cstm-form clearfix" style="text-align:center; margin-top:5px;">
+                  <a href="#" class="nav-login active center-block" onclick="ValidateSubmit(); return false;" style="display:{!If(hardshipedit || hardshipcreate,'block','none')}">
+                    <span>Submit
+                    </span>
+                  </a>
+                </section>
+                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group errorsection displayNone">
+                  <label>
+                    <i class="fa fa-exclamation-triangle">
+                    </i>Please provide values for required fields.
+                  </label>
+                </div>
+                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group  displayNone" id="commencementDateerror" style="display: none;font-size: 12px;font-weight: normal;margin: 10px 0px 0px 0px;padding: 0px;color:red;">
+                  <label>
+                    <i class="fa fa-exclamation-triangle" style="margin-right: 5px">
+                    </i>Commencement date should be less than expiry date.
+                  </label>
+                </div>
+                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group  displayNone" id="mandatehardshiprequesteddate" style="display: none;font-size: 12px;font-weight: normal;margin: 10px 0px 0px 0px;padding: 0px;color:red;">
+                  <label>
+                    <i class="fa fa-exclamation-triangle" style="margin-right: 5px">
+                    </i>Hardship requested date can not be left blank.
+                  </label>
+                </div>
+                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group  displayNone" id="hardshiprequestdateafterapproval" style="display: none;font-size: 12px;font-weight: normal;margin: 10px 0px 0px 0px;padding: 0px;color:red;">
+                  <label>
+                    <i class="fa fa-exclamation-triangle" style="margin-right: 5px">
+                    </i>Hardship requested date can not be greater than hardship approval date.
+                  </label>
+                </div>
+                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group  displayNone" id="hardshiprequestdateafterdecline" style="display: none;font-size: 12px;font-weight: normal;margin: 10px 0px 0px 0px;padding: 0px;color:red;">
+                  <label>
+                    <i class="fa fa-exclamation-triangle" style="margin-right: 5px">
+                    </i>Hardship requested date can not be greater than hardship decline date.
+                  </label>
+                </div>
+                <div class="col-md-12 col-sm-12 iframe-sm-12 form-group  displayNone" id="hardshiprequestdateaftercommencement" style="display: none;font-size: 12px;font-weight: normal;margin: 10px 0px 0px 0px;padding: 0px;color:red;">
+                  <label>
+                    <i class="fa fa-exclamation-triangle" style="margin-right: 5px">
+                    </i>Hardship requested date can not be greater than hardship commencement date.
+                  </label>
+                </div>
+                <section class="cstm-form clearfix">
+                  <fieldset>
+                    <legend>Account Details
+                    </legend>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Arrears
+                      </label>
+                      <apex:outputText value="{0, number,  $###,##0.00}">
+                        <apex:param value="{!objContract.Arrears}" />
+                      </apex:outputText>
+                      <!-- <span  >$ {!objContract.Arrears}</span> -->
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label>Arrears to be capped ($)
+                      </label>
+                      <apex:inputField id="arrearsTobeCapped" value="{!ScCollection_Hardship__c.ScCollection_Arrears_to_be_capped__c}" styleClass="form-control" onfocus="positiveNumberValidation(this.id);"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Balance
+                      </label>
+                      <apex:outputText value="{0, number,  $###,##0.00}">
+                        <apex:param value="{!objContract.Balance}" />
+                      </apex:outputText>
+                      <!-- <span>$  {!objContract.Balance} </span> -->
+                    </div>
+                    <apex:inputHidden id="totalExpenses" value="{!ScCollection_Hardship__c.ScCollection_Total_Expenses__c}" />
+                    <apex:inputhidden id="totalIncome" value="{!ScCollection_Hardship__c.ScCollection_Total_income__c}" />
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label>Reason for  Hardship
+                      </label>
+                      <apex:inputField id="hardShipStatus" value="{!ScCollection_Hardship__c.ScCollection_Reason_for_Hardship__c}" styleClass="form-control requiredField" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Monthly Total Surplus or Deficit
+                      </label>
+                      <span id="totalSurplusdisplay" > <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Surplus__c}" />
+                    </apex:outputText>  
+                      </span>
+                    </div>
+                     <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label>Hardship Decision
+                      </label>
+                      <apex:inputField id="hardShipDecision" value="{!ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c}" styleClass="form-control" onfocus="decisionChanged();"/>
+                    </div>
+                     <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Fortnightly Income
+                      </label>
+                      <span id="totalFortnightlyIncomedisplay" > <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Fortnightly_Income__c}" />
+                    </apex:outputText>  
+                      </span>
+                     
+                    </div>
+
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c != 'Declined','block','none')}"  id="hardshipApprovaldiv">
+                      <label>Hardship Approval 
+                      </label>
+                      <apex:inputField id="hardShipApproval" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Approval__c}" styleClass="form-control" />
+                      <label id="action-hardshipapproval" class="error-label displayNone">
+                        <i class="fa fa-exclamation-triangle">
+                        </i>Please provide a value for Hardship Approval.
+                      </label>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c != 'Approved','block','none')}" id="hardshipDeclinediv">
+                      <label>Hardship Decline
+                      </label>
+                      <apex:inputField id="hardShipDecline" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Decline__c}" styleClass="form-control" />
+                      <label id="action-hardshipdecline" class="error-label displayNone">
+                        <i class="fa fa-exclamation-triangle">
+                        </i>Please provide a value for Hardship Decline.
+                      </label>
+                    </div> 
+
+                     <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Weekly Income
+                      </label>
+                      <span id="totalWeeklyIncomedisplay" > <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Weekly_Income__c}" />
+                    </apex:outputText>  
+                      </span>
+                      
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Fortnightly Expenditure
+                      </label>
+                      <span id="totalFortnightlyExpendituredisplay" > <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_TotalFortnightlyExpenditure__c}" />
+                    </apex:outputText>  
+                      </span>
+                      
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Total Weekly Expenditure
+                      </label>
+                      <span id="totalWeeklyExpendituredisplay" > <apex:outputText value="{0, number,  $###,##0.00}">
+                      <apex:param value="{!ScCollection_Hardship__c.ScCollection_Total_Weekly_Expenditure__c}" />
+                    </apex:outputText>  
+                      </span>
+                     
+                    </div>
+                   
+                   
+                    <apex:inputHidden id="totalSurplus" value="{!ScCollection_Hardship__c.ScCollection_Total_Surplus__c}"  />
+                  </fieldset>
+                  <fieldset>
+                      <legend>Hardship Details
+                      </legend>
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c != 'Declined','block','none')}" id="hardshipApprovalDatediv">
+                          <label>Hardship Approval Date
+                          </label>
+                          <apex:inputField id="hardshipApprovalDate" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Approval_Date__c}" styleClass="form-control" style="width:100%" />
+                      </div>
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF(ScCollection_Hardship__c.ScCollection_Hardhsip_Decision__c != 'Approved','block','none')}" id="hardshipDeclineDatediv">
+                          <label>Hardship Decline Date
+                          </label>
+                          <apex:inputField id="hardshipDeclineDate" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Decline_Date__c}" styleClass="form-control" style="width:100%" />
+                      </div>
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                          <label>Hardship Requested Date
+                          </label>
+                          <apex:inputField id="hardshipRequestedDate" value="{!ScCollection_Hardship__c.ScCollection_HardshipRequestedDate__c}" styleClass="form-control" style="width:100%" />
+                      </div>
+                      
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                          <label>Hardship Commencement Date
+                          </label>
+                          <apex:inputField id="hardshipCommencementDate" onchange="oneOfDateChanged(this.id);" value="{!ScCollection_Hardship__c.ScCollection_HardshipCommencementDate__c}" styleClass="form-control" style="width:100%" />
+                          <label id="action-hardshipCommencemment" class="error-label displayNone">
+                              <i class="fa fa-exclamation-triangle">
+                              </i>Please provide a value for Hardship Commencemment Date.
+                          </label>
+                      </div>
+                      
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                          <label>Hardship Expiry Date
+                          </label>
+                          <apex:inputField id="hardshipExpiryDate"  onchange="oneOfDateChanged(this.id);" value="{!ScCollection_Hardship__c.ScCollection_HardshipExpiryDate__c}" styleClass="form-control" style="width:100%" />
+                          <label id="action-hardshipExpiry" class="error-label displayNone">
+                              <i class="fa fa-exclamation-triangle">
+                              </i>Please provide a value for Hardship Expiry Date.
+                          </label>
+                      </div>
+                      
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label>SOFP Date
+                      </label>
+                      <apex:inputField id="sofpDate"   value="{!ScCollection_Hardship__c.ScCollection_SOFP_Date__c}" styleClass="form-control requiredField"  style="width:100%" />
+                    </div>
+                    
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF($CurrentPage.parameters.id == Null,'none','')}">
+                          <label class="outputlabel">Hardship Broken
+                          </label>
+                          <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Hardship_Broken__c}" styleClass="form-control" />
+                      </div>
+					
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                          <label class="outputlabel">Hardship Completed
+                          </label>
+                          <apex:inputField id="hardshipcompleted" value="{!ScCollection_Hardship__c.Hardship_Completed__c}" styleClass="form-control" style="width:100%" />
+                      </div>
+                      
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="display:{!IF($CurrentPage.parameters.id == Null,'none','')}">
+                          <label class="outputlabel">Hardship Outcome
+                          </label>
+                          <apex:inputfield value="{!ScCollection_Hardship__c.Hardship_Outcome__c}" styleClass="form-control" style="width:100%"/>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                          <label class="outputlabel">How was SOFP Completed?
+                          </label>
+                          <apex:inputfield id="howwassofpcompleted" value="{!ScCollection_Hardship__c.How_was_SOFP_Completed__c}" styleClass="form-control" style="width:100%" />
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 iframe-sm-6 form-group"  style="">
+                          <label class="outputlabel">Hardship Assistance Period
+                          </label>
+                          <apex:inputHidden id="hardshipAssistancePeriod" value="{!ScCollection_Hardship__c.ScCollection_Hardship_Assistance_Period__c}"  />
+                          <span id="hardshipAssistancePerioddisplay">
+                              <apex:outputField value="{!ScCollection_Hardship__c.ScCollection_Hardship_Assistance_Period__c}"/> 
+                          </span>
+                      </div>
+                  </fieldset>
+
+                  
+                </section>
+                
+        <section class="cstm-form clearfix">
+           <fieldset>
+                    <legend>Monthly Income Calculator
+
+                    </legend>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                      <label>Frequency
+                      </label>
+                      <apex:inputField id="frequencyPickVal" value="{!ScCollection_Hardship__c.ScCollection_Frequency__c}" styleClass="form-control"  onchange="frequencyChanged();"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group"  >
+                      <label>Amount
+                      </label>
+                      <apex:inputField id="frequencyamount" value="{!ScCollection_Hardship__c.ScCollection_Amount__c}" styleClass="form-control"  onfocus="positiveNumberValidation(this.id);" onkeyup="frequencyModified();"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" >
+                      <label>Monthly Amount
+                      </label>
+             <span id="monthlyAmountdisplay" class="outputlabel"> <apex:outputText value="{0, number,  $###,##0.00}">
+              <apex:param value="{!ScCollection_Hardship__c.ScCollection_Monthly_Amount__c}" />
+            </apex:outputText>  
+                      </span>
+                      <apex:inputHidden id="monthlyAmounthidden" value="{!ScCollection_Hardship__c.ScCollection_Monthly_Amount__c}" />
+                    </div>
+                  
+                   
+                  </fieldset>
+        </section>
+            <section class="cstm-form clearfix">
+                    <fieldset id="hardshipletterfields">
+                    <legend>Hardship Letter Fields 
+                    </legend>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group">
+                      <label class="outputlabel">Date (payments to recommence)
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Date_payments_to_recommence__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Date (docs to be returned)
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Date_docs_to_be_returned__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Followed up Date
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Followed_up_Date__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Reduced interest Rate (%)
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Reduced_interest_Rate__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Reassessment Date
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Reassessment_Date__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Reduced payment amount ($)
+                      </label>
+                      <apex:inputField onfocus="positiveNumberValidation(this.id);"  value="{!ScCollection_Hardship__c.ScCollection_Reduced_payment_amount__c}" styleClass="form-control" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Proposed Repayment Plan ($)
+                      </label>
+                      <apex:inputField onfocus="positiveNumberValidation(this.id);"  value="{!ScCollection_Hardship__c.ScCollection_Proposed_Repayment_Plan__c}" styleClass="form-control" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Letter of finance approval
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Letter_of_finance_approval__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Judgement Obtained
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Judgement_Obtained__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">BSB
+                      </label>
+                        <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_BSB_1__c}" styleClass="form-control"/>                    
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">EREF Account number
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_EREF_Account_number__c}" styleClass="form-control"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">COS Date
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_COS_Date__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    
+                    
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Frequency of arrangement
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Frequency_of_arrangement__c}" styleClass="form-control"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Number of payments
+                      </label>
+                      <apex:inputField onfocus="positiveNumberValidation(this.id);" value="{!ScCollection_Hardship__c.ScCollection_Number_of_payments__c}" styleClass="form-control"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Resumed payment frequency
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Resumed_payment_frequency__c}" styleClass="form-control"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Ad Hoc Instalment ($)
+                      </label>
+                      <apex:inputField onfocus="positiveNumberValidation(this.id);" value="{!ScCollection_Hardship__c.ScCollection_Ad_Hoc_Instalment__c}" styleClass="form-control"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Ad Hoc Date 1
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Ad_Hoc_Date_1__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Ad Hoc Date 2
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScColletion_Ad_Hoc_Date_2__c}" styleClass="form-control" style="width:100%"/>
+                    </div>
+                    
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">BSB Number (Direct Debit)
+                      </label>
+                      <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_BSB_Number_Direct_Debit_1__c}" styleClass="form-control"/>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Account Number (Direct Debit)
+                      </label>
+                      <apex:inputField onfocus="positiveNumberValidation(this.id);" value="{!ScCollection_Hardship__c.ScCollection_Account_Number_Direct_Debit__c}" styleClass="form-control"/>
+                    </div>
+                    
+                  </fieldset>
+                </section>
+                <section class="cstm-form clearfix">
+                  <fieldset>
+                    <legend>Previous Details
+                    </legend>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Previous Application
+                      </label>
+                      <span   > {!PreviousCount}
+                      </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Previous Decision
+                      </label>
+                      <apex:outputField value="{!objPreviosHardship.ScCollection_Hardhsip_Decision__c}" styleClass="form-control" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Decline Reason
+                      </label>
+                      <apex:outputField value="{!objPreviosHardship.ScCollection_Hardship_Decline__c}" styleClass="form-control" />
+                    </div>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                      <label class="outputlabel">Approve Reason
+                      </label>
+                      <apex:outputField value="{!objPreviosHardship.ScCollection_Hardship_Approval__c}" styleClass="form-control" />
+                    </div>
+                  </fieldset>
+                </section>
+                
+                <!-- Phase 2 -->
+                <div class="content">
+                  <div id="jquery-accordion-menu" class="jquery-accordion-menu" onmouseover="accordianFunction();">
+                    <ul>
+                      <li class="main-menu" style="margin-left:0px;">
+                        <a href="#" class="accordingStyle">Income Details
+                          <span id="totalincomedisplay" style="float: right;margin-right: 30%;"> Total Monthly Income :($) {!ScCollection_Hardship__c.ScCollection_Total_Monthly_Income__c}
+                          </span> <!--{!ScCollection_Hardship__c.ScCollection_Total_income__c}-->
+                          <span class="submenu-indicator">+
+                          </span>
+                        </a> 
+                        <ul class="submenu">
+                          <fieldset >
+                            <legend>Income 
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">After Tax Wages (Borrower 1) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_After_Tax_Wages_Borrower_1__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">After Tax Wages (Borrower 2) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_After_Tax_Wages_Borrower_2__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">After Tax Wages (Borrower 3) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollectionAfter_Tax_Wages_Borrower_3__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">After Tax Wages (Borrower 4) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_After_Tax_Wages_Borrower_4__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                          </fieldset>
+                          <!-- Other Sources of Income -->
+                          <fieldset >
+                            <legend>Other Sources of Income
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Bonds ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Bonds__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Dividends ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Dividends__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Rent/Board ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Rent_Board__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other 1 (Please State) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Other_Please_State_1__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other 2 (Please State) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Other_Please_State_2__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other 3 (Please State) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Other_Please_State_3__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Unemployment Benefits ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Unemployment_Benefits__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                          </fieldset>
+                          <!-- Family Allowance  -->
+                          <fieldset >
+                            <legend>Family Allowance 
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Basic ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Basic__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Additional ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Additional__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Rent Assistance ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Rent_Assistance__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other 4 (Please State) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_OtherPleaseStatefamilyall_1__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other 5 (Please State) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_OtherPleaseStatefamilyall_2__c}" styleClass="form-control incomeDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                          </fieldset>
+                        </ul>
+                      </li>
+                      <li class="main-menu" style="margin-left:0px;">
+                        <a href="#" class="accordingStyle">Expenditure
+                          <span id="totalExpendituredisplay" style="float: right;margin-right: 30%;"> Total Monthly Expenditure : ($) {!ScCollection_Hardship__c.ScCollection_Total_Monthly_Expenditures__c}     
+                          </span> <!-- {!ScCollection_Hardship__c.ScCollection_Total_Expenses__c} -->
+                          <span class="submenu-indicator">+
+                          </span>
+                        </a> 
+                        <ul class="submenu">
+                          <fieldset >
+                            <legend>Expenditure 
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Mortgage  ( 1 ) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Mortgage_1__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Mortgage  ( 2 ) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Mortgage_2__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);"  onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Rent ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Rent__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false); " onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Credit Card  (1) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Credit_Card_1__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false); " onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Credit Card  (2 ) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Credit_Card_2__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Credit Card  (3) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Credit_Card_3__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Loan (1) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Loan_1__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Loan (2) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Loan_2__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                          </fieldset>
+                          <!-- Household/Living Costs-->
+                          <fieldset >
+                            <legend>Household/Living Costs
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Rates/Water ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Rates_Water__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Telephone/Internet ($)
+                              </label>
+                              <apex:inputField onfocus="positiveNumberValidation(this.id);"  value="{!ScCollection_Hardship__c.ScCollection_Telephone_Internet__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Mobile Phone ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Mobile_Phone__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Electricty/Gas ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Electricity_Gas__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Food ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Food__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Clothing ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Clothing__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Personal (Grooming etc) ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Personal_Grooming_etc__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Entertainment ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Entertainment__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Insurance ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Car_Insurance__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Presciptions ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Prescriptions__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                          </fieldset>
+                          <!-- Car Costs  -->
+                          <fieldset >
+                            <legend>Car Costs 
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Petrol ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Petrol__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Registration ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Registration__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Insurance ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Insurance__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Repairs ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Repairs__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Any Other Cost ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Any_Other_Cost__c}" styleClass="form-control expenditureDetails" onkeyup="calculateDifference(false);" onfocus="positiveNumberValidation(this.id);" />
+                            </div>
+                          </fieldset>
+                        </ul>
+                      </li>
+                      <li class="main-menu" style="margin-left:0px;">
+                        <a href="#" class="accordingStyle">Asset Details
+                          <span class="submenu-indicator">+
+                          </span>
+                        </a> 
+                        <ul class="submenu">
+                          <fieldset id="assetDetails">
+                            <legend>Assests 
+                            </legend>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Market Value of This Property ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Market_Value_ofThisProperty__c}" styleClass="form-control" onfocus="positiveNumberValidation(this.id);" onkeyup="assetInformationValidation();"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other Real Estate Owned ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Other_Real_Estate_Owned__c}" styleClass="form-control" onfocus="positiveNumberValidation(this.id);" onkeyup="assetInformationValidation();"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Motor Vehicles ($)
+                              </label>
+                              <apex:inputField value="{!ScCollection_Hardship__c.ScCollection_Motor_Vehicles__c}" styleClass="form-control" onfocus="positiveNumberValidation(this.id);" onkeyup="assetInformationValidation();"/>
+                            </div>
+                            <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="">
+                              <label class="outputlabel">Other Investments ($)
+                              </label>
+                              <apex:inputField onfocus="positiveNumberValidation(this.id);"  value="{!ScCollection_Hardship__c.ScCollection_Other_Investments__c}" styleClass="form-control" onkeyup="assetInformationValidation();"/>
+                            </div>
+                          </fieldset>
+                        </ul>
+                      </li>
+                      
+                     
+                    </ul>
+                  </div>
+                </div>  
+                
+                <!-- Income Details -->
+                <!-- Expenditure -->
+                <!-- Assests-->
+                <!-- Declaration Section -->
+                <section class="cstm-form clearfix">
+                  <fieldset style="background: #F5B7B1;">
+                    <legend>Declaration
+                    </legend>
+                    <div class="col-md-6 col-sm-6 iframe-sm-6 form-group" style="width:100%">
+                      <label class="outputlabel">{!$Label.ScCollection_Hardship_Declaration}
+                      </label>
+                    </div>
+                  </fieldset>
+                </section>
+                
+              <section class="cstm-form clearfix" style="text-align:center; margin-top:5px;">
+                  <a href="#" class="nav-login active center-block" onclick="ValidateSubmit();" style="display:{!If(hardshipedit || hardshipcreate,'block','none')}">
+                    <span>Submit
+                    </span>
+                  </a>
+                </section>
+              </aside>
+            </apex:outputPanel>
+          </apex:form>
+           <apex:outputPanel rendered="{!IF($CurrentPage.parameters.id != Null,true,false)}">
+                 <section class="cstm-form clearfix">
+                <fieldset>
+                  <legend>Audit History
+                </legend>
+                <table id="historytable" class="table table-striped table-bordered fontfortable" cellspacing="0" width="100%">
+                  <thead>
+                      <tr>
+                          <th>Modified By</th>
+                          <th>Modified Date</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <apex:repeat value="{!ScCollection_Hardship__c.Histories}" var="obj">
+                    
+                          <tr>
+                              <td>{!obj.createdby.name}</td>
+
+                              <td>
+                                <apex:outputText value="{0, date,  dd/MM/yyyy hh:mm:ss a}">
+                                <apex:param value="{!obj.createddate}" />
+                              </apex:outputText>
+                              </td>
+                              <apex:outputPanel rendered="{!IF(obj.Field == 'created',true,false)}"><td>{!IF(obj.Field == 'created' , 'Created Hardship', '' )}</td> </apex:outputPanel>
+
+                              <apex:outputPanel rendered="{!IF(obj.Field != 'created',true,false)}">
+
+                              <td>
+
+                                Changed <b>{!$ObjectType.ScCollection_Hardship__c.fields[obj.field].Label}</b>
+                                 from  
+                                {!IF(obj.oldvalue != Null,obj.oldvalue,'None')} 
+                                 to 
+                                 {!IF(obj.newvalue != Null,obj.newvalue,'None')} 
+
+                                 
+                                  <script>
+
+                                   var labelmonthlyincome = '{!$ObjectType.ScCollection_Hardship__c.fields[obj.field].Label}';
+                                   if(labelmonthlyincome == 'Total Monthly Income'){
+                                    
+                                    var trData  = '<tr>' ;
+                                    var td1     = '<td>';
+                                    td1         = td1 + '{!obj.createdby.name}';
+                                    td1         = td1 + '</td>';
+                                    var td2     = '<td>';
+                                    td2         = td2 + '<apex:outputText value="{0, date,  dd/MM/yyyy hh:mm:ss a}"><apex:param value="{!obj.createddate}" /> </apex:outputText>' ;
+                                    td2         = td2 + '</td>';
+                                    var  td3    = '<td>';
+                                    td3         = td3 + 'Changed <b>'
+                                    td3         = td3 + ' Total Weekly Income ';
+                                    td3         = td3 + '</b>';
+                                    td3         = td3 + ' from ';
+                                    var old     =   parseFloat('{!obj.oldvalue}') * (12/52) ;
+
+                                    td3         = td3 + old.toFixed(2) ;
+                                    td3         = td3 + ' to ';
+                                    var newval  = parseFloat('{!obj.newvalue}') * (12/52) ;
+                                    
+                                    td3         = td3 + newval.toFixed(2);
+                                    td3         = td3 + '</td>';
+                                    trData      = trData + td1 + td2 + td3 + '</tr>';
+
+                                    $('#historytable').append(trData);
+                                  }
+
+                                   
+                                 </script>
+                                
+
+                              </td> 
+
+
+                              </apex:outputPanel>
+                          </tr>
+                      </apex:repeat>
+                  </tbody>
+              </table>
+              </fieldset>
+              </section>
+              </apex:outputPanel>
+              
+        </div>
+      </section>
+    </body>
+  </html>
+
+  
+</apex:page>

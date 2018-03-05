@@ -1,0 +1,680 @@
+<apex:page controller="pepHardshipController" standardStylesheets="false" showHeader="false" docType="html-5.0" id="idPage" cache="{!$Label.Cache_Settings}" action="{!checkClosedLoan}">
+<script src="/soap/ajax/32.0/connection.js" type="text/javascript"></script>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pepper Hardship</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/> 
+   
+</head>
+
+<apex:outputPanel id="idscriptmain"> 
+
+
+
+<script>
+
+            var maxfiletoupload=5;
+            var filesuploaded=0;
+            var filesToUpload = [];
+            var tempFilesHolder =[]; 
+           
+            function uploadClick()
+            {       
+                var beforeErrorCounter=filesuploaded;
+                var selfile= $('[Id$=i_file]')[0].files;
+                
+                //alert('already uploaded inside upload function'+filesuploaded);
+                if(selfile.length+filesuploaded>5)
+                {
+                    alert('You cannot select more than 5 files');
+                    $('[Id$=i_file]').val('');
+                    
+                    return false;
+                }
+                
+                    
+                if(window.File && window.FileReader && window.FileList && window.Blob)
+                {       
+                    var fsize = $('[Id$=i_file]')[0].files;
+                    var checker=false;
+                    var temp;
+                    for(i=0;i<fsize.length;i++)
+                    {
+                     var filetype= $('[Id$=i_file]')[0].files[i].type;
+                     if(filetype =='image/jpeg' || filetype=='application/pdf'){
+                     }
+                     else{
+                       alert('File can either be jpeg or pdf');
+                       $('[Id$=i_file]').val(''); 
+                       return false;
+                     }                   
+                   }
+                   for(t=0;t<fsize.length;t++)
+                    {
+                     var filesize= $('[Id$=i_file]')[0].files[t].size;
+                     if(filesize >= 5242880){
+                     alert('File size must be less than 5 MB.');
+                     $('[Id$=i_file]').val(''); 
+                     return false;
+                     }
+                                       
+                   }
+                    
+                    for(i=0;i<fsize.length;i++)
+                    {
+                        
+                            var filetypefinal= $('[Id$=i_file]')[0].files[i].type;
+                            filesuploaded+=1;
+                            var tempcheck=filesuploaded-1;
+                            var stylename='Attachmentname';
+                            var liststyle='Attachmentname1';
+                            liststyle=liststyle+tempcheck;                        
+                            stylename= stylename+tempcheck;
+                            
+                            if(filetypefinal=='image/jpeg')
+                            $('.'+liststyle).addClass('attachment');
+                            
+                            if(filetypefinal=='application/pdf')
+                            $('.'+liststyle).addClass('doc');
+                            
+                            $('.'+stylename).text($('[Id$=i_file]')[0].files[i].name);
+                            
+                           
+                            $('.'+liststyle).css('display','block');
+                                
+                            filesToUpload.push($('[Id$=i_file]')[0].files[i]);
+                            if(i==fsize.length-1)
+                            $('[Id$=i_file]').val('');
+                        }
+                }
+                             
+                               
+   }
+
+           
+
+      
+    function callfun(IdloanContract)
+             {
+                
+                 $('[Id$=IdinputHidden]').val(IdloanContract);               
+                 callActionfunc(IdloanContract);
+             }
+             
+    
+     function displayerrormessage()
+     {
+         if(document.getElementById('idPage:idForm:idBestTime').value == 'Best time to call me')
+         {
+             var $this = $(document.getElementById('idPage:idForm:idBestTime'));
+             $this.siblings('.errorMsg').show();
+             return false;
+         }
+         
+         else
+         {
+             var $this = $(document.getElementById('idPage:idForm:idBestTime'));
+             $this.siblings('.errorMsg').hide();
+             return true;
+         }
+     }
+     
+     function displayerrormessage1()
+     {
+         
+         if(document.getElementById('idPage:idForm:idHardshipReason').value == 'Reason for hardship')
+         {
+             var $this = $(document.getElementById('idPage:idForm:idHardshipReason'));
+             $this.siblings('.errorMsg').show();
+             return false;
+         }
+         
+         else
+         {
+             var $this = $(document.getElementById('idPage:idForm:idHardshipReason'));
+             $this.siblings('.errorMsg').hide();
+             return true;
+         }
+     }
+     
+     function displayerrormessage2()
+     {
+         
+         if(document.getElementById('idPage:idForm:idType').value == 'Type of assistance requested')
+         {
+             var $this = $(document.getElementById('idPage:idForm:idType'));
+             $this.siblings('.errorMsg').show();
+             return false;
+         }
+         
+         else
+         {
+             var $this = $(document.getElementById('idPage:idForm:idType'));
+             $this.siblings('.errorMsg').hide();
+             return true;
+         }
+     }
+     
+     function displayerrormessage3()
+     {
+         
+         if(document.getElementById('idPage:idForm:idAssistance').value == 'Length of time needed for assistance')
+         {
+             var $this = $(document.getElementById('idPage:idForm:idAssistance'));
+             $this.siblings('.errorMsg').show();
+             return false;
+         }
+         
+         else
+         {
+             var $this = $(document.getElementById('idPage:idForm:idAssistance'));
+             $this.siblings('.errorMsg').hide();
+             return true;
+         }
+                  
+     }
+     
+    function checkallerrormessages()
+    {
+        var booleanvar = false;
+        
+        if(document.getElementById('idPage:idForm:idAssistance').value == 'Length of time needed for assistance')
+        {
+            var $this = $(document.getElementById('idPage:idForm:idAssistance'));
+            $this.siblings('.errorMsg').show();
+            booleanvar = true;
+        }
+        
+        if(document.getElementById('idPage:idForm:idType').value == 'Type of assistance requested')
+        {
+            var $this = $(document.getElementById('idPage:idForm:idType'));
+            $this.siblings('.errorMsg').show();
+            booleanvar = true;
+        }
+        
+        if(document.getElementById('idPage:idForm:idHardshipReason').value == 'Reason for hardship')
+        {
+            var $this = $(document.getElementById('idPage:idForm:idHardshipReason'));
+            $this.siblings('.errorMsg').show();
+            booleanvar = true;
+        }
+        
+        if(document.getElementById('idPage:idForm:idBestTime').value == 'Best time to call me')
+        {
+            var $this = $(document.getElementById('idPage:idForm:idBestTime'));
+            $this.siblings('.errorMsg').show();
+            booleanvar = true;
+        }
+        
+        if(booleanvar == true)
+        {
+            return false;
+        }
+        
+        else if (booleanvar == false)
+        {
+           callactionfunction();
+        }
+  
+    }
+     
+</script>
+</apex:outputPanel>
+
+<apex:outputPanel id="idInsertatt">
+
+<script>    
+function insertattachements()
+{
+                                              
+                        
+                sforce.connection.sessionId = '{!$Api.Session_ID}';   
+                    
+                if(window.File && window.FileReader && window.FileList && window.Blob)
+                {                   
+                    var checker=false;                   
+                    var tempcount=0;
+                    var cid = '{!caseid}';
+                   
+                  
+                    for(var i = 0, f; f = filesToUpload[i]; i++)
+                    {
+                        //alert(f);
+                        var reader = new FileReader();
+                       
+                        // Keep a reference to the File in the FileReader so it can be accessed in callbacks
+                        reader.file = f;
+    
+                    reader.onload = function(e)
+                    {
+                        var att = new sforce.SObject("Attachment");
+                        att.Name = this.file.name;
+                        att.ContentType = this.file.type;
+                        
+                        att.ParentId = '{!caseid}';
+    
+                        var binary = "";
+                        var bytes = new Uint8Array(e.target.result);
+                        var length = bytes.byteLength;
+    
+                        for (var i = 0; i < length; i++)
+                        {
+                            binary += String.fromCharCode(bytes[i]);
+                        }
+    
+                        att.Body = (new sforce.Base64Binary(binary)).toString();
+                        sforce.connection.create([att],
+                    {
+                        onSuccess : function(result, source)
+                        {
+                            if (result[0].getBoolean("success"))
+                            {
+                                console.log("new attachment created with id " + result[0].id);
+                            }
+                            else
+                            {
+                                console.log("failed to create attachment " + result[0]);
+                            }
+                        },
+                        onFailure : function(error, source)
+                        {
+                            console.log("an error has occurred " + error);
+                        }
+                    });
+                       
+                    };
+    
+                    reader.readAsArrayBuffer(f);
+                        
+                    }
+                           
+                             return false;
+                               
+                   }
+                        else
+                        {
+                            alert("Please upgrade your browser, because your current browser lacks some new features we need!");
+                            return false;
+                        }
+                
+    
+            }
+          </script>
+</apex:outputPanel>
+
+<body>
+<apex:form id="idForm">
+<apex:actionfunction name="callactionfunction" action="{!saveenquiry}" oncomplete="insertattachements();$('#pepperModal_errorpopup').modal();" rerender="idInsertatt"/>
+<apex:actionFunction action="{!upload}" name="UploadDocument" status="counterStatus"/>
+                <apex:actionStatus id="counterStatus" startStyleClass="spinner"/> 
+<apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+         <apex:actionFunction name="callActionfunc"  action="{!updateAccount}" reRender="none">
+           <apex:param name="loanContractid" value="" />
+           
+         </apex:actionFunction>
+         
+         <apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none"  >
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction>
+<div class="pepperCustomFluid">
+<div class="offsetBlkHeight"></div>
+    <div class="offsetBlk">
+      <div class="containerFluid">
+          <c:pepDashboardHeaderCompnent ></c:pepDashboardHeaderCompnent>
+      </div>
+     </div>
+ 
+<div class="containerFluid posRel dashBoard">
+    <div class="page-row">
+        <div class="catBlk">
+                        <div class="page-row">
+                        <div class="mainCat">
+                    <ul>
+                        <apex:outputPanel rendered="{!if( lstLeftSideBarSections.size > 0,true,false)}">
+                                
+                          <li class="{!if(step ==-1 ,'mainCat_home active','mainCat_home')}"><a href="javascript:void(0)" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                    <li class="mainCat_money more"><a href="#">Loans</a>
+                                    <ul>
+                                       <apex:repeat value="{!sideBarList}" var="loan">
+                                         
+                                            <apex:outputPanel rendered="{!IF(loan.loanId == loanaccountid,true,false)}">
+                                            <li class="mainCat_money active"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!IF(loan.loanId != loanaccountid,true,false)}">
+                                            <li class="mainCat_money"  >
+                                            
+                                            
+                                            <a href=""  onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                           
+                                            </li>
+                                            
+                                            </apex:outputPanel>
+                                            
+                                          
+                                        </apex:repeat>
+                                    </ul>
+                                </li>
+                                
+                                <apex:repeat value="{!lstLeftSideBarSections}" var="sidebar">
+                                    <apex:outputPanel rendered="{!if(sidebar.pepHeader__c=='Refer-a-friend',true,false)}">
+                                        <li class="{!if(step ==-2 ,' mainCat_share active','mainCat_share')}"><a href="javascript:void(0)" onclick="passPageName('pepreferafriend');">Refer-a-friend</a></li>
+                                    </apex:outputpanel>
+                                </apex:repeat>
+                                
+                                <li class="{!if(step ==-4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="javascript:void(0)" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                                <li class="{!if(step ==-3 ,'mainCat_profile active','mainCat_profile')}"><a href="javascript:void(0)" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                                <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp"  rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+                            </apex:outputPanel>
+
+                    </ul>
+                </div>
+                        </div>
+                    </div>
+       
+     
+        <div class="contentCat">                
+            <div class="loanCont">
+                <div class="page-row">
+                    <div class="dashboard_lhs dashboard_hardship">
+                        
+                            <div class="myLoan" >
+                                <div class="loanHead" >
+                                    <h1><center><span><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 1"></c:pepcmscomponent_Text></span></center></h1>
+                                        <apex:image url="{!URLFOR($Resource.ResourceZip, 'assets/common/images/pepperChat.png')}"/>
+                                    
+                                    <p class="headerPara"><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 2"></c:pepcmscomponent_Text></p>
+                                </div>  
+
+                    <div class="page-form paymentHoliday">
+                            
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                    
+                                    <div class="loanTxtOuter">
+                                        <div class="loanTxtHead">
+                                                <h3><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 3"></c:pepcmscomponent_Text></h3>
+                                        </div>  
+
+                                        <p><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 4"></c:pepcmscomponent_Text></p>
+
+                                        <ul class="hardshipList">
+                                            <li><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 5"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 6"></c:pepcmscomponent_Text></li>
+                                            <li><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 7"></c:pepcmscomponent_Text></li>
+                                        </ul>
+                                        <p class="attachPDF">
+                                            <c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 8"></c:pepcmscomponent_Text>
+                                        </p>
+                                        <p><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 9"></c:pepcmscomponent_Text></p>
+
+                                        <hr />  
+
+                                        <div class="loanTxtHead">   
+                                            <h3><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 10"></c:pepcmscomponent_Text></h3> 
+                                        </div>
+                                        <p>
+                                            <c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 11"></c:pepcmscomponent_Text>
+                                        </p>
+                                        <p class="attachPDF">
+                                            <c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 12"></c:pepcmscomponent_Text>
+                                        </p>
+                                        <br/>
+                                        <p>
+                                            <c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 13"></c:pepcmscomponent_Text>
+                                        </p>
+                                        <p class="attachPDF">
+                                            <c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 14"></c:pepcmscomponent_Text>
+                                        </p>
+                                    </div>
+                                        <div class="form-elements">                                             
+                                            <div class="form-section innerForm">    
+                                                <div class="form-elements">                                                     
+                                                    <p class="text-center frmsubheading"><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 15"></c:pepcmscomponent_Text></p>
+                                                    <p><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 16"></c:pepcmscomponent_Text></p>
+                                                    <hr />
+                                                    <div class="text-center">
+                                                        <p><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 17"></c:pepcmscomponent_Text></p>
+                                                        <p class="contactNo"><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 18"></c:pepcmscomponent_Text></p>
+                                                        <p><span><apex:outputtext value="{!strsectionstory}" escape="false"/></span></p>
+                                                        <p>
+                                                            <c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 20"></c:pepcmscomponent_Text>
+                                                            <a href="mailto:{!strSectionStoryEmail}" target="_top">{!strSectionStoryEmail}</a></p>
+                                                        <hr/>
+                                                    </div>
+                                                    <div>   
+                                                        <p><c:pepcmscomponent_Text pageNameTest="Hardship" sectionName="Hardship Section 21"></c:pepcmscomponent_Text></p>                                                       
+                                                        <div class="page-row">
+                                                            <div class="form-dcntrls-lg">                                                           
+                                                                    <apex:selectList value="{!selectedBestTime}" multiselect="false" size="1" onblur="displayerrormessage();" id="idBestTime"> 
+                                                                        <apex:selectOptions value="{!lstBestTimeOptions}"/>                                      
+                                                                    </apex:selectList>
+                                                                    
+                                                                            <span class="errorMsg" >{!$Label.Best_time_to_call_Hardship}</span>
+                                                                   
+                                                            </div>
+                                                        </div>
+                                                        <div class="page-row">
+                                                            <div class="form-dcntrls-lg">                                                           
+                                                                    <apex:selectList value="{!selectedHardshipReason}" multiselect="false" size="1" id="idHardshipReason" onblur="displayerrormessage1();"> 
+                                                                        <apex:selectOptions value="{!lstHardshipReasonOptions}" />                                      
+                                                                    </apex:selectList>                                                                    
+                                                                            <span class="errorMsg">{!$Label.Hardship_Reason_for_hardship}</span>
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                        <div class="page-row">
+                                                            <div class="form-dcntrls-lg">                                                           
+                                                                    <apex:selectList value="{!selectedtype}" multiselect="false" size="1" id="idType" onblur="displayerrormessage2();"> 
+                                                                        <apex:selectOptions value="{!lstTypeOptions}" />                                      
+                                                                    </apex:selectList>
+                                                                    
+                                                                            <span class="errorMsg" >{!$Label.Hardship_Type_of_assistance}</span>
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                        <div class="page-row">
+                                                            <div class="form-dcntrls-lg">                                                           
+                                                                    <apex:selectList value="{!selectedassistance}" multiselect="false" size="1" id="idAssistance" onblur="displayerrormessage3();"> 
+                                                                        <apex:selectOptions value="{!lstassistanceOptions}" />                                      
+                                                                    </apex:selectList>
+                                                                    
+                                                                            <span class="errorMsg">{!$Label.Hardship_Length_of_assistance}</span>
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                  
+                                                    <div class="hardship_fileupload">
+                                                        <p>Please upload your document. It can either be PDF or jpeg.</p>
+                                                        <p class="text-center"><a  class="button secondaryBtn wAuto" data-toggle="modal" data-target="#chooseFile" style="text-decoration:none;" >Choose File
+                                                        
+                                                        </a>
+                                                                                                      </p>
+                                                        <p>
+                                                            <ul class="uploaded_files">
+                                                                <apex:variable value="{!0}" var="s"/>
+                                                                <apex:repeat value="{!templist}">
+                                                               
+                                                                    <li class="Attachmentname1{!s} " style="display:none;" ><apex:outputText styleClass="Attachmentname{!s}"></apex:outputText><span class="right fa fa-times-circle" onclick="removefile('{!s}');"></span></li>
+                                                                
+                                                                <apex:variable value="{!s+1}" var="s"/>
+                                                                 </apex:repeat>   
+                                                            </ul>
+                                                        </p>
+                                                        <apex:outputPanel id="IdOutputPanel">
+                                                            <div id="chooseFile" class="modal fade"  tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                                                                <div class="modal-dialog" role="document" >
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-body">
+                                                                            <p>Please upload your documents. They can be either jpeg or pdf. </p>
+                                                                            <p class="text-center">
+                                                                                
+                                                                                <a class="button secondaryBtn wAuto" id="hardship_file_btn" onclick="$('[Id$=i_file]').trigger('click');" style="text-decoration:none;">Choose file</a>
+                                                                                <!--<apex:inputFile value="{!objAttachment.body}"  fileName="{!objAttachment.name}" contentType="{!objAttachment.contentType}"  id="inptFileUpload" accept="image/*"  style="position: absolute; left:-1000px" onchange="UploadDocument();"> </apex:inputFile>-->
+                                                                                <input id="i_file" type="file" multiple="true" style="display:none;" accept="image/jpeg,application/pdf"/>
+    
+                                                                                                                                                            
+                                                                            </p>
+                                                                            <p id="hardship_file_name"></p>
+                                                                            <div class="text-center">
+                                                                                <button class="button secondaryBtn wAuto" onclick="$('[Id$=i_file]').val('');" data-dismiss="modal">Cancel</button>
+                                                                                
+                                                                                <apex:outputLink html-data-dismiss="modal" styleClass="button primaryBtn wAuto" style="text-decoration:none;" onclick="return uploadClick();">Upload
+                                                                                
+                                                                                </apex:outputLink>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            </apex:outputpanel>
+                                                        </div>
+                                                    
+                                                    <div class="text-right">
+                                                   
+                                                    <input type="button" value="Call me back" id="IdSaveEnquiry" Class="button primaryBtn wAuto" onclick="checkallerrormessages();"  />
+
+                                                    
+                                                    </div>                                     
+                                                    </div>                                                  
+                                                </div>
+                                                <br/>
+                                                <br/>
+                                                <div class="text-center"><apex:commandButton value="Back to home" id="IdBack" action="{!Cancel}" styleClass="button secondaryBtn wAuto"/></div>
+                                            </div>
+                            </div>  
+                        </div>
+                         
+                    </div>
+                    <p class="pepperTnC">
+                            <c:pepTermsConditionFooter />
+                          </p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+</div>
+
+<apex:outputPanel id="rerenderMsg">
+     <div id="pepperModal_errorpopup" class="modal fade pepperModal_error" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body">
+        <div class="page-row">
+            <div class="modalContent">
+                <p>Someone from pepper will contact you shortly.</p>
+            </div>              
+        </div>
+        <div class="page-row">
+            <apex:commandButton id="idOK" action="{!Cancel}" value="OK" styleClass="button secondaryBtn modalOK"/>
+            <!--<button class="button secondaryBtn modalOK">OK</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</apex:outputPanel>
+
+<script>    
+        function passPageName(APIPageName)
+          {
+               var i=APIPageName;
+               var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+               window.location.href = $mapParentChildren[APIPageName];
+          }    
+          </script>
+        
+      <apex:outputpanel id="temporary">
+            </apex:outputpanel>
+
+    
+    
+</apex:form>
+
+
+    
+    
+    
+    
+    <apex:outputPanel id="rerenderModal">
+           <script>
+           function removefile(index){
+           $('[Id$=i_file]').val('');
+           //alert(filesuploaded);
+           var toremove='Attachmentname'+index;
+           var listlevel='Attachmentname1'+index;
+           var remobeFilename=$('.'+toremove).text();
+           //alert('toremove' +toremove);
+           //alert('remobeFilename' +remobeFilename);
+           for(var h = 0, k; k= filesToUpload[h]; h++){
+           if(filesToUpload[h].name==remobeFilename){
+           
+           
+           filesToUpload.splice(h,1);
+           filesuploaded-=1;
+           //alert('files uploaded after splice'+filesToUpload);
+           $('.'+listlevel).css('display','none');
+           break;
+           }
+           }
+          
+           for(var num=0;num<5;num++){
+           var liststyle='Attachmentname1';
+           $('.'+liststyle+num).css('display','none');
+           }
+           
+           for(var ex=0,lastfile;lastfile=filesToUpload[ex];ex++){
+                          //alert('===='+filesToUpload.length);
+                           //alert('@@@'+filesToUpload[ex].name);
+                               var stylename='Attachmentname';
+                            var liststyle='Attachmentname1';
+                            liststyle=liststyle+ex;                        
+                            stylename= stylename+ex;
+
+                            
+                            if(filesToUpload[ex].type=='image/jpeg')
+                            $('.'+liststyle).addClass('attachment');
+                            
+                            if(filesToUpload[ex].type=='application/pdf')
+                            $('.'+liststyle).addClass('doc');
+                            
+                            $('.'+stylename).text(filesToUpload[ex].name);
+                            
+                           
+                            $('.'+liststyle).css('display','block');
+                                           //alert('===='+filesToUpload.length);
+           
+           }
+     }
+           </script>
+   </apex:outputPanel>
+</body>
+</html>
+<script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+</apex:page>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Maps the Application Status&apos;s&apos; from Next Gen to the equivalent Opty Stage, with a Flag to configure if this Status record should be shown under the Opty</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Application_Status__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>The Status values received from NextGen Application data</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Application Status</label>
+        <length>100</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>B2B_Oppty_Stage_Name__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>B2B Oppty Stage Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunity_Stage_Name__c</fullName>
+        <description>The Opportunity Stage that will be set when the corresponding Application Status is inserted into Pepper_Data__c.  Blank means NO update.</description>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Opportunity Stage Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <description>Determines the order of precedence for Intra-Day updates - only the highest Order should update the Opty.</description>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <precision>4</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>ShowRelatedToOpty__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>When the Application Id is set on the Opportunity Record, Application Status&apos;s are related to said Opty where this Flag = True</description>
+        <externalId>false</externalId>
+        <label>ShowRelatedToOpty</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>ApplicationStatusToOptyMapping</label>
+    <visibility>Public</visibility>
+</CustomObject>

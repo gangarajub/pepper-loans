@@ -1,0 +1,32 @@
+<apex:page controller="GenerateReportController" id="seedDataPage" docType="html-5.0">
+  <apex:sectionHeader title="Reports" />
+    
+        <apex:form >
+            <apex:pageBlock mode="edit" id="generateReport">
+                
+                   <apex:pageMessages />
+                   <div>
+                   <apex:pageBlockSection title="Select report to run:" columns="1">
+                   <apex:pageBlockSectionItem >
+                       <br></br><apex:selectList value="{!selectedReport}" multiselect="false" size="1" required="true">
+                           <apex:selectOptions value="{!reportOptions}"/>
+                       </apex:selectList>
+                   </apex:pageblockSectionItem>
+                   
+                       <apex:input label="Start Date" value="{!startDate}" type="date" required="true"/>
+                       <apex:input label="End Date" value="{!endDate}" type="date" required="true"/>
+                   
+                   
+                   </apex:pageBlockSection>
+                   <apex:pageBlockButtons location="bottom">
+                   
+                       <br></br><apex:commandButton value="Generate Report" action="{!generateReport}"/><br></br> <br></br>
+                  
+                   
+                </apex:pageBlockButtons>
+                 </div>
+                
+            </apex:pageBlock>
+        </apex:form>
+                   
+</apex:page>

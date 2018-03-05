@@ -1,0 +1,505 @@
+<apex:page StandardController="Party__c"  extensions="CRMFindDuplicate" action="{!onload}" id="page" showHeader="{!isDesktopView}" standardStylesheets="{!isDesktopView}">
+ <apex:outputPanel rendered="{!theme == 'Theme3'|| theme == 'Theme4d'}" >
+  <script src="{!URLFOR($Resource.CRMJquery, 'resource/jquery-3.1.1.js')}"> </script>
+
+      <script>
+          $(document).on("change", 'input[type="checkbox"]', function(){
+    
+            var currentElement = $(this);
+            
+            if(currentElement.prop("checked"))
+            {
+                //alert('inside checked');
+                $(this).closest("div.pbSubsection").find("input[type='checkbox']").each(function(){
+                
+                $(this).prop('checked', false);
+                
+                console.log($(this));
+                //alert($(this).prop('checked'));
+                        
+                });
+                currentElement.prop('checked', true);
+                console.log(currentElement);
+            }
+            
+        });
+      
+      </script>  
+  <div class="container">  
+  
+  <apex:sectionheader title="Find Duplicate" id="outersection"/>
+    <apex:form id="formid">
+    <apex:pageBlock id="pageblockbuttonid">
+        <apex:pageblockbuttons >
+                    <apex:commandbutton value="Proceed" action="{!UpdateParty}" rerender="errormessages" />
+                    <apex:commandbutton value="Cancel" action="{!Cancel}"/>
+          </apex:pageblockbuttons>
+    
+    <apex:pageMessages id="errormessages"/>
+    
+    <apex:repeat value="{!lstBorrower}" var="lstborr" id="repeatid" >
+    <div class="customsection">
+      <apex:pageblock id="outerpageblockid" >
+      
+          
+      
+      
+          <apex:outputpanel id="outputpanelid" >
+          
+              <apex:pageblocksection title="{!lstborr.Type} - {!lstborr.Name}" showheader="true" columns="2" id="coborrid" >
+                    <apex:outputLabel value="Name" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Name}" style="margin-left: 10px;"/></apex:outputLabel>
+                     <apex:outputLabel value="Email" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Email}" style="margin-left: 10px;"/></apex:outputLabel>
+                     <apex:outputLabel value="Company" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Company}" style="margin-left: 10px;"/></apex:outputLabel>
+                     <apex:outputLabel value="Phone" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Phone}" style="margin-left: 10px;"/></apex:outputLabel>
+      
+             </apex:pageblocksection>      
+             
+               <apex:pageblocksection title="Matching Person Accounts" showheader="true" collapsible="true" columns="1" id="matperaccid" rendered="{!if((lstBorr.Type=='Co Borrower' && isBlank(lstBorr.Company) && lstBorr.lstMatchingRecord.Size>0),true,false)}">
+                    <apex:outputLabel value="Create New Person Account" style="font-weight: bold;"><apex:inputCheckbox value="{!lstBorr.CreateNewPerson}" id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+                     <apex:pageBlockTable align="center" value="{!lstBorr.lstMatchingRecord}" var="lstMatchingAccount" id="tableid">
+                      <apex:column headerValue="Select Account">
+                        <apex:inputCheckbox value="{!lstMatchingAccount.check}" id="personcheckid"/> 
+                  
+                      </apex:column>  
+                      <apex:column headerValue="Name">
+                        <apex:outputText value="{!lstMatchingAccount.Name}"/>
+                      </apex:column> 
+                      <apex:column headerValue="Email">
+                        <apex:outputText value="{!lstMatchingAccount.Email}"/>
+                      </apex:column>  
+                      <apex:column headerValue="Phone">
+                        <apex:outputText value="{!lstMatchingAccount.Phone}"/>
+                      </apex:column>
+                                            
+                      </apex:pageBlockTable>
+                 
+                  </apex:pageblocksection>
+                  
+              <apex:pageblocksection title="No Matching Person Accounts" showheader="true" collapsible="true" columns="1" id="matperaccid1" rendered="{!if((lstBorr.Type=='Co Borrower' && isBlank(lstBorr.Company) && lstBorr.lstMatchingRecord.Size==0),true,false)}">    
+                   <apex:outputLabel value="Create New Person Account" style="font-weight: bold;"><apex:inputCheckbox value="{!ifNoMatch }" onclick="return false;" id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+              </apex:pageblocksection>   
+                     
+               <apex:pageblocksection title="Matching Contacts" showheader="true" collapsible="true" columns="1" id="matconid" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingContactRecord.Size>0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingContactRecord.size>0)),true,false)}">
+                    <apex:outputLabel value="Create New Contact" style="font-weight: bold;"><apex:inputCheckbox value="{!lstBorr.CreateNewContact}" id="newconid" style="margin-left: 10px;" /></apex:outputLabel>
+                     <apex:pageBlockTable align="center" value="{!lstBorr.lstMatchingContactRecord}" var="lstMatchingContact" id="contableid">
+                      <apex:column headerValue="Select Contact">
+                        <apex:inputCheckbox value="{!lstMatchingContact.check}" id="concheckid"/> 
+                  
+                      </apex:column>  
+                      <apex:column headerValue="Name">
+                        <apex:outputText value="{!lstMatchingContact.Name}"/>
+                      </apex:column> 
+                      <apex:column headerValue="Email">
+                        <apex:outputText value="{!lstMatchingContact.Email}"/>
+                      </apex:column>  
+                      <apex:column headerValue="Phone">
+                        <apex:outputText value="{!lstMatchingContact.Phone}"/>
+                      </apex:column>
+                                            
+                      </apex:pageBlockTable>
+                 
+                  </apex:pageblocksection>
+              <apex:pageblocksection title="No Matching Contacts" showheader="true" collapsible="true" columns="1" id="notmatchContact" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingContactRecord.Size==0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingContactRecord.size==0)),true,false)}">    
+                   <apex:outputLabel value="Create New Contact" style="font-weight: bold;"><apex:inputCheckbox value="{!ifNoMatch }" onclick="return false;" id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+              </apex:pageblocksection>  
+                       
+               <apex:pageblocksection title="Matching Business Accounts" showheader="true" collapsible="true" columns="1" id="mataccid" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingBusinessRecord.size>0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingBusinessRecord.size>0)),true,false)}">
+                    
+                    <apex:outputLabel value="Create New Account" style="font-weight: bold;"><apex:inputCheckbox value="{!lstBorr.CreateNewAccount}" id="newaccid" style="margin-left: 10px;"  />
+                       
+                    </apex:outputLabel>
+                
+                     <apex:pageBlockTable align="center" value="{!lstBorr.lstMatchingBusinessRecord}" var="lstMatchingBussAccount" >
+                      <apex:column headerValue="Select Account">
+                        <apex:inputCheckbox value="{!lstMatchingBussAccount.check}" id="acccheckid"/>
+                      </apex:column>  
+                      <apex:column headerValue="Company">
+                        <apex:outputText value="{!lstMatchingBussAccount.Name}"/>
+                      </apex:column> 
+                      <apex:column headerValue="Contact Name"  rendered="{!if((lstBorr.company == null),True,False)}">
+                        <apex:outputText value="{!lstMatchingBussAccount.ContactName}" />
+                      </apex:column>  
+                                                                 
+                      </apex:pageBlockTable>
+                 
+                  </apex:pageblocksection>           
+              <apex:pageblocksection title="No Matching Business Accounts" showheader="true" collapsible="true" columns="1" id="notmatchAccount" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingBusinessRecord.size==0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingBusinessRecord.size==0)),true,false)}">    
+                   <apex:outputLabel value="Create New Business Account" style="font-weight: bold;"><apex:inputCheckbox value="{!ifNoMatch }" onclick="return false;" id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+              </apex:pageblocksection>
+              
+          
+          
+          </apex:outputpanel>
+      
+      </apex:pageblock>
+      </div>
+      </apex:repeat>
+      
+      </apex:pageBlock>
+    </apex:form>
+    </div>
+ </apex:outputPanel>
+    
+<apex:outputPanel rendered="{!theme == 'Theme4t'}">
+        
+  
+  
+  <script src="{!URLFOR($Resource.CRMJquery, 'resource/jquery-3.1.1.js')}"> </script>
+  <apex:stylesheet value="{!URLFOR($Resource.CRMBootstrap, 'Bootstrap/css/bootstrap.min.css')}" />
+  <apex:includeScript value="{!URLFOR($Resource.CRMBootstrap, 'Bootstrap/js/bootstrap.min.js')}" /> 
+  <apex:includeScript value="{!URLFOR($Resource.CRMBootstrap, 'Bootstrap/js/jquery.min.js')}" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+ 
+  <script>
+      $("document").ready(function(){
+      $("table").addClass("table table-striped");
+      $(".pbSubsection").addClass("table-responsive");
+      });
+  </script>
+  
+  <style>
+        body
+        {
+            background-color: #f6f6f6;
+        }
+        .customsection
+        {
+            border:1px #d8dde6 solid;
+            margin-bottom:10px;
+            padding:8px;
+            background-color: #fff;
+        }
+        
+        td.messageCell{
+        padding-left: 70px;
+        text-transform:capitalize;
+        width:100%;
+        }
+        td.messageCell h4{
+        position:relative;
+        }
+        td.messageCell h4:before{
+        content: "\e107";
+        font-family: 'Glyphicons Halflings';
+        font-size:2em;
+        padding-right:5px;
+        position:absolute;
+        left:-50px;
+        top:0px;
+        vertical-align: middle;
+        -webkit-transform:translateY(30%);
+        -moz-transform:translateY(30%);
+        transform:translateY(30%);
+        }
+         .errorM3 table tr{background-color:#eee!important;}
+         .errorM3 table tr:last-child{display:none;}
+        .table-striped>tbody>tr{
+        background-color:#ffffff;
+        }
+
+@media (min-width: 1024px){
+        td.messageCell{
+            padding-left: 70px;
+        }
+            td.messageCell span{
+        display: -webkit-inline-box;
+        display: -moz-inline-box;
+        display: inline-box;
+    }
+        td.messageCell h4:before{
+            position:relative;
+        }
+      
+        td.messageCell h4:before{
+            left:-20px;
+            vertical-align: middle;
+            -webkit-transform:translateY(10%);
+            -moz-transform:translateY(10%);
+            transform:translateY(10%);
+        }  
+        
+}
+  .table-striped>tbody>tr:nth-of-type(odd){
+  background-color:#f4f6f9;
+ 
+  }
+
+    .table-striped>tbody>tr{
+    border:1px #d8dde6 solid;
+    }
+      .table tr td{
+      border-bottom:1px #d8dde6 solid;
+      border-color:#d8dde6;
+      }
+      .table>thead>tr>th{
+      border-color:#d8dde6;
+      border-width:1px;
+      }
+
+        .pbHeader table,
+        .pbBottomButtons table{
+        text-align:center;
+        }
+        .pbHeader table tr td,
+        .pbBottomButtons table tr td{
+         border:none;
+        }
+        .pbHeader table tr,
+        .pbBottomButtons table tr{
+        border:none; 
+        background-color:transparent!important;
+        }
+        
+        .pbHeader table tr td:first-child,
+        .pbBottomButtons table tr td:first-child{
+        display:none;
+        }
+        .headerRow .TableTitle {
+            background-color : #A9A9A9 !important;
+            color: #000000 !important;
+            height: 10px;
+        font-size: 15px !important;
+   
+        }
+        .btn{margin-right:5px;}
+        
+        
+        
+        
+        /*******Responsive Table *******/
+        @media only screen and (max-width: 800px) {
+            
+           
+         #no-more-tables table, 
+         #no-more-tables thead, 
+         #no-more-tables tbody, 
+         #no-more-tables th, 
+         #no-more-tables td, 
+         #no-more-tables tr { 
+          display: block; 
+         }
+         
+         
+         #no-more-tables thead tr { 
+          position: absolute;
+          top: -9999px;
+          left: -9999px;
+         }
+         
+         #no-more-tables tr { border: 1px solid #ccc; }
+         
+         #no-more-tables td { 
+         
+          border: none;
+          border-bottom: 1px solid #eee; 
+          position: relative;
+          padding-left: 50%; 
+          white-space: normal;
+          text-align:left;
+          word-wrap: break-word;
+         }
+         
+         #no-more-tables td:before { 
+        
+          position: absolute;
+          top: 6px;
+          left: 6px;
+          width: 45%; 
+          padding-right: 10px; 
+          white-space: nowrap;
+          text-align:left;
+          font-weight: bold;
+         }
+         
+         
+         #no-more-tables td:before { content: attr(data-title); }
+        }
+        
+        
+        
+        
+        /***********************Responsive Table close here***********************/
+                
+                
+        
+    </style>   
+ 
+      <script>
+          $(document).on("change", 'input[type="checkbox"]', function(){
+    
+            var currentElement = $(this);
+            
+            if(currentElement.prop("checked"))
+            {
+                //alert('inside checked');
+                $(this).closest("div.pbSubsection").find("input[type='checkbox']").each(function(){
+                
+                $(this).prop('checked', false);
+                
+                console.log($(this));
+                //alert($(this).prop('checked'));
+                        
+                });
+                currentElement.prop('checked', true);
+                console.log(currentElement);
+            }
+            
+        });
+      
+      </script>  
+  <div class="container">  
+  
+  <apex:sectionheader title="Find Duplicate" id="outersectionMmobile"/>
+        <apex:form id="formidMobile">
+            <apex:pageBlock id="pageblockbuttonidMobile">
+                <apex:pageblockbuttons >
+                            <apex:commandbutton value="Update" action="{!UpdateParty}" rerender="errormessagesMobile" />
+                            <apex:commandbutton value="Cancel" action="{!Cancel}"/>
+                  </apex:pageblockbuttons>
+            
+            <apex:pageMessages id="errormessagesMobile"/>
+            
+                <apex:repeat value="{!lstBorrower}" var="lstborr" id="repeatidMobile" >
+                    <div class="customsection">
+                          <apex:pageblock id="outerpageblockidMobile" >
+                          
+                              
+                          
+                          
+                              <apex:outputpanel id="outputpanelidMobile" >
+                          <!--    
+                                  <apex:pageblocksection title="{!lstborr.Type} - {!lstborr.Name}" showheader="true" columns="2" id="coborrid" >
+                                        <apex:outputLabel value="Name" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Name}" style="margin-left: 10px;"/></apex:outputLabel>
+                                         <apex:outputLabel value="Email" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Email}" style="margin-left: 10px;"/></apex:outputLabel>
+                                         <apex:outputLabel value="Company" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Company}" style="margin-left: 10px;"/></apex:outputLabel>
+                                         <apex:outputLabel value="Phone" style="font-weight: bold;"><apex:outputText value="{!lstBorr.Phone}" style="margin-left: 10px;"/></apex:outputLabel>
+
+                             -->       
+                         
+                                        <div id="no-more-tables">
+                                                  <h3>{!lstborr.Type} - {!lstborr.Name}</h3>
+                                    
+                                           <table class="table">
+                                            <thead>
+                                             <tr>
+                                              <th>Name</th>
+                                              <th>Email</th>
+                                              <th>Company</th>
+                                              <th>Phone</th>
+                                
+                                             </tr>
+                                       </thead>
+                                
+                                       <tbody>
+                                             <tr>
+                                              <td data-title="Name">
+                                              <apex:outputText value="{!lstBorr.Name}"/>&nbsp;
+                                              </td>
+                                              <td data-title="Email"><apex:outputText value="{!lstBorr.Email}"/>&nbsp;</td>
+                                              <td data-title="Company"><apex:outputText value="{!lstBorr.Company}"/>&nbsp;</td>
+                                              <td data-title="Phone"><apex:outputText value="{!lstBorr.Phone}"/>&nbsp;</td>
+                                             </tr>
+                                
+                                             
+                                        </tbody>
+                                           </table>
+                                            
+                                       </div>
+                                        
+                                       
+                                        
+                                        
+                                        
+                           <!--      </apex:pageblocksection>      -->
+                                   <apex:pageblocksection title="Matching Person Accounts" showheader="true" collapsible="true" columns="1" id="matperaccidMobile" rendered="{!if((lstBorr.Type=='Co Borrower' && isBlank(lstBorr.Company) && lstBorr.lstMatchingRecord.Size>0),true,false)}">
+                                        <apex:outputLabel value="Create New Person Account" style="font-weight: bold;"><apex:inputCheckbox value="{!lstBorr.CreateNewPerson}" id="newpersonidMobile" style="margin-left: 10px;" /></apex:outputLabel>
+                                         <apex:pageBlockTable align="center" value="{!lstBorr.lstMatchingRecord}" var="lstMatchingAccount" id="tableidMobile">
+                                          <apex:column headerValue="Select Account">
+                                            <apex:inputCheckbox value="{!lstMatchingAccount.check}" id="personcheckidMobile"/> 
+                                      
+                                          </apex:column>  
+                                          <apex:column headerValue="Name">
+                                            <apex:outputText value="{!lstMatchingAccount.Name}"/>
+                                          </apex:column> 
+                                          <apex:column headerValue="Email">
+                                            <apex:outputText value="{!lstMatchingAccount.Email}"/>
+                                          </apex:column>  
+                                          <apex:column headerValue="Phone">
+                                            <apex:outputText value="{!lstMatchingAccount.Phone}"/>
+                                          </apex:column>
+                                                                
+                                          </apex:pageBlockTable>
+                                     
+                                      </apex:pageblocksection>
+              <apex:pageblocksection title="No Matching Person Accounts" showheader="true" collapsible="true" columns="1" id="matperaccid1" rendered="{!if((lstBorr.Type=='Co Borrower' && isBlank(lstBorr.Company) && lstBorr.lstMatchingRecord.Size==0),true,false)}">    
+                   <apex:outputLabel value="Create New Person Account" style="font-weight: bold;"><apex:inputCheckbox value="{!ifNoMatch }" onclick="return false;" id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+              </apex:pageblocksection>    
+                                             
+                                   <apex:pageblocksection title="Matching Contacts" showheader="true" collapsible="true" columns="1" id="matconidMobile" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingContactRecord.Size>0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingContactRecord.size>0)),true,false)}">
+                                        <apex:outputLabel value="Create New Contact" style="font-weight: bold;"><apex:inputCheckbox value="{!lstBorr.CreateNewContact}" id="newconidMobile" style="margin-left: 10px;" /></apex:outputLabel>
+                                         <apex:pageBlockTable align="center" value="{!lstBorr.lstMatchingContactRecord}" var="lstMatchingContact" id="contableidMobile">
+                                          <apex:column headerValue="Select Contact">
+                                            <apex:inputCheckbox value="{!lstMatchingContact.check}" id="concheckidMobile"/> 
+                                      
+                                          </apex:column>  
+                                          <apex:column headerValue="Name">
+                                            <apex:outputText value="{!lstMatchingContact.Name}"/>
+                                          </apex:column> 
+                                          <apex:column headerValue="Email">
+                                            <apex:outputText value="{!lstMatchingContact.Email}"/>
+                                          </apex:column>  
+                                          <apex:column headerValue="Phone">
+                                            <apex:outputText value="{!lstMatchingContact.Phone}"/>
+                                          </apex:column>
+                                                                
+                                          </apex:pageBlockTable>
+                                     
+                                      </apex:pageblocksection>
+                         
+                         <apex:pageblocksection title="No Matching Contacts" showheader="true" collapsible="true" columns="1" id="notmatchContact" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingContactRecord.Size==0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingContactRecord.size==0)),true,false)}">    
+                   <apex:outputLabel value="Create New Contact" style="font-weight: bold;"><apex:inputCheckbox value="{!ifNoMatch }" onclick="return false;"  id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+              </apex:pageblocksection>
+                                       
+                                           
+                                   <apex:pageblocksection title="Matching Business Accounts" showheader="true" collapsible="true" columns="1" id="mataccidMobile" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingBusinessRecord.size>0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingBusinessRecord.size>0)),true,false)}">
+                                        
+                                        <apex:outputLabel value="Create New Account" style="font-weight: bold;"><apex:inputCheckbox value="{!lstBorr.CreateNewAccount}" id="newaccidMobile" style="margin-left: 10px;"  />
+                                           
+                                        </apex:outputLabel>
+                                     <!--   <apex:inputText value="{!NewCompanyName}" rendered="{!if((lstBorr.Type != 'Co Borrower' && lstBorr.CreateNewAccount == true),true,false)}" id="test"/>
+                                       <apex:inputText value="{!NewCompanyName}" disabled="true" rendered="{!if((lstBorr.Type != 'Co Borrower' && lstBorr.CreateNewAccount != true),true,false)}"/>
+                                          <apex:inputText value="{!NewCompanyName}"  rendered="{!if((lstBorr.Type != 'Co Borrower' && lstBorr.CreateNewAccount == true),true,false)}"/> onchange="ToggleInput('{!$Component.test}');" -->
+                                         <apex:pageBlockTable align="center" value="{!lstBorr.lstMatchingBusinessRecord}" var="lstMatchingBussAccount" >
+                                          <apex:column headerValue="Select Account">
+                                            <apex:inputCheckbox value="{!lstMatchingBussAccount.check}" id="acccheckidMobile"/>
+                                          </apex:column>  
+                                          <apex:column headerValue="Company">
+                                            <apex:outputText value="{!lstMatchingBussAccount.Name}"/>
+                                          </apex:column> 
+                                          <apex:column headerValue="Contact Name"  rendered="{!if((lstBorr.company == null),True,False)}">
+                                            <apex:outputText value="{!lstMatchingBussAccount.ContactName}" />
+                                          </apex:column>  
+                                                                                     
+                                          </apex:pageBlockTable>
+                                     
+                                      </apex:pageblocksection>           
+                          <apex:pageblocksection title="No Matching Business Accounts" showheader="true" collapsible="true" columns="1" id="notmatchAccount" rendered="{!if(((lstBorr.Type=='Co Borrower' && !isBlank(lstBorr.Company) && lstBorr.lstMatchingBusinessRecord.size==0) || (lstBorr.Type != 'Co Borrower' && lstBorr.lstMatchingBusinessRecord.size==0)),true,false)}">    
+                   <apex:outputLabel value="Create New Business Account" style="font-weight: bold;"><apex:inputCheckbox value="{!ifNoMatch }" onclick="return false;" id="newpersonid" style="margin-left: 10px;" /></apex:outputLabel>
+              </apex:pageblocksection>
+                                  
+                              
+                              
+                              </apex:outputpanel>
+                          
+                          </apex:pageblock>
+                      </div>
+                  </apex:repeat>
+              
+              </apex:pageBlock>
+        </apex:form>
+    </div>
+
+                
+    </apex:outputPanel>
+
+</apex:page>

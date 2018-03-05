@@ -1,0 +1,328 @@
+<apex:page controller="PepApplyNowController" standardStylesheets="false" cache="{!$Label.Cache_Settings}" showHeader="false" docType="html-5.0" id="idPage">
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Pepper Apply Now</title>
+            <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+            <!-- End Google Tag Manager -->              
+            <script type="text/javascript"> 
+            
+             function deleteAllCookies() {
+                   var cookies = document.cookie.split(";");
+            
+                   for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                   
+                    if((name.indexOf('param1')>-1 && '{!$CurrentPage.parameters.p1}' != '') || (name.indexOf('param2')>-1 && '{!$CurrentPage.parameters.p2}' != '') || (name.indexOf('param3')>-1 && '{!$CurrentPage.parameters.p3}' != '') || (name.indexOf('param4')>-1 && '{!$CurrentPage.parameters.p4}' != '')){
+                    }
+                    else{
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                    }                 
+                }
+            }
+
+
+            function OnLoadCheckbox()
+                {            
+                    document.getElementById('idPage:idForm:IdApplyButton').disabled = true; 
+                }
+            
+            function OnClickCheckbox()
+            {
+                if(document.getElementById('debt').checked){
+                    document.getElementById('idPage:idForm:IdApplyButton').disabled = false;
+                
+                }
+                
+                else
+                {
+                    document.getElementById('idPage:idForm:IdApplyButton').disabled = true;
+                }
+                
+            } 
+                
+                  
+            function showMinimizeBar1(theform)
+             {              
+                    var myForm = document.getElementById(theform); 
+                    
+                    var boolFlag = true;          
+                    for (var i = 0; i < myForm.elements.length; i++) 
+                    {
+                        <!--alert('Control Type = 'myForm.elements[i].type);-->
+                        var $t = $(document.getElementById(myForm.elements[i].id));
+                        var $this = $(document.getElementById(myForm.elements[i].id)); 
+                        var requiredFlag = $t.hasClass("isrequired");
+                        if(requiredFlag == true)
+                        {                    
+                        
+                            var elementValue=myForm.elements[i].value;              
+                            if(elementValue!=null && elementValue.trim()!="")
+                            {
+                                $this.siblings('.errorMsg').hide();                                      
+                            }
+                            else
+                            {
+                                $this.siblings('.errorMsg').show();  
+                                boolFlag = false;              
+                            }
+                        
+                        }
+                        
+                        var percentFlag = pepperApp.validation.isPercent(myForm.elements[i].id);                
+                        var  phoneFlag = pepperApp.validation.isPhone(myForm.elements[i].id);                 
+                        var  emailFlag = pepperApp.validation.isEmail(myForm.elements[i].id);
+                        if(!(boolFlag && percentFlag && emailFlag && phoneFlag))
+                        {
+                            boolFlag = false;
+                        }
+                    }
+                    
+                    return boolFlag;  
+                
+                }   
+            
+           </script>
+           
+    <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="pepLandingPage" />  
+            
+           
+        </head>
+        <apex:form id="idForm">
+        
+        <c:pepCmsHeaderComponent getpageName="Header" purposeName="{!objApplication.genesis__CL_Purpose__c}" currentPage="0" previousPage="{!intPreviousPageNumber}" getApplication="{!objApplication}"></c:pepCmsHeaderComponent>
+        
+            <apex:inputHidden value="{!strSelectedValue}" id="idInputHidden"/> 
+            <body class="PepApplyNow">
+            <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+            <!-- End Google Tag Manager (noscript) -->
+            
+                <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+                <div class="pepperContainer">
+                    <div class="page-row">                  
+                    <!-- start app left content -->
+                    <div class="startApp">
+                    
+                        <h3 class="heading">
+                            
+                                <!--<apex:outputLabel value="{!section.pepHeader__c}" escape="false" styleClass="form-cntrls" rendered="{!section.pepSectionUniqueName__c == 'Ready to start your application?'}"/>-->
+                            Ready to start your application?
+                        </h3>
+                        <div class="page-row">
+                            <div class="page-form">
+                                <div class="page-row">
+                                    <div class="form-elements"> 
+                                        <div class="page-row"> 
+                                        <apex:outputPanel id="finalChange">
+                                        </apex:outputpanel>
+                                            <apex:variable var="rowNo" value="{!0}"/> 
+                                                                               
+                                            <apex:repeat value="{!lstWrapperSection}" var="section">                                                 
+                                                <apex:repeat value="{!section.lstWrapperQuestion}" var="ques" rendered="{!section.objSection.pepSectionUniqueName__c == 'Ready to start your application?'}" id="idSection1">
+                                                    <apex:outputLabel value="{!ques.objQuestion.pepLabelPriorQuestion__c} " escape="false" styleClass="form-cntrls"/>                                                 
+                                                   <apex:repeat value="{!ques.lstexpectedAnswers}" var="ans" rendered="{!if(AND( ques.lstexpectedAnswers.size != null, ques.lstexpectedAnswers.size > 0, ques.objQuestion.pepType__c == 'Button', ques.objQuestion.pepSubType__c == 'Yes / No'), true, false)}">
+                                                    <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!IF(ans.objCmsAnswer.pepDisplayText__c == 'Yes', true, false)}" >                                                        
+                                                              <label class="radioBtns">
+                                                                <apex:actionSupport event="onclick" action="{!applynowQuery}" reRender="finalChange" status="counterStatus">
+                                                                    <input type="radio" name="otherincome" id="otherincome_yes" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ques.strAnswer}"/>
+                                                                    <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span>
+                                                                    <span class="errorMsg">{!ques.objQuestion.pepGenericErrorMessage__c}</span>
+                                                                    <apex:param name="text" value="{!ans.objCmsAnswer.pepDisplayText__c}"/>
+                                                                    <apex:param name="rowIndex"  value="{!rowNo+1}"/>
+                                                                </apex:actionSupport>                                                       
+                                                              </label>
+                                                            
+                                                    </apex:outputPanel>
+                                                    <apex:actionregion > 
+                                                    <apex:outputPanel layout="block" styleClass="form-cntrls" rendered="{!IF(ans.objCmsAnswer.pepDisplayText__c == 'No', true, false)}">
+                                                        <apex:actionSupport event="onclick" action="{!applynowQuery}" reRender="finalChange" status="counterStatus">                                                       
+                                                         <label class="radioBtns">                                                        
+                                                              <input type="radio"  name="otherincome" id="otherincome_no" class="{!IF(ques.objQuestion.pepIsRequired__c, 'isrequired', '')}" value="{!ques.strAnswer}"/>
+                                                              <span class="button staticBtn">{!ans.objCmsAnswer.pepDisplayText__c}</span> 
+                                                              <apex:param name="text" value="{!ans.objCmsAnswer.pepDisplayText__c}"/>  
+                                                              <apex:param name="rowIndex"  value="{!rowNo+1}"/>                                                           
+                                                         </label>  
+                                                      </apex:actionSupport>                                                      
+                                                   </apex:outputpanel> 
+                                                   </apex:actionregion>                                         
+                                              </apex:repeat>
+                                           </apex:repeat>
+                                           <apex:variable var="rowNo" value="{!rowNo+1}"/>
+                                       </apex:repeat>     
+                                
+                                    <!--<label class="radioBtns">
+                                        
+                                        <span class="button staticBtn">Yes</span>
+                                    </label>-->
+                                
+                                <!--<div class="form-cntrls">
+                                    <label class="radioBtns">
+                                        <input type="radio" name="otherincome" id="otherincome_no"/>
+                                        <span class="button staticBtn">No</span>
+                                    </label>
+                                </div>-->  
+                                           <!--<c:pepCmsComponent pageNameTest="Apply Page" sectionName="Ready to start your application?" componentController="{!modelConInstance}" ></c:pepCmsComponent>
+                                           <span class="errorMsg" style="display:none;">Please select the answer to this question</span>-->
+                                           <!-- <c:pepcmscomponent_New cmsPageName="Apply Page" componentController="{!modelConInstance_new}"></c:pepcmscomponent_New> -->
+                                                                            
+                                       </div>                                      
+                                    </div>                                  
+                                </div>
+                                <div class="form-section">
+                                   
+                                   <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 2"></c:pepcmscomponent_Text>                                 
+                                    <div class="custom-chkBox"> 
+                                        <input type="checkbox" id="debt" name="debt" onclick = "OnClickCheckbox();"/>
+                                        <label for="debt">
+                                        <strong>
+                                         <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 3"></c:pepcmscomponent_Text>
+                                         <!--<c:pepCmsComponent2 pageNameTest="Apply Page" sectionName="Apply Page - Section 3"></c:pepCmsComponent2> -->
+                                        </strong></label>
+                                    </div>
+                                    <div class="page-row">                                  
+                                        <div class="form-cntrl">                                            
+                                            <apex:commandButton action="{!ContinueApply}" styleClass="button primaryBtn foo" value="Apply Now" onclick="return radioCheck(true, 'idPage:idForm'); return false;" id="IdApplyButton"/>
+                                        </div>
+                                    </div>
+                                    <div class="page-row questions">
+                                        <em>
+                                            
+                                            <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 4"></c:pepcmscomponent_Text>
+                                        </em>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- start app left content end-->
+
+                    <!-- start app ifno -->
+                    <div class="startAppInfo right">
+                        <div class="appInfoCont">
+                        <h3 class="heading">
+                            
+                            <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 5 (Header)"></c:pepcmscomponent_Text>
+                        </h3>                        
+                        <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 5 (Body)"></c:pepcmscomponent_Text>
+                       
+                        </div>
+                       
+                        <div class="appInfoCont">
+                            <h3 class="heading">
+                                
+                                <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 6 (Header)"></c:pepcmscomponent_Text>
+                            </h3>                      
+                           
+                           <c:pepcmscomponent_Text pageNameTest="Apply Page" sectionName="Apply Page - Section 6 (Body)"></c:pepcmscomponent_Text>
+                        </div>
+                    </div>
+                    <!-- start app ifno end -->
+
+                    </div>
+                </div>
+                  
+                  
+            </body>
+           <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent> 
+         <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+        <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+         
+        </apex:form>
+        
+        <script>
+             
+            var show=true;            
+   $(document).ready(function(){
+    bypassUnloadMessage();
+    $(window).on('beforeunload', function(){
+        if(show){
+            return "You are about to leave the page. Selecting 'Leave this Page' may cause you to lose your application information. If you haven't saved, please click 'Stay on this Page' and then 'Save for Later'";
+        }else{
+            return;
+        }
+    });
+   } );
+    function bypassUnloadMessage(){
+        
+        $(document).on({
+    mouseover : function(){
+        
+       show=false;
+       console.log(''+show);
+    },
+       mouseout :function(){
+       
+       show=true;
+       console.log(''+show);
+    }
+}, '.foo');
+
+    }
+               
+               
+          
+             OnLoadCheckbox();
+             $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });   
+        $(document).ready(function() {
+                 if('{!$CurrentPage.parameters.p1}' != '' ||'{!$CurrentPage.parameters.p2}' != '' || '{!$CurrentPage.parameters.p3}' != '' || '{!$CurrentPage.parameters.p4}' != '')
+                     deleteAllCookies();
+                     }); 
+        </script>
+
+
+<!--below added by COE 2016-11-30 -->
+<script>
+var versaTag = {};
+versaTag.id = "4625";
+versaTag.sync = 0;
+versaTag.dispType = "js";
+versaTag.ptcl = "HTTPS";
+versaTag.bsUrl = "bs.serving-sys.com/BurstingPipe";
+//VersaTag activity parameters include all conversion parameters including custom parameters and Predefined parameters. Syntax: "ParamName1":"ParamValue1", "ParamName2":"ParamValue2". ParamValue can be empty.
+versaTag.activityParams = {
+//Predefined parameters:
+"Session":""
+//Custom parameters:
+};
+//Static retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.retargetParams = {};
+//Dynamic retargeting tags parameters. Syntax: "TagID1":"ParamValue1", "TagID2":"ParamValue2". ParamValue can be empty.
+versaTag.dynamicRetargetParams = {};
+// Third party tags conditional parameters and mapping rule parameters. Syntax: "CondParam1":"ParamValue1", "CondParam2":"ParamValue2". ParamValue can be empty.
+versaTag.conditionalParams = {};
+</script>
+<script id="ebOneTagUrlId" src="https://secure-ds.serving-sys.com/SemiCachedScripts/ebOneTag.js"></script>
+<noscript>
+<iframe src="https://bs.serving-sys.com/BurstingPipe?
+cn=ot&amp;
+onetagid=4625&amp;
+ns=1&amp;
+activityValues=$$Session=[Session]$$&amp;
+retargetingValues=$$$$&amp;
+dynamicRetargetingValues=$$$$&amp;
+acp=$$$$&amp;"
+style="display:none;width:0px;height:0px"></iframe>
+</noscript>
+
+
+
+
+    </html>
+</apex:page>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>BccAddress</fullName>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Contact_Id__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Contact Id</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Email_Previewed_and_Reviewed__c</fullName>
+        <externalId>false</externalId>
+        <label>Email Previewed and Reviewed</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Mtg_Is_Manual_Response__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Is Manual Response</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CcAddress</fullName>
+    </fields>
+    <fields>
+        <fullName>FromAddress</fullName>
+    </fields>
+    <fields>
+        <fullName>FromName</fullName>
+    </fields>
+    <fields>
+        <fullName>HasAttachment</fullName>
+    </fields>
+    <fields>
+        <fullName>Headers</fullName>
+    </fields>
+    <fields>
+        <fullName>HtmlBody</fullName>
+    </fields>
+    <fields>
+        <fullName>Incoming</fullName>
+    </fields>
+    <fields>
+        <fullName>IsExternallyVisible</fullName>
+    </fields>
+    <fields>
+        <fullName>MessageDate</fullName>
+    </fields>
+    <fields>
+        <fullName>MessageSize</fullName>
+    </fields>
+    <fields>
+        <fullName>ParentId</fullName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>RelatedToId</fullName>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Status</fullName>
+    </fields>
+    <fields>
+        <fullName>Subject</fullName>
+    </fields>
+    <fields>
+        <fullName>TextBody</fullName>
+    </fields>
+    <fields>
+        <fullName>ToAddress</fullName>
+    </fields>
+    <fields>
+        <fullName>ValidatedFromAddress</fullName>
+    </fields>
+    <searchLayouts>
+        <customTabListAdditionalFields>Status</customTabListAdditionalFields>
+        <customTabListAdditionalFields>HasAttachment</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Address</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Subject</customTabListAdditionalFields>
+        <customTabListAdditionalFields>MessageDate</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Status</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>HasAttachment</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Address</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Subject</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>MessageDate</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Status</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>HasAttachment</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Address</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Subject</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>MessageDate</lookupPhoneDialogsAdditionalFields>
+        <searchResultsAdditionalFields>FromName</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>ToAddress</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Subject</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>MessageDate</searchResultsAdditionalFields>
+    </searchLayouts>
+    <validationRules>
+        <fullName>CRM_Mtg_Check_Case_Ownership</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND($Profile.Name = &apos;CRM Mortgage&apos;, 
+OR(Parent.CRM_Mtg_Case_Record_Type__c = &apos;Mortgage Broker Scenario&apos;, Parent.CRM_Mtg_Case_Record_Type__c = &apos;Mortgage Broker Accreditation&apos;), 
+NOT(ISPICKVAL($User.ScCollection_UserType__c,&apos;TL&apos;)), 
+Parent.OwnerId &lt;&gt; $User.Id, 
+NOT(Incoming),
+CRM_Mtg_Is_Manual_Response__c)</errorConditionFormula>
+        <errorMessage>Sorry! Assign the case to yourself to send an email.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>CRM_Mtg_Check_Email_Sending</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND($Profile.Name = &apos;CRM Mortgage&apos;, 
+OR(Parent.CRM_Mtg_Case_Record_Type__c = &apos;Mortgage Broker Scenario&apos;, Parent.CRM_Mtg_Case_Record_Type__c = &apos;Mortgage Broker Accreditation&apos;, Parent.CRM_Mtg_Case_Record_Type__c = &apos;Mortgage Broker Transfer&apos;), 
+ISPICKVAL(Parent.Status,&apos;Closed&apos;), 
+NOT(Incoming))</errorConditionFormula>
+        <errorMessage>Sorry! You cannot send email from a closed case, please reopen the case.</errorMessage>
+    </validationRules>
+</CustomObject>

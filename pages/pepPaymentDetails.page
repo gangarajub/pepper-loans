@@ -1,0 +1,133 @@
+<apex:page sidebar="false" cache="{!$Label.Cache_Settings}" showHeader="false" standardStylesheets="false" controller="pepPaymentSettingController">   
+ <apex:composition template="pepDashBoardHeaderSideBarTemplate">
+<apex:define name="body">
+<c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+<apex:actionFunction name="pageRedirection"  action="{!redirectToPage}"  reRender="none">
+           <apex:param name="pageNameValue" value=""/>
+         </apex:actionFunction> 
+<!--<apex:form >-->
+<apex:repeat value="{!lstSectionDetails}" var="S">  
+     <div class="page-form">      
+                   
+                        <div class="page-row">                              
+                            <div class="form-section">                                  
+                                <div class="loanTxtOuter">
+                                    <div class="page-row">
+                                        <div class="loanTxtHead paymentDetails">
+                                            <h3>{!S.pepHeader__c}</h3>
+                                        </div>  
+                                    </div>
+                                    <p><apex:outputText value="{!S.pepSectionBodyRich__c}" escape="false"></apex:outputText> </p>        
+                                </div>
+                                
+                                <div class="form-elements payDetails">                                              
+                                    <div class="form-section innerForm">    
+                                        <div class="form-elements"> 
+                                            <div class="page-row">
+                                                <label class="form-dcntrls-lg text-left"><strong>{!S.pepSectionStory__c}</strong></label>
+                                            </div>
+                                            <br/>    
+                                            <apex:repeat value="{!S.pepQuestion__r}" var="Q">  
+                                                  <div class="page-row">
+                                                         <apex:outputLabel value="{!Q.pepLabelPriorQuestion__c}" rendered="{!Q.pepType__c !='Button'}" styleClass="form-dcntrls" />
+                                                        <div class="form-dcntrls-lg">
+                                                          <!--<apex:outputText rendered="{!Q.pepType__c =='Text'}"><label for=""><strong> {!lstLoanA[Q.pepSequence__c-1]}</strong></label></apex:outputText>-->
+                                                          
+                                                          <apex:outputPanel rendered="{!strSectionType=='view'}">
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text' && Q.pepLabelPriorQuestion__c=='Account Name'}">  <label for=""><strong>{!strAccountName} </strong></label></apex:outputText>
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text' && Q.pepLabelPriorQuestion__c=='Account Number'}"> <label for=""><strong> {!strAccountNumber} </strong></label></apex:outputText>
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text' && Q.pepLabelPriorQuestion__c=='BSB'}">  <label for=""><strong> {!strBSB}</strong></label></apex:outputText>
+                                                          <apex:outputText rendered="{!Q.pepType__c =='Text' && Q.pepLabelPriorQuestion__c=='Institution'}"> <label for=""><strong>{!SelectedBank} </strong></label></apex:outputText>
+                                                          </apex:outputPanel>
+                                                       
+                                                        </div>
+                                                    </div>
+                                            </apex:repeat> 
+
+
+
+                                            <div class="page-row">
+                                                <div class="text-right">
+                                               <apex:repeat value="{!S.pepQuestion__r}" var="Q">  
+                                            <!--   <apex:commandButton value="{!Q.pepLabelPriorQuestion__c}"  rendered="{!Q.pepType__c =='Button'}"  styleClass="button primaryBtn wAuto editBtn" onclick="passPageName('peppaymentsetting');" /> -->
+                                                   <input type="button" value="{!Q.pepLabelPriorQuestion__c}" class="button primaryBtn wAuto editBtn" onclick="passPageName('peppaymentsetting');" style="display:{!IF(Q.pepType__c =='Button','inline-block','none')}"/>
+                                             </apex:repeat>
+                                                
+                                                 
+                                                </div>                                              
+                                            </div>
+
+                                        </div>  
+                                    </div>
+                                </div>
+                              
+                                 <div class="form-elements payDetails">                                              
+                                    <div class="form-section innerForm">    
+                                        <div class="form-elements"> 
+                                            <div class="page-row">
+                                                <label class="form-dcntrls text-left"><strong>BPAY Details</strong></label>
+                                            </div>
+                                            <br/>                                               
+                                                                                                
+                                            <div class="page-row">
+                                                <div class="bpay_blk">
+                                                    <div class="bordrBlk">
+                                                        <div class="page-row">
+                                                            <div class="colA">
+                                                               <div>
+                                                                    <p><apex:image url="{!URLFOR($Resource.ResourceZip,'assets/common/images/bplogo.jpg')}" width="65" height="100" alt="Pepper"/>
+                                                                    </p>
+                                                                   
+                                                                </div>
+                                                            </div>
+                                                            <div class="colB">
+                                                                <div class="bordrBlk minboxHt">
+                                                                   <div class="minblk">
+                                                                        <p>Biller Code: <strong>{!strBillerCode}</strong></p>
+                                                                        <p>Ref: <strong>{!strRefNumber}</strong></p>
+                                                                    </div>
+                                                               </div>     
+                                                            </div>
+                                                        </div>
+                                                        <div class="page-row">
+                                                            <div class="bpay_desc">
+                                                            <div class="bpay_heading">Telephone &amp; Internet Banking - BPAY&reg;</div>
+                                                            <p>Contact your bank or financial institution to make this payment from your cheque, savings, debit or transaction account. More info: <a href="http://www.bpay.com.au" target="_blank">www.bpay.com.au</a></p>
+                                                        </div>
+                                                        </div>
+                                                                                                                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                     </div>
+                                    </div>
+                                  </div> 
+                                  <div> 
+                                   
+                               
+                            </div>  
+                        </div>
+                    </div>
+ </apex:repeat>                                             
+<!--</apex:form>-->
+<script>
+ $(document).ready(function() {
+               if(('{!closedLoan }') =='true')
+                {
+                         
+                         $('.editBtn').attr("disabled","disabled");
+                         $('.editBtn').css({'background':'grey','cursor':'default','pointer-events':'none'});
+                }
+         });   
+         
+         
+        function passPageName(APIPageName)
+          {
+              pageRedirection(APIPageName)
+          }
+
+         </script>
+ </apex:define>
+</apex:composition>
+</apex:page>

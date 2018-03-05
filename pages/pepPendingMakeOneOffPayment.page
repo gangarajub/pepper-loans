@@ -1,0 +1,107 @@
+<apex:page docType="html-5.0" standardStylesheets="false" sidebar="false" id="pageId" showHeader="false" cache="{!$Label.Cache_Settings}" controller="pepOneOffPaymentReadOnlyController" >
+<title> Pepper Make One Off Payments</title>
+<apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/> 
+       
+  
+ <apex:composition template="pepDashBoardHeaderSideBarTemplate"  > 
+      <apex:define name="body"  >
+      <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" /> 
+                    <div class="page-form">
+                                
+                            
+                                <div class="page-row">
+                                
+                                    <div class="form-section">  
+                                    
+                                    <div class="loanTxtOuter">
+                                        <div class="page-row">
+                                            <div class="loanTxtHead">
+                                                <h3>{!strvalidpagename}</h3>
+                                                
+                                                <!-- <div style="clear: both"></div> -->
+                                            </div>  
+                                        </div>
+                                            <p>
+                                            <c:pepcmscomponent_Text pageNameTest="Make One Off Payments ReadOnly" sectionName="Make One Off Payments ReadOnly Section 2"></c:pepcmscomponent_Text>
+                                           </p>
+                                    </div>
+                                    <div class="form-elements">
+                                                
+                                            <div class="form-section innerForm">    
+                                                <div class="form-elements">
+                                                        
+                                                    <p>
+                                                        <c:pepcmscomponent_Text pageNameTest="Make One Off Payments ReadOnly" sectionName="Make One Off Payments ReadOnly Section 3"></c:pepcmscomponent_Text>
+                                                    </p>
+                                                    
+                                           <apex:repeat value="{!lstWrapperQuestion}" var="wrapInstance" id="idMainRpt"> 
+                                            
+                                               <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Currency' && wrapInstance.objCmsQuestion.pepSequence__c == 1),true,false)}">   
+                                                    
+                                                    <div class="page-row ">
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">                                               
+                                                        <label><strong>$ {!strAmount}</strong></label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                               </apex:outputPanel>
+                                                
+                                               <apex:outputPanel rendered="{!if((wrapInstance.objCmsQuestion.pepType__c=='Date' && wrapInstance.objCmsQuestion.pepSequence__c == 2),true,false)}">  
+                                                        
+                                                    <div>
+                                                        <label class="form-dcntrls">{!wrapInstance.objCmsQuestion.pepLabelPriorQuestion__c}</label>
+                                                        <div class="form-dcntrls-lg">                                               
+                                                        <label><strong> <apex:outputtext value="{0,date,dd MMMM yyyy}">
+                                                                            <apex:param value="{!strPaymentDate}"/>
+                                                                        </apex:outputtext>
+                                                             </strong></label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                               </apex:outputPanel>
+                                                    
+                                            </apex:repeat>  
+                                            
+                                                        <div class="clear"></div>
+                                                    <div class="loanAmntblock"><apex:outputText escape="false" value="{!strSection4}"></apex:outputText></div>
+
+                                                </div>  
+                                            </div>
+                                        </div>  
+                                        
+                                        <div class="loanSetBotSec">
+                                            <div class="colA"><apex:commandButton value="Back" action="{!CancelMethod}" styleclass="button secondaryBtn"/></div>
+                                    
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>  
+                                                
+
+        </apex:define> 
+     </apex:composition> 
+
+
+
+
+
+
+
+
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+    <apex:includeScript value="//code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+     <script>
+           $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+    });
+   </script>
+
+
+</apex:page>

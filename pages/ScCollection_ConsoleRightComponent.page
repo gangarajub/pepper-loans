@@ -1,0 +1,523 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the console right view for pepper collections.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 18-JUN-2016    Created By: Pawan Mudgal    Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+    User Story: 
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="pageId" controller="ScCollection_CnslRightComponentHandler"  showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-accordion-menu.js')}" />
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-accordion-menu.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+            <style>
+                body
+                {
+                    background: #fff; 
+                    margin:0px;
+                    line-height: normal;
+                    font-size: 12px;
+                    font-family:Arial,Helvetica,sans-serif;
+                }
+                ::-webkit-scrollbar 
+                {
+                    -webkit-appearance: none;
+                }
+                ::-webkit-scrollbar:vertical 
+                {
+                    width: 12px;
+                }
+                ::-webkit-scrollbar:horizontal 
+                {
+                    height: 12px;
+                }
+                ::-webkit-scrollbar-thumb 
+                {
+                    background-color: rgba(0, 0, 0, .5);
+                    border-radius: 10px;
+                    border: 2px solid #ffffff;
+                }
+                ::-webkit-scrollbar-track 
+                {
+                    border-radius: 10px;  
+                    background-color: #ffffff; 
+                }
+            </style>
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    jQuery('#jquery-accordion-menu').jqueryAccordionMenu(); 
+                    
+                    jQuery('.main-menu a').click(function()
+                    {
+                        var newheight = $(window).height() - 180;
+                        $('.main-menu ul').css('height',newheight);
+                        $('.main-menu ul').css('max-height',newheight);
+                        $('.main-menu ul').css('overflow','auto');
+                    });
+                    
+                    $(".jquery-accordion-menu-label").click(function(event)
+                    {
+                        event.stopPropagation();
+                    });
+
+                    jQuery('.submenu').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.log-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.log-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.audit-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.audit-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.not-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.not-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.counter-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.counter-data').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.no-record-link').click(function()
+                    {
+                        return false;
+                    });
+                    jQuery('.view-all-link').click(function()
+                    {
+                        return false;
+                    });
+                });
+                
+                function CreateLog()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_CreateInteractionLog?id={!strContractId}&tabid=' + result.id, true, 'Create New Log', null);
+                    });
+                }
+                
+                function CreateNotification()
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_CommunicationCenter?id={!strContractId}&tabid=' + result.id, true, 'Communication Centre', null);
+                    });
+                }
+                
+                function ViewLog(recordId,recordname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_CreateInteractionLog?id={!strContractId}&logId=' + recordId, true, recordname, null);
+                    });
+                }
+                
+                function ViewNotification(recordId,recordname)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_ViewNotification?id={!strContractId}&notId=' + recordId, true, recordname, null);
+                    });
+                }
+                
+                function DeleteLog_JS(recordIndex)
+                {
+                    var resultvalue = window.confirm('Do you want to delete this record?');
+                    
+                    if(resultvalue == true)
+                    {
+                        document.getElementById('pageId:frm:log').value = recordIndex;
+                        DeleteLog_AF();
+                        
+                        sforce.console.getEnclosingPrimaryTabId(function(result) 
+                        {
+                            sforce.console.refreshPrimaryTabById(result.id,false);
+                        });
+                    }
+                }
+
+                function ViewAll(objectName)
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/apex/ScCollection_ViewAllRight?id={!strContractId}&display=' + objectName , true, 'All ' + objectName, null);
+                    });
+                }
+                
+                function OpenLetterUrl(url)
+                {
+                    window.open(url,'','','');
+                }
+            </script> 
+        </head>
+        <body>
+            <div class="content">
+                <div id="jquery-accordion-menu" class="jquery-accordion-menu">
+                    <ul>
+                        <apex:form id="frm">
+                            <apex:inputHidden id="log" value="{!strLogIndex}"/>
+                            <apex:actionFunction action="{!DeleteLog}" name="DeleteLog_AF" />
+                            
+                            <li class="main-menu" style="display:{!If(interactionLogRead == true,'block','none')}">
+                                <a href="#"><span class="sprite interection-log"></span>Interaction Log<span class="jquery-accordion-menu-label" style="margin-right: 30px;display:{!If(interactionLogRead == true,'block','none')}" onclick="CreateLog();">New</span><span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li>
+                                        <div class="log-data" style="padding: 7px 10px;">
+                                            <div class="log-label-div">
+                                                <label></label>
+                                            </div>
+                                            <div class="log-value-div">
+                                                <span></span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="log-link view-all-link" style="padding: 0px !important;">
+                                            <span style="cursor:pointer;" onclick="ViewAll('Interaction Logs');">View All</span>
+                                        </div>
+                                    </li>
+                                    <li style="display:{!If(lstLog.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:variable value="{!0}" var="counter"/>
+                                    <apex:repeat value="{!lstLog}" var="obj">
+                                        <li>
+                                            <div class="log-data">
+                                                <div class="log-label-div">
+                                                    <label>Action Taken :</label>
+                                                </div>
+                                                <div class="log-value-div">
+                                                    <span>{!obj.collect__Action__r.Name}</span>    
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="log-label-div">
+                                                    <label>Review Date :</label>
+                                                </div>
+                                                <div class="log-value-div">
+                                                    <span><apex:outputField value="{!obj.collect__Follow_Up_Date_Time__c}" /></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="log-label-div">
+                                                    <label>Interaction Date :</label>
+                                                </div>
+                                                <div class="log-value-div">
+                                                    <span><apex:outputField value="{!obj.CreatedDate}" /></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="log-label-div">
+                                                    <label>Created By : </label>
+                                                </div>
+                                                <div class="log-value-div">
+                                                    <span>{!obj.CreatedBy.Name}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="log-label-div">
+                                                    <label>Comments : </label>
+                                                </div>
+                                                <div class="log-value-div">
+                                                    <span title="{!If(LEN(obj.collect__Description__c) > 22,obj.collect__Description__c,'')}">{!If(LEN(obj.collect__Description__c) > 22,LEFT(obj.collect__Description__c, 22),obj.collect__Description__c)}{!If(LEN(obj.collect__Description__c) > 22,'...','')}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="log-link">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewLog('{!obj.Id}','{!obj.Name}');" style="display:{!If(interactionLogRead == true,'','none')}" title="click to view record in new sub tab" />
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/delete-icon.png')}" onclick="DeleteLog_JS('{!counter}');" style="margin-top:10px;display:{!If(interactionLogDelete == true,'','none')}" title="click to delete this record" />
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/alert-triangle.png')}" style="height:16px !important; width:16px !important; margin-top:10px;display:{!If(obj.ScCollection_Synced__c == false && obj.ScCollection_Error_Message__c != null,'','none')}" title="log not synced" />
+                                            </div>
+                                        </li>
+                                        <apex:variable value="{!counter+1}" var="counter"/>
+                                    </apex:repeat>
+                                </ul>
+                            </li>
+                            <li class="main-menu">
+                                <a href="#"><span class="sprite audit-history"></span>Audit History<span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li>
+                                        <div class="log-data" style="padding: 7px 10px;">
+                                            <div class="log-label-div">
+                                                <label></label>
+                                            </div>
+                                            <div class="log-value-div">
+                                                <span></span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="log-link view-all-link" style="padding: 0px !important;">
+                                            <span style="cursor:pointer;" onclick="ViewAll('Audits');">View All</span>
+                                        </div>
+                                    </li>
+                                    <li style="display:{!If(lstWrapperForAuditHistory.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:repeat value="{!lstWrapperForAuditHistory}" var="obj">
+                                        <li>
+                                            <div class="audit-data">
+                                                <div class="audit-label-div">
+                                                    <label>Action Done :</label>
+                                                </div>
+                                                <div class="audit-value-div">
+                                                   <apex:outputText value="{!obj.strAction}" escape="false"/>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="audit-label-div">
+                                                    <label>Modified By :</label>
+                                                </div>
+                                                <div class="audit-value-div">
+                                                    <span>{!obj.strEditedBy}</span>    
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="audit-label-div">
+                                                    <label>Modified Date :</label>
+                                                </div>
+                                                <div class="audit-value-div">
+                                                    <span>{!obj.strEditedDate}</span>
+                                                </div>
+                                                <div class="clearfix"></div>    
+                                            </div>
+                                        </li>
+                                    </apex:repeat>   
+                                </ul>
+                            </li>
+                            <li class="main-menu">
+                                <a href="#"><span class="sprite notificaion-log"></span>Communication Centre<span class="jquery-accordion-menu-label" style="margin-right: 30px;" onclick="CreateNotification();">New</span><span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li>
+                                        <div class="not-data" style="padding: 7px 10px;">
+                                            <div class="not-label-div">
+                                                <label></label>
+                                            </div>
+                                            <div class="not-value-div">
+                                                <span></span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="not-link view-all-link" style="padding: 0px !important;">
+                                            <span style="cursor:pointer;" onclick="ViewAll('Notifications');">View All</span>
+                                        </div>
+                                    </li>
+                                    <li style="display:{!If(lstNotifications.size > 0,'none','block')};">
+                                        <div class="no-record-link">
+                                            No records to display
+                                        </div>
+                                    </li>
+                                    <apex:repeat value="{!lstNotifications}" var="obj">
+                                        <li>
+                                            <div class="not-data">
+                                                <div class="not-label-div">
+                                                    <label>Type :</label>
+                                                </div>
+                                                <div class="not-value-div">
+                                                    <span>{!IF(obj.ScCollection_Is_Manual__c == true,'Manual','Automated')} {!obj.ScCollection_Communication_Type_Formula__c}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <apex:outputPanel rendered="{!IF(obj.ScCollection_Communication_Type_Formula__c == 'Letter',true,false)}">
+                                                    <div class="not-label-div">
+                                                        <label>Name :</label>
+                                                    </div>
+                                                    <div class="not-value-div">
+                                                        <span title="{!If(LEN(obj.cnotify__Subject__c) > 22,obj.cnotify__Subject__c,'')}">{!If(LEN(obj.cnotify__Subject__c) > 22,LEFT(obj.cnotify__Subject__c, 22),obj.cnotify__Subject__c)}{!If(LEN(obj.cnotify__Subject__c) > 22,'...','')}</span>
+                                                    </div>
+                                                    <div class="clearfix"></div>    
+                                                </apex:outputPanel>
+                                                <div class="not-label-div">
+                                                    <label>Sent :</label>
+                                                </div>
+                                                <div class="not-value-div">
+                                                    <span><apex:image value="{!IF(obj.cnotify__Sent__c == true, URLFOR($Resource.scCollectionConsoleResources, 'images/kept.png'),URLFOR($Resource.scCollectionConsoleResources, 'images/broken.png'))}"/></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="not-label-div">
+                                                    <label>Send To :</label>
+                                                </div>
+                                                <div class="not-value-div">
+                                                    <span>{!obj.ScCollection_Send_To__c}</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="not-label-div">
+                                                    <label>Send Date :</label>
+                                                </div>
+                                                <div class="not-value-div">
+                                                    <span><apex:outputField value="{!obj.cnotify__Sent_Date__c}" /></span>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="not-label-div">
+                                                    <label>{!IF(obj.ScCollection_Communication_Type_Formula__c == 'Letter','Url','Message')} :</label>
+                                                </div>
+                                                <div class="not-value-div">
+                                                    <span title="{!If(LEN(obj.cnotify__Message__c) > 22,obj.cnotify__Message__c,'')}" style="display:{!IF(obj.ScCollection_Communication_Type_Formula__c == 'Letter','none','block')};">{!If(LEN(obj.cnotify__Message__c) > 22,LEFT(obj.cnotify__Message__c, 22),obj.cnotify__Message__c)}{!If(LEN(obj.cnotify__Message__c) > 22,'...','')}</span>
+                                                <!--   <span style="display:{!IF(obj.ScCollection_Communication_Type_Formula__c == 'Letter','block','none')};"><td><apex:outputLink value="{!obj.ScCollection_Letter_URL__c}">Download</apex:outputLink></td></span>-->
+                                                 <span style="display:{!IF(obj.ScCollection_Communication_Type_Formula__c == 'Letter' && obj.ScCollection_Letter_URL__c != null,'block','none')};cursor:pointer; color:#337ab7;" onclick="OpenLetterUrl('{!obj.ScCollection_Letter_URL__c}');" title="{!If(LEN(obj.ScCollection_Letter_URL__c) > 22,obj.ScCollection_Letter_URL__c,'')}">Download</span>
+                                                    
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            
+                                            <div class="not-link">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/viewmore-icon.png')}" onclick="ViewNotification('{!obj.Id}','{!obj.ScCollection_Communication_Type_Formula__c}');" title="click to view record in new sub tab" />
+                                            </div>
+                                        </li>
+                                    </apex:repeat>
+                                </ul>
+                            </li>
+                            <li class="main-menu">
+                                <a href="#"><span class="sprite notificaion-log"></span>Global Counters<span class="submenu-indicator">+</span></a> 
+                                <ul class="submenu">
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>No Answer Count :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span><font style="{!If((If($Setup.ScCollection_Settings__c.ScCollection_NoAnswerCount__c == Null ,0,$Setup.ScCollection_Settings__c.ScCollection_NoAnswerCount__c) - mapContractAgsintCont['noanswer'] ) <= $Setup.ScCollection_Settings__c.ScCollection_Threshold__c,'font-size:12px;font-weight:bold;color:rgba(223, 0, 36, 0.9);','')}">{!mapContractAgsintCont['noanswer']} </font>&nbsp;({!If($Setup.ScCollection_Settings__c.ScCollection_NoAnswerCount__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_NoAnswerCount__c)})</span>     
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>Hold Days Count :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span> <font style="{!If((If($Setup.ScCollection_Settings__c.ScCollection_HoldDaysCount__c == Null ,0,$Setup.ScCollection_Settings__c.ScCollection_HoldDaysCount__c) - mapContractAgsintCont['holddays'] ) <= $Setup.ScCollection_Settings__c.ScCollection_Threshold__c,'font-size:12px;font-weight:bold;color:rgba(223, 0, 36, 0.9);','')}">{!mapContractAgsintCont['holddays']} </font>&nbsp;({!If($Setup.ScCollection_Settings__c.ScCollection_HoldDaysCount__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_HoldDaysCount__c)})</span> 
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>Broken Promise Count :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span><font style="{!If((If($Setup.ScCollection_Settings__c.ScCollection_brokenpromiseCount__c == Null ,0,$Setup.ScCollection_Settings__c.ScCollection_brokenpromiseCount__c) - mapContractAgsintCont['brokenpromise'] ) <= $Setup.ScCollection_Settings__c.ScCollection_Threshold__c,'font-size:12px;font-weight:bold;color:rgba(223, 0, 36, 0.9);','')}">{!mapContractAgsintCont['brokenpromise']} </font>&nbsp;({!If($Setup.ScCollection_Settings__c.ScCollection_brokenpromiseCount__c == Null ,0,$Setup.ScCollection_Settings__c.ScCollection_brokenpromiseCount__c )})</span> 
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>No Commitment Count :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span><font style="{!If((If($Setup.ScCollection_Settings__c.ScCollection_nocommitmentCount__c == Null ,0,$Setup.ScCollection_Settings__c.ScCollection_nocommitmentCount__c) - mapContractAgsintCont['nocommitment'] ) <= $Setup.ScCollection_Settings__c.ScCollection_Threshold__c ,'font-size:12px;font-weight:bold;color:rgba(223, 0, 36, 0.9);','')}">{!mapContractAgsintCont['nocommitment']} </font>&nbsp;({!If($Setup.ScCollection_Settings__c.ScCollection_nocommitmentCount__c == Null ,0,$Setup.ScCollection_Settings__c.ScCollection_nocommitmentCount__c )})</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>Daily Refer Cap :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span><font style="{!If((If($User.ScCollection_Daily_Refer_Count__c == Null,0,$User.ScCollection_Daily_Refer_Count__c) - $Setup.ScCollection_Settings__c.ScCollection_DailyReferCap__c ) <= $Setup.ScCollection_Settings__c.ScCollection_Threshold__c,'','font-size:12px;font-weight:bold;color:rgba(223, 0, 36, 0.9);')}">{!$User.ScCollection_Daily_Refer_Count__c}</font>&nbsp;({!If($Setup.ScCollection_Settings__c.ScCollection_DailyReferCap__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_DailyReferCap__c)})</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>Max Days No Promise :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span>{!If($Setup.ScCollection_Settings__c.ScCollection_MaxDaysNoPromise__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_MaxDaysNoPromise__c)}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>Max Days With Promise :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span>{!If($Setup.ScCollection_Settings__c.ScCollection_MaxDaysWithPromise__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_MaxDaysWithPromise__c)}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data">
+                                            <div class="counter-label-div">
+                                                <label>Max Promise Days Count :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span>{!If($Setup.ScCollection_Settings__c.ScCollection_MaxPromiseDaysCount__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_MaxPromiseDaysCount__c)}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                     <li>
+                                        <div class="counter-data" style="padding: 10px;">
+                                            <div class="counter-label-div">
+                                                <label>Minimum Acceptable Commitment % :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span> 
+                                                    <apex:outputText value="{0, number}">
+                                                        <apex:param value="{!($Setup.ScCollection_Settings__c.ScCollection_MinAcceptCommitment__c*100)}" />
+                                                    </apex:outputText>
+                                                </span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                    <li>
+                                        <div class="counter-data" style="padding: 10px;">
+                                            <div class="counter-label-div">
+                                                <label>Max Promise Days Count for 1st Promise :</label>
+                                            </div>
+                                            <div class="counter-value-div">
+                                                <span>{!If($Setup.ScCollection_Settings__c.ScCollection_MaxPromiseDaysCountPromise1__c == Null,0,$Setup.ScCollection_Settings__c.ScCollection_MaxPromiseDaysCountPromise1__c)}</span>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>   
+                                    </li>
+                                </ul>
+                            </li>
+                        </apex:form>
+                    </ul>
+                </div>
+            </div>   
+        </body>
+    </html>
+    <script>
+         function srcUp(url){
+            window.open(url);
+        }
+    </script>
+</apex:page>

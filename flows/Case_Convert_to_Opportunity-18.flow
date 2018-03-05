@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>Set_Case_with_Opportunity_ID</name>
+        <label>Set Case with Opportunity ID</label>
+        <locationX>704</locationX>
+        <locationY>184</locationY>
+        <assignmentItems>
+            <assignToReference>sobjvarCaseToUpdate.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>so_Case.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sobjvarCaseToUpdate.CRM_Mtg_Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_OpportunityID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Case_with_Opportunity_Link</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Record_Exists</name>
+        <label>Record Exists?</label>
+        <locationX>195</locationX>
+        <locationY>51</locationY>
+        <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>so_Case.Id</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Lookup_Contact</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <description>Convert a Case to an Opportunity</description>
+    <formulas>
+        <description>Current Date Plus Business Days value stored in Custom Setting</description>
+        <name>CurrentDatePlusX_BD</name>
+        <dataType>Date</dataType>
+        <expression>CASE( 
+MOD({!$Flow.CurrentDate}- DATE(1900, 1, 7), 7), 
+0, ({!$Flow.CurrentDate}) + {!so_FollowUpSettings.Task_Due_Period__c}+ FLOOR(({!so_FollowUpSettings.Task_Due_Period__c}-1)/5)*2, 
+1, ({!$Flow.CurrentDate}) + {!so_FollowUpSettings.Task_Due_Period__c}+ FLOOR(({!so_FollowUpSettings.Task_Due_Period__c})/5)*2, 
+2, ({!$Flow.CurrentDate}) + {!so_FollowUpSettings.Task_Due_Period__c}+ FLOOR(({!so_FollowUpSettings.Task_Due_Period__c}+1)/5)*2, 
+3, ({!$Flow.CurrentDate}) + {!so_FollowUpSettings.Task_Due_Period__c}+ FLOOR(({!so_FollowUpSettings.Task_Due_Period__c}+2)/5)*2, 
+4, ({!$Flow.CurrentDate}) + {!so_FollowUpSettings.Task_Due_Period__c}+ FLOOR(({!so_FollowUpSettings.Task_Due_Period__c}+3)/5)*2, 
+5, ({!$Flow.CurrentDate}) + {!so_FollowUpSettings.Task_Due_Period__c}+ CEILING(({!so_FollowUpSettings.Task_Due_Period__c})/5)*2, 
+6, ({!$Flow.CurrentDate}) - IF({!so_FollowUpSettings.Task_Due_Period__c} &gt; 0,1,0) + {!so_FollowUpSettings.Task_Due_Period__c} + CEILING(({!so_FollowUpSettings.Task_Due_Period__c})/5)*2, 
+NULL)</expression>
+    </formulas>
+    <formulas>
+        <description>Close Date for Opportunity</description>
+        <name>fx_OpportunityCloseDate</name>
+        <dataType>Date</dataType>
+        <expression>{!$Flow.CurrentDate} + 30</expression>
+    </formulas>
+    <formulas>
+        <description>Name of the Opportunity</description>
+        <name>fx_OpportunityName</name>
+        <dataType>String</dataType>
+        <expression>{!so_Case.Lead_Source__c} &amp; &quot; - &quot; &amp; {!so_Contact.Name} &amp; &quot; - &quot; &amp; {!so_Case.CaseNumber} &amp; &quot; - &quot; &amp; {!so_Case.DE_Product__c}</expression>
+    </formulas>
+    <formulas>
+        <description>Converts PPS DE Result to rating</description>
+        <name>fx_OpportunityRating</name>
+        <dataType>String</dataType>
+        <expression>CASE({!so_Case.DE_Decision__c},
+  &quot;Approved&quot;, &quot;Hot&quot;,
+  &quot;Declined&quot;, &quot;Cold&quot;,
+  &quot;Refer&quot;, &quot;Warm&quot;,
+  &quot;Cold&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <description>Converts PPS/NextGen/Resolve Class to the values the Opportunity object expects</description>
+        <name>fx_ProductClass</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+{!so_Case.Portfolio__c},
+&quot;PRIME&quot;,&quot;Prime&quot;,
+&quot;NONCONFORMINGNP&quot;,&quot;Near Prime&quot;,
+&quot;NONCONFORMING&quot;,&quot;Non Conforming&quot;,
+&quot;Unknown&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <description>Task Description</description>
+        <name>fx_TaskDescription</name>
+        <dataType>String</dataType>
+        <expression>&quot;Broker Name: &quot; &amp; {!so_Contact.Name} &amp; 
+SUBSTITUTE({!$Label.NewLine},&quot;-&quot;,&quot;&quot;) &amp;
+&quot;Broker Mobile: &quot; &amp; {!so_Contact.MobilePhone} &amp; 
+SUBSTITUTE({!$Label.NewLine},&quot;-&quot;,&quot;&quot;) &amp;
+&quot;Lead ID: &quot; &amp; {!so_Case.Lead_ID__c} &amp; 
+SUBSTITUTE({!$Label.NewLine},&quot;-&quot;,&quot;&quot;) &amp;
+&quot;Loan Amount: &quot; &amp; {!fxLoanAmountFormatted} &amp; 
+SUBSTITUTE({!$Label.NewLine},&quot;-&quot;,&quot;&quot;) &amp;
+&quot;LVR: &quot; &amp; {!fxLVRFormatted} &amp; 
+SUBSTITUTE({!$Label.NewLine},&quot;-&quot;,&quot;&quot;) &amp;
+&quot;Product: &quot; &amp; {!so_Case.DE_Product__c} &amp; 
+SUBSTITUTE({!$Label.NewLine},&quot;-&quot;,&quot;&quot;) &amp;
+&quot;Status: &quot; &amp; TEXT({!so_Case.DE_Decision__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fx_TaskSubject</name>
+        <dataType>String</dataType>
+        <expression>{!so_Case.Lead_Source__c} &amp; &quot; - &quot; &amp; TEXT({!so_Case.DE_Decision__c}) &amp; &quot; - &quot; &amp; {!so_Contact.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>fxLoanAmountFormatted</name>
+        <dataType>String</dataType>
+        <expression>&quot;$&quot; &amp; IF( 
+  {!so_Case.CRM_Mtg_Amount__c} &gt;= 1000000, 
+  TEXT(FLOOR({!so_Case.CRM_Mtg_Amount__c} / 1000000)) &amp; &quot;,&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!so_Case.CRM_Mtg_Amount__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!so_Case.CRM_Mtg_Amount__c} / 1000)), 3) &amp; &quot;,&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!so_Case.CRM_Mtg_Amount__c})), 3) &amp; &quot;.&quot; &amp; 
+IF( 
+  MOD({!so_Case.CRM_Mtg_Amount__c} , 1) * 100 &lt; 10, 
+  &quot;0&quot; &amp; TEXT(ROUND(MOD({!so_Case.CRM_Mtg_Amount__c} , 1), 2) * 100), 
+  TEXT(MIN(ROUND(MOD({!so_Case.CRM_Mtg_Amount__c} , 1), 2) * 100, 99)) 
+)</expression>
+    </formulas>
+    <formulas>
+        <name>fxLVRFormatted</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!so_Case.CRM_Mtg_LVR__c}*100) &amp; &quot;%&quot;</expression>
+    </formulas>
+    <interviewLabel>Case Convert to Opportunity {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case Convert to Opportunity</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Contact_Role</name>
+        <label>Create Contact Role</label>
+        <locationX>210</locationX>
+        <locationY>191</locationY>
+        <connector>
+            <targetReference>Look_up_BDM_Follow_Up_Setting</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>ContactId</field>
+            <value>
+                <elementReference>so_Case.ContactId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsPrimary</field>
+            <value>
+                <elementReference>True</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OpportunityId</field>
+            <value>
+                <elementReference>var_OpportunityID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Role</field>
+            <value>
+                <stringValue>Influencer</stringValue>
+            </value>
+        </inputAssignments>
+        <object>OpportunityContactRole</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Opportunity</name>
+        <label>Create Opportunity</label>
+        <locationX>47</locationX>
+        <locationY>163</locationY>
+        <assignRecordIdToReference>var_OpportunityID</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Contact_Role</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>so_Case.AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>so_Case.CRM_Mtg_Amount__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_City_Suburb__c</field>
+            <value>
+                <elementReference>so_Case.CRM_Mtg_Location__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Lead_ID__c</field>
+            <value>
+                <elementReference>so_Case.Lead_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Postcode__c</field>
+            <value>
+                <elementReference>so_Case.CRM_Mtg_Location_PostCode__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Product_Class_Name__c</field>
+            <value>
+                <elementReference>fx_ProductClass</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Product__c</field>
+            <value>
+                <elementReference>so_Case.DE_Product__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Property_Value__c</field>
+            <value>
+                <elementReference>so_Case.CRM_Mtg_Estimated_Value__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Rate__c</field>
+            <value>
+                <elementReference>so_Case.CRM_Mtg_Interest_Rate__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_mtg_Rating__c</field>
+            <value>
+                <elementReference>fx_OpportunityRating</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CloseDate</field>
+            <value>
+                <elementReference>fx_OpportunityCloseDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>DE_Result__c</field>
+            <value>
+                <elementReference>so_Case.DE_Decision__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enquiry_Date__c</field>
+            <value>
+                <elementReference>so_Case.CreatedDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LeadSource</field>
+            <value>
+                <elementReference>so_Case.Lead_Source__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>fx_OpportunityName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>so_Contact.CRM_Mtg_Mortgage_BDM__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StageName</field>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Task</name>
+        <label>Create Task</label>
+        <locationX>551</locationX>
+        <locationY>179</locationY>
+        <connector>
+            <targetReference>Set_Case_with_Opportunity_ID</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>ActivityDate</field>
+            <value>
+                <elementReference>CurrentDatePlusX_BD</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>fx_TaskDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>so_Contact.CRM_Mtg_Mortgage_BDM__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Priority</field>
+            <value>
+                <stringValue>Normal</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Open</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>fx_TaskSubject</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Call</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhatId</field>
+            <value>
+                <elementReference>var_OpportunityID</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WhoId</field>
+            <value>
+                <elementReference>so_Case.ContactId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordCreates>
+    <recordLookups>
+        <name>Look_up_BDM_Follow_Up_Setting</name>
+        <label>Look up BDM Follow Up Setting</label>
+        <locationX>367</locationX>
+        <locationY>186</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Task</targetReference>
+        </connector>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>so_Case.Lead_Source__c</elementReference>
+            </value>
+        </filters>
+        <object>BDM_Lead_Follow_Up__c</object>
+        <outputReference>so_FollowUpSettings</outputReference>
+        <queriedFields>Task_Due_Period__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Lookup_Case_Details</name>
+        <label>Lookup Case Details</label>
+        <locationX>53</locationX>
+        <locationY>50</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Record_Exists</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>var_CaseID</elementReference>
+            </value>
+        </filters>
+        <object>Case</object>
+        <outputReference>so_Case</outputReference>
+        <queriedFields>Lead_Source__c</queriedFields>
+        <queriedFields>ContactId</queriedFields>
+        <queriedFields>AccountId</queriedFields>
+        <queriedFields>Lead_ID__c</queriedFields>
+        <queriedFields>DE_Decision__c</queriedFields>
+        <queriedFields>CreatedDate</queriedFields>
+        <queriedFields>CRM_Mtg_Location_PostCode__c</queriedFields>
+        <queriedFields>CRM_Mtg_Location__c</queriedFields>
+        <queriedFields>CRM_Mtg_Interest_Rate__c</queriedFields>
+        <queriedFields>Portfolio__c</queriedFields>
+        <queriedFields>CRM_Mtg_Amount__c</queriedFields>
+        <queriedFields>CRM_Mtg_Estimated_Value__c</queriedFields>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DE_Product__c</queriedFields>
+        <queriedFields>CaseNumber</queriedFields>
+        <queriedFields>CRM_Mtg_LVR__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Lookup_Contact</name>
+        <label>Lookup Contact (Broker)</label>
+        <locationX>407</locationX>
+        <locationY>51</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Opportunity</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>so_Case.ContactId</elementReference>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <outputReference>so_Contact</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>MailingState</queriedFields>
+        <queriedFields>CRM_Mtg_Mortgage_BDM__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>MobilePhone</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Case_with_Opportunity_Link</name>
+        <label>Update Case with Opportunity Link</label>
+        <locationX>891</locationX>
+        <locationY>177</locationY>
+        <inputReference>sobjvarCaseToUpdate</inputReference>
+    </recordUpdates>
+    <startElementReference>Lookup_Case_Details</startElementReference>
+    <variables>
+        <description>Case sObject</description>
+        <name>so_Case</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <description>Contact record (broker) against which the case was created</description>
+        <name>so_Contact</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <name>so_FollowUpSettings</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>BDM_Lead_Follow_Up__c</objectType>
+    </variables>
+    <variables>
+        <name>sobjvarCaseToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <description>Case ID</description>
+        <name>var_CaseID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>ID of Opportunity Created in this Flow</description>
+        <name>var_OpportunityID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Opportunity Product Class (Prime, Near Prime, Non-Conforming etc)</description>
+        <name>var_OpportunityProdClass</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Subject for BDM Task</description>
+        <name>var_TaskSubject</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

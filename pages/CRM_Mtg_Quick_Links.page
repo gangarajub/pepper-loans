@@ -1,0 +1,87 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the quick links to be shown on home page
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 18-MAY-2017         Created By: Pawan Mudgal            Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="CRM_Mtg_QuickLinksController" showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head> 
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+            
+            <style>
+                body
+                {
+                    margin:0px;
+                    padding:0px;
+                    background-color:#eee;
+                }
+                h1, h2, h3, h4, h5, h6, span, div, ul, li, input, textarea, select, p
+                {
+                    margin:0px;
+                    padding:0px;
+                    font-weight:normal;
+                }
+                .cstm-box
+                {
+                    background-color:#fff;
+                    width:100%;
+                    display:inline-block;
+                }
+                .heading
+                {
+                    background-color:#DF0024;
+                    padding:14px;
+                    color:#fff;
+                    font-size:16px;
+                    font-family: 'Open Sans', sans-serif;
+                }
+                .cstm-box ul
+                {
+                    list-style:none;
+                    margin:0px;
+                    padding:0px;
+                }
+                .cstm-box ul li
+                {
+                    line-height:25px;
+                    border-bottom: 1px solid lightgray;
+                }
+                .cstm-box ul li a:hover
+                {
+                    text-decoration: underline;
+                }
+                .cstm-box ul li a
+                {
+                    display:block;
+                    color:blue;
+                    text-decoration:none;
+                    padding:12px;
+                    font-family: 'Open Sans', sans-serif;
+                    position:relative;
+                    font-size:14px;
+                }
+                .cstm-box ul li a:after
+                {
+                    content:'\2192';
+                    display:inline-block;
+                    float:right;
+                    font-size:16px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="cstm-box">
+                <!--<h3 class="heading">Quick Links</h3>-->
+                <ul>
+                    <apex:repeat value="{!lstLinks}" var="obj">
+                        <li><a href="{!obj.CRM_Mtg_Link_Url__c}" target="_blank">{!obj.Name}</a></li>
+                    </apex:repeat>
+                </ul>
+            </div>
+        </body>
+    </html>
+</apex:page>

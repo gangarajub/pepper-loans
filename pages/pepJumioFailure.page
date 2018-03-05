@@ -1,0 +1,11 @@
+<apex:page controller="pepJumioFailureController" action="{!redirect}" showHeader="false" sidebar="false" standardStylesheets="false" cache="{!$Label.Cache_Settings}">
+<script>
+ 
+ setTimeout(function(){top.location.href="{!$Label.Site_URL}{!retUrlPage}",2000})
+</script>  
+<apex:form id="frmId">
+    <apex:inputHidden value="{!retUrlPage}" id="textId"/>
+</apex:form>
+
+
+</apex:page>

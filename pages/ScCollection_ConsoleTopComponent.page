@@ -1,0 +1,323 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the console top view for pepper collections.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 18-JUN-2016    Created By: Pawan Mudgal    Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+    User Story: 
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="pageId" controller="ScCollection_CnslTopComponentHandler" showHeader="true" sidebar="false" standardStylesheets="false" docType="html-5.0">
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery.min.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/modernizr-custom.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($Resource.scCollectionConsoleResources,'js/bootstrap.min.js')}"></script> 
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" rel="stylesheet" />
+            <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/style.css')}" rel="stylesheet" />
+            <link href="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" rel="stylesheet" />
+            <style>
+                ::-webkit-scrollbar 
+                {
+                    -webkit-appearance: none;
+                }
+                
+                ::-webkit-scrollbar:vertical 
+                {
+                    width: 12px;
+                }
+                
+                ::-webkit-scrollbar:horizontal 
+                {
+                    height: 12px;
+                }
+                
+                ::-webkit-scrollbar-thumb 
+                {
+                    background-color: rgba(0, 0, 0, .5);
+                    border-radius: 10px;
+                    border: 2px solid #ffffff;
+                }
+                
+                ::-webkit-scrollbar-track 
+                {
+                    border-radius: 10px;  
+                    background-color: #ffffff; 
+                }
+                ul.list-unstyled .tel+span
+                {
+                    position: relative
+                }
+                ul.list-unstyled .tel+span a img
+                {
+                    position: absolute;
+                    left: -25px;
+                    top: 13px;
+                }
+                .cti-disabled
+                {
+                    display:block;
+                    padding-top:0.6em;
+                    background: url(/img/btn_dial_inline.gif) no-repeat 0 8px;
+                    padding-left: 20px;
+                    background-size: 13px 13px;
+                }
+                .borrower_error
+                {
+                    padding: 20px;
+                    background-color: rgb(242, 239, 236);
+                    color: #000;
+                    opacity: 0.83;
+                    transition: opacity 0.6s;
+                    margin: 20px 0px;
+                    font-size: 1.3em;
+                    font-weight: bold;
+                }
+            </style>
+            
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    if('{!strContractType}' == 'PAF')
+                    {
+                        activeItem = $('.pafli');    
+                    }
+                    else if('{!strContractType}' == 'MORTGAGE')
+                    {
+                        activeItem = $('.mortgageli');        
+                    }
+                    else
+                    {
+                        activeItem = $('.plli');    
+                    }
+                    
+                    $(activeItem).addClass('active');
+ 
+                    $('#accordion li').click(function()
+                    {
+                        $(activeItem).animate({width: '25px'}, {duration:300, queue:false});
+                        $(this).animate({width: '210px'}, {duration:300, queue:false});
+                        activeItem = this;
+                    }); 
+                        
+                    $('.carousel').carousel(
+                    {   
+                        pause: true,
+                        interval: false
+                    });
+                    
+                    var span = $('.list-unstyled span').find('span');
+                    
+                    if(span.length < 1)
+                    {
+                        $('.list-unstyled span').addClass('cti-disabled');
+                    }
+                }); 
+                
+                function OpenLoanContract(recordId, recordName) 
+                {
+                    // open the selected article and focus
+                    sforce.console.getFocusedPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openPrimaryTab(sforce.console.getFocusedPrimaryTabId(),'/' + recordId + '?nooverride=1', true, recordName, openSuccess,recordName);
+                    });
+
+                    var openSuccess = function openSuccess(result) 
+                    {
+                        //Report whether opening the new tab was successful
+                        if (result.success == true) 
+                        {
+                        } 
+                        else 
+                        {
+                            sforce.console.focusPrimaryTabByName(recordName);
+                        }
+                    };
+                }
+                
+                function OpenContact(recordId, recordName) 
+                {
+                    sforce.console.getEnclosingPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openSubtab(result.id, '/' + recordId, true, recordName, null);
+                    });
+                }
+                
+                function OpenAddress(strAddress,strName,isInvalidAddress) 
+                {
+                    if(isInvalidAddress == 'true' || strAddress == '')
+                    {
+                        
+                    }
+                    else
+                    {
+                        sforce.console.getEnclosingPrimaryTabId(function(result) 
+                        {
+                            sforce.console.openSubtab(result.id, '/apex/scCollection_AddressLocator?place=' + strAddress + '&name=' + strName, true, 'Google Maps', null);
+                        });
+                    }  
+                }
+                
+                function showPassword()
+                {
+                    $('.pswd_label').hide();
+                    $('.pswd_value').show();
+                }
+                
+                function hidePassword()
+                {
+                    $('.pswd_label').show();
+                    $('.pswd_value').hide();
+                }
+            </script> 
+        </head>
+        <body>
+            <section class="profile_sec">
+                <div id="myCarousel2" class="carousel slide col-sm-12 col-md-12 nopadding" data-ride="carousel" style="display:{!If(lstWrapperForBorrowerDetails.size > 0,'','none')};">
+                    <div class="carousel-inner" role="listbox">
+                        <apex:variable value="{!1}" var="counter" />
+                        <apex:repeat value="{!lstWrapperForBorrowerDetails}" var="obj">
+                            <div class="item {!if(counter == 1,'active','')}">
+                                <article class="personal-detail"> 
+                                    <span class="prof-img-bg col-sm-3 col-md-3 nopadding" style="text-align: center;">
+                                        <img src="{!If(obj.strContactImage != 'null',obj.strContactImage,URLFOR($Resource.scCollectionConsoleResources,'images/default-male.png'))}"/>
+                                        <div style="margin-top: 5px;font-size: 1.2em;font-weight: bold;color: rgb(223, 0, 36);padding-right: 10px;">{!counter} of {!lstWrapperForBorrowerDetails.size}</div>
+                                    </span>
+                                    <span class="col-sm-9 col-md-9 norightpadding">
+                                        <ul class="list-unstyled">
+                                            <h2 onclick="OpenContact('{!obj.strContactId}','{!obj.strContactName}');" style="cursor:pointer;">{!obj.strContactName} <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/primary-icon.png')}" style="height:20px; width:20px; float:right; margin:0px 15px 0px 0px; display:{!If(obj.isPrimary == true,'inline','none')};" /><br/>({!obj.strContactType})</h2>
+                                            <support:clickToDial number="{!obj.strContactMobile}" entityId="{!strContractId}"/>
+                                            <a href="#"><i class="fa fa-calendar" aria-hidden="true"></i>{!obj.strContactDOB}<i class="fa fa-birthday-cake" aria-hidden="true" style="margin-left:10px; font-size:14px;display:{!If(obj.IsBirthdayToday == true,'inline-block','none')};"></i></a>
+                                            <a href="#" style="padding-left: 25px !important;" onclick="OpenAddress('{!obj.strContactAddress}','{!obj.strContactName}','{!obj.isInvalidAddress}');" title="{!If(obj.isInvalidAddress == true,'Invalid Address','click to open address in google maps')}"><i class="fa fa-home" aria-hidden="true"></i>{!obj.strContactAddress}<img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/invalid.png')}" style="display:{!If(obj.isInvalidAddress == true,'inline-block','none')}"/></a>
+                                        </ul>
+                                    </span>     
+                                </article>
+                    
+                                <article class="other-detail">
+                                    <form class="cstm-form" role="form">
+                                        <div class="form-group fleft width40">
+                                            <label class="control-label col-sm-5 lbl-bold noleftpadding paddingright15">Customer Id:</label>
+                                            <div class="col-sm-7 valuediv norightpadding noleftpadding">
+                                                <span>{!obj.strCustomerId}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group fleft width30">
+                                            <label class="control-label col-sm-6 lbl-bold noleftpadding"># of Contracts:</label>
+                                            <div class="col-sm-6 valuediv norightpadding">
+                                                <span>{!obj.strNoOfContracts}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group fleft width30">
+                                            <label class="control-label col-sm-6 lbl-bold noleftpadding">Veda Flag:</label>
+                                            <div class="col-sm-6 valuediv norightpadding">
+                                                <span><Img src="{!If(obj.isVedaDefault == true,URLFOR($Resource.scCollectionConsoleResources,'images/kept.png'),URLFOR($Resource.scCollectionConsoleResources,'images/unchecked.png'))}" style="height:15px;"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        
+                                        <div class="form-group fleft width40">
+                                            <label class="control-label col-sm-5 lbl-bold noleftpadding paddingright15">Preference:</label>
+                                            <div class="col-sm-7 valuediv norightpadding noleftpadding">
+                                                <span>{!obj.strContactPreference}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group fleft width30">
+                                            <label class="control-label col-sm-6 lbl-bold noleftpadding">ATP Flag:</label>
+                                            <div class="col-sm-6 valuediv norightpadding">
+                                                <span><Img src="{!If(obj.isATPFlag == true,URLFOR($Resource.scCollectionConsoleResources,'images/kept.png'),URLFOR($Resource.scCollectionConsoleResources,'images/unchecked.png'))}" style="height:15px;"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group fleft width30">
+                                            <label class="control-label col-sm-6 lbl-bold noleftpadding">Deceased Flag:</label>
+                                            <div class="col-sm-6 valuediv norightpadding">
+                                                <span><Img src="{!If(obj.isDeceasedFlag == true,URLFOR($Resource.scCollectionConsoleResources,'images/kept.png'),URLFOR($Resource.scCollectionConsoleResources,'images/unchecked.png'))}" style="height:15px;"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        
+                                        <div class="form-group fleft width40">
+                                            <label class="control-label col-sm-5 lbl-bold noleftpadding paddingright15">Password:</label>
+                                            <div class="col-sm-7 valuediv norightpadding noleftpadding">
+                                                <span style="float:left;cursor:pointer;" onmouseover="showPassword();" onmouseout="hidePassword();">
+                                                    <label class="pswd_value" style="display:none;margin:0px;">{!obj.strPassword}</label>
+                                                    <label class="pswd_label" style="margin:0px;">********</label>
+                                                    <i class="fa fa-unlock" aria-hidden="true" style="font-size:14px;margin-left:5px;"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group fleft width30">
+                                            <label class="control-label col-sm-6 lbl-bold noleftpadding">Skip Flag:</label>
+                                            <div class="col-sm-6 valuediv norightpadding">
+                                                <span><Img src="{!If(obj.isSkipFlag == true,URLFOR($Resource.scCollectionConsoleResources,'images/kept.png'),URLFOR($Resource.scCollectionConsoleResources,'images/unchecked.png'))}" style="height:15px;"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group fleft width30">
+                                            <label class="control-label col-sm-6 lbl-bold noleftpadding">Bankrupt Flag:</label>
+                                            <div class="col-sm-6 valuediv norightpadding">
+                                                <span><Img src="{!If(obj.isBankruptFlag == true,URLFOR($Resource.scCollectionConsoleResources,'images/kept.png'),URLFOR($Resource.scCollectionConsoleResources,'images/unchecked.png'))}" style="height:15px;"/></span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </article>
+
+                                <article class="loan-detail nopadding">
+                                    <span class="col-sm-12 nopadding">
+                                        <ul id="accordion">
+                                            <li class="pafli">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/asset.jpg')}" />
+                                                <div class="accordiandiv">
+                                                    <apex:repeat value="{!obj.lstwrapperForLoanDetails}" var="objloan">
+                                                        <apex:outputPanel rendered="{!If(objloan.strLoanType == 'PAF',true,false)}">
+                                                            <a href="#" title="{!objloan.strTitle}" class="loan-sec" style="{!If(objloan.IsInArrear == true,'background-color: rgb(223, 0, 36);color: #fff;','')}" onclick="OpenLoanContract('{!objloan.strLoanId}','{!objloan.strLoanNo}');">{!objloan.strLoanNo}</a>
+                                                        </apex:outputPanel>
+                                                    </apex:repeat>
+                                                </div>
+                                            </li>
+                                            <li class="mortgageli">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/mortgage.jpg')}" />
+                                                <div class="accordiandiv">
+                                                    <apex:repeat value="{!obj.lstwrapperForLoanDetails}" var="objloan">
+                                                        <apex:outputPanel rendered="{!If(objloan.strLoanType == 'MORTGAGE',true,false)}">
+                                                            <a href="#" title="{!objloan.strTitle}" class="loan-sec" style="{!If(objloan.IsInArrear == true,'background-color: rgb(223, 0, 36);color: #fff;','')}" onclick="OpenLoanContract('{!objloan.strLoanId}','{!objloan.strLoanNo}');">{!objloan.strLoanNo}</a>
+                                                        </apex:outputPanel>
+                                                    </apex:repeat>
+                                                </div>
+                                            </li>
+                                            <li class="plli">
+                                                <img src="{!URLFOR($Resource.scCollectionConsoleResources,'images/personal.jpg')}" />
+                                                <div class="accordiandiv">
+                                                    <apex:repeat value="{!obj.lstwrapperForLoanDetails}" var="objloan">
+                                                        <apex:outputPanel rendered="{!If(objloan.strLoanType == 'CL Loan',true,false)}">
+                                                            <a href="#" title="{!objloan.strTitle}" class="loan-sec" style="{!If(objloan.IsInArrear == true,'background-color: rgb(223, 0, 36);color: #fff;','')}" onclick="OpenLoanContract('{!objloan.strLoanId}','{!objloan.strLoanNo}');">{!objloan.strLoanNo}</a>
+                                                        </apex:outputPanel>
+                                                    </apex:repeat>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </article>
+                            </div>
+                            <apex:variable value="{!counter+1}" var="counter" />
+                        </apex:repeat>
+                    </div>
+                    
+                    <a class="left carousel-control carousel-controlcstm" href="#myCarousel2" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control carousel-controlcstm" href="#myCarousel2" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <div class="col-sm-12 col-md-12 borrower_error" style="display:{!If(lstWrapperForBorrowerDetails.size > 0,'none','')};">
+                    Sorry ! There is no primary Borrower/Party associated with this contract.
+                </div>
+            </section>      
+        </body>
+    </html>
+</apex:page>

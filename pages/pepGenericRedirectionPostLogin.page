@@ -1,0 +1,115 @@
+<apex:page id="pageId" standardStylesheets="false" showHeader="false" sidebar="false" docType="html-5.0" cache="{!$Label.Cache_Settings}" >  
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generic Redirect Post Login</title>
+    <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css')}"/>
+        <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TSLM9PW');</script>
+            <!-- End Google Tag Manager -->   
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TSLM9PW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+<apex:form id="idForm">
+<apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+    <div class="headerCont">
+    <div class="pepperContainer">
+        <header class="page-row">
+            <div class="pageLogo">
+               <a href="#logo"><apex:image url="{!URLFOR($Resource.ResourceZip,
+                              'assets/common/images/logo.png')}" alt="Pepper"/></a>
+            </div>
+            <div class="callAssist">
+               <span><c:pepcmscomponent_Text pageNameTest="Dashboard Header" sectionName="SectionOne(DH)"></c:pepcmscomponent_Text></span>
+
+            </div>
+        </header>
+    </div>
+    </div>
+
+    <!-- mid sectin  start here -->
+    <div class="pepperContainer">
+        <div class="page-row">
+            <div class="startNegApp">
+                <h3 class="heading ">       
+                  <c:pepcmscomponent_Text pageNameTest="Generic Redirection (Dashboard)" sectionName="Generic Redirection Section 1"></c:pepcmscomponent_Text>                   
+                </h3>
+                <p> 
+                   <c:pepcmscomponent_Text pageNameTest="Generic Redirection (Dashboard)" sectionName="Generic Redirection Section 2"></c:pepcmscomponent_Text>                   
+                </p>
+                <p>  
+                 <c:pepcmscomponent_Text pageNameTest="Generic Redirection (Dashboard)" sectionName="Generic Redirection Section 3"></c:pepcmscomponent_Text>                   
+                </p>
+                
+                <div class="page-row">
+                    <div class="form-cntrl">                
+                        <div class="boxInfo" >
+                            <div class="appinfo" id="idBox">
+                                <p> 
+                
+                                    <c:pepcmscomponent_Text pageNameTest="Generic Redirection (Dashboard)" sectionName="Generic Redirection Section 4"></c:pepcmscomponent_Text> 
+                                     <br/>
+                                    <span>
+                                        <strong>                 
+                                            <c:pepcmscomponent_Text pageNameTest="Generic Redirection (Dashboard)" sectionName="Generic Redirection Section 5"></c:pepcmscomponent_Text> 
+                                        </strong>
+                                    </span>
+        
+                                </p>
+                                
+                                <!--<p>         
+                                    <c:pepcmscomponent_Text pageNameTest="Generic Redirection (Dashboard)" sectionName="Generic Redirection Section 6"></c:pepcmscomponent_Text> 
+                                
+                                </p>-->
+                                
+                                
+                            </div>
+                            
+                            
+                            
+                        </div> 
+                    </div>                                                                                    
+                </div>                       
+                  
+
+                <div class="page-row">
+                    <div class="form-cntrl">
+                         <apex:outputlink id="idBtn" Styleclass="button staticBtn" value="/peploginpage">Back to Home</apex:outputlink> 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- mid section end here -->
+
+
+      <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+   
+   
+    
+     </apex:form>
+    
+    <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/>
+     <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>
+     
+</body>
+<style>
+.startNegApp .form-cntrl .boxInfo {
+ min-height:auto!important;
+}
+</style>
+
+</html>
+</apex:page>

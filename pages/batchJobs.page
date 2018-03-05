@@ -1,0 +1,6 @@
+<apex:page controller="batchJobs" >
+    
+    <apex:form >
+    	<c:batchJobs />	
+    </apex:form>
+</apex:page>

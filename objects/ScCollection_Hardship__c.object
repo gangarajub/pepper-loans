@@ -1,0 +1,1441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This object is used to capture all Hardship Details related to a contract</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Hardship_Completed__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <inlineHelpText>Date Hardship was capitalised</inlineHelpText>
+        <label>Hardship Completed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Hardship_Outcome__c</fullName>
+        <externalId>false</externalId>
+        <label>Hardship Outcome</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Cured capped</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cured not capped</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Not cured</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>How_was_SOFP_Completed__c</fullName>
+        <externalId>false</externalId>
+        <label>How was SOFP Completed?</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Phone</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Mail</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Complaint</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollectionAfter_Tax_Wages_Borrower_3__c</fullName>
+        <externalId>false</externalId>
+        <label>After Tax Wages (Borrower 3)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Account_Number_Direct_Debit__c</fullName>
+        <externalId>false</externalId>
+        <label>Account Number (Direct Debit)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Ad_Hoc_Date_1__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Ad Hoc Date 1</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Ad_Hoc_Instalment__c</fullName>
+        <externalId>false</externalId>
+        <label>Ad Hoc Instalment</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Additional__c</fullName>
+        <externalId>false</externalId>
+        <label>Additional</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_After_Tax_Wages_Borrower_1__c</fullName>
+        <externalId>false</externalId>
+        <label>After Tax Wages (Borrower 1)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_After_Tax_Wages_Borrower_2__c</fullName>
+        <externalId>false</externalId>
+        <label>After Tax Wages (Borrower 2)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_After_Tax_Wages_Borrower_4__c</fullName>
+        <externalId>false</externalId>
+        <label>After Tax Wages (Borrower 4)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Any_Other_Cost__c</fullName>
+        <externalId>false</externalId>
+        <label>Any Other Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Arrears_to_be_capped__c</fullName>
+        <externalId>false</externalId>
+        <label>Arrears to be capped</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_BSB_1__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>BSB</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_BSB_Number_Direct_Debit_1__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>BSB Number (Direct Debit)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_BSB_Number_Direct_Debit__c</fullName>
+        <externalId>false</externalId>
+        <label>BSB Number (Direct Debit)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_BSB__c</fullName>
+        <externalId>false</externalId>
+        <label>BSB</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Basic__c</fullName>
+        <externalId>false</externalId>
+        <label>Basic</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Bonds__c</fullName>
+        <externalId>false</externalId>
+        <label>Bonds</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_COS_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>COS Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Car_Insurance__c</fullName>
+        <externalId>false</externalId>
+        <label>Insurance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Clothing__c</fullName>
+        <externalId>false</externalId>
+        <label>Clothing</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract_Name__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+	NOT( ISBLANK( scCollection_Loan_Account__c ) ) 
+	, 
+	scCollection_Loan_Account__r.Name  
+	, 
+	IF(
+	  NOT( ISBLANK(ScCollection_Contract__c ) ) 
+	  ,
+		IF(
+			ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;
+		,
+			left( ScCollection_Contract__r.Name ,find(&apos;_&apos;, ScCollection_Contract__r.Name)-1)
+		,
+			ScCollection_Contract__r.Name
+		)
+	  ,
+	  &quot;&quot;
+	) 
+)</formula>
+        <label>Contract Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Contract__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>CL Contract</label>
+        <referenceTo>collect__Loan_Account__c</referenceTo>
+        <relationshipLabel>Hardship</relationshipLabel>
+        <relationshipName>Hardship</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Country_Code__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+NOT( ISBLANK( ScCollection_Contract__c ) ) 
+, 
+    ScCollection_Contract__r.ScCollection_Country_Code__c   
+, 
+ &quot;&quot; 
+)</formula>
+        <label>Country Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Credit_Card_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card (1)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Credit_Card_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card (2)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Credit_Card_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card (3)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Date_docs_to_be_returned__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Date (docs to be returned)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Date_payments_to_recommence__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Date(payments to recommence)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Dividends__c</fullName>
+        <externalId>false</externalId>
+        <label>Dividends</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_EREF_Account_number__c</fullName>
+        <externalId>false</externalId>
+        <label>EREF Account number</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Electricity_Gas__c</fullName>
+        <externalId>false</externalId>
+        <label>Electricity/Gas</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Entertainment__c</fullName>
+        <externalId>false</externalId>
+        <label>Entertainment</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_External_Id__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+ AND(NOT(ISBLANK( ScCollection_Contract__c )),OR( ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;, ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;PAF&quot; ))  
+, 
+ScCollection_Contract__r.collect__External_ID__c 
+, 
+&quot;&quot; 
+)</formula>
+        <label>External Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Followed_up_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Followed up Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Food__c</fullName>
+        <externalId>false</externalId>
+        <label>Food</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Frequency__c</fullName>
+        <externalId>false</externalId>
+        <label>Frequency</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Weekly</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Fortnightly</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Quarterly</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Frequency_of_arrangement__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Frequency of arrangement</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardhsip_Decision__c</fullName>
+        <externalId>false</externalId>
+        <label>Hardship Decision</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Declined</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>In Progress</fullName>
+                <default>true</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_HardshipAssistancePeriod__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL(ScCollection_HardshipCommencementDate__c),&quot;&quot;,
+TEXT(FLOOR((ScCollection_HardshipExpiryDate__c-ScCollection_HardshipCommencementDate__c)/365.2425)) &amp; &quot; Years &quot; &amp; 
+TEXT(FLOOR(MOD((ScCollection_HardshipExpiryDate__c-ScCollection_HardshipCommencementDate__c),365.2425)/30)) &amp; &quot; Months &quot; &amp;
+Text(Floor(MOD(Floor(MOD((ScCollection_HardshipExpiryDate__c-ScCollection_HardshipCommencementDate__c),365.2425)),30)/7)) &amp; &quot; Weeks &quot; &amp;
+Text(Floor(MOD(Floor(MOD((ScCollection_HardshipExpiryDate__c-ScCollection_HardshipCommencementDate__c),365.2425)),30))) &amp; &quot; Days &quot;
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Hardship Assistance Period</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_HardshipCommencementDate__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Hardship Commencement Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_HardshipExpiryDate__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Hardship Expiry Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_HardshipRequestedDate__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Hardship Requested Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardship_Approval_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Hardship Approval Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardship_Approval__c</fullName>
+        <externalId>false</externalId>
+        <label>Hardship Approval</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Maintain payment and cap</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Term Extension</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Full payment moratorium</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Reduce payment moratorium</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Time to sell</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Time to discharge</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Time to refinance</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Release of superannuation</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Long term arrangement to pay</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardship_Assistance_Period__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Hardship Assistance Period</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardship_Broken__c</fullName>
+        <externalId>false</externalId>
+        <label>Hardship Broken</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardship_Decline_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Hardship Decline Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Hardship_Decline__c</fullName>
+        <externalId>false</externalId>
+        <label>Hardship Decline</label>
+        <picklist>
+            <picklistValues>
+                <fullName>No capacity to pay</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Assistance not required</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Arrangement not met</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Insufficient information to assess</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer not contactable</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Insurance__c</fullName>
+        <externalId>false</externalId>
+        <label>Insurance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Judgement_Obtained__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Judgement Obtained</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_LOB_Identifier__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+NOT( ISBLANK( scCollection_Loan_Account__c ) ) 
+, 
+&quot;CL Loan&quot;
+, 
+IF(
+  NOT( ISBLANK(ScCollection_Contract__c ) ) 
+  ,
+    ScCollection_Contract__r.ScCollection_Source_System_Name__c 
+  ,
+  &quot;&quot;
+) 
+)</formula>
+        <label>LOB Identifier</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Letter_of_finance_approval__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Letter of finance approval</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Loan_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Loan (1)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Loan_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Loan (2)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Market_Value_ofThisProperty__c</fullName>
+        <externalId>false</externalId>
+        <label>Market Value of This Property</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Mobile_Phone__c</fullName>
+        <externalId>false</externalId>
+        <label>Mobile Phone</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Monthly_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Monthly Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Mortgage_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Mortgage(1)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Mortgage_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Mortgage(2)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Motor_Vehicles__c</fullName>
+        <externalId>false</externalId>
+        <label>Motor Vehicles</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Number_of_payments__c</fullName>
+        <externalId>false</externalId>
+        <label>Number of payments</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_OtherPleaseStatefamilyall_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Other (Please State)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_OtherPleaseStatefamilyall_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Other (Please State)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Other_Investments__c</fullName>
+        <externalId>false</externalId>
+        <label>Other Investments</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Other_Please_State_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Other (Please State)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Other_Please_State_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Other (Please State)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Other_Please_State_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Other (Please State)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Other_Real_Estate_Owned__c</fullName>
+        <externalId>false</externalId>
+        <label>Other Real Estate Owned</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Personal_Grooming_etc__c</fullName>
+        <externalId>false</externalId>
+        <label>Personal (Grooming etc)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Petrol__c</fullName>
+        <externalId>false</externalId>
+        <label>Petrol</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Prescriptions__c</fullName>
+        <externalId>false</externalId>
+        <label>Prescriptions</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Proposed_Repayment_Plan__c</fullName>
+        <externalId>false</externalId>
+        <label>Proposed Repayment Plan</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Rates_Water__c</fullName>
+        <externalId>false</externalId>
+        <label>Rates/Water</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Reason_for_Hardship__c</fullName>
+        <externalId>false</externalId>
+        <label>Reason for  Hardship</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Unemployment</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Illness or Injury</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Business Failure</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Reduced Income</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Overcommitted</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Borrower Deceased</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Relationship Dispute</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Maternity/Parental Leave</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Natural Disaster</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Incarceration</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Reassessment_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Reassessment Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Reduced_interest_Rate__c</fullName>
+        <externalId>false</externalId>
+        <label>Reduced interest Rate</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Reduced_payment_amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Reduced payment amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Registration__c</fullName>
+        <externalId>false</externalId>
+        <label>Registration</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Rent_Assistance__c</fullName>
+        <externalId>false</externalId>
+        <label>Rent Assistance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Rent_Board__c</fullName>
+        <externalId>false</externalId>
+        <label>Rent/Board</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Rent__c</fullName>
+        <externalId>false</externalId>
+        <label>Rent</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Repairs__c</fullName>
+        <externalId>false</externalId>
+        <label>Repairs</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Resumed_payment_frequency__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Resumed payment frequency</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_SOFP_Date__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>SOFP Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Split_Number__c</fullName>
+        <description>This field is used for EDW.</description>
+        <externalId>false</externalId>
+        <formula>IF( 
+AND(NOT( ISBLANK( ScCollection_Contract__c )),ScCollection_Contract__r.ScCollection_Source_System_Name__c == &quot;MORTGAGE&quot;)  
+, 
+   TEXT(ScCollection_Contract__r.ScCollection_Contract_Split_Number__c)   
+, 
+ &quot;&quot; 
+)</formula>
+        <label>Split Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Telephone_Internet__c</fullName>
+        <externalId>false</externalId>
+        <label>Telephone/Internet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_TotalFortnightlyExpenditure__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Total_Expenses__c * (12/26)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Fortnightly Expenditure</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Expenses__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Monthly Expenditure</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Fortnightly_Income__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Total_income__c * (12/26)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Fortnightly Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Monthly_Expenditures__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Mortgage_1__c  +  ScCollection_Mortgage_2__c  +  ScCollection_Rent__c  +  ScCollection_Credit_Card_1__c  +  ScCollection_Credit_Card_2__c  +  ScCollection_Credit_Card_3__c  +  ScCollection_Loan_1__c  +  ScCollection_Loan_2__c  +  ScCollection_Rates_Water__c  +  ScCollection_Telephone_Internet__c  +  ScCollection_Mobile_Phone__c  +  ScCollection_Electricity_Gas__c  +  ScCollection_Food__c  +  ScCollection_Clothing__c  +  ScCollection_Personal_Grooming_etc__c  +  ScCollection_Entertainment__c  +  ScCollection_Insurance__c +  ScCollection_Prescriptions__c  +  ScCollection_Petrol__c  + ScCollection_Registration__c  +  ScCollection_Car_Insurance__c  +  ScCollection_Repairs__c  +  ScCollection_Any_Other_Cost__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Monthly Expenditures</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Monthly_Income__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Additional__c + ScCollection_After_Tax_Wages_Borrower_1__c + ScCollectionAfter_Tax_Wages_Borrower_3__c+ ScCollection_After_Tax_Wages_Borrower_4__c + ScCollection_After_Tax_Wages_Borrower_2__c + ScCollection_Bonds__c +ScCollection_Dividends__c+ScCollection_Rent_Board__c + ScCollection_Other_Please_State_1__c +ScCollection_Other_Please_State_2__c +ScCollection_Other_Please_State_3__c +ScCollection_Unemployment_Benefits__c+ScCollection_Basic__c+ScCollection_Rent_Assistance__c+ScCollection_OtherPleaseStatefamilyall_1__c+ScCollection_OtherPleaseStatefamilyall_2__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Monthly Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Surplus__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Surplus</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Surplus_or_Deficit__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Market_Value_ofThisProperty__c  +  ScCollection_Other_Real_Estate_Owned__c  +  ScCollection_Motor_Vehicles__c  +  ScCollection_Other_Investments__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Surplus or Deficit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Weekly_Expenditure__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Total_Expenses__c * (12/52)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Weekly Expenditure</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_Weekly_Income__c</fullName>
+        <externalId>false</externalId>
+        <formula>ScCollection_Total_income__c * (12/52)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Weekly Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Total_income__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Monthly Income</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScCollection_Unemployment_Benefits__c</fullName>
+        <externalId>false</externalId>
+        <label>Unemployment Benefits</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>ScColletion_Ad_Hoc_Date_2__c</fullName>
+        <encrypted>false</encrypted>
+        <externalId>false</externalId>
+        <label>Ad Hoc Date 2</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>scCollection_Loan_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Holds the related PL contract on the Hardship</description>
+        <externalId>false</externalId>
+        <label>PL Contract</label>
+        <referenceTo>loan__Loan_Account__c</referenceTo>
+        <relationshipLabel>Hardship</relationshipLabel>
+        <relationshipName>Hardship</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Hardship</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>HS-{000000}</displayFormat>
+        <label>Hardship Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Hardship</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

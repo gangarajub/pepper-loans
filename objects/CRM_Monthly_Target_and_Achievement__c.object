@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CRM_Achieved_This_Month__c</fullName>
+        <externalId>false</externalId>
+        <label>Achieved This Month</label>
+        <summarizedField>CRM_Weekly_Target_and_Achievement__c.CRM_Weekly_Achievement__c</summarizedField>
+        <summaryForeignKey>CRM_Weekly_Target_and_Achievement__c.CRM_Monthly_Target_and_Achievement__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>CRM_From__c</fullName>
+        <externalId>false</externalId>
+        <label>From</label>
+        <summarizedField>CRM_Weekly_Target_and_Achievement__c.CRM_From__c</summarizedField>
+        <summaryForeignKey>CRM_Weekly_Target_and_Achievement__c.CRM_Monthly_Target_and_Achievement__c</summaryForeignKey>
+        <summaryOperation>min</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>CRM_KPI__c</fullName>
+        <externalId>false</externalId>
+        <label>Quarterly Target and Achievements</label>
+        <referenceTo>CRM_KPI__c</referenceTo>
+        <relationshipLabel>Monthly Target and Achievements</relationshipLabel>
+        <relationshipName>Monthly_Target_and_Achievements</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>CRM_Month__c</fullName>
+        <externalId>false</externalId>
+        <label>Month</label>
+        <picklist>
+            <picklistValues>
+                <fullName>JANUARY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FEBRUARY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MARCH</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>APRIL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MAY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JUNE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JULY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AUGUST</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SEPTEMBER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>OCTOBER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NOVEMBER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>DECEMBER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>CRM_Target_This_Month__c</fullName>
+        <externalId>false</externalId>
+        <label>Target This Month</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CRM_To__c</fullName>
+        <externalId>false</externalId>
+        <label>To</label>
+        <summarizedField>CRM_Weekly_Target_and_Achievement__c.CRM_To__c</summarizedField>
+        <summaryForeignKey>CRM_Weekly_Target_and_Achievement__c.CRM_Monthly_Target_and_Achievement__c</summaryForeignKey>
+        <summaryOperation>max</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <label>Monthly Target and Achievement</label>
+    <nameField>
+        <label>Monthly Target and Achievement Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Monthly Target and Achievements</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Validate_Month</fullName>
+        <active>false</active>
+        <description>Please select Month according to KPI&apos;s selected quarter.</description>
+        <errorConditionFormula>AND(
+OR(
+AND(
+!ISPICKVAL(CRM_KPI__r.CRM_Quarter__c, &apos;1&apos;),
+OR(
+ISPICKVAL(CRM_Month__c, &apos;APRIL&apos;),
+ISPICKVAL(CRM_Month__c, &apos;MAY&apos;),
+ISPICKVAL(CRM_Month__c, &apos;JUNE&apos;)
+)
+),
+AND(
+!ISPICKVAL(CRM_KPI__r.CRM_Quarter__c, &apos;2&apos;),
+OR(
+ISPICKVAL(CRM_Month__c, &apos;JULY&apos;),
+ISPICKVAL(CRM_Month__c, &apos;AUGUST&apos;),
+ISPICKVAL(CRM_Month__c, &apos;SEPTEMBER&apos;)
+)
+),
+AND(
+!ISPICKVAL(CRM_KPI__r.CRM_Quarter__c, &apos;3&apos;),
+OR(
+ISPICKVAL(CRM_Month__c, &apos;OCTOBER&apos;),
+ISPICKVAL(CRM_Month__c, &apos;NOVEMBER&apos;),
+ISPICKVAL(CRM_Month__c, &apos;DECEMBER&apos;)
+)
+),
+AND(
+!ISPICKVAL(CRM_KPI__r.CRM_Quarter__c, &apos;4&apos;),
+OR(
+ISPICKVAL(CRM_Month__c, &apos;JANUARY&apos;),
+ISPICKVAL(CRM_Month__c, &apos;FEBRUARY&apos;),
+ISPICKVAL(CRM_Month__c, &apos;MARCH&apos;)
+)
+)
+)
+)</errorConditionFormula>
+        <errorDisplayField>CRM_Month__c</errorDisplayField>
+        <errorMessage>Please select Month according to KPI&apos;s selected quarter.</errorMessage>
+    </validationRules>
+</CustomObject>

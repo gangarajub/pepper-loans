@@ -1,0 +1,744 @@
+<!--
+    --------------------------------------------------------------------------------------------------------
+    This page handles all the UI for the contract console list view for pepper collections.
+    --------------------------------------------------------------------------------------------------------
+    Created Date: 06-SEP-2016    Created By: Pawan Mudgal   Email: pawan.mudgal@saasfocus.com
+    --------------------------------------------------------------------------------------------------------
+-->
+<apex:page id="Page" controller="ScCollection_ContractListHandler" showHeader="false" sidebar="false" standardStylesheets="true" docType="html-5.0" applyBodyTag="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <apex:includeScript value="/support/console/34.0/integration.js" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquery-datatable.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/jquerydataTables.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources,'js/dataTablesjqueryui.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/modernizr-custom.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/moment.min.js')}" />
+            <apex:includeScript value="{!URLFOR($Resource.scCollectionConsoleResources, 'js/datetime-moment.js')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/bootstrap.min.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/font-awesome.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/component.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/jquery-ui.css')}" />
+            <apex:stylesheet value="{!URLFOR($Resource.scCollectionConsoleResources,'css/dataTablesjqueryui.min.css')}" />
+            <script type="text/javascript">
+                jQuery(document).ready(function()
+                {
+                    $.fn.dataTable.moment('D/MM/YYYY');
+                    
+                    $('#loadinggif').show();
+                    getContractRecords('Today');
+                    
+                    document.getElementById('searchtext').placeholder = 'Search Contracts...';
+                    document.getElementById('minamount').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110, 190].indexOf(key) !== -1 ||
+                             (key == 65 && ( e.ctrlKey || e.metaKey  ) ) || 
+                             (key >= 35 && key <= 40) ||
+                             (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) ||
+                             (key >= 96 && key <= 105)
+                           )) e.preventDefault();
+                    });
+                    
+                    document.getElementById('maxamount').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110, 190].indexOf(key) !== -1 ||
+                             (key == 65 && ( e.ctrlKey || e.metaKey  ) ) || 
+                             (key >= 35 && key <= 40) ||
+                             (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) ||
+                             (key >= 96 && key <= 105)
+                           )) e.preventDefault();
+                    });
+
+                    document.getElementById('searchbucket').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110, 190].indexOf(key) !== -1 ||
+                             (key == 65 && ( e.ctrlKey || e.metaKey  ) ) || 
+                             (key >= 35 && key <= 40) ||
+                             (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) ||
+                             (key >= 96 && key <= 105)
+                           )) e.preventDefault();
+                    });
+                    
+                    document.getElementById('searchduedate').addEventListener('keydown', function(e) 
+                    {
+                        var key = e.keyCode ? e.keyCode : e.which;
+                        
+                        if(!([8, 9, 13, 27, 46, 110, 190].indexOf(key) !== -1 ||
+                             (key == 65 && ( e.ctrlKey || e.metaKey  ) ) || 
+                             (key >= 35 && key <= 40) ||
+                             (key >= 48 && key <= 57 && !(e.shiftKey || e.altKey)) ||
+                             (key >= 96 && key <= 105)
+                           )) e.preventDefault();
+                    });
+                }); 
+                
+                function loadwidget()
+                {
+                    $.extend( true, $.fn.dataTable.defaults, 
+                    {
+                        "searching": false
+                    });
+                    
+                    $('#contracttable').DataTable(
+                    {
+                        "columns": [
+                           {"type": "string"},
+                           {"type": "string"},
+                           {"type": "string"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "num-fmt"},
+                           {"type": "string"},
+                           {"type": null},
+                           {"type": null},
+                           {"type": "string"}
+                        ],
+                        "order": [[ 9, "desc" ]],
+                        "pageLength": 50
+                    });
+                }
+
+                function getContractRecords(SelectedQueue)
+                {
+                    var $container = jQuery("#contractdiv");
+                    $container.empty();
+                    $('#errormessage').hide();
+                    
+                    ScCollection_ContractListHandler.getListOfContracts(SelectedQueue, 
+                    function(result, event)
+                    {
+                        if(event.status) 
+                        {
+                            var myTable = "<table id='contracttable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th>Contract No</th><th>Customer Name</th><th>State</th><th>Due Date</th><th>Arrears Amount</th><th>Balance Amount</th><th>Bucket</th><th>Contract Status</th><th>Assigned Date</th><th>Review Date</th><th>Queue User</th></tr></thead><tbody>";
+                            
+                            for(var i=0; i < result.length; i++)
+                            {
+                                myTable += "<tr title=\'" + result[i].strQueueName + "\'><td><a href='#' style='cursor:pointer;' onclick=openContractTab(\'" + result[i].strContractId + "\',\'" + result[i].strContractNo + "\');>" + result[i].strContractNo + "<a/></td>"; 
+                                myTable += "<td>" + result[i].strCustomerName + "</td>";
+                                myTable += "<td>" + result[i].strCustomerState + "</td>";
+                                myTable += "<td>" + result[i].strNextDueDate + "</td>";
+                                myTable += "<td>$ " + parseFloat(result[i].strArrearsAmount).toFixed(2) + "</td>";
+                                myTable += "<td>$ " + parseFloat(result[i].strBalanceAmount).toFixed(2) + "</td>";
+                                myTable += "<td>" + result[i].strBucket + "</td>";
+                                myTable += "<td>" + result[i].strContractStatus + "</td>";
+                                myTable += "<td>" + result[i].strAssignDate + "</td>";
+                                myTable += "<td>" + result[i].strReviewDate + "</td>";
+                                myTable += "<td>" + result[i].strAssignee + "</td></tr>";
+                            }
+                            
+                            myTable += "</tbody></table>";
+                            $container.append(myTable);
+                            loadwidget();
+                            createHeaderDiv('queue'); 
+                            $('#loadinggif').hide();
+                        } 
+                        else if(event.type == 'exception') 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessage').show();
+                            $('#errorheader').html('Sorry ! unable to process this request.');
+                            $('#errortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        } 
+                        else 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessage').show();
+                            $('#errorheader').html('Sorry ! unable to process this request.');
+                            $('#errortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        }
+                    }, {escape:true});
+                }
+                
+                function getSearchRecords(strSelectedField, StringInput, MinAmountInput, MaxAmountInput)
+                {
+                    var $container = jQuery("#contractdiv");
+                    $container.empty();
+                    $('#errormessage').hide();
+                    
+                    ScCollection_ContractListHandler.getSearchResults(strSelectedField, StringInput, MinAmountInput, MaxAmountInput, 
+                    function(result, event)
+                    {
+                        if(event.status) 
+                        {
+                            var myTable = "<div id='clearsearch' class='clearsearchclass' onclick='changeQueue();'>Clear Search Results</div><table id='contracttable' class='table table-striped table-bordered' cellspacing='0' width='100%'><thead><tr><th>Contract No</th><th>Customer Name</th><th>State</th><th>Due Date</th><th>Arrears Amount</th><th>Balance Amount</th><th>Bucket</th><th>Contract Status</th><th>Assigned Date</th><th>Review Date</th><th>Queue User</th></tr></thead><tbody>";
+                            
+                            for(var i=0; i < result.length; i++)
+                            {
+                                myTable += "<tr title=\'" + result[i].strQueueName + "\'><td><a href='#' onclick=openContractTab(\'" + result[i].strContractId + "\',\'" + result[i].strContractNo + "\');>" + result[i].strContractNo + "<a/></td>"; 
+                                myTable += "<td>" + result[i].strCustomerName + "</td>";
+                                myTable += "<td>" + result[i].strCustomerState + "</td>";
+                                myTable += "<td>" + result[i].strNextDueDate + "</td>";
+                                myTable += "<td>$ " + parseFloat(result[i].strArrearsAmount).toFixed(2) + "</td>";
+                                myTable += "<td>$ " + parseFloat(result[i].strBalanceAmount).toFixed(2) + "</td>";
+                                myTable += "<td>" + result[i].strBucket + "</td>";
+                                myTable += "<td>" + result[i].strContractStatus + "</td>";
+                                myTable += "<td>" + result[i].strAssignDate + "</td>";
+                                myTable += "<td>" + result[i].strReviewDate + "</td>";
+                                myTable += "<td>" + result[i].strAssignee + "</td></tr>";
+                            }
+                            
+                            myTable += "</tbody></table>";
+                            $container.append(myTable);
+                            loadwidget();
+                            createHeaderDiv('search'); 
+                            $('#loadinggif').hide();
+                        } 
+                        else if (event.type == 'exception') 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessage').show();
+                            $('#errorheader').html('Sorry ! unable to process this request.');
+                            $('#errortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        } 
+                        else 
+                        {
+                            $('#loadinggif').hide();
+                            $('#errormessage').show();
+                            $('#errorheader').html('Sorry ! unable to process this request.');
+                            $('#errortext').html('Please contact system administrator.');
+                            console.log(event.message);
+                        }
+                    }, {escape:true});
+                }
+                
+                function changeQueue()
+                {
+                    clearSearch();
+                    var selectedQueue = document.getElementById('Page:frm:sl').value;
+                    $('#loadinggif').show();
+                    getContractRecords(selectedQueue);
+                }
+                
+                function openContractTab(recordId, recordName) 
+                {
+                    // open the selected article and focus
+                    sforce.console.getFocusedPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openPrimaryTab(sforce.console.getFocusedPrimaryTabId(),'/' + recordId + '?nooverride=1', true, recordName, openSuccess,recordName);
+                    });
+                    
+                    var openSuccess = function openSuccess(result) 
+                    {
+                        //Report whether opening the new tab was successful
+                        if (result.success == true) 
+                        {
+                        } 
+                        else 
+                        {
+                            sforce.console.focusPrimaryTabByName(recordName);
+                        }
+                    };
+                }  
+
+                function OpenContact(recordId,recordName)
+                {
+                    // open the selected article and focus
+                    sforce.console.getFocusedPrimaryTabId(function(result) 
+                    {
+                        sforce.console.openPrimaryTab(sforce.console.getFocusedPrimaryTabId(),'/' + recordId + '?nooverride=1', true, recordName, openSuccess,recordName);
+                    });
+                    
+                    var openSuccess = function openSuccess(result) 
+                    {
+                        //Report whether opening the new tab was successful
+                        if (result.success == true) 
+                        {
+                        } 
+                        else 
+                        {
+                            sforce.console.focusPrimaryTabByName(recordName);
+                        }
+                    };
+                }
+
+                function changeFieldName()
+                {
+                    document.getElementById('searchtext').style.display = 'none';
+                    document.getElementById('searchbucket').style.display = 'none';
+                    document.getElementById('searchduedate').style.display = 'none';
+                    document.getElementById('Page:frm:searchdate').style.display = 'none';
+                    document.getElementById('searchamount').style.display = 'none';
+                    document.getElementById('Page:frm:searchuser').style.display = 'none';
+                    document.getElementById('searchtext').value = '';
+                    document.getElementById('searchbucket').value = '';
+                    document.getElementById('searchduedate').value = '';
+                    document.getElementById('Page:frm:searchdate').value = '';
+                    document.getElementById('minamount').value = '';
+                    document.getElementById('maxamount').value = '';
+                    
+                    var selectedField = document.getElementById('searchfields').value;
+                    
+                    if(selectedField == 'ReviewDate' || selectedField == 'AssignedDate')
+                    {
+                        document.getElementById('Page:frm:searchdate').style.display = 'block';
+                        document.getElementById('Page:frm:searchdate').placeholder = 'Search Contracts...';
+                    }
+                    else if(selectedField == 'BalanceAmount' || selectedField == 'ArrearAmount')
+                    {
+                        document.getElementById('searchamount').style.display = 'block';
+                        document.getElementById('minamount').placeholder = 'Min Amount';
+                        document.getElementById('maxamount').placeholder = 'Max Amount';
+                    }
+                    else if(selectedField == 'Assignee')
+                    {
+                        document.getElementById('Page:frm:searchuser').style.display = 'block';                       
+                    }
+                    else if(selectedField == 'Bucket')
+                    {
+                        document.getElementById('searchbucket').style.display = 'block';
+                        document.getElementById('searchbucket').placeholder = 'Search Contracts...';
+                    }
+                    else if(selectedField == 'DueDate')
+                    {
+                        document.getElementById('searchduedate').style.display = 'block';
+                        document.getElementById('searchduedate').placeholder = 'Search Contracts...';
+                    }
+                    else
+                    {
+                        document.getElementById('searchtext').style.display = 'block';
+                        document.getElementById('searchtext').placeholder = 'Search Contracts...';
+                    }
+                }
+                
+                function PerformSearch_JS()
+                {
+                    var selectedField = document.getElementById('searchfields').value;
+                    
+                    if(selectedField == 'ReviewDate' || selectedField == 'AssignedDate')
+                    {
+                        if(document.getElementById('Page:frm:searchdate').value != '')
+                        {
+                            if(moment(document.getElementById('Page:frm:searchdate').value, 'DD/MM/YYYY',true).isValid() || moment(document.getElementById('Page:frm:searchdate').value, 'D/MM/YYYY',true).isValid())
+                            {
+                                $('#loadinggif').show();
+                                getSearchRecords(selectedField, document.getElementById('Page:frm:searchdate').value, '', '');    
+                            }
+                            else
+                            {
+                                alert('Please provide valid date in DD/MM/YYYY format...');
+                                document.getElementById('Page:frm:searchdate').focus();
+                            }
+                        }
+                        else
+                        {
+                            alert('Please provide value for search field...');
+                            document.getElementById('Page:frm:searchdate').focus();
+                        }
+                    }
+                    else if(selectedField == 'BalanceAmount' || selectedField == 'ArrearAmount')
+                    {
+                        if(document.getElementById('minamount').value != '')
+                        {
+                            if(document.getElementById('maxamount').value != '')
+                            {
+                                $('#loadinggif').show();
+                                getSearchRecords(selectedField, '', document.getElementById('minamount').value, document.getElementById('maxamount').value);
+                            }
+                            else
+                            {
+                                alert('Please provide value for max amount field...');
+                                document.getElementById('maxamount').focus();
+                            }
+                        }
+                        else
+                        {
+                            alert('Please provide value for min amount field...');
+                            document.getElementById('minamount').focus();
+                        }
+                    }
+                    else if(selectedField == 'Assignee')
+                    {   
+                        if(document.getElementById('Page:frm:searchuser').value != '')
+                        {    
+                            $('#loadinggif').show();
+                            getSearchRecords(selectedField, document.getElementById('Page:frm:searchuser').value, '', '');
+                        }
+                        else
+                        {
+                            alert('Please provide value for assignee...');
+                            document.getElementById('Page:frm:searchuser').focus();
+                        }
+                    }
+                    else if(selectedField == 'Bucket')
+                    {   
+                        if(document.getElementById('searchbucket').value != '')
+                        {    
+                            $('#loadinggif').show();
+                            getSearchRecords(selectedField, document.getElementById('searchbucket').value, '', '');
+                        }
+                        else
+                        {
+                            alert('Please provide value for search field...');
+                            document.getElementById('searchbucket').focus();
+                        }
+                    }
+                    else if(selectedField == 'DueDate')
+                    {
+                        if(document.getElementById('searchduedate').value != '')
+                        {    
+                            $('#loadinggif').show();
+                            getSearchRecords(selectedField, document.getElementById('searchduedate').value, '', '');
+                        }
+                        else
+                        {
+                            alert('Please provide value for search field...');
+                            document.getElementById('searchduedate').focus();
+                        }
+                    }
+                    else if(selectedField == 'CustomerState')
+                    {
+                        if(document.getElementById('searchtext').value != '')
+                        {   
+                            if(document.getElementById('searchtext').value.length < 2)
+                            {
+                                alert('Please provide atleast 2 characters to search ...');
+                                document.getElementById('searchtext').focus();
+                            } 
+                            else
+                            {
+                                $('#loadinggif').show();
+                                getSearchRecords(selectedField, document.getElementById('searchtext').value, '', '');
+                            }
+                        }
+                        else
+                        {
+                            alert('Please provide value for search field...');
+                            document.getElementById('searchtext').focus();
+                        }
+                    }
+                    else if(selectedField == 'ContractNo' || selectedField == 'CustomerName' || selectedField == 'ContractStatus')
+                    {
+                        if(document.getElementById('searchtext').value != '')
+                        {
+                            if(document.getElementById('searchtext').value.length < 3)
+                            {
+                                alert('Please provide atleast 3 characters to search ...');
+                                document.getElementById('searchtext').focus();
+                            }
+                            else
+                            {
+                                $('#loadinggif').show();
+                                getSearchRecords(selectedField, document.getElementById('searchtext').value, '', '');           
+                            }
+                        }
+                        else
+                        {
+                            alert('Please provide value for search field...');
+                            document.getElementById('searchtext').focus();
+                        }
+                    }
+                }
+                
+                function CompleteActivity_JS(vardate,varindex)
+                {
+                    var result = window.confirm('Do you want to complete this activity?');
+                    var index = vardate + '-' + varindex;
+                    
+                    if(result)
+                    {
+                        document.getElementById('Page:frm:index').value = index;
+                        CompleteActivity_AF();
+                    }
+                }
+                
+                function ProcessTime(varmilliseconds,elementid)
+                {
+                    var timeelapsed = varmilliseconds - (Date.parse(new Date()));
+                    var timevalue = '';
+                    var strdatetimevalue = '';
+                    
+                    if(timeelapsed > 0)
+                    {
+                        timevalue = 'later';    
+                    }
+                    else
+                    {
+                        timevalue = 'overdue'; 
+                        timeelapsed = Math.abs(timeelapsed);   
+                    }
+                    
+                    if(timeelapsed < 60000)
+                    {
+                        strdatetimevalue = '1 Minute ';
+                    }
+                    else if(timeelapsed >= 60000 && timeelapsed < 3600000)
+                    {
+                        strdatetimevalue = Math.floor(timeelapsed/60000) + ' Minutes ';
+                    }
+                    else if(timeelapsed >= 3600000 && timeelapsed <= 86400000)
+                    {
+                        var hours = Math.floor(timeelapsed/3600000);
+                        var mins = Math.floor((timeelapsed%3600000)/60000);
+                        strdatetimevalue = hours + ' Hours ' + mins + ' Minutes ';
+                    }
+                    else if(timeelapsed > 86400000)
+                    {
+                        strdatetimevalue = Math.floor(timeelapsed/86400000) + ' Days ';
+                    }
+                    
+                    document.getElementById(elementid).innerHTML = strdatetimevalue + timevalue;
+                }
+                
+                function clearSearch()
+                {
+                    document.getElementById('searchtext').style.display = 'block';
+                    document.getElementById('searchbucket').style.display = 'none';
+                    document.getElementById('searchduedate').style.display = 'none';
+                    document.getElementById('Page:frm:searchdate').style.display = 'none';
+                    document.getElementById('searchamount').style.display = 'none';
+                    document.getElementById('Page:frm:searchuser').style.display = 'none';
+                    document.getElementById('searchtext').value = '';
+                    document.getElementById('searchbucket').value = '';
+                    document.getElementById('searchduedate').value = '';
+                    document.getElementById('Page:frm:searchdate').value = '';
+                    document.getElementById('minamount').value = '';
+                    document.getElementById('maxamount').value = '';    
+                    document.getElementById('searchfields').value = 'ContractNo';  
+                    createHeaderDiv('queue');  
+                }
+                
+                function createHeaderDiv(vartype)
+                {
+                    var myDiv = document.createElement('div');
+                    myDiv.id = 'headerdiv';
+                    myDiv.className = 'dataTables_length';
+                    var node = document.getElementById('contracttable_length');
+                    node.parentNode.insertBefore(myDiv,node);
+                    
+                    var mylabel = document.createElement('label');
+                    if(vartype == 'search')
+                    {
+                        mylabel.innerHTML = 'SEARCH RESULTS';    
+                    }
+                    else
+                    {
+                        var el = document.getElementById('Page:frm:sl');
+                        var text = el.options[el.selectedIndex].innerHTML;
+                        mylabel.innerHTML = text;
+                    }
+                    
+                    myDiv.appendChild(mylabel);
+                } 
+            </script>
+
+            <style>
+                .completedlink:hover
+                {
+                    text-decoration:underline !important;
+                }
+                blockquote 
+                {
+                    padding: 0px !important;
+                    margin: 0px !important;
+                    font-size: inherit !important;
+                    border-left: none !important;
+                }
+                .contactclass:hover
+                {
+                    text-decoration: underline;
+                }
+                .clearsearchclass
+                {
+                    position: absolute;
+                    right: 170px;
+                    top: 13px;
+                    cursor: pointer;
+                    color: #337ab7;
+                    z-index: 1;
+                    font-weight: bold;
+                }
+                .clearsearchclass:hover
+                {
+                    text-decoration: underline;
+                    color: #015ba7;
+                }
+                .uimessage 
+                {
+                    box-shadow: 0 0 0 1px #E0B4B4 inset,0 0 0 0 transparent;
+                    background-color: #FFF6F6;
+                    color: #9F3A38;
+                    font-size: 1em;
+                    padding: 1em 1.5em;
+                    border-radius: .28571429rem;
+                }
+                .uimessage .header 
+                {
+                    font-weight: 700;
+                    font-size: 1.2em;
+                }
+                .uimessage p 
+                {
+                    opacity: .85;
+                    margin: .75em 0;
+                }
+                .pagination>li 
+                {
+                    display: inline-block;
+                    margin-left:0px;
+                }
+                .table-bordered>tbody>tr>td
+                {
+                    border-top: 1px solid #ddd;
+                    border-left: 0px;
+                    border-right: 0px;
+                    border-bottom: 0px;
+                }
+                .dataTables_length
+                {
+                    float: right!important;
+                }
+            </style>
+        </head>
+        <body>
+            <div id="loadinggif" class="customLoading" style="display:none;"><span id="counter"></span></div>
+            <section>
+                <div class="container-fluid">
+                    <apex:form id="frm" style="margin-top:1em;">
+                        <apex:inputHidden id="index" value="{!strActivityIndex}"/>
+                        <apex:actionFunction action="{!CompleteActivity}" name="CompleteActivity_AF" reRender="ActivityPanel" />
+                           
+                        <aside id="left_panel" class="col-md-11 col-sm-11">
+                            <section class="cstm-form clearfix">
+                                <div class="col-md-4 col-sm-4 form-group" style="padding-left:0px;">
+                                    <label>Select Queue</label>
+                                    <apex:selectList id="sl" styleClass="form-control" multiselect="false" size="1" onchange="changeQueue();">
+                                        <apex:selectOptions value="{!QueueName}" id="option" />
+                                    </apex:selectList>
+                                </div>
+                                
+                                <apex:outputpanel id="searchCriteria">
+                                    <div class="col-md-8 col-sm-8 form-group" style="padding-right:0px;">
+                                        <label>Search Filter Criteria</label>
+                                        <div class="input-group">
+                                            <select id="searchfields" name="searchfields" class="form-control" size="1" onchange="changeFieldName();" style="width:40%;float:left;height:34px;">    
+                                                <option value="ContractNo" selected="selected">Contract No</option>
+                                                <option value="CustomerName">Customer Name</option>
+                                                <option value="CustomerState">State</option>
+                                                <option value="DueDate">Next Due Date</option>
+                                                <option value="ArrearAmount">Arrears Amount</option>
+                                                <option value="BalanceAmount">Balance Amount</option>
+                                                <option value="Bucket">Bucket</option>
+                                                <option value="ContractStatus">Contract Status</option>
+                                                <option value="AssignedDate">Assigned Date</option>
+                                                <option value="ReviewDate">Review Date</option>
+                                                <option value="Assignee" style="display:{!If(strUserType == 'Manager' || strUserType == 'TL','block','none')}">Assignee</option>
+                                            </select>
+                                            
+                                            <input id="searchtext" type="text" class="form-control" style="width:59%;float:left;margin-left:7px;" maxlength="255" />
+
+                                            <input id="searchbucket" type="text" class="form-control" style="display:none;width:59%;float:left;margin-left:7px;" maxlength="3" />
+                                            
+                                            <input id="searchduedate" type="text" class="form-control" style="display:none;width:59%;float:left;margin-left:7px;" maxlength="2" />
+                                            
+                                            <apex:inputField id="searchdate" value="{!objSearchDate.ActivityDate}" styleClass="form-control" style="display:none;width:59%;float:left;border-radius:0px;margin-left:7px;"/>
+                                            
+                                            <div id="searchamount" style="display:none;width:59%;float:left;margin-left:7px;">
+                                                <input id="minamount" type="text" class="form-control" style="width:45%;float:left;border-right:0px;border-radius:0px;" maxlength="18" />
+                                                <div style="width:10%;float:left;text-align:center;height:30px;font-size: 25px;background-color: #fff;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);"><span style="position: absolute;top: -4px;right: 258px;">-</span></div>
+                                                <input id="maxamount" type="text" class="form-control" style="width:45%;float:right;border-left: 0px;border-radius:0px;" maxlength="18" />
+                                            </div>
+                                            
+                                            <apex:selectList id="searchuser" styleClass="form-control" multiselect="false" size="1" style="display:none;width:59%;float:left;margin-left:7px;">
+                                                <apex:selectOptions value="{!UserName}" id="useroption" />
+                                            </apex:selectList>
+                                            
+                                            <span class="input-group-addon cstm-srchbtn">
+                                                <button type="button" onclick="PerformSearch_JS();">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </span>                  
+                                        </div>           
+                                    </div>
+                                </apex:outputpanel>
+                            </section>
+                            
+                            <section class="cstm-form clearfix">
+                                <div id="errormessage" class="uimessage" style="display:none;">
+                                    <div id="errorheader" class="header"></div>
+                                    <p id="errortext"></p>
+                                </div>
+                                <div id="contractdiv" class="col-md-12 col-sm-12" style="padding:0px;">
+                                    
+                                </div>
+                            </section>
+                        </aside>
+                        
+                        <article id="right_panel" class="col-md-1 col-sm-1">
+                            <apex:outputPanel id="ActivityPanel">
+                                <div class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" style="background: rgba(223, 0, 36, 0.8);color: #fff !important;margin-bottom: 0px;">
+                                            <h4 class="panel-title">
+                                                <span>Call Promises</span>
+                                            </h4>
+                                        </div>
+                                        <apex:variable value="{!0}" var="outercounter"/>
+                                        <apex:repeat value="{!mapwrapperForActivityList}" var="mapact">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" href="#collapse{!outercounter}">{!mapact}</a>
+                                                </h4>
+                                            </div>  
+                                            <div id="collapse{!outercounter}" class="panel-collapse collapse in">
+                                                <apex:variable value="{!0}" var="innercounter"/>
+                                                <apex:repeat value="{!mapwrapperForActivityList[mapact]}" var="obj">
+                                                    <div class="panel-body" onmouseover="ProcessTime('{!obj.strActivityDate}','timeleft{!outercounter}{!innercounter}');">
+                                                        <p class="tooltips">
+                                                            {!obj.strFollowupTime}
+                                                        </p>
+                                                        <hgroup class="toltip-lbl">
+                                                            <div class="modal-dialog" style="display:block;">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <i class="shp-arw"></i>
+                                                                        <span class="col-sm-3 col-md-3 personal-detail">
+                                                                            <img src="{!If(obj.strContactImage != 'null',obj.strContactImage,URLFOR($Resource.scCollectionConsoleResources,'images/default-male.png'))}"/>
+                                                                        </span>
+                                                                        <span class="col-sm-9 col-md-9">
+                                                                            <ul class="list-unstyled">
+                                                                                <h2 onclick="OpenContact('{!obj.strContactId}','{!obj.strContactName}');" style="cursor: pointer;" class="contactclass">{!obj.strContactName}</h2>
+                                                                                <a href="#">{!obj.strContactMobile}</a>
+                                                                                <a href="#">{!obj.strContactAddress}</a>
+                                                                            </ul>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <h3>Contract No : <a href="#" onclick="openContractTab('{!obj.strContractId}','{!obj.strContractNo}');">{!obj.strContractNo}</a></h3>
+                                                                        <h4>{!obj.strFollowupDateTime}</h4>
+                                                                    </div>
+                                                                    <div class="modal-footer cstm-footer">
+                                                                        <i class="fa fa-bell-o" aria-hidden="true"></i>
+                                                                        <a id="timeleft{!outercounter}{!innercounter}" href="#"></a>
+                                                                        <a href="#" class="completedlink" style="float: right !important;font-size: 13px !important;font-weight: bold !important;color: #015ba7 !important;cursor: pointer !important;" onclick="CompleteActivity_JS('{!mapact}','{!innercounter}');" title="click to complete this activity.">Done</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </hgroup>
+                                                    </div>
+                                                    <apex:variable value="{!innercounter + 1}" var="innercounter"/>
+                                                </apex:repeat>
+                                            </div>
+                                            <apex:variable value="{!outercounter + 1}" var="outercounter"/>
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </article>
+                    </apex:form>
+                </div>
+            </section>   
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,629 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="pafviewmyassetloancontroller" cache="{!$Label.Cache_Settings}" >
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Pepper Loan Details</title>
+            <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/jquery.min.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/bootstrap.min.js')}"/> 
+            <apex:includeScript value="{!URLFOR($Resource.ResourceZip, 'assets/common/scripts/pepperScript.js')}"/>    
+            <apex:stylesheet value="{!URLFOR($Resource.ResourceZip, 'assets/common/stylesheets/main.css' )}"/> 
+            
+            
+            <script>
+                  function callfun(IdloanContract)
+                  {
+                        
+                         $('[Id$=IdinputHidden]').val(IdloanContract);               
+                         callActionfunc(IdloanContract);
+                 }
+                function passPageName(APIPageName)
+                {
+                    var i = APIPageName;
+                    var $mapParentChildren = jQuery.parseJSON('{!JSENCODE(jsonretUrlMap)}');
+                    window.location.href = $mapParentChildren[APIPageName];
+                }
+                  $(document).ready(function() {
+                     $('form').each(function()
+                     {
+                        $(this).attr('action','{!Page_Label}');
+                     });
+                });
+                
+               /*  $(document).ready(function() {
+                     if(('{!balloanPayment}')<=0)
+                        {
+                           $('.ballo').hide();
+                           $('.intro').addClass("large");
+                        }
+               });
+                */
+                  
+            </script>
+            
+            <style>
+                .ui-datepicker[style]{
+                    z-index: 1050 !important;
+                }
+                .inputDate{
+                    background: #fff !important;
+                }
+                .rhsSection {
+                    height: 127px;
+                    min-height: 127px;
+                }
+                .rhsSection.large {
+                    height: 127px;
+                    min-height: 127px;
+                }
+                @media(min-width: 1100px){
+                    .rhsSection.large {
+                        height: 264px;
+                        min-height: 264px;
+                    }
+                }
+                .PFA .form-section.rhsSection:before, .PFA .form-section.rhsSection:after { height: 0; }
+                .rhsSection .loanHead{
+                    top: 50%;
+                    position: relative;
+                    -moz-transform: translateY(-50%);
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%);
+                }
+                .ui-datepicker-trigger { display: none; }
+                .inputDate:focus {
+                    -moz-box-shadow: none !important;
+                    -webkit-box-shadow: none !important;
+                    box-shadow: none !important;
+                }
+                @media (max-width: 1199px){
+                    .welcomeCont.loan_page .dashboard_rhs_home{
+                        width: 100% !important;
+                    }
+                    
+                   .inputHeaderValue{  width:50%!important;} 
+                }
+            </style>
+        </head>
+        <c:pepAnalytics PageLabel="{!Page_Label}" PageName1="{!Page_Name}" />
+        <body>
+            <apex:actionStatus id="counterStatus" startStyleClass="spinner"/>
+            <apex:form id="myForm">
+                <apex:inputHidden id="IdinputHidden" value="{!idLoanAccount}"/>
+                <apex:actionFunction name="callActionfunc"  action="{!updateAccount}"  reRender="none"  >
+                   <apex:param name="loanContractid" value="" />
+                </apex:actionFunction>
+                <div class="pepperCustomFluid">
+                    <div class="offsetBlkHeight"></div>
+                    <div class="offsetBlk">
+                        <div class="containerFluid">
+                            <c:pepDashboardHeaderCompnent />
+                        </div>
+                    </div>
+                    <div class="containerFluid posRel dashBoard">
+                        <div class="page-row">
+                            <div class="catBlk">
+                                <div class="page-row">
+                                    <div class="mainCat">
+                                        <ul>
+                                            <li class="{!if(step == -1 ,'mainCat_home active','mainCat_home')}"><a href="" onclick="passPageName('pepwelcomepage');">Home</a></li>
+                                            <li class="mainCat_money more"><a href="#">Loans</a>
+                                                <ul>
+                                                    <apex:repeat value="{!sideBarList}" var="loan">
+                                                        <apex:outputPanel rendered="{!If(loan.loanId == loanaccountid,true,false)}">
+                                                            <li class="mainCat_money active">
+                                                                <a href="" onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                                            </li>
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel rendered="{!If(loan.loanId != loanaccountid,true,false)}">
+                                                            <li class="mainCat_money">
+                                                                <a href="" onclick="callfun('{!loan.loanId}');"><apex:outputtext value="{!loan.loanName}"/></a>
+                                                            </li>
+                                                        </apex:outputPanel>
+                                                    </apex:repeat>
+                                                </ul>
+                                            </li>
+                                            <li class="{!if(step == -4 ,'active mainCat_commenting','mainCat_commenting')}"><a href="" onclick="passPageName('pepcontactcentre');">Contact Centre</a></li>
+                                            <li class="{!if(step == -3 ,'mainCat_profile active','mainCat_profile')}"><a href="" onclick="passPageName('pepchangeprofile');">My Profile</a></li>
+                                            <li class="mainCat_logout"><apex:outputLink value="{!$Site.Prefix}/secur/logout.jsp" rendered="{!NOT(ISPICKVAL($User.UserType,'Guest'))}">{!$Label.site.logout}</apex:outputLink></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="contentCat welcomeCont PFA loan_page">
+                                <div class="loanCont">
+                                    <div class="loanHead" style="">
+                                        <h1>
+                                                        <apex:outputPanel id="rerenderName">
+                                                        <apex:outputText value="{!headerInput}" styleClass="outputHeaderValue"/><apex:inputText value="{!headerInput}" style="display: none" styleClass="inputHeaderValue">
+                                                        <apex:actionSupport event="onblur" action="{!changeloanName}" reRender="rerenderName,rerenderMsg,rerenderModal" oncomplete="editHeader1();showModal();" status="counterStatus"/>
+                                                       </apex:inputtext>
+                                                        <span class="errorMsg">loan name is required</span>
+                                                        </apex:outputPanel>
+                                            <!--<input type="text" style="display: none" />
+                                            <a class="editamt" href="#">edit account name</a>-->
+                                        <apex:commandLink value="edit account name" reRender="temp" styleClass="editamt" onclick="editHeader();" style="{!IF(closedLoan == true,'display:none;','')}"/>
+                                              <div class="loanNumber">Loan Number : {!loanNumber}</div>
+                                        </h1>                                   
+                                    </div>
+                                    
+                                    <div class="errorMsg customErr show" style="{!IF(OR(loanStatus == lower('Overdue'),loanStatus == lower('Default Collections Officer')) ,'display:block;','display:none;')}">
+                                        <em class="fa fa-warning"></em>
+                                        We have noticed that your account has gone into arrears. Please contact our customer service team on {!$Label.PL_PAFPortalContact} to discuss available payment options.
+                                    </div>
+                                    
+                                    <div class="page-row">
+                                        <div class="dashboard_lhs_home">
+                                            <div class="myLoan">
+                                                
+                                                <!-- My Car Loan starts-->
+                                                <div class="page-form loanPage">
+                                                    <div class="page-row">
+                                                        <div class="form-section lhsSection">                                    
+                                                            <div class="loanTxtOuter">
+                                                                <div class="loanHead">
+                                                                    <h3 class="text-center currentBal">
+                                                                        Current balance
+                                                                        <span>${!currentBalance}</span>
+                                                                    </h3>
+                                                                    <div class="nextPaymentSec">
+                                                                        <p>Next repayment</p>
+                                                                        <p>
+                                                                            <span class="amount">${!nextRepaymentAmount}</span><br/>
+                                                                            <span>due on &nbsp;{!nextRepaymentDate}</span> 
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="progressBarSec">
+                                                                        <div class="clear sml_txt">
+                                                                            <div class="colA">start date {!startDate}</div>
+                                                                            <div class="colB">end date {!endDate}</div>
+                                                                        </div>
+                                                                        <div class="progressBarCont sml_txt">
+                                                                            <div class="innerBar" style="width:{!progressBarWidth}%;"></div>
+                                                                            <span class="amtpaid">${!amountPaid} principal paid</span>
+                                                                            <span class="amtremain">${!amountRemaining} principal remaining</span>
+                                                                        </div>
+            
+                                                                        <div class="clear padd_t20">
+                                                                            <div class="colA">Last payment made<br/>${!lastPayment}</div>
+                                                                           <!-- <div class="colB">Asset description<br/>{!assetDescription}</div>-->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- My Car Loan ends-->
+            
+                                            </div>
+                                        </div>
+            
+                                        <div class="dashboard_rhs_home ">
+                                            <div class="page-form">
+                                                <div class="page-row">
+                                                    <div class="form-section rhsSection" style="{!IF(balloanPayment== '0' ,'display:none;','display:block;')}">
+                                                        <div class="loanHead">
+                                                            <h3 class="text-center currentBal">
+                                                                Balloon Payment
+                                                                <span>${!balloanPayment}</span>
+                                                            </h3>
+                                                            <div class="text-center smalltxt">
+                                                                as of {!balloanPaymentAsOf}
+                                                            </div>                                              
+                                                        </div>
+                                                    </div> 
+            
+                                                   <!-- <div class="form-section rhsSection"> 
+                                                        <div class="loanHead">
+                                                            <h3 class="text-center currentBal">
+                                                                Registered Insurer
+                                                            </h3>
+                                                            <div class="text-center">
+                                                                {!registeredInsurer}
+                                                            </div>                                              
+                                                        </div>
+                                                    </div> -->
+            
+                                                    <div class="form-section rhsSection {!if(balloanPayment== '0','large','')}"> <!-- Add no_balloon class in case there is no balllon block -->
+                                                        <div class="loanHead">
+                                                            <h3 class="text-center currentBal">
+                                                                Introducer details
+                                                            </h3>
+                                                            <div class="text-center">
+                                                                {!introducerDetails}
+                                                            </div>                                              
+                                                        </div>
+                                                    </div>
+            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="page-row hideButton">
+                                        <div class="loanTxtOuter padd_b25">
+                                            <c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection1"></c:pepcmscomponent_Text>
+                                        </div>
+                                        
+                                        <div class="home_widgets">
+                                            <div class="inner-brdr paymentDetails equalCol">
+                                                <div class="content_pad">
+                                                    <h3>
+                                                        <span class="fa fa-bank hideIcon"></span>
+                                                    </h3>
+                                                    <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection2"></c:pepcmscomponent_Text></strong></p>
+                                                    <p class="description"><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection3"></c:pepcmscomponent_Text></p>
+                                                </div>                                  
+                                                <apex:commandLink value="{!lstQuestions[0].pepLabelPriorQuestion__c}" action="{!checkCase}" oncomplete="openPopUp();" styleClass="btn btn-bar" status="counterStatus" reRender="rerenderPopUp,rerenderScript">
+                                                <apex:param name="paramName" value="updatePayment" assignTo="{!assignedPage}"/>
+                                                </apex:commandLink>
+                                                  
+                                            </div>                                          
+                                        </div>
+            
+                                        <div class="home_widgets">
+                                            <div class="inner-brdr reduceLoan equalCol">
+                                                <div class="content_pad">
+                                                    <h3>
+                                                        <span class="fa fa-print hideIcon"></span>
+                                                    </h3>
+                                                    <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection4"></c:pepcmscomponent_Text></strong></p>
+                                                    <p class="description"><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection5"></c:pepcmscomponent_Text></p>
+                                                </div>                                  
+                                                 <apex:commandLink value="{!lstQuestions[1].pepLabelPriorQuestion__c}" action="{!checkCase}" oncomplete="openPopUp();" styleClass="btn btn-bar" status="counterStatus" reRender="rerenderPopUp,rerenderScript">
+                                                <apex:param name="paramName" value="RequestStatement" assignTo="{!assignedPage}"/>
+                                                </apex:commandLink>
+                                            </div>                                          
+                                        </div>
+            
+                                        <div class="home_widgets">
+                                            <div class="inner-brdr payoutLoan equalCol">
+                                                <div class="content_pad">
+                                                    <h3>
+                                                        <span class="fa fa-payoutLoan hideIcon"></span>
+                                                    </h3>
+                                                    <p class="hideIcon"><strong><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection6"></c:pepcmscomponent_Text></strong></p>
+                                                    <p class="description"><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection7"></c:pepcmscomponent_Text></p>
+                                                </div>
+                                                <apex:commandLink value="{!lstQuestions[2].pepLabelPriorQuestion__c}" action="{!checkCase}" oncomplete="openPopUp();datepicker();" styleClass="btn btn-bar" status="counterStatus" reRender="rerenderPopUp,rerenderScript,rerenderDate">
+                                                <apex:param name="paramName" value="payoutFigure" assignTo="{!assignedPage}"/>
+                                                </apex:commandLink>
+                                            </div>                                          
+                                        </div>
+                                    </div>
+            
+                                    <div class="page-row">
+                                        <ul class="loanPage_qucktips">
+                                            <li class="hideLink">                                    
+                                                <div><strong><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection8"></c:pepcmscomponent_Text></strong></div>
+                                               <p><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection9"></c:pepcmscomponent_Text></p>
+                                            </li>
+                                           <!--  <li>
+                                                <div><strong>Missed a repayment?</strong></div>
+                                                <p>We understand that it can happen. You can make a promise to pay back the missed payment <a href="#">here</a>.</p>
+                                            </li>-->
+                                            <li>
+                                                <p>
+                                                    <c:pepTermsConditionFooter />
+                                               </p>
+                                            </li>
+                                            <!-- <li>
+                                                
+                                               <p><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection10"></c:pepcmscomponent_Text></p> 
+                                            </li> -->
+                                        </ul>
+            
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer>
+                        <c:pepCmsFooterComponent FooterpageName="Footer"></c:pepCmsFooterComponent>
+                    </footer>
+                </div>
+                <apex:outputPanel id="rerenderPopUp">
+                <!-- payment detils window start here-->
+                
+                                            <div class="modal fade PFA_modal paymentDetails" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                               <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <em class="fa fa-times"></em>
+                                                </button>-->
+                                                <h4 class="modal-title"><strong><em class="fa fa-check-circle"></em> Your request has been processed</strong></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="padd_b10">Please check your email within the next 24 hours. Your case number is: <strong>{!caseNumber}</strong></p>
+                                                <div class="text-center">   
+                            
+                                                        <button class="button primaryBtn smlBtn wAuto min_w140" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                <!-- payment detils window end here-->
+                
+                <!-- request statement window start here-->
+                
+                                            <div class="modal fade PFA_modal requestStatement" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <em class="fa fa-times"></em>
+                                                            </button>
+                                                            <h4 class="modal-title"><strong>Request Statement</strong></h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="padd_b10">Select the required time period for your statements:</p>
+                                                            <div class="page-row">
+                                                                <div class="frmCntrls">
+                                                                    <apex:selectList value="{!caseMonth}" multiselect="false" size="1">
+                                                                        <apex:selectOption itemValue="6 months" itemLabel="Last 6 months"/>
+                                                                        <apex:selectOption itemValue="12 months" itemLabel="Last 12 months"/>
+                                                                    </apex:selectList>
+                                                                </div>
+                                                                <div class="frmBtn">
+                                                                   <!-- <button class="button primaryBtn smlBtn">OK</button>-->
+                                                                <apex:commandLink value="Ok" action="{!createCase}" oncomplete="openPopUp();" styleClass="button primaryBtn smlBtn" status="counterStatus" reRender="rerenderPopUp,rerenderScript"/>   
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                <!-- request statement window end here-->
+                
+                <!-- pay out loan window start here-->
+                
+                                            <div class="modal fade PFA_modal payOutLoan" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <em class="fa fa-times"></em>
+                                                        </button>
+                                                        <h4 class="modal-title"><strong>Request a payout figure*</strong></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p class="padd_b10">Select the date you would like to pay out your loan:</p>
+                                                        <div class="page-row">
+                                                            <div class="frmCntrls">
+                                                                <div class="page-row">
+                                                                    <label for="">Payment date</label>
+                                                                    <div class="input-group">
+                                                                      <!--  <input type="text" class="form-control" placeholder="Today"/>-->
+                                                                      <apex:inputText value="{!caseDate}" styleClass="form-control inputDate" id="aeDate" html-readonly="true" onchange="enablePayoutButton();"/>
+                                                                        <span class="input-group-btn">
+                                                                            <button class="btn btn-default" type="button" >
+                                                                                <em class="fa fa-calendar"></em>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="frmBtn">
+                                                               <!-- <button class="button primaryBtn smlBtn">OK</button>-->
+                                                      <apex:commandButton value="Ok" action="{!createCase}" oncomplete="openPopUp();" styleClass="button primaryBtn smlBtn payoutBtn" status="counterStatus" reRender="rerenderPopUp,rerenderScript"/>   
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="smlhelp_txt"><c:pepcmscomponent_Text pageNameTest="PAFLoanDetails" sectionName="PAFLoanDetailsSection12"></c:pepcmscomponent_Text></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+
+                <!-- pay out loan window end here-->
+                
+                <!-- already processed window start here-->
+                
+                                           <div class="modal fade PFA_modal alreadyProcessed" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <em class="fa fa-times"></em>
+                                                            </button>
+                                                            <h4 class="modal-title"><strong><em class="fa fa-check-circle"></em> Your request was already been processed</strong></h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="padd_b10">Your case number is: <strong>{!caseNumber}</strong></p>
+                                                            <div class="text-center">   
+                                        
+                                                                    <button class="button primaryBtn smlBtn wAuto min_w140" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+
+                <!-- already processed window end here-->
+                
+                <!-- error window start here-->
+                
+                                           <div class="modal fade PFA_modal errorWindow" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <em class="fa fa-times"></em>
+                                                            </button>
+                                                            <button type="button" class="help">
+                                                                <em class="fa fa-help"></em>
+                                                            </button>
+                                                            <h4 class="modal-title"><strong>Oh no!</strong></h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="padd_b10">
+                                                                Hmm it looks like we’ve hit a technical problem and your [service] was not processed.
+                                                                <br/>Please try again.
+                                                            </p>
+                                                            <div class="text-center">   
+                                        
+                                                                    <button class="button primaryBtn smlBtn wAuto min_w140" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+
+                <!-- error window end here-->
+          </apex:outputPanel>  
+                                <apex:outputPanel id="rerenderMsg">
+                                           <!-- loan Name change window start here-->
+                            
+                                                        <div class="modal fade PFA_modal loanName" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <em class="fa fa-times"></em>
+                                                            </button>
+                                                            <h4 class="modal-title"><strong><em class="fa fa-check-circle"></em> Your request has been processed</strong></h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="padd_b10"> Your loan name is: <strong>{!headerInput}</strong></p>
+                                                            <div class="text-center">   
+                                        
+                                                                    <button class="button primaryBtn smlBtn wAuto min_w140" data-dismiss="modal" onClick="window.location.reload();">OK</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+            
+                            <!-- loan name change window end here-->  
+                </apex:outputPanel>    
+            </apex:form>
+            
+        </body>
+    </html>
+    <apex:outputPanel id="rerenderScript">
+        
+            <script>
+                  
+                function openPopUp()
+                {
+                        if('{!errorPopup }'=='true')
+                        {
+                           $('.errorWindow').modal({backdrop: 'static',keyboard: false});
+                        }
+                       else if('{!alreadyProcess}'=='true')
+                        {
+                           $('.alreadyProcessed').modal({backdrop: 'static',keyboard: false});
+                        }
+                       else if('{!showCommonPopup}'=='true')
+                        {
+                           $('.paymentDetails').modal({backdrop: 'static',keyboard: false});
+                        } 
+                      else if('{!assignedPage}'=='RequestStatement' && '{!showEachPopup}'=='true')
+                        {
+                           $('.requestStatement').modal({backdrop: 'static',keyboard: false});
+                        }   
+                      else if('{!assignedPage}'=='payoutFigure' && '{!showEachPopup}'=='true')
+                        {
+                           $('.payOutLoan').modal({backdrop: 'static',keyboard: false});
+                        }  
+                 }
+               
+               function editHeader()
+                {
+                    $(".outputHeaderValue").hide();
+                    $(".inputHeaderValue").css("display","inline-block");
+                    $(".inputHeaderValue").css("width", "50%");
+                    $(".inputHeaderValue").focus().select();
+                   
+                }
+        
+                function editHeader1()
+                {
+                    $(".inputHeaderValue").hide();
+                    $(".outputHeaderValue").show();
+                }  
+                 
+            </script>
+    </apex:outputPanel>
+    
+                     <apex:outputPanel id="rerenderModal">
+                           <script>
+                            function showModal() 
+                            {
+                                  //  alert(('{!successMsg}'));
+                                    if(('{!dontShowAlert}')=='true')
+                                    {
+                                      
+                                    }
+                                   else if(('{!successMsg}')=='true')
+                                    {
+                                       $('.loanName').modal({backdrop: 'static',keyboard: false});
+                                    }
+                                    else
+                                    {
+                                       $('.errorWindow').modal({backdrop: 'static',keyboard: false});
+                                    }
+                             }   
+                           </script>
+                   </apex:outputPanel>
+                   
+                   <apex:outputPanel id="rerenderDate">
+                    <apex:includeScript value="//code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+                    <apex:stylesheet value="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+                           <script>
+                                    
+                                   function datepicker(){
+                                   var minimumDate = '{!minDay}';
+                                   var maximumDate = '{!maxDay}';
+                                   $("[id$='aeDate']" ).datepicker({showOn: 'button', dateFormat:'dd/mm/yy',minDate: minimumDate,maxDate: maximumDate,changeMonth: true,changeYear: true,yearRange: "-100:+100",});
+                                //   var validDays = (parseInt(maximumDate) -parseInt(minimumDate))+1 ;
+                               //    $('.smlhelp_txt').replaceWith("*This figure will be only valid for"+' '+validDays+' '+"days");
+                                    $('.payoutBtn').prop("disabled", true);
+                            } 
+                            
+                            $(function(){
+                                      
+                                     $("[id$='aeDate']").siblings(".input-group-btn").on("click", function(){
+                                     var minimumDate = '{!minDay}';
+                                     var maximumDate = '{!maxDay}';
+                                     $("[id$='aeDate']" ).datepicker('show');
+                                    
+                                });
+                            });
+                             
+                           </script>
+                   </apex:outputPanel>
+                 <script>
+                     $(document).ready(function() {
+                        
+                              
+                         if(('{!loanStatus}')==("Early Payout".toLowerCase()) || ('{!loanStatus}')==("Payout".toLowerCase()) || ('{!loanStatus}')==("Early payout – Sale of Asset".toLowerCase()))
+                            {
+                                 
+                                 $('.hideButton').find('a.btn').attr("disabled","disabled");
+                                 $('.hideButton').find('a.btn').css({'background':'#f0f0f0','color':'#253746','cursor':'default','pointer-events':'none'});
+                                 $('.hideIcon').css({'color':'#253746'});
+                                 $('.editamt').css("display","none");
+                                 $('.hideLink').css("display","none");
+                           }
+                            
+                   });
+                   
+                     function enablePayoutButton()
+                     {
+                           $('.payoutBtn').prop("disabled", false);
+                     }
+              </script>
+                 
+</apex:page>
